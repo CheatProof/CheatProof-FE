@@ -8,7 +8,7 @@
 // Output: Sidebar component that displays the sidebar navigation
 // *********************
 
-import { HiLogin, HiOutlineHome, HiUserGroup } from "react-icons/hi";
+import { HiLogin, HiOutlineHome, HiUserGroup, HiDocumentText, HiLink, HiOutlineUserGroup } from "react-icons/hi";
 import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { HiOutlineTag } from "react-icons/hi";
 import { HiOutlineTruck } from "react-icons/hi";
@@ -24,6 +24,8 @@ import { useState } from "react";
 
 const Sidebar = () => {
   const [isLandingOpen, setIsLandingOpen] = useState(false);
+  const [isLinksOpen, setIsLinksOpen] = useState(false);
+  const [isGroupsOpen, setIsGroupsOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { isSidebarOpen } = useAppSelector((state) => state.dashboard);
   const dispatch = useAppDispatch();
@@ -55,8 +57,8 @@ const Sidebar = () => {
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
           >
-            <HiOutlineHome className="text-lg" />
-            <span className="text-md">Dashboard</span>
+            <HiOutlineHome className="text-md" />
+            <span className="text-sm">Dashboard</span>
         </NavLink>
 
 
@@ -64,8 +66,8 @@ const Sidebar = () => {
             onClick={() => setIsLandingOpen(() => !isLandingOpen)}
             className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiOutlineHome className="text-lg" />
-            <span className="text-md">Test</span>
+            <HiDocumentText className="text-md" />
+            <span className="text-sm">Test</span>
           </div>
 
 
@@ -77,8 +79,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiOutlineHome className="text-lg" />
-                <span className="text-md">All Test</span>
+                <span className="text-md" />
+                <span className="text-sm">All Test</span>
               </NavLink>
 
               <NavLink
@@ -87,19 +89,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiOutlineHome className="text-lg" />
-                <span className="text-md">Categories</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <HiOutlineHome className="text-lg" />
-                <span className="text-md">Files</span>
+                <span className="text-md" />
+                <span className="text-sm">Categories</span>
               </NavLink>
 
 
@@ -109,37 +100,180 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiOutlineHome className="text-lg" />
-                <span className="text-md">Certificates</span>
+                <span className="text-md" />
+                <span className="text-sm">Files</span>
+              </NavLink>
+
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">Certificates</span>
               </NavLink>
             </div>
           )}
 
-          <NavLink
+          {/* <NavLink
             to="/products"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
-          >
-            <HiOutlineDevicePhoneMobile className="text-lg" />
-            <span className="text-md">Products</span>
+          > */}
+            {/* <HiOutlineDevicePhoneMobile className="text-lg" />
+            <span className="text-md">Links</span>
           </NavLink>
           <NavLink
             to="/categories"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
+          > */}
+
+
+              <span className="text-xs text-gray-500 pl-6 py-3">GIVE YOUR TEST</span>
+
+
+             <div
+            onClick={() => setIsLinksOpen(() => !isLinksOpen)}
+            className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiOutlineTag className="text-lg" />
-            <span className="text-md">Categories</span>
-          </NavLink>
-          <NavLink
-            to="/orders"
+            <HiLink className="text-md" />
+            <span className="text-sm">Links</span>
+          </div>
+
+
+{isLinksOpen && (
+            <div>
+              <NavLink
+                to="/"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">All Links</span>
+              </NavLink>
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">Themes</span>
+              </NavLink>
+
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">Access Links</span>
+              </NavLink>
+
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">Export</span>
+              </NavLink>
+
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">Statistics</span>
+              </NavLink>
+            </div>
+          )}
+
+
+
+          {/* <NavLink  to="/orders"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
-            }
+            }>
+            <HiOutlineTag className="text-lg" />
+          <span className="text-md">Groups</span>
+
+         
+          </NavLink> */}
+
+
+<div
+            onClick={() => setIsGroupsOpen(() => !isGroupsOpen)}
+            className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiOutlineTruck className="text-lg" />
+            <HiOutlineUserGroup className="text-md" />
+            <span className="text-sm">Groups</span>
+          </div>
+            
+
+          {isGroupsOpen && (
+            <div>
+              <NavLink
+                to="/"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">All Groups</span>
+              </NavLink>
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">Export</span>
+              </NavLink>
+
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-md" />
+                <span className="text-sm">Statistics</span>
+              </NavLink>
+
+                </div>
+          )}
+
+          {/* </NavLink> */}
+          {/* <NavLink
+           to="/orders"
+           className={(isActiveObj) =>
+             isActiveObj.isActive ? navActiveClass : navInactiveClass
+           }>
+            
+            </NavLink> */}
+
+
+
+
+            {/* <HiOutlineTruck className="text-lg" />
             <span className="text-md">Orders</span>
           </NavLink>
           <NavLink
@@ -147,8 +281,8 @@ const Sidebar = () => {
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
-          >
-            <HiOutlineUser className="text-lg" />
+          > */}
+            {/* <HiOutlineUser className="text-lg" />
             <span className="text-md">Users</span>
           </NavLink>
           <NavLink
@@ -156,17 +290,17 @@ const Sidebar = () => {
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
-          >
-            <HiOutlineStar className="text-lg" />
-            <span className="text-md">Reviews</span>
-          </NavLink>
+          > */}
+            {/* <HiOutlineStar className="text-lg" />
+            <span className="text-md">Reviews</span> */}
+          
 
           <div
             onClick={() => setIsAuthOpen(() => !isAuthOpen)}
             className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiUserGroup className="text-lg" />
-            <span className="text-md">Auth</span>
+            <HiUserGroup className="text-md" />
+            <span className="text-sm">Auth</span>
           </div>
           {isAuthOpen && (
             <div>
@@ -176,8 +310,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiLogin className="text-lg" />
-                <span className="text-md">Login</span>
+                <HiLogin className="text-md" />
+                <span className="text-sm">Login</span>
               </NavLink>
               <NavLink
                 to="/register"
@@ -185,8 +319,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiUserGroup className="text-lg" />
-                <span className="text-md">Register</span>
+                <HiUserGroup className="text-md" />
+                <span className="text-sm">Register</span>
               </NavLink>
             </div>
           )}
@@ -199,8 +333,8 @@ const Sidebar = () => {
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
           >
-            <HiOutlineInformationCircle className="text-lg" />
-            <span className="text-md">Help Desk</span>
+            <HiOutlineInformationCircle className="text-md" />
+            <span className="text-sm">Help Desk</span>
           </NavLink>
         </div>
       </div>
