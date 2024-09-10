@@ -18,7 +18,7 @@ return (<div className="flex flex-wrap ">
 
 <h2 className="font-bold">Recents Results</h2>
 
-<select className="bg-transparent mr-3"  name="time" id="">
+<select className="bg-transparent mr-3 text-sm"  name="time" id="">
 
     <option value={"1h"}>Last 1 hour</option>
     <option value={"3h"}>Last 3 hour</option>
@@ -32,13 +32,13 @@ return (<div className="flex flex-wrap ">
 
 <div className="flex justify-center my-5 items-center gap-3">
 
-<div className="w-full lg:w-1/2 rounded shadow flex justify-center items-center flex-col bg-white h-40">
-<div className="flex items-center"><span>0</span><IoMdCheckmarkCircleOutline className="text-3xl text-green-600"/></div>
+<div className="w-full lg:w-1/2 rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
+<div className="flex items-center"><span className="text-3xl">0</span><IoMdCheckmarkCircleOutline className="text-3xl text-green-600"/></div>
 <p className="text-sm">In Progress </p>
 </div>
-<div className="w-full lg:w-1/2 rounded shadow flex justify-center items-center flex-col bg-white h-40">
+<div className="w-full lg:w-1/2 rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
 
-<div className="flex items-center"><span >0</span><PiClockCountdownLight className="text-3xl text-blue-500"/></div>
+<div className="flex items-center"><span className="text-3xl">0</span><PiClockCountdownLight className="text-3xl text-blue-500"/></div>
 <p className="text-sm">Finished </p>
 
 </div>
@@ -49,8 +49,8 @@ return (<div className="flex flex-wrap ">
 
 <Tabs>
     <Tab component={<Card/>}>Recently Taken Test</Tab>
-    <Tab component={<>body</>}>Available Soon</Tab>
-    <Tab component={<>body</>}>Closing Soon </Tab>
+    <Tab component={<Card/>}>Available Soon</Tab>
+    <Tab component={<Card/>}>Closing Soon </Tab>
 
 </Tabs>
 
@@ -70,9 +70,9 @@ return (<div className="flex flex-wrap ">
 
         <h2 className="text-black/45 border-b-[0.05rem] border-black/45 py-3 font-bold text-sm mt-5">Activity</h2>
 
-        {/* <div className="flex justify-between mt-3 items-center">
+        <div className="flex justify-between mt-3 items-center">
             <p className="text-sm">Download recent activity</p> <FiDownload/>
-        </div> */}
+        </div>
         <h2 className="text-black/45 border-b-[0.05rem] border-black/45 py-3 font-bold text-sm mt-5">Emails</h2>
 
         <div className="flex justify-between mt-3 items-center">
