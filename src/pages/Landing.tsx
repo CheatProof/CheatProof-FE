@@ -8,6 +8,7 @@ import {
   Welcome,
 } from "../components";
 import { BarChart, LineGraph, PieChart } from "../components/chart";
+import Dashboard from "../components/Dashboard/Dashboard";
 import { Tabs, Tab } from "../components/Tabs";
 
 const Landing : React.FC  = ()  => {
@@ -17,9 +18,9 @@ const Landing : React.FC  = ()  => {
       <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-9 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
         <div className="w-full">
         <Tabs>
-        <Tab component={<div>Tab 1 Content</div>}>Tab 1</Tab>
-        <Tab component={<div>Tab 2 Content</div>}>Tab 2</Tab>
-        <Tab component={<div>Tab 3 Content</div>}>Tab 3</Tab>
+        <Tab component={<Dashboard/>}>Overview</Tab>
+        <Tab component={<div>Tab 2 Content</div>}>Lastest Result</Tab>
+        {/* <Tab component={<div>Tab 3 Content</div>}>Tab 3</Tab> */}
       </Tabs>
 
           {/* <div>
