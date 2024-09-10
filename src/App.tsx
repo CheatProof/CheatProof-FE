@@ -24,6 +24,8 @@ import {
   Reviews,
   Users,
 } from "./pages";
+
+import QuestionBank from "./pages/QuestionBank";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -40,6 +42,11 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+      },
+
+      {
+        path: "/questionbank",
+        element: <QuestionBank />,
       },
       {
         path: "/landing-v2",

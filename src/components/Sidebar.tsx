@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { HiOutlineX } from "react-icons/hi";
 import { setSidebar } from "../features/dashboard/dashboardSlice";
 import { HiOutlineUser } from "react-icons/hi";
+import { MdVerifiedUser } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
@@ -57,17 +58,17 @@ const Sidebar = () => {
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
           >
-            <HiOutlineHome className="text-md" />
-            <span className="text-sm">Dashboard</span>
+            <HiOutlineHome className="text-lg" />
+            <span className="text-md font-semibold">Dashboard</span>
         </NavLink>
 
 
           <div
             onClick={() => setIsLandingOpen(() => !isLandingOpen)}
-            className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiDocumentText className="text-md" />
-            <span className="text-sm">Test</span>
+            <HiDocumentText className="text-lg" />
+            <span className="text-md font-semibold">Test</span>
           </div>
 
 
@@ -79,8 +80,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">All Test</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">All Test</span>
               </NavLink>
 
               <NavLink
@@ -89,19 +90,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">Categories</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-md" />
-                <span className="text-sm">Files</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Categories</span>
               </NavLink>
 
 
@@ -111,8 +101,19 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">Certificates</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Files</span>
+              </NavLink>
+
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Certificates</span>
               </NavLink>
             </div>
           )}
@@ -139,10 +140,10 @@ const Sidebar = () => {
 
              <div
             onClick={() => setIsLinksOpen(() => !isLinksOpen)}
-            className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiLink className="text-md" />
-            <span className="text-sm">Links</span>
+            <HiLink className="text-lg" />
+            <span className="text-md font-semibold">Links</span>
           </div>
 
 
@@ -154,8 +155,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">All Links</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">All Links</span>
               </NavLink>
 
               <NavLink
@@ -164,19 +165,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">Themes</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-md" />
-                <span className="text-sm">Access Links</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Themes</span>
               </NavLink>
 
 
@@ -186,8 +176,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">Export</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Access Links</span>
               </NavLink>
 
 
@@ -197,8 +187,19 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">Statistics</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Export</span>
+              </NavLink>
+
+
+              <NavLink
+                to="/landing-v2"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Statistics</span>
               </NavLink>
             </div>
           )}
@@ -218,10 +219,10 @@ const Sidebar = () => {
 
 <div
             onClick={() => setIsGroupsOpen(() => !isGroupsOpen)}
-            className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiOutlineUserGroup className="text-md" />
-            <span className="text-sm">Groups</span>
+            <HiOutlineUserGroup className="text-lg" />
+            <span className="text-md font-semibold">Groups</span>
           </div>
             
 
@@ -233,8 +234,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">All Groups</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">All Groups</span>
               </NavLink>
 
               <NavLink
@@ -243,8 +244,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">Export</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Export</span>
               </NavLink>
 
 
@@ -254,8 +255,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-md" />
-                <span className="text-sm">Statistics</span>
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Statistics</span>
               </NavLink>
 
                 </div>
@@ -297,10 +298,10 @@ const Sidebar = () => {
 
           <div
             onClick={() => setIsAuthOpen(() => !isAuthOpen)}
-            className="block flex items-center self-stretch gap-4 py-4 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
-            <HiUserGroup className="text-md" />
-            <span className="text-sm">Auth</span>
+            <MdVerifiedUser className="text-lg" />
+            <span className="text-md font-semibold">Auth</span>
           </div>
           {isAuthOpen && (
             <div>
@@ -310,8 +311,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiLogin className="text-md" />
-                <span className="text-sm">Login</span>
+                <HiLogin className="text-lg" />
+                <span className="text-md font-semibold">Login</span>
               </NavLink>
               <NavLink
                 to="/register"
@@ -319,8 +320,8 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiUserGroup className="text-md" />
-                <span className="text-sm">Register</span>
+                <HiUserGroup className="text-lg" />
+                <span className="text-md font-semibold">Register</span>
               </NavLink>
             </div>
           )}
