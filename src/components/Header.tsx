@@ -17,7 +17,7 @@ import { setSidebar } from "../features/dashboard/dashboardSlice";
 import { Link } from "react-router-dom";
 // import SearchInput from "./SearchInput";
 import { toggleDarkMode } from "../features/darkMode/darkModeSlice";
-import Logo from "../assets/CheatProofLogo-removebg-preview.png";
+import Logo from "../assets/CheatProof.svg";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +32,7 @@ const Header = () => {
         />
         <Link className="flex items-center" to="/">
           {/* <FaReact className="text-4xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer" /> */}
-          <img className="w-[4rem]" src={Logo}/>
+          <img className="w-[4rem] p-3" src={Logo}/>
           <span className="dark:text-whiteSecondary text-blackPrimary text-xl font-bold">CheatProof</span>
         </Link>
         {/* <SearchInput /> */}

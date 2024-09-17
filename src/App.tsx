@@ -26,6 +26,7 @@ import {
 } from "./pages";
 
 import QuestionBank from "./pages/QuestionBank";
+import CreateTestManual from "./pages/Test/CreateTestManual";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/landing-v2",
         element: <LandingV2 />,
+      },
+      {
+        path: "/createQuestion",
+        element: <CreateTestManual />,
       },
       {
         path: "/products",
