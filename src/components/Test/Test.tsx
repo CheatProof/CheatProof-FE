@@ -9,6 +9,7 @@ import { EditorState, ContentState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertFromRaw } from 'draft-js';
+import { FaTrashAlt } from "react-icons/fa";
 
 
 const Test = () => {
@@ -25,6 +26,20 @@ const Test = () => {
   const [options, setOptions] = useState([{ text: EditorState.createEmpty(), isCorrect: false }]);
   const [randomizeAnswers, setRandomizeAnswers] = useState(false);
   const [answerSelection, setAnswerSelection] = useState("radio");
+
+  // True False
+  const [trueFalseOption, setTrueFalseOption] = useState([{ text: "True", isCorrect: true } , { text: "False", isCorrect: false }])
+
+
+  // freeText
+  const [freeText , setfreeTextAnswers] = useState([{ text: "" }])
+
+  
+  // correct Grammar
+
+  const [grammarCorrect,setGrammarCorrect] = useState("")
+  const [grammarText,setGrammarText] = useState("")
+
 
   // State for selected question type
   const [selectedQuestionType, setSelectedQuestionType] = useState("multipleChoice");
@@ -51,6 +66,24 @@ const Test = () => {
     setOptions(newOptions);
   };
 
+  const handletrueFalseOptionChange = (index:number, newText:any) => {
+    const newOptions = [...trueFalseOption];
+    newOptions[index].text = newText;
+    setTrueFalseOption(newOptions);
+  };
+
+  const handlefreeTextOptionChange = (index:number, newText:any) => {
+    const newOptions = [...freeText];
+    newOptions[index].text = newText;
+    setfreeTextAnswers(newOptions);
+  };
+
+  const handlefreeTextOptionDelete = (index:number) => {
+   
+    setfreeTextAnswers(freeText.filter((option,idx)=> {return idx !== index }));
+  };
+
+
   const handleCorrectAnswerToggle = (index:number) => {
 
     if (selectedQuestionType === "multipleChoice") {
@@ -61,16 +94,20 @@ const Test = () => {
       setOptions(newOptions);
 
     } else if (selectedQuestionType === "trueFalse") {
-      const newOptions = options.map((option, i) => ({
+      const newOptions = trueFalseOption.map((option, i) => ({
         ...option,
         isCorrect: i === index ? true : false,
       }));
-      setOptions(newOptions);
+      setTrueFalseOption(newOptions);
     }
   };
 
   const addOption = () => {
     setOptions([...options, { text: EditorState.createEmpty(), isCorrect: false }]);
+  };
+
+  const addfreeTextOption = () => {
+    setfreeTextAnswers([...freeText, { text:""}]);
   };
 
   // Function to handle question type selection
@@ -151,7 +188,33 @@ const Test = () => {
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
               2. Write your question
             </h3>
-            <Editor
+          {selectedQuestionType==="grammar" ? 
+(
+  <>
+  <div className="mb-4">
+  <label className="font-semibold text-gray-300">Add a sentence with incorrect punctuation or grammar </label>
+   <input
+    value={grammarText}
+    onChange={(e) => setGrammarText(e.target.value)}
+    className="w-full p-2 mt-2 border border-gray-300 rounded"
+    
+  /> 
+</div>
+
+<div className="mb-4">
+  <label className="font-semibold text-red-300">Add the Correct version to be graded against (not seen during the test) </label>
+  <input
+    value={grammarCorrect}
+    onChange={(e) => setGrammarCorrect(e.target.value)}
+    className="w-full p-2 mt-2 border border-gray-300 rounded"
+
+  />
+
+</div>
+
+</>
+)
+            :(<Editor
               editorState={editorState}
               toolbarClassName="toolbarClassName"
               wrapperClassName="wrapperClassName"
@@ -184,14 +247,18 @@ const Test = () => {
                   alt: { present: true, mandatory: true },
                 },
               }}
-            />
+            />)}
           </div>
 
-          <div className="mb-8">
+       { (selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") &&   (
+        <div className="mb-8">
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-              3. Add your multiple choice answer options
+              3. {selectedQuestionType==="multipleChoice" ? "Add your multiple choice answer options":
+                  selectedQuestionType==="trueFalse" ? "Add your answer options" : 
+                  selectedQuestionType === "freeText"? "Add accepted answers": 
+                  selectedQuestionType === 'matching'? "Add matching pairs":""} 
             </h3>
-            {options.map((option, index) => (
+            {selectedQuestionType === "multipleChoice" ? options.map((option, index) => (
               <div key={index} className="mb-4">
                 <div className="flex items-center mb-2">
                   <span className="font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
@@ -242,7 +309,47 @@ const Test = () => {
 
                 />
               </div>
-            ))}
+            )) : 
+              selectedQuestionType==="trueFalse" ? trueFalseOption.map((option,index)=>(
+                <div key={index} className="mb-4">
+                <div className="flex items-center mb-2">
+                  <span className="font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
+                  <input
+                    type="checkbox"
+                    checked={option.isCorrect}
+                    onChange={() => handleCorrectAnswerToggle(index)}
+                    className="mr-2"
+                  />
+
+                  <label>This is a correct Answer</label>
+                </div>
+
+
+                <input
+                  type="text"
+                  value={option.text}
+                  className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${option.isCorrect?"border-2 !border-green-400":"border-[1px] border-gray-300" }`}
+                  onChange={(e) => handletrueFalseOptionChange(index, e.target.value)}
+                
+
+                />
+              </div>
+              )) : selectedQuestionType==="freeText" ? freeText.map( (option,index)=> (
+    
+               <div key={index} className="mb-4 flex justify-start items-center gap-2">
+
+                <input
+                  type="text"
+                  value={option.text}
+                  className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${option.isCorrect?"border-2 !border-green-400":"border-[1px] border-gray-300" }`}
+                  onChange={(e) => handlefreeTextOptionChange(index, e.target.value)}
+                />
+
+                {index === 0 ? <span className="mt-2">Mandatory</span>: <FaTrashAlt onClick={()=>{handlefreeTextOptionDelete(index)}} className="mt-2"/> }
+
+                </div>
+              )) : (<></>)
+            }
           { selectedQuestionType === "multipleChoice" && <button
           
               onClick={addOption}
@@ -250,13 +357,22 @@ const Test = () => {
             >
               + Add another answer
             </button>}
+
+            { selectedQuestionType === "freeText" && <button
+          
+          onClick={addfreeTextOption}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          + Add another answer
+        </button>}
           </div>
+        )}
 
 
           {/* Add feedback section */}
           <div className="mb-8">
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-              4. Give feedback <span className="text-gray-400">(optional)</span>
+            {(selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") ? "4":"3"}. Give feedback <span className="text-gray-400">(optional)</span>
             </h3>
 
             <div className="mb-4">
@@ -298,7 +414,7 @@ const Test = () => {
           {/* Category Section */}
           <div className="mb-6">
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-              5. Category
+            {(selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") ? "5":"4"}. Category
             </h3>
             <p className="text-gray-600 mb-2">
               - Categories help you organize questions and analyze performance in your Tests.
@@ -332,7 +448,7 @@ const Test = () => {
           {/* Question Settings Section */}
           <div>
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-              6. Question settings
+              {(selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") ? "6":"5"}. Question settings
             </h3>
             <div className="mb-4">
               <label className="block font-medium text-gray-700 mb-2">
