@@ -10,6 +10,7 @@ import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertFromRaw } from 'draft-js';
 import { FaTrashAlt } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
 
 const Test = () => {
@@ -23,68 +24,87 @@ const Test = () => {
   const [points, setPoints] = useState(1);
 
   // MCQS
-  const [options, setOptions] = useState([{ text: EditorState.createEmpty(), isCorrect: false }]);
+  const [options, setOptions] = useState([{ text: EditorState.createEmpty(), isCorrect: false }, { text: EditorState.createEmpty(), isCorrect: false }]);
   const [randomizeAnswers, setRandomizeAnswers] = useState(false);
   const [answerSelection, setAnswerSelection] = useState("radio");
 
   // True False
-  const [trueFalseOption, setTrueFalseOption] = useState([{ text: "True", isCorrect: true } , { text: "False", isCorrect: false }])
+  const [trueFalseOption, setTrueFalseOption] = useState([{ text: "True", isCorrect: true }, { text: "False", isCorrect: false }])
 
 
   // freeText
-  const [freeText , setfreeTextAnswers] = useState([{ text: "" }])
+  const [freeText, setfreeTextAnswers] = useState([{ text: "" }])
 
-  
+
   // correct Grammar
 
-  const [grammarCorrect,setGrammarCorrect] = useState("")
-  const [grammarText,setGrammarText] = useState("")
+  const [grammarCorrect, setGrammarCorrect] = useState("")
+  const [grammarText, setGrammarText] = useState("")
+
+  // Matching
+
+  const [incorrectPairs, setIncorrectPairs] = useState([])
+  const [correctPairs, setCorrectPairs] = useState([{ clue: EditorState.createEmpty(), match: "" }])
+
+
 
 
   // State for selected question type
   const [selectedQuestionType, setSelectedQuestionType] = useState("multipleChoice");
 
-  const getTrueFalseOptions = () => {
-    const trueContent = ContentState.createFromText("True");
-    const falseContent = ContentState.createFromText("False");
 
-    return [
-      { text: EditorState.createWithContent(trueContent), isCorrect: false },
-      { text: EditorState.createWithContent(falseContent), isCorrect: false }
-    ];
-  };
 
-  const onEditorStateChange = (editorState:any) => {
+  const onEditorStateChange = (editorState: any) => {
     console.log(editorState)
     setEditorState(editorState);
 
   };
 
-  const handleOptionChange = (index:number, newText:any) => {
+  const handleOptionChange = (index: number, newText: any) => {
     const newOptions = [...options];
     newOptions[index].text = newText;
     setOptions(newOptions);
   };
 
-  const handletrueFalseOptionChange = (index:number, newText:any) => {
+  const handleClueChange = (index: number, newText: any) => {
+    const newOptions = [...correctPairs];
+    newOptions[index].clue = newText;
+    setCorrectPairs(newOptions);
+  };
+
+  const handleMatchChange = (index: number, newText: any) => {
+    const newOptions = [...correctPairs];
+    newOptions[index].match = newText;
+    setCorrectPairs(newOptions);
+  };
+
+
+
+  const handletrueFalseOptionChange = (index: number, newText: any) => {
     const newOptions = [...trueFalseOption];
     newOptions[index].text = newText;
     setTrueFalseOption(newOptions);
   };
 
-  const handlefreeTextOptionChange = (index:number, newText:any) => {
+  const handlefreeTextOptionChange = (index: number, newText: any) => {
     const newOptions = [...freeText];
     newOptions[index].text = newText;
     setfreeTextAnswers(newOptions);
   };
 
-  const handlefreeTextOptionDelete = (index:number) => {
-   
-    setfreeTextAnswers(freeText.filter((option,idx)=> {return idx !== index }));
+  const handlefreeTextOptionDelete = (index: number) => {
+
+    setfreeTextAnswers(freeText.filter((option, idx) => { return idx !== index }));
   };
 
 
-  const handleCorrectAnswerToggle = (index:number) => {
+  const handleOptionDelete = (index: number) => {
+
+    setOptions(freeText.filter((option, idx) => { return idx !== index }));
+  };
+
+
+  const handleCorrectAnswerToggle = (index: number) => {
 
     if (selectedQuestionType === "multipleChoice") {
       const newOptions = options.map((option, i) => ({
@@ -106,23 +126,21 @@ const Test = () => {
     setOptions([...options, { text: EditorState.createEmpty(), isCorrect: false }]);
   };
 
+  const addCorrectPairs = () => {
+    setCorrectPairs([...correctPairs, { clue: EditorState.createEmpty(), match: "" }]);
+  };
+
+  const addIncorrectPairs = () => {
+    setIncorrectPairs([...IncorrectPairs, { text: "" }]);
+  };
+
   const addfreeTextOption = () => {
-    setfreeTextAnswers([...freeText, { text:""}]);
+    setfreeTextAnswers([...freeText, { text: "" }]);
   };
 
   // Function to handle question type selection
-  const handleQuestionTypeSelect = (type:any) => {
+  const handleQuestionTypeSelect = (type: any) => {
     setSelectedQuestionType(type);
-    if (type === "trueFalse") {
-      setOptions(getTrueFalseOptions());
-
-    } else {
-      setOptions([{ text: EditorState.createEmpty(), isCorrect: false }]);
-    }
-
-    
-  
-
 
   };
 
@@ -188,191 +206,261 @@ const Test = () => {
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
               2. Write your question
             </h3>
-          {selectedQuestionType==="grammar" ? 
-(
-  <>
-  <div className="mb-4">
-  <label className="font-semibold text-gray-300">Add a sentence with incorrect punctuation or grammar </label>
-   <input
-    value={grammarText}
-    onChange={(e) => setGrammarText(e.target.value)}
-    className="w-full p-2 mt-2 border border-gray-300 rounded"
-    
-  /> 
-</div>
+            {selectedQuestionType === "grammar" ?
+              (
+                <>
+                  <div className="mb-4">
+                    <label className="font-semibold text-gray-300">Add a sentence with incorrect punctuation or grammar </label>
+                    <input
+                      value={grammarText}
+                      onChange={(e) => setGrammarText(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded"
 
-<div className="mb-4">
-  <label className="font-semibold text-red-300">Add the Correct version to be graded against (not seen during the test) </label>
-  <input
-    value={grammarCorrect}
-    onChange={(e) => setGrammarCorrect(e.target.value)}
-    className="w-full p-2 mt-2 border border-gray-300 rounded"
+                    />
+                  </div>
 
-  />
+                  <div className="mb-4">
+                    <label className="font-semibold text-red-300">Add the Correct version to be graded against (not seen during the test) </label>
+                    <input
+                      value={grammarCorrect}
+                      onChange={(e) => setGrammarCorrect(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded"
 
-</div>
+                    />
 
-</>
-)
-            :(<Editor
-              editorState={editorState}
-              toolbarClassName="toolbarClassName"
-              wrapperClassName="wrapperClassName"
-              editorClassName="editorClassName"
-              onEditorStateChange={onEditorStateChange}
-              toolbar={{
-                inline: { inDropdown: true },
-                list: { inDropdown: true },
-                textAlign: { inDropdown: true },
-                link: { inDropdown: true },
-                history: { inDropdown: true },
-                image: {
-                  previewImage: true,
-                  uploadCallback: (file:any) => {
-                    return new Promise((resolve, reject) => {
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        resolve({
-                          data: {
-                            url: reader.result,
-                          },
-                        });
-                      };
+                  </div>
 
-                      reader.onerror = (reason) => reject(reason);
+                </>
+              )
+              : (<Editor
+                editorState={editorState}
+                toolbarClassName="toolbarClassName"
+                wrapperClassName="wrapperClassName"
+                editorClassName="editorClassName"
+                onEditorStateChange={onEditorStateChange}
+                toolbar={{
+                  inline: { inDropdown: true },
+                  list: { inDropdown: true },
+                  textAlign: { inDropdown: true },
+                  link: { inDropdown: true },
+                  history: { inDropdown: true },
+                  image: {
+                    previewImage: true,
+                    uploadCallback: (file: any) => {
+                      return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          resolve({
+                            data: {
+                              url: reader.result,
+                            },
+                          });
+                        };
 
-                      reader.readAsDataURL(file);
-                    });
-                  },
-                  alt: { present: true, mandatory: true },
-                },
-              }}
-            />)}
-          </div>
+                        reader.onerror = (reason) => reject(reason);
 
-       { (selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") &&   (
-        <div className="mb-8">
-            <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-              3. {selectedQuestionType==="multipleChoice" ? "Add your multiple choice answer options":
-                  selectedQuestionType==="trueFalse" ? "Add your answer options" : 
-                  selectedQuestionType === "freeText"? "Add accepted answers": 
-                  selectedQuestionType === 'matching'? "Add matching pairs":""} 
-            </h3>
-            {selectedQuestionType === "multipleChoice" ? options.map((option, index) => (
-              <div key={index} className="mb-4">
-                <div className="flex items-center mb-2">
-                  <span className="font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
-                  <input
-                    type="checkbox"
-                    checked={option.isCorrect}
-                    onChange={() => handleCorrectAnswerToggle(index)}
-                    className="mr-2"
-                  />
-
-                  <label>Set as correct answer</label>
-                </div>
-
-
-                <Editor
-                  editorState={option.text}
-                  toolbarClassName="toolbarClassName"
-                  wrapperClassName="wrapperClassName"
-                  editorClassName="editorClassName"
-                  onEditorStateChange={(value:any) => handleOptionChange(index, value)}
-                  toolbar={{
-                    inline: { inDropdown: true },
-                    list: { inDropdown: true },
-                    textAlign: { inDropdown: true },
-                    link: { inDropdown: true },
-                    history: { inDropdown: true },
-                    image: {
-                      previewImage: true,
-                      uploadCallback: (file:any) => {
-                        return new Promise((resolve, reject) => {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            resolve({
-                              data: {
-                                url: reader.result,
-                              },
-                            });
-                          };
-
-                          reader.onerror = (reason) => reject(reason);
-
-                          reader.readAsDataURL(file);
-                        });
-                      },
-                      alt: { present: true, mandatory: true },
+                        reader.readAsDataURL(file);
+                      });
                     },
-                  }}
-
-                />
-              </div>
-            )) : 
-              selectedQuestionType==="trueFalse" ? trueFalseOption.map((option,index)=>(
-                <div key={index} className="mb-4">
-                <div className="flex items-center mb-2">
-                  <span className="font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
-                  <input
-                    type="checkbox"
-                    checked={option.isCorrect}
-                    onChange={() => handleCorrectAnswerToggle(index)}
-                    className="mr-2"
-                  />
-
-                  <label>This is a correct Answer</label>
-                </div>
-
-
-                <input
-                  type="text"
-                  value={option.text}
-                  className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${option.isCorrect?"border-2 !border-green-400":"border-[1px] border-gray-300" }`}
-                  onChange={(e) => handletrueFalseOptionChange(index, e.target.value)}
-                
-
-                />
-              </div>
-              )) : selectedQuestionType==="freeText" ? freeText.map( (option,index)=> (
-    
-               <div key={index} className="mb-4 flex justify-start items-center gap-2">
-
-                <input
-                  type="text"
-                  value={option.text}
-                  className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${option.isCorrect?"border-2 !border-green-400":"border-[1px] border-gray-300" }`}
-                  onChange={(e) => handlefreeTextOptionChange(index, e.target.value)}
-                />
-
-                {index === 0 ? <span className="mt-2">Mandatory</span>: <FaTrashAlt onClick={()=>{handlefreeTextOptionDelete(index)}} className="mt-2"/> }
-
-                </div>
-              )) : (<></>)
-            }
-          { selectedQuestionType === "multipleChoice" && <button
-          
-              onClick={addOption}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              + Add another answer
-            </button>}
-
-            { selectedQuestionType === "freeText" && <button
-          
-          onClick={addfreeTextOption}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          + Add another answer
-        </button>}
+                    alt: { present: true, mandatory: true },
+                  },
+                }}
+              />)}
           </div>
-        )}
+
+          {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") && (
+            <div className="mb-8">
+              <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
+                3. {selectedQuestionType === "multipleChoice" ? "Add your multiple choice answer options" :
+                  selectedQuestionType === "trueFalse" ? "Add your answer options" :
+                    selectedQuestionType === "freeText" ? "Add accepted answers" :
+                      selectedQuestionType === 'matching' ? "Add matching pairs" : ""}
+              </h3>
+              {selectedQuestionType === "multipleChoice" ? options.map((option, index) => (
+                <div key={index} className="mb-4 w-4/5">
+                  <div className="flex items-center mb-2">
+                    <span className="font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
+                    <label class="cl-checkbox">
+
+                      <input
+                        type="checkbox"
+                        checked={option.isCorrect}
+                        onChange={() => handleCorrectAnswerToggle(index)}
+                        className="mr-2"
+                      />
+                      <span></span>
+                    </label>
+
+                    <label>Set as correct answer</label>
+                  </div>
+
+                  <div className={`border ${option.isCorrect ? "border-green-500" : 'border-gray-300'} opacity-35 hover:opacity-100 duration-200`}>
+                    <Editor
+                      editorState={option.text}
+                      toolbarClassName="toolbarClassName"
+                      wrapperClassName="wrapperClassName"
+                      editorClassName="editorClassName"
+                      onEditorStateChange={(value: any) => handleOptionChange(index, value)}
+                      toolbar={{
+                        inline: { inDropdown: true },
+                        list: { inDropdown: true },
+                        textAlign: { inDropdown: true },
+                        link: { inDropdown: true },
+                        history: { inDropdown: true },
+                        image: {
+                          previewImage: true,
+                          uploadCallback: (file: any) => {
+                            return new Promise((resolve, reject) => {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                resolve({
+                                  data: {
+                                    url: reader.result,
+                                  },
+                                });
+                              };
+
+                              reader.onerror = (reason) => reject(reason);
+
+                              reader.readAsDataURL(file);
+                            });
+                          },
+                          alt: { present: true, mandatory: true },
+                        },
+                      }}
+
+                    />
+                  </div>
+                </div>
+              )) :
+                selectedQuestionType === "trueFalse" ? trueFalseOption.map((option, index) => (
+                  <div key={index} className="mb-4">
+                    <div className="flex items-center mb-2">
+                      <span className="font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
+                      <input
+                        type="checkbox"
+                        checked={option.isCorrect}
+                        onChange={() => handleCorrectAnswerToggle(index)}
+                        className="mr-2"
+                      />
+
+                      <label>This is a correct Answer</label>
+                    </div>
+
+
+                    <input
+                      type="text"
+                      value={option.text}
+                      className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${option.isCorrect ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
+                      onChange={(e) => handletrueFalseOptionChange(index, e.target.value)}
+
+
+                    />
+                  </div>
+                )) : selectedQuestionType === "freeText" ? freeText.map((option, index) => (
+
+                  <div key={index} className="mb-4 flex justify-start items-center gap-2">
+
+                    <input
+                      type="text"
+                      value={option.text}
+                      className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${option.isCorrect ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
+                      onChange={(e) => handlefreeTextOptionChange(index, e.target.value)}
+                    />
+
+                    {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handlefreeTextOptionDelete(index) }} className="mt-2" />}
+
+                  </div>
+                )) : selectedQuestionType === "matching" ? (
+                  <>
+
+                    {correctPairs.map((option, index) => (
+
+                      <div class="w-full flex items-center justify-between mb-4">
+
+                        <div className="w-6/12 border">
+                          <Editor
+                      editorState={option.clue}
+                      toolbarClassName="toolbarClassName"
+                      wrapperClassName="wrapperClassName"
+                      editorClassName="editorClassName"
+                      onEditorStateChange={(value: any) => handleClueChange(index, value)}
+                            toolbar={{
+                              inline: { inDropdown: true },
+                              list: { inDropdown: true },
+                              textAlign: { inDropdown: true },
+                              link: { inDropdown: true },
+                              history: { inDropdown: true },
+                              image: {
+                                previewImage: true,
+                                uploadCallback: (file: any) => {
+                                  return new Promise((resolve, reject) => {
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                      resolve({
+                                        data: {
+                                          url: reader.result,
+                                        },
+                                      });
+                                    };
+
+                                    reader.onerror = (reason) => reject(reason);
+
+                                    reader.readAsDataURL(file);
+                                  });
+                                },
+                                alt: { present: true, mandatory: true },
+                              },
+                            }}
+                          />
+                        </div>
+                        <div className="w-1/12 flex justify-center"><FaArrowRightArrowLeft class='w-[2rem] h-auto' /></div>
+
+                        <div className="w-5/12">
+                          <input 
+                          type="text" 
+                          className="border outline-none" 
+                          value={option.match}
+                          onChange={(e)=>handleMatchChange(index,e.target.value)}/>
+                        </div>
+
+                      </div>))} 
+                      <button
+
+onClick={addCorrectPairs}
+className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+>
++ Add another pair
+</button>
+                  </>
+
+
+
+                ) : (<></>)
+              }
+              {selectedQuestionType === "multipleChoice" && <button
+
+                onClick={addOption}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                + Add another answer
+              </button>}
+
+              {selectedQuestionType === "freeText" && <button
+
+                onClick={addfreeTextOption}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                + Add another answer
+              </button>}
+            </div>
+          )}
 
 
           {/* Add feedback section */}
           <div className="mb-8">
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-            {(selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") ? "4":"3"}. Give feedback <span className="text-gray-400">(optional)</span>
+              {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") ? "4" : "3"}. Give feedback <span className="text-gray-400">(optional)</span>
             </h3>
 
             <div className="mb-4">
@@ -414,7 +502,7 @@ const Test = () => {
           {/* Category Section */}
           <div className="mb-6">
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-            {(selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") ? "5":"4"}. Category
+              {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") ? "5" : "4"}. Category
             </h3>
             <p className="text-gray-600 mb-2">
               - Categories help you organize questions and analyze performance in your Tests.
@@ -448,7 +536,7 @@ const Test = () => {
           {/* Question Settings Section */}
           <div>
             <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
-              {(selectedQuestionType !== "grammar" && selectedQuestionType!=="essay") ? "6":"5"}. Question settings
+              {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") ? "6" : "5"}. Question settings
             </h3>
             <div className="mb-4">
               <label className="block font-medium text-gray-700 mb-2">
@@ -462,7 +550,7 @@ const Test = () => {
                 className="p-2 border border-gray-300 rounded w-full"
               />
             </div>
-          { selectedQuestionType === "multipleChoice" &&  <div className="mb-4">
+            {selectedQuestionType === "multipleChoice" && <div className="mb-4">
               <label className="block font-medium text-gray-700 mb-2">
                 Randomize Answers
               </label>
@@ -487,7 +575,7 @@ const Test = () => {
                 <label>Yes</label>
               </div>
             </div>}
-        {  selectedQuestionType === "multipleChoice" &&   <div>
+            {selectedQuestionType === "multipleChoice" && <div>
               <label className="block font-medium text-gray-700 mb-2">
                 Answer Selection
               </label>
