@@ -27,7 +27,9 @@ const QuestionBank = ()  => {
             
        
        <QuestionFilter />
-        <QuestionCard />
+        <QuestionCard question={""} correctAnswer={""} onOptionSelect={function (selOpt: string): void {
+                throw new Error("Function not implemented.");
+              } } />
         </div>
         </div>
         </div>

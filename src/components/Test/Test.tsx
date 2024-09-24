@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import multipleChoice from "../../assets/icon-multimedia-grey.png";
 import falseTrue from "../../assets/icon-truefalse-grey.png";
 import matching from "../../assets/icon-matching-grey.png";
-import freeText from "../../assets/icon-freetext-grey.png";
+import freeTex from "../../assets/icon-freetext-grey.png";
 import Grammar from "../../assets/icon-grammar-grey.png";
 import Essay from "../../assets/icon-essay-grey.png";
 import { EditorState, ContentState } from 'draft-js';
@@ -11,6 +12,13 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertFromRaw } from 'draft-js';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
+
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import PreviewQuestion from "../../pages/PreviewQuestion";
 
 
 const Test = () => {
@@ -51,6 +59,7 @@ const Test = () => {
 
   // State for selected question type
   const [selectedQuestionType, setSelectedQuestionType] = useState("multipleChoice");
+  const [showPreview, setShowPreview] = useState(false); // State to control the preview rendering
 
 
 
@@ -138,79 +147,92 @@ const Test = () => {
     setfreeTextAnswers([...freeText, { text: "" }]);
   };
 
+  const navigate = useNavigate(); // Initialize useNavigate
   // Function to handle question type selection
   const handleQuestionTypeSelect = (type: any) => {
     setSelectedQuestionType(type);
+    // setShowPreview(false); // Hide preview when changing question type
+  };
 
+
+  // const handleQuestionTypeSelect = (type: string) => {
+  //   setSelectedQuestionType(type);
+  //   setShowPreview(false); // Hide preview when changing question type
+  // };
+
+  const handlePreviewClick = () => {
+    // setShowPreview(true); // Show the preview when the button is clicked
+    navigate("/preview", { state: { selectedQuestionType } });
   };
 
   return (
     <>
       <div className="min-h-screen bg-gray-100 p-8">
         <div className="bg-white p-6 rounded-lg shadow-lg  mx-auto">
-          <h2 className="text-gray-600 mb-6 font-bold text-lg">
+          <h2 className=" text-gray-700 mb-6 font-bold text-xl">
             Tests {">"} Question Bank {">"} Add New Questions
           </h2>
 
           <div className="mb-8">
-            <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
+            <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
               1. Select Question Type
             </h3>
             <div className="grid grid-cols-6 gap-4">
               <button
                 onClick={() => handleQuestionTypeSelect("multipleChoice")}
-                className={`p-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "multipleChoice" ? "bg-blue-100 border-blue-500" : ""}`}
+                className={`p-4 border border-gray-300 rounded-lg text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "multipleChoice" ? "bg-blue-100 border-blue-500" : ""}`}
               >
-                <img className="w-[1.3rem] m-1" src={multipleChoice} />
-                <span className="font-semibold text-[0.75rem]">Multiple Choice</span>
+                <img className="w-[1.8rem] m-1" src={multipleChoice} />
+                <span className="font-semibold text-[0.85rem]">Multiple Choice</span>
               </button>
               <button
                 onClick={() => handleQuestionTypeSelect("trueFalse")}
-                className={`p-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "trueFalse" ? "bg-blue-100 border-blue-500" : ""}`}
+                className={`p-4 border border-gray-300 rounded-lg text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "trueFalse" ? "bg-blue-100 border-blue-500" : ""}`}
               >
-                <img className="w-[1.3rem] m-1" src={falseTrue} />
-                <span className="font-semibold text-[0.75rem]">True False</span>
+                <img className="w-[1.8rem] m-1" src={falseTrue} />
+                <span className="font-semibold text-[0.85rem]">True False</span>
               </button>
               <button
                 onClick={() => handleQuestionTypeSelect("matching")}
-                className={`p-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "matching" ? "bg-blue-100 border-blue-500" : ""}`}
+                className={`p-4 border border-gray-300 rounded-lg text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "matching" ? "bg-blue-100 border-blue-500" : ""}`}
               >
-                <img className="w-[1.3rem] m-1" src={matching} />
-                <span className="font-semibold text-[0.75rem]">Matching</span>
+                <img className="w-[1.6rem] m-1" src={matching} />
+                <span className="font-semibold text-[0.85rem]">Matching</span>
               </button>
               <button
                 onClick={() => handleQuestionTypeSelect("freeText")}
-                className={`p-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "freeText" ? "bg-blue-100 border-blue-500" : ""}`}
+                className={`p-4 border border-gray-300 rounded-lg text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "freeText" ? "bg-blue-100 border-blue-500" : ""}`}
               >
-                <img className="w-[1.3rem] m-1" src={freeText} />
-                <span className="font-semibold text-[0.75rem]">Free Text</span>
+                <img className="w-[1.8rem] m-1" src={freeTex} />
+                <span className="font-semibold text-[0.85rem]">Free Text</span>
               </button>
               <button
                 onClick={() => handleQuestionTypeSelect("grammar")}
-                className={`p-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "grammar" ? "bg-blue-100 border-blue-500" : ""}`}
+                className={`p-4 border border-gray-300 rounded-lg text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "grammar" ? "bg-blue-100 border-blue-500" : ""}`}
               >
-                <img className="w-[1.3rem] m-1" src={Grammar} />
-                <span className="font-semibold text-[0.75rem]">Grammar</span>
+                <img className="w-[1.5rem] m-[0.35rem]" src={Grammar} />
+                <span className="font-semibold text-[0.85rem]">Grammar</span>
               </button>
               <button
                 onClick={() => handleQuestionTypeSelect("essay")}
-                className={`p-4 border border-gray-300 rounded-lg hover:bg-gray-100 text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "essay" ? "bg-blue-100 border-blue-500" : ""}`}
+                className={`p-4 border border-gray-300 rounded-lg text-left flex flex-col items-center justify-center h-[7rem] ${selectedQuestionType === "essay" ? "bg-blue-100 border-blue-500" : ""}`}
               >
-                <img className="w-[1.3rem] m-1" src={Essay} />
-                <span className="font-semibold text-[0.75rem]">Essay</span>
+                <img className="w-[1.6rem] m-2" src={Essay} />
+                <span className="font-semibold text-[0.85rem]">Essay</span>
               </button>
             </div>
+            {/* <PreviewQuestion selectedQuestionType={selectedQuestionType} />  */}
           </div>
 
           <div className="mb-8">
-            <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
+            <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
               2. Write your question
             </h3>
             {selectedQuestionType === "grammar" ?
               (
                 <>
                   <div className="mb-4">
-                    <label className="font-semibold text-gray-300">Add a sentence with incorrect punctuation or grammar </label>
+                    <label className="font-semibold text-gray-700">Add a sentence with incorrect punctuation or grammar </label>
                     <input
                       value={grammarText}
                       onChange={(e) => setGrammarText(e.target.value)}
@@ -220,7 +242,7 @@ const Test = () => {
                   </div>
 
                   <div className="mb-4">
-                    <label className="font-semibold text-red-300">Add the Correct version to be graded against (not seen during the test) </label>
+                    <label className="font-semibold text-red-600">Add the Correct version to be graded against (not seen during the test) </label>
                     <input
                       value={grammarCorrect}
                       onChange={(e) => setGrammarCorrect(e.target.value)}
@@ -232,7 +254,8 @@ const Test = () => {
 
                 </>
               )
-              : (<Editor
+              :  <div className={`border opacity-35 hover:opacity-100 duration-200`}>
+               <Editor
                 editorState={editorState}
                 toolbarClassName="toolbarClassName"
                 wrapperClassName="wrapperClassName"
@@ -265,12 +288,13 @@ const Test = () => {
                     alt: { present: true, mandatory: true },
                   },
                 }}
-              />)}
+              />
+          </div>}
           </div>
 
           {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") && (
             <div className="mb-8">
-              <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
+              <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
                 3. {selectedQuestionType === "multipleChoice" ? "Add your multiple choice answer options" :
                   selectedQuestionType === "trueFalse" ? "Add your answer options" :
                     selectedQuestionType === "freeText" ? "Add accepted answers" :
@@ -280,7 +304,7 @@ const Test = () => {
                 <div key={index} className="mb-4 w-4/5">
                   <div className="flex items-center mb-2">
                     <span className="font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
-                    <label class="cl-checkbox">
+                    <label className="cl-checkbox">
 
                       <input
                         type="checkbox"
@@ -291,7 +315,7 @@ const Test = () => {
                       <span></span>
                     </label>
 
-                    <label>Set as correct answer</label>
+                    <label className=" font-medium">Set as correct answer</label>
                   </div>
 
                   <div className={`border ${option.isCorrect ? "border-green-500" : 'border-gray-300'} opacity-35 hover:opacity-100 duration-200`}>
@@ -419,7 +443,7 @@ const Test = () => {
                         <div className="w-5/12">
                           <input 
                           type="text" 
-                          className="border outline-none" 
+                          className="border-2 border-gray-400 py-1 px-5" 
                           value={option.match}
                           onChange={(e)=>handleMatchChange(index,e.target.value)}/>
                         </div>
@@ -459,7 +483,7 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
 
           {/* Add feedback section */}
           <div className="mb-8">
-            <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
+            <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
               {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") ? "4" : "3"}. Give feedback <span className="text-gray-400">(optional)</span>
             </h3>
 
@@ -468,8 +492,8 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               <textarea
                 value={correctFeedback}
                 onChange={(e) => setCorrectFeedback(e.target.value)}
-                className="w-full p-2 mt-2 border border-gray-300 rounded"
-                placeholder="How to add feedback"
+                className="w-full p-2 mt-2 border border-gray-300 rounded hover:border-black"
+                placeholder="Feedback"
               ></textarea>
             </div>
 
@@ -478,8 +502,8 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               <textarea
                 value={incorrectFeedback}
                 onChange={(e) => setIncorrectFeedback(e.target.value)}
-                className="w-full p-2 mt-2 border border-gray-300 rounded"
-                placeholder="How to add feedback"
+                className="w-full p-2 mt-2 border border-gray-300 rounded hover:border-black"
+                placeholder="Feedback"
               ></textarea>
             </div>
           </div>
@@ -487,7 +511,7 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
 
 
 
-          <div className="text-sm text-blue-500">
+          <div className="text-sm text-blue-500 mb-8">
             <a href="#" className="underline">
               Question Examples and Guides
             </a>{" "}
@@ -501,7 +525,7 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
 
           {/* Category Section */}
           <div className="mb-6">
-            <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
+            <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
               {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") ? "5" : "4"}. Category
             </h3>
             <p className="text-gray-600 mb-2">
@@ -535,26 +559,26 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
 
           {/* Question Settings Section */}
           <div>
-            <h3 className="font-semibold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3">
+            <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
               {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") ? "6" : "5"}. Question settings
             </h3>
             <div className="mb-4">
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-semibold text-gray-700 mb-2">
                 Points Available
               </label>
               <input
                 type="number"
-                min="1"
+                min='1'
                 value={points}
                 onChange={(e) => setPoints(Number(e.target.value))}
                 className="p-2 border border-gray-300 rounded w-full"
               />
             </div>
             {selectedQuestionType === "multipleChoice" && <div className="mb-4">
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-semibold text-gray-700 mb-2">
                 Randomize Answers
               </label>
-              <div className="flex items-center mb-2">
+              {/* <div className="flex items-center mb-2">
                 <input
                   type="radio"
                   name="randomize"
@@ -570,16 +594,38 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                   name="randomize"
                   checked={randomizeAnswers}
                   onChange={() => setRandomizeAnswers(true)}
-                  className="mr-2"
+                  className="mr-2 "
                 />
                 <label>Yes</label>
-              </div>
-            </div>}
+              </div> */}
+
+
+<FormControl>
+      {/* <FormLabel id="demo-radio-buttons-group-label">Randomise Answer</FormLabel> */}
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        defaultValue="female"
+        name="radio-buttons-group"
+
+      >
+        <FormControlLabel value="No" name="randomize"
+                  checked={!randomizeAnswers}
+                  onChange={() => setRandomizeAnswers(false)} control={<Radio />} label="No" />
+        <FormControlLabel value="Yes" name="randomize"
+                  checked={randomizeAnswers}
+                  onChange={() => setRandomizeAnswers(true)} control={<Radio />} label="Yes" />
+      </RadioGroup>
+    </FormControl>
+
+
+
+            </div>
+            }
             {selectedQuestionType === "multipleChoice" && <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-semibold text-gray-700 mb-2">
                 Answer Selection
               </label>
-              <div className="flex items-center mb-2">
+              {/* <div className="flex items-center mb-2">
                 <input
                   type="radio"
                   name="answerSelection"
@@ -598,10 +644,39 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                   className="mr-2"
                 />
                 <label>Checkboxes - Multiple answer options can be selected</label>
-              </div>
+              </div> */}
+
+
+
+<FormControl>
+      {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        defaultValue="female"
+        name="radio-buttons-group"
+      >
+        <FormControlLabel value="female" name="answerSelection"
+                  checked={answerSelection === "radio"}
+                  onChange={() => setAnswerSelection("radio")} control={<Radio />} label="Radio buttons - Only one answer option can be selected" />
+        <FormControlLabel value="male"   name="answerSelection"
+                  checked={answerSelection === "checkbox"}
+                  onChange={() => setAnswerSelection("checkbox")} control={<Radio />} label="Checkboxes - Multiple answer options can be selected" />
+      </RadioGroup>
+    </FormControl>
             </div>}
           </div>
+
+
+          
         </div>
+        <div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+            <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>Preview</button>
+            <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
+            <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">
+              Save and add more
+            </button>
+          </div>
+           
       </div>
     </>
   );
