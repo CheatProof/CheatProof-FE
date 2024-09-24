@@ -75,7 +75,7 @@ const Sidebar = () => {
           {isLandingOpen && (
             <div>
               <NavLink
-                to="/"
+                to="/alltests"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }

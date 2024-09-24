@@ -25,8 +25,10 @@ import {
   Users,
 } from "./pages";
 
-import QuestionBank from "./pages/QuestionBank";
+import QuestionBank from "./pages/QuestionBank/QuestionBank";
 import CreateTestManual from "./pages/Test/CreateTestManual";
+import TestManage from "./pages/Test/TestManage";
+import TestDashboard from "./pages/Test/TestDashboard";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
       {
         path: "/questionbank",
         element: <QuestionBank />,
+      },
+      {
+        path: "/alltests",
+        element: <TestManage />,
+      },
+      {
+        path: "/test/:id",
+        element: <TestDashboard />,
       },
       {
         path: "/landing-v2",

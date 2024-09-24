@@ -1,18 +1,18 @@
 
 import {
-    ActivitiesByCountry,
-    ActivitiesByDevices,
-    ActivityByTime,
-    ConversionRateBySource,
+    // ActivitiesByCountry,
+    // ActivitiesByDevices,
+    // ActivityByTime,
+    // ConversionRateBySource,
     Sidebar,
-    Stats,
-    Welcome,
+    // Stats,
+    // Welcome,
     
-  } from "../components";
-  import QuestionCard from "../components/Question/QuestionCard";
-  import { BarChart, LineGraph, PieChart } from "../components/chart";
-  import { Tabs, Tab } from "../components/Tabs";
-import QuestionFilter from "../components/Question/QuestionFilter";
+  } from "../../components";
+  import QuestionCard from "../../components/Question/QuestionCard";
+  // import { BarChart, LineGraph, PieChart } from "../components/chart";
+  // import { Tabs, Tab } from "../../components/Tabs";
+import QuestionFilter from "../../components/Question/QuestionFilter";
 
 const QuestionBank = ()  => {
     return (
