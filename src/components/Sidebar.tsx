@@ -84,6 +84,17 @@ const Sidebar = () => {
                 <span className="text-md font-semibold">All Test</span>
               </NavLink>
 
+
+              <NavLink
+                to="/questionbank"
+                className={(isActiveObj) =>
+                  isActiveObj.isActive ? navActiveClass : navInactiveClass
+                }
+              >
+                <span className="text-lg" />
+                <span className="text-md font-semibold">Question Bank</span>
+              </NavLink>
+
               <NavLink
                 to="/landing-v2"
                 className={(isActiveObj) =>

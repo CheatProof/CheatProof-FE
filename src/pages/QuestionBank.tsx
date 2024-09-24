@@ -9,10 +9,10 @@ import {
     Welcome,
     
   } from "../components";
-  import QuestionCard from "../components/QuestionCard";
+  import QuestionCard from "../components/Question/QuestionCard";
   import { BarChart, LineGraph, PieChart } from "../components/chart";
   import { Tabs, Tab } from "../components/Tabs";
-import QuestionFilter from "../components/QuestionFilter";
+import QuestionFilter from "../components/Question/QuestionFilter";
 
 const QuestionBank = ()  => {
     return (
