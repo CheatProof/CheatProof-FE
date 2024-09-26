@@ -29,6 +29,9 @@ import QuestionBank from "./pages/QuestionBank/QuestionBank";
 import CreateTestManual from "./pages/Test/CreateTestManual";
 import TestManage from "./pages/Test/TestManage";
 import TestDashboard from "./pages/Test/TestDashboard";
+import MCQCard from "./components/PreviewCards/MCQCard";
+import PreviewQuestion from "./pages/PreviewQuestion";
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -138,6 +141,12 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+
+
+      {
+        path: "/preview",
+        element: <PreviewQuestion />,
       },
     ],
     
