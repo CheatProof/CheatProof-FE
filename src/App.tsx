@@ -29,7 +29,7 @@ import QuestionBank from "./pages/QuestionBank/QuestionBank";
 import CreateTestManual from "./pages/Test/CreateTestManual";
 import TestManage from "./pages/Test/TestManage";
 import TestDashboard from "./pages/Test/TestDashboard";
-import MCQCard from "./components/PreviewCards/MCQCard";
+// import MCQCard from "./components/PreviewCards/MCQCard";
 import PreviewQuestion from "./pages/PreviewQuestion";
 
 const router = createBrowserRouter([
