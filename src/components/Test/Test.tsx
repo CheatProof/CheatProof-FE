@@ -21,6 +21,15 @@ import FormLabel from '@mui/material/FormLabel';
 import PreviewQuestion from "../../pages/PreviewQuestion";
 
 
+import MCQCard from "../PreviewCards/MCQCard";
+import TrueFalseCard from "../PreviewCards/TrueFalseCard";
+import FreeTextCard from "../PreviewCards/FreeTextCard";
+import GrammarCard from "../PreviewCards/GrammarCard";
+import EssayCard from "../PreviewCards/EssayCard";
+import MatchingCard from "../PreviewCards/MatchingCard";
+import { useLocation } from "react-router-dom";
+
+
 const Test = () => {
 
   // General
@@ -61,6 +70,24 @@ const Test = () => {
   const [selectedQuestionType, setSelectedQuestionType] = useState("multipleChoice");
   const [showPreview, setShowPreview] = useState(false); // State to control the preview rendering
 
+  const renderPreviewCard = () => {
+    switch (selectedQuestionType) {
+      case "multipleChoice":
+        return <MCQCard />;
+      case "trueFalse":
+        return <TrueFalseCard />;
+      case "freeText":
+        return <FreeTextCard />;
+      case "grammar":
+        return <GrammarCard />;
+      case "essay":
+        return <EssayCard />;
+      case "matching":
+        return <MatchingCard />;
+      default:
+        return <div>No question type selected</div>;
+    }
+  };
 
 
   const onEditorStateChange = (editorState: any) => {
@@ -161,17 +188,21 @@ const Test = () => {
   // };
 
   const handlePreviewClick = () => {
-    // setShowPreview(true); // Show the preview when the button is clicked
-    navigate("/preview", { state: { selectedQuestionType } });
+    setShowPreview(!showPreview); // Show the preview when the button is clicked
+   
   };
 
   return (
     <>
       <div className="min-h-screen bg-gray-100 p-8">
-        <div className="bg-white p-6 rounded-lg shadow-lg  mx-auto">
-          <h2 className=" text-gray-700 mb-6 font-bold text-xl">
+     {!showPreview ? (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
             Tests {">"} Question Bank {">"} Add New Questions
-          </h2>
+          </h2>):(<h2 className=" text-gray-700 mb-6 font-bold text-xl">
+           Question Preview
+          </h2>)}
+
+{!showPreview?(        <div className="bg-white p-6 rounded-lg shadow-lg  mx-auto">
+      
 
           <div className="mb-8">
             <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
@@ -668,9 +699,10 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
 
 
           
-        </div>
+        </div>):renderPreviewCard() }
+        
         <div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-            <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>Preview</button>
+            <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>{!showPreview?"Preview":"Edit"}</button>
             <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
             <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">
               Save and add more
