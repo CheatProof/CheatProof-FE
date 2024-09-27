@@ -34,10 +34,10 @@ const CategoryTable = () => {
             Category
           </th>
           <th scope="col" className="py-2 pl-0 pr-8 font-semibold table-cell">
-            Slug
+            id
           </th>
           <th scope="col" className="py-2 pl-0 pr-8 font-semibold table-cell">
-            Number of products
+            Number of Questions
           </th>
           <th
             scope="col"
@@ -58,11 +58,7 @@ const CategoryTable = () => {
           <tr key={nanoid()}>
             <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
               <div className="flex items-center gap-x-4">
-                <img
-                  src={item.category.imageUrl}
-                  alt=""
-                  className="h-8 w-8 rounded-full bg-gray-800"
-                />
+             
                 <div className="truncate text-sm font-medium leading-6 dark:text-whiteSecondary text-blackPrimary">
                   {item.category.name}
                 </div>

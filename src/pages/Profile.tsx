@@ -38,16 +38,16 @@ const Profile = () => {
               <div className="flex justify-between items-center max-sm:flex-col max-sm:gap-10">
               <div className="flex items-center gap-4">
                 <img
-                  src="/src/assets/profile.jpg"
+                  src="/src/assets/zaryab.jpeg"
                   alt="Profile"
                   className="rounded-full w-20 h-20"
                 />
                 <div>
                   <p className="dark:text-whiteSecondary text-blackPrimary text-xl">
-                    Sherwood Gruninger
+                    S. M. Zaryab
                   </p>
                   <p className="dark:text-whiteSecondary text-blackPrimary">
-                    Web Developer
+                    Teacher
                   </p>
                 </div>
               </div>

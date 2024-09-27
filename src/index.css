@@ -3,12 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+body{
   font-family: "Poppins", sans-serif;;
 }
-body{
-    font-family: "Inter", sans-serif;
+
+li{
+  list-style-type:disc;
 }
+
 
 /* Sidebar closed state */
 .sidebar-closed {

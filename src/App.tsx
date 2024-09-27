@@ -31,6 +31,7 @@ import TestManage from "./pages/Test/TestManage";
 import TestDashboard from "./pages/Test/TestDashboard";
 // import MCQCard from "./components/PreviewCards/MCQCard";
 import PreviewQuestion from "./pages/PreviewQuestion";
+import GroupTestMange from "./pages/GroupTest/GroupTestManage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,16 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Landing />,
+      },
+
+      {
+        path: "/grouptest",
+        element: <GroupTestMange />,
+      },
+
+      {
+        path: "/categories",
+        element: <Categories />,
       },
 
       {
@@ -82,10 +93,7 @@ const router = createBrowserRouter([
         path: "/products/:id",
         element: <EditProduct />,
       },
-      {
-        path: "/categories",
-        element: <Categories />,
-      },
+
       {
         path: "/categories/create-category",
         element: <CreateCategory />,
