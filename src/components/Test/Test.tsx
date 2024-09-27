@@ -9,9 +9,10 @@ import Essay from "../../assets/icon-essay-grey.png";
 import { EditorState, ContentState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { convertFromRaw } from 'draft-js';
+import {  convertToRaw} from 'draft-js';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import draftToHtml from 'draftjs-to-html';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -19,6 +20,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import PreviewQuestion from "../../pages/PreviewQuestion";
+
+
+import MCQCard from "../PreviewCards/MCQCard";
+import TrueFalseCard from "../PreviewCards/TrueFalseCard";
+import FreeTextCard from "../PreviewCards/FreeTextCard";
+import GrammarCard from "../PreviewCards/GrammarCard";
+import EssayCard from "../PreviewCards/EssayCard";
+import MatchingCard from "../PreviewCards/MatchingCard";
+import { useLocation } from "react-router-dom";
 
 
 const Test = () => {
@@ -51,16 +61,47 @@ const Test = () => {
 
   // Matching
 
-  const [incorrectPairs, setIncorrectPairs] = useState([])
+  const [incorrectPairs, setIncorrectPairs] = useState([{ text: "" }])
   const [correctPairs, setCorrectPairs] = useState([{ clue: EditorState.createEmpty(), match: "" }])
 
 
 
+  const getHtmlFromEditorState = (editorState:any) => {
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    return draftToHtml(rawContentState);
+  };
 
   // State for selected question type
   const [selectedQuestionType, setSelectedQuestionType] = useState("multipleChoice");
   const [showPreview, setShowPreview] = useState(false); // State to control the preview rendering
 
+  const renderPreviewCard = () => {
+    switch (selectedQuestionType) {
+      case "multipleChoice":
+        const convertedOption = options.map((option: any) => {
+          return {
+            text: getHtmlFromEditorState(option.text),
+            isCorrect: option.isCorrect
+          };
+        });
+         
+        return <MCQCard question={getHtmlFromEditorState(editorState)}  options={convertedOption} answerSelection={answerSelection} />;
+      case "trueFalse":
+        
+        return <TrueFalseCard />;
+      case "freeText":
+        return <FreeTextCard />;
+      case "grammar":
+        return <GrammarCard />;
+      case "essay":
+        return <EssayCard />;
+      case "matching":
+        return <MatchingCard />;
+      default:
+        return <div>No question type selected</div>;
+    }
+  };
 
 
   const onEditorStateChange = (editorState: any) => {
@@ -101,15 +142,25 @@ const Test = () => {
     setfreeTextAnswers(newOptions);
   };
 
-  const handlefreeTextOptionDelete = (index: number) => {
+  
+  const handleIncorrectPairChange = (index: number, newText: any) => {
+    const newOptions = [...incorrectPairs];
+    newOptions[index].text = newText;
+    setIncorrectPairs(newOptions);
+  };
 
+  const handlefreeTextOptionDelete = (index: number) => {
     setfreeTextAnswers(freeText.filter((option, idx) => { return idx !== index }));
+  };
+
+  const handleIncorrectPairDelete = (index: number) => {
+    setIncorrectPairs(incorrectPairs.filter((option, idx) => { return idx !== index }));
   };
 
 
   const handleOptionDelete = (index: number) => {
 
-    setOptions(freeText.filter((option, idx) => { return idx !== index }));
+    setOptions(options.filter((option, idx) => { return idx !== index }));
   };
 
 
@@ -140,38 +191,40 @@ const Test = () => {
   };
 
   const addIncorrectPairs = () => {
-    setIncorrectPairs([...IncorrectPairs, { text: "" }]);
+    setIncorrectPairs([...incorrectPairs, { text: "" }]);
   };
 
   const addfreeTextOption = () => {
     setfreeTextAnswers([...freeText, { text: "" }]);
   };
 
-  const navigate = useNavigate(); // Initialize useNavigate
-  // Function to handle question type selection
-  const handleQuestionTypeSelect = (type: any) => {
-    setSelectedQuestionType(type);
-    // setShowPreview(false); // Hide preview when changing question type
-  };
+  const handleQuestionTypeSelect = (text: string) => {
+    setSelectedQuestionType(text);
+  }
 
 
-  // const handleQuestionTypeSelect = (type: string) => {
-  //   setSelectedQuestionType(type);
-  //   setShowPreview(false); // Hide preview when changing question type
-  // };
+
+
+
+
+
 
   const handlePreviewClick = () => {
-    // setShowPreview(true); // Show the preview when the button is clicked
-    navigate("/preview", { state: { selectedQuestionType } });
+    setShowPreview(!showPreview); // Show the preview when the button is clicked
+
   };
 
   return (
     <>
       <div className="min-h-screen bg-gray-100 p-8">
-        <div className="bg-white p-6 rounded-lg shadow-lg  mx-auto">
-          <h2 className=" text-gray-700 mb-6 font-bold text-xl">
-            Tests {">"} Question Bank {">"} Add New Questions
-          </h2>
+        {!showPreview ? (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
+          Tests {">"} Question Bank {">"} Add New Questions
+        </h2>) : (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
+          Question Preview
+        </h2>)}
+
+        {!showPreview ? (<div className="bg-white p-6 rounded-lg shadow-lg  mx-auto">
+
 
           <div className="mb-8">
             <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
@@ -254,42 +307,42 @@ const Test = () => {
 
                 </>
               )
-              :  <div className={`border opacity-35 hover:opacity-100 duration-200`}>
-               <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onEditorStateChange={onEditorStateChange}
-                toolbar={{
-                  inline: { inDropdown: true },
-                  list: { inDropdown: true },
-                  textAlign: { inDropdown: true },
-                  link: { inDropdown: true },
-                  history: { inDropdown: true },
-                  image: {
-                    previewImage: true,
-                    uploadCallback: (file: any) => {
-                      return new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          resolve({
-                            data: {
-                              url: reader.result,
-                            },
-                          });
-                        };
+              : <div className={`border opacity-35 hover:opacity-100 duration-200`}>
+                <Editor
+                  editorState={editorState}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={onEditorStateChange}
+                  toolbar={{
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                    image: {
+                      previewImage: true,
+                      uploadCallback: (file: any) => {
+                        return new Promise((resolve, reject) => {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            resolve({
+                              data: {
+                                url: reader.result,
+                              },
+                            });
+                          };
 
-                        reader.onerror = (reason) => reject(reason);
+                          reader.onerror = (reason) => reject(reason);
 
-                        reader.readAsDataURL(file);
-                      });
+                          reader.readAsDataURL(file);
+                        });
+                      },
+                      alt: { present: true, mandatory: true },
                     },
-                    alt: { present: true, mandatory: true },
-                  },
-                }}
-              />
-          </div>}
+                  }}
+                />
+              </div>}
           </div>
 
           {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") && (
@@ -388,7 +441,7 @@ const Test = () => {
                     <input
                       type="text"
                       value={option.text}
-                      className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${option.isCorrect ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
+                      className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${false ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
                       onChange={(e) => handlefreeTextOptionChange(index, e.target.value)}
                     />
 
@@ -400,15 +453,15 @@ const Test = () => {
 
                     {correctPairs.map((option, index) => (
 
-                      <div class="w-full flex items-center justify-between mb-4">
+                      <div className="w-full flex items-center justify-between mb-4">
 
                         <div className="w-6/12 border">
                           <Editor
-                      editorState={option.clue}
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClassName"
-                      onEditorStateChange={(value: any) => handleClueChange(index, value)}
+                            editorState={option.clue}
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                            onEditorStateChange={(value: any) => handleClueChange(index, value)}
                             toolbar={{
                               inline: { inDropdown: true },
                               list: { inDropdown: true },
@@ -438,24 +491,50 @@ const Test = () => {
                             }}
                           />
                         </div>
-                        <div className="w-1/12 flex justify-center"><FaArrowRightArrowLeft class='w-[2rem] h-auto' /></div>
+                        <div className="w-1/12 flex justify-center"><FaArrowRightArrowLeft className='w-[2rem] h-auto' /></div>
 
                         <div className="w-5/12">
-                          <input 
-                          type="text" 
-                          className="border-2 border-gray-400 py-1 px-5" 
-                          value={option.match}
-                          onChange={(e)=>handleMatchChange(index,e.target.value)}/>
+                          <input
+                            type="text"
+                            className="border-2 border-gray-400 py-1 px-5"
+                            value={option.match}
+                            onChange={(e) => handleMatchChange(index, e.target.value)} />
                         </div>
 
-                      </div>))} 
-                      <button
+                      </div>))}
 
-onClick={addCorrectPairs}
-className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
->
-+ Add another pair
-</button>
+
+                    <button
+
+                      onClick={addCorrectPairs}
+                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                      + Add another pair
+                    </button>
+
+                    {incorrectPairs.map((option:any, index) => (
+
+                      <div key={index} className="mb-4 flex justify-start items-center gap-2">
+
+                        <input
+                          type="text"
+                          value={option?.text}
+                          className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${false ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
+                          onChange={(e) => handleIncorrectPairChange(index, e.target.value)}
+                        />
+
+                        {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handleIncorrectPairDelete(index) }} className="mt-2" />}
+
+                      </div>
+                    ))}
+
+                    <button
+
+                      onClick={addIncorrectPairs}
+                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                      + Add another Incorrect pair
+                    </button>
                   </>
 
 
@@ -467,7 +546,7 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 onClick={addOption}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
-                + Add another answer
+                + Add another Option
               </button>}
 
               {selectedQuestionType === "freeText" && <button
@@ -578,44 +657,23 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               <label className="block font-semibold text-gray-700 mb-2">
                 Randomize Answers
               </label>
-              {/* <div className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  name="randomize"
-                  checked={!randomizeAnswers}
-                  onChange={() => setRandomizeAnswers(false)}
-                  className="mr-2"
-                />
-                <label>No</label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  name="randomize"
-                  checked={randomizeAnswers}
-                  onChange={() => setRandomizeAnswers(true)}
-                  className="mr-2 "
-                />
-                <label>Yes</label>
-              </div> */}
 
+              <FormControl>
 
-<FormControl>
-      {/* <FormLabel id="demo-radio-buttons-group-label">Randomise Answer</FormLabel> */}
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="female"
-        name="radio-buttons-group"
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
 
-      >
-        <FormControlLabel value="No" name="randomize"
-                  checked={!randomizeAnswers}
-                  onChange={() => setRandomizeAnswers(false)} control={<Radio />} label="No" />
-        <FormControlLabel value="Yes" name="randomize"
-                  checked={randomizeAnswers}
-                  onChange={() => setRandomizeAnswers(true)} control={<Radio />} label="Yes" />
-      </RadioGroup>
-    </FormControl>
+                >
+                  <FormControlLabel value="No" name="randomize"
+                    checked={!randomizeAnswers}
+                    onChange={() => setRandomizeAnswers(false)} control={<Radio />} label="No" />
+                  <FormControlLabel value="Yes" name="randomize"
+                    checked={randomizeAnswers}
+                    onChange={() => setRandomizeAnswers(true)} control={<Radio />} label="Yes" />
+                </RadioGroup>
+              </FormControl>
 
 
 
@@ -625,58 +683,38 @@ className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               <label className="block font-semibold text-gray-700 mb-2">
                 Answer Selection
               </label>
-              {/* <div className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  name="answerSelection"
-                  checked={answerSelection === "radio"}
-                  onChange={() => setAnswerSelection("radio")}
-                  className="mr-2"
-                />
-                <label>Radio buttons - Only one answer option can be selected</label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  name="answerSelection"
-                  checked={answerSelection === "checkbox"}
-                  onChange={() => setAnswerSelection("checkbox")}
-                  className="mr-2"
-                />
-                <label>Checkboxes - Multiple answer options can be selected</label>
-              </div> */}
 
+              <FormControl>
 
-
-<FormControl>
-      {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="female"
-        name="radio-buttons-group"
-      >
-        <FormControlLabel value="female" name="answerSelection"
-                  checked={answerSelection === "radio"}
-                  onChange={() => setAnswerSelection("radio")} control={<Radio />} label="Radio buttons - Only one answer option can be selected" />
-        <FormControlLabel value="male"   name="answerSelection"
-                  checked={answerSelection === "checkbox"}
-                  onChange={() => setAnswerSelection("checkbox")} control={<Radio />} label="Checkboxes - Multiple answer options can be selected" />
-      </RadioGroup>
-    </FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel value="female" name="answerSelection"
+                    checked={answerSelection === "radio"}
+                    onChange={() => setAnswerSelection("radio")} control={<Radio />} label="Radio buttons - Only one answer option can be selected" />
+                  <FormControlLabel value="male" name="answerSelection"
+                    checked={answerSelection === "checkbox"}
+                    onChange={() => setAnswerSelection("checkbox")} control={<Radio />} label="Checkboxes - Multiple answer options can be selected" />
+                </RadioGroup>
+              </FormControl>
             </div>}
+
           </div>
 
 
-          
-        </div>
+
+        </div>) : renderPreviewCard()}
+
         <div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-            <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>Preview</button>
-            <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
-            <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">
-              Save and add more
-            </button>
-          </div>
-           
+          <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>{!showPreview ? "Preview" : "Edit"}</button>
+          <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
+          <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">
+            Save and add more
+          </button>
+        </div>
+
       </div>
     </>
   );

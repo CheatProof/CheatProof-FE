@@ -4,6 +4,7 @@ import { HiOutlineChevronRight } from "react-icons/hi";
 import { AiOutlineExport } from "react-icons/ai";
 import { HiOutlineSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import CategoryManage from "../components/Categories/CategoryManage";
 
 const Categories = () => {
   return (
@@ -30,7 +31,7 @@ const Categories = () => {
               <WhiteButton link="/categories/create-category" text="Add a category" textSize="lg" py="2" width="48"><HiOutlinePlus className="dark:text-blackPrimary text-whiteSecondary" /></WhiteButton>
             </div>
           </div>
-          <div className="px-4 sm:px-6 lg:px-8 flex justify-between items-center mt-5 max-sm:flex-col max-sm:gap-2">
+          {/* <div className="px-4 sm:px-6 lg:px-8 flex justify-between items-center mt-5 max-sm:flex-col max-sm:gap-2">
             <div className="relative">
               <HiOutlineSearch className="text-gray-400 text-lg absolute top-3 left-3" />
               <input
@@ -52,12 +53,16 @@ const Categories = () => {
                 <option value="oldest">Oldest</option>
               </select>
             </div>
-          </div>
-          <CategoryTable />
+          </div> */}
+     
+
+          <CategoryManage/>
+
+                <CategoryTable />
           <div className="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-6 max-sm:flex-col gap-4 max-sm:pt-6 max-sm:pb-0">
             <RowsPerPage />
             <Pagination />
-          </div>
+          </div> 
         </div>
       </div>
     </div>

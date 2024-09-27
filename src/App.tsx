@@ -25,10 +25,14 @@ import {
   Users,
 } from "./pages";
 
-import QuestionBank from "./pages/QuestionBank";
+import QuestionBank from "./pages/QuestionBank/QuestionBank";
 import CreateTestManual from "./pages/Test/CreateTestManual";
-import MCQCard from "./components/PreviewCards/MCQCard";
+import TestManage from "./pages/Test/TestManage";
+import TestDashboard from "./pages/Test/TestDashboard";
+// import MCQCard from "./components/PreviewCards/MCQCard";
 import PreviewQuestion from "./pages/PreviewQuestion";
+import GroupTestMange from "./pages/GroupTest/GroupTestManage";
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -48,8 +52,26 @@ const router = createBrowserRouter([
       },
 
       {
+        path: "/grouptest",
+        element: <GroupTestMange />,
+      },
+
+      {
+        path: "/categories",
+        element: <Categories />,
+      },
+
+      {
         path: "/questionbank",
         element: <QuestionBank />,
+      },
+      {
+        path: "/alltests",
+        element: <TestManage />,
+      },
+      {
+        path: "/test/:id",
+        element: <TestDashboard />,
       },
       {
         path: "/landing-v2",
@@ -71,10 +93,7 @@ const router = createBrowserRouter([
         path: "/products/:id",
         element: <EditProduct />,
       },
-      {
-        path: "/categories",
-        element: <Categories />,
-      },
+
       {
         path: "/categories/create-category",
         element: <CreateCategory />,

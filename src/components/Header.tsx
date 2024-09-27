@@ -55,16 +55,16 @@ const Header = () => {
           <Link to="/profile">
             <div className="flex gap-2 items-center">
               <img
-                src="/src/assets/profile.jpg"
+                src="/src/assets/zaryab.jpeg"
                 alt="profile"
                 className="rounded-full w-10 h-10"
               />
               <div className="flex flex-col">
                 <p className="dark:text-whiteSecondary text-blackPrimary text-base max-xl:text-sm">
-                  Sherwood Gruninger
+                  S.M.Zaryab
                 </p>
                 <p className="dark:text-whiteSecondary text-blackPrimary text-sm max-xl:text-xs">
-                  Web Developer
+                  Teacher
                 </p>
               </div>
             </div>
