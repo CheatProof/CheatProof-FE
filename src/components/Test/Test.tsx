@@ -88,16 +88,35 @@ const Test = () => {
          
         return <MCQCard question={getHtmlFromEditorState(editorState)}  options={convertedOption} answerSelection={answerSelection} />;
       case "trueFalse":
+        const convertedTrueFalseOption = trueFalseOption.map((option: any) => {
+          return {
+            text: option.text,
+            isCorrect: option.isCorrect
+          };
+        });
         
-        return <TrueFalseCard />;
+       
+        return <TrueFalseCard question={getHtmlFromEditorState(editorState)}  options={convertedTrueFalseOption} answerSelection={answerSelection}  />;
+       
+      
       case "freeText":
-        return <FreeTextCard />;
+        const freeTextOption = freeText.map((option: any) => {
+          return {
+            text: option.text,
+            isCorrect: option.isCorrect
+          };
+        });
+         
+        return <FreeTextCard question={getHtmlFromEditorState(editorState)}  options={freeTextOption} answerSelection={answerSelection} />;
+        
       case "grammar":
-        return <GrammarCard />;
+        return <GrammarCard  question={grammarText} correctAnswer={grammarCorrect} />;
       case "essay":
-        return <EssayCard />;
+        return <EssayCard question={getHtmlFromEditorState(editorState)}/>;
       case "matching":
-        return <MatchingCard />;
+        return <MatchingCard question={getHtmlFromEditorState(editorState)}
+        correctPairs={correctPairs} 
+        incorrectPairs={incorrectPairs}/>;
       default:
         return <div>No question type selected</div>;
     }
@@ -157,6 +176,11 @@ const Test = () => {
     setIncorrectPairs(incorrectPairs.filter((option, idx) => { return idx !== index }));
   };
 
+  const handleCorrectPairDelete = (index: number) => {
+    setCorrectPairs((prevPairs: any[]) => {
+      return prevPairs.filter((_, i) => i !== index); // Remove the pair at the clicked index
+    });
+  };
 
   const handleOptionDelete = (index: number) => {
 
@@ -176,7 +200,8 @@ const Test = () => {
     } else if (selectedQuestionType === "trueFalse") {
       const newOptions = trueFalseOption.map((option, i) => ({
         ...option,
-        isCorrect: i === index ? true : false,
+        // isCorrect: i === index ? true : false,
+        isCorrect: i === index ? !option.isCorrect : option.isCorrect,
       }));
       setTrueFalseOption(newOptions);
     }
@@ -369,7 +394,9 @@ const Test = () => {
                     </label>
 
                     <label className=" font-medium">Set as correct answer</label>
+                    {index === 0 || index===1 ? <span className="font-semibold px-5">(Mandatory)</span> : <FaTrashAlt onClick={() => { handleOptionDelete(index) }} className="text-lg hover:cursor-pointer mx-10" />}
                   </div>
+                 
 
                   <div className={`border ${option.isCorrect ? "border-green-500" : 'border-gray-300'} opacity-35 hover:opacity-100 duration-200`}>
                     <Editor
@@ -448,13 +475,102 @@ const Test = () => {
                     {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handlefreeTextOptionDelete(index) }} className="mt-2" />}
 
                   </div>
-                )) : selectedQuestionType === "matching" ? (
+                // )) : selectedQuestionType === "matching" ? (
+                //   <>
+
+                //     {correctPairs.map((option, index) => (
+
+                //       <div className="w-full flex items-center justify-between mb-4">
+
+                //         <div className="w-6/12 border">
+                //           <Editor
+                //             editorState={option.clue}
+                //             toolbarClassName="toolbarClassName"
+                //             wrapperClassName="wrapperClassName"
+                //             editorClassName="editorClassName"
+                //             onEditorStateChange={(value: any) => handleClueChange(index, value)}
+                //             toolbar={{
+                //               inline: { inDropdown: true },
+                //               list: { inDropdown: true },
+                //               textAlign: { inDropdown: true },
+                //               link: { inDropdown: true },
+                //               history: { inDropdown: true },
+                //               image: {
+                //                 previewImage: true,
+                //                 uploadCallback: (file: any) => {
+                //                   return new Promise((resolve, reject) => {
+                //                     const reader = new FileReader();
+                //                     reader.onloadend = () => {
+                //                       resolve({
+                //                         data: {
+                //                           url: reader.result,
+                //                         },
+                //                       });
+                //                     };
+
+                //                     reader.onerror = (reason) => reject(reason);
+
+                //                     reader.readAsDataURL(file);
+                //                   });
+                //                 },
+                //                 alt: { present: true, mandatory: true },
+                //               },
+                //             }}
+                //           />
+                //         </div>
+                //         <div className="w-1/12 flex justify-center"><FaArrowRightArrowLeft className='w-[2rem] h-auto' /></div>
+
+                //         <div className="w-5/12">
+                //           <input
+                //             type="text"
+                //             className="border-2 border-gray-400 py-1 px-5"
+                //             value={option.match}
+                //             onChange={(e) => handleMatchChange(index, e.target.value)} />
+                //         </div>
+
+                //       </div>))}
+
+
+                //     <button
+
+                //       onClick={addCorrectPairs}
+                //       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                //     >
+                //       + Add another pair
+                //     </button>
+
+                //     {incorrectPairs.map((option:any, index) => (
+
+                //       <div key={index} className="mb-4 flex justify-start items-center gap-2">
+
+                //         <input
+                //           type="text"
+                //           value={option?.text}
+                //           className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${false ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
+                //           onChange={(e) => handleIncorrectPairChange(index, e.target.value)}
+                //         />
+
+                //         {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handleIncorrectPairDelete(index) }} className="mt-2" />}
+
+                //       </div>
+                //     ))}
+
+                //     <button
+
+                //       onClick={addIncorrectPairs}
+                //       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                //     >
+                //       + Add another Incorrect pair
+                //     </button>
+                //   </>
+
+
+
+                // )
+                 )): selectedQuestionType === "matching" ? (
                   <>
-
                     {correctPairs.map((option, index) => (
-
-                      <div className="w-full flex items-center justify-between mb-4">
-
+                      <div className="w-full flex items-center justify-between mb-4" key={index}>
                         <div className="w-6/12 border">
                           <Editor
                             editorState={option.clue}
@@ -480,9 +596,9 @@ const Test = () => {
                                         },
                                       });
                                     };
-
+                
                                     reader.onerror = (reason) => reject(reason);
-
+                
                                     reader.readAsDataURL(file);
                                   });
                                 },
@@ -491,54 +607,68 @@ const Test = () => {
                             }}
                           />
                         </div>
-                        <div className="w-1/12 flex justify-center"><FaArrowRightArrowLeft className='w-[2rem] h-auto' /></div>
-
+                
+                        <div className="w-1/12 flex justify-center">
+                          <FaArrowRightArrowLeft className="w-[2rem] h-auto" />
+                        </div>
+                
                         <div className="w-5/12">
                           <input
                             type="text"
                             className="border-2 border-gray-400 py-1 px-5"
                             value={option.match}
-                            onChange={(e) => handleMatchChange(index, e.target.value)} />
+                            onChange={(e) => handleMatchChange(index, e.target.value)}
+                          />
                         </div>
-
-                      </div>))}
-
-
+                
+                        
+                        {index >= 2 && (
+                          <div className="w-1/12 flex justify-center">
+                            <FaTrashAlt
+                              onClick={() => handleCorrectPairDelete(index)}
+                              className="cursor-pointer text-lg"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                
                     <button
-
                       onClick={addCorrectPairs}
                       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                       + Add another pair
                     </button>
-
-                    {incorrectPairs.map((option:any, index) => (
-
+                
+                    {/* Incorrect Pairs */}
+                    {incorrectPairs.map((option: any, index) => (
                       <div key={index} className="mb-4 flex justify-start items-center gap-2">
-
                         <input
                           type="text"
                           value={option?.text}
                           className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${false ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
                           onChange={(e) => handleIncorrectPairChange(index, e.target.value)}
                         />
-
-                        {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handleIncorrectPairDelete(index) }} className="mt-2" />}
-
+                
+                        
+                        {index < 2 ? (
+                          <span className="mt-2">Mandatory</span>
+                        ) : (
+                          <FaTrashAlt
+                            onClick={() => handleIncorrectPairDelete(index)}
+                            className="mt-2 cursor-pointer text-red-500"
+                          />
+                        )}
                       </div>
                     ))}
-
+                
                     <button
-
                       onClick={addIncorrectPairs}
                       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                       + Add another Incorrect pair
                     </button>
                   </>
-
-
-
                 ) : (<></>)
               }
               {selectedQuestionType === "multipleChoice" && <button
