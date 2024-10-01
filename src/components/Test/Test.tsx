@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import multipleChoice from "../../assets/icon-multimedia-grey.png";
 import falseTrue from "../../assets/icon-truefalse-grey.png";
 import matching from "../../assets/icon-matching-grey.png";
@@ -20,6 +21,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import PreviewQuestion from "../../pages/PreviewQuestion";
+import {createQuestion} from '../../api/question';
+
 
 
 import MCQCard from "../PreviewCards/MCQCard";
@@ -34,12 +37,13 @@ import { useLocation } from "react-router-dom";
 const Test = () => {
 
   // General
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState(EditorState.createEmpty()); // question test
   const [correctFeedback, setCorrectFeedback] = useState('');
   const [incorrectFeedback, setIncorrectFeedback] = useState('');
   const [parentCategory, setParentCategory] = useState("Generic Parent (default)");
   const [subCategory, setSubCategory] = useState("Generic (default)");
   const [points, setPoints] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   // MCQS
   const [options, setOptions] = useState([{ text: EditorState.createEmpty(), isCorrect: false }, { text: EditorState.createEmpty(), isCorrect: false }]);
@@ -121,6 +125,161 @@ const Test = () => {
         return <div>No question type selected</div>;
     }
   };
+
+  const handleSubmit = async() => {
+    setLoading(true);
+    var body;
+
+    if (selectedQuestionType === "multipleChoice") {
+      body = {
+
+        questionData:{
+        QuestionTypeId:1,
+        questionText: getHtmlFromEditorState(editorState),
+        correctFeedback,
+        incorrectFeedback,
+        parentCategory,
+        subCategory,
+        points
+      },
+        options: options.map((option: any) => ({ optionText: getHtmlFromEditorState(option.text), isAnswer: option.isCorrect })),
+        answerSelection:answerSelection,
+        isRandomize:randomizeAnswers,
+      };
+    }
+    else if (selectedQuestionType === "trueFalse") {
+      body = {
+        questionData:{
+        QuestionTypeId:1,
+        questionText: getHtmlFromEditorState(editorState),
+        correctFeedback,
+        incorrectFeedback,
+        parentCategory,
+        subCategory,
+        points
+      },
+      options: trueFalseOption.map((option: any) => ({ text: option.text, isAnswer: option.isCorrect })),
+      };
+    }
+    else if (selectedQuestionType === "freeText") {
+      body = {
+        questionData:{
+          QuestionTypeId:1,
+          questionText: getHtmlFromEditorState(editorState),
+          correctFeedback,
+          incorrectFeedback,
+          parentCategory,
+          subCategory,
+          points
+        },
+        options: freeText.map((value:any)=> { 
+          return { correctAnswer: value.text }
+        })
+    }
+  }
+    else if (selectedQuestionType === "grammar") {
+      body = {
+        questionData:{
+        QuestionTypeId:1,
+        questionText: grammarText,
+        correctFeedback,
+        incorrectFeedback,
+        parentCategory,
+        subCategory,
+        points
+      },
+        options:[{correctAnswer: grammarCorrect }], 
+      };
+    }
+    else if (selectedQuestionType === "essay") {
+      body = {
+        questionData:{
+          QuestionTypeId:1,
+          questionText: getHtmlFromEditorState(editorState),
+        correctFeedback,
+        incorrectFeedback,
+        parentCategory,
+        subCategory,
+        points
+      },
+      };
+    }
+    else if (selectedQuestionType === "matching") {
+      body = {
+        questionData:{
+        QuestionTypeId:1,
+        questionText: getHtmlFromEditorState(editorState),
+        correctFeedback,
+        incorrectFeedback,
+        parentCategory,
+        subCategory,
+        points
+      },
+      matchingOptions: correctPairs.map((value:any)=> {
+        return { clueText: getHtmlFromEditorState(value.clue), matchText: value.match }
+      }),
+      incorrectOptions: incorrectPairs.map((value)=>{
+        return {incorrectMatchText: value}
+      })
+
+    }
+    }
+  
+
+    
+    try{
+      const data =await createQuestion(body);
+  
+      console.log(data)
+      if(data.code == 201){
+       alert("Question created successfully")
+      }else{
+        alert("Invalid credentials")
+      }
+
+
+
+
+    } catch (error) {
+      console.error("Login failed", error);
+      // TODO: Handle error (e.g., show error message to user)
+    } finally {
+      setLoading(false); // End loading
+    }
+
+
+
+    setShowPreview(true);
+  };
+
+
+  // Matching:
+
+  //  {
+  //                   "questionData": {
+  //                       "questionText": "What is the capital of France?",
+  //                       "QuestionTypeId": 1,
+  //                        "points": 5,
+  //                        "isArchive": false,
+  //                        correctFeedback, 
+  //                        incorrectFeedback, 
+  //                        teacherFeedback
+  //                        gracePoints
+  //                   },
+  //                   isRandomize: true,
+  //                   answerSelection: 'radio' 
+  //                   "matchingOptions": [
+  //                       { "clueText": "Paris", "matchText": "Berlin", "matchPoints": 1 },
+  //                       { "clueText": "London", "matchText": "Paris", "matchPoints": 1 },
+  //                       { "clueText": "Berlin", "matchText": "Berlin", "matchPoints": 1 }
+  //                   ]
+  //                   "incorrectOptions": [
+  //                       { "incorrectMatchText": "Paris" },
+  //                       { "incorrectMatchText": "London" },
+  //                       { "incorrectMatchText": "Berlin" }
+  //                   ]
+  //               }
+
 
 
   const onEditorStateChange = (editorState: any) => {
@@ -839,7 +998,7 @@ const Test = () => {
 
         <div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
           <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>{!showPreview ? "Preview" : "Edit"}</button>
-          <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
+          <button onClick={()=>handleSubmit()} className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
           <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">
             Save and add more
           </button>
