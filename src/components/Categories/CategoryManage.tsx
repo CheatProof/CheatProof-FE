@@ -34,7 +34,7 @@ const CategoryManage: React.FC = () => {
     } else if (tabValue === 1 && newParentCategoryName) {
 
 
-      const newParentCategory = { name: newParentCategoryName };
+      const newParentCategory = { parentCategoryName: newParentCategoryName };
       const data = await createParentCategory(newParentCategory);
       if (data.code === 201) {
         setParentCategories([...parentCategories, data.data]);
@@ -127,7 +127,7 @@ const CategoryManage: React.FC = () => {
             variant="outlined"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
-            inputProps={{ maxLength: 30 }}
+            inputProps={{ maxLength: 50 }}
             helperText="Categories are used to categorize your questions."
           />
 
@@ -153,7 +153,7 @@ const CategoryManage: React.FC = () => {
             variant="outlined"
             value={newParentCategoryName}
             onChange={(e) => setNewParentCategoryName(e.target.value)}
-            inputProps={{ maxLength: 30 }}
+            inputProps={{ maxLength: 50 }}
             helperText="Parent categories are not used for questions."
           />
 

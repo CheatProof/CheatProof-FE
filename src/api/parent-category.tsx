@@ -71,8 +71,8 @@ export const deleteParentCategory = (id:any) => {
 
 
 export const createParentCategory = (body:any) => {
-    return fetch(`${baseUrl}/api/parentCategory`, {
-        method: 'GET', 
+    return fetch(`${baseUrl}/api/parentCategory/create`, {
+        method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
