@@ -50,7 +50,7 @@ export const resetPassword = (body:any) => {
 
 export const resetOTP = (body:any) => {
     return fetch(`${baseUrl}/api/auth/reset-password-otp/`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
