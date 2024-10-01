@@ -16,3 +16,14 @@ export const createQuestion = (body:any) => {
         throw error;
     });
 };
+
+export const getQuestionsByTeacherId = () => {
+    return fetch(`${baseUrl}/api/question/get/questionsByTeacher`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+   .then(response => response.json())
+}

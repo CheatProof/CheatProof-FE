@@ -34,6 +34,7 @@ export const getChildCategoryById = (id:any) => {
 
 // Create child category
 export const createChildCategory = (body:any) => {
+    console.log(`Creating child category`, body);
     return fetch(`${baseUrl}/api/category/create`, {
         method: 'POST',
         headers: {

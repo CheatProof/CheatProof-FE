@@ -66,7 +66,7 @@ export const deleteParentCategory = (id:any) => {
 };
 
 export const createParentCategory = (body:any) => {
-    return fetch(`${baseUrl}/api/parentCategory`, {
+    return fetch(`${baseUrl}/api/parentCategory/create`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

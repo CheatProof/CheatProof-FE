@@ -1,20 +1,28 @@
 
+import { useEffect, useState } from "react";
 import {
-    // ActivitiesByCountry,
-    // ActivitiesByDevices,
-    // ActivityByTime,
-    // ConversionRateBySource,
-    Sidebar,
-    // Stats,
-    // Welcome,
-    
+    Sidebar,    
   } from "../../components";
   import QuestionCard from "../../components/Question/QuestionCard";
-  // import { BarChart, LineGraph, PieChart } from "../components/chart";
-  // import { Tabs, Tab } from "../../components/Tabs";
+
 import QuestionFilter from "../../components/Question/QuestionFilter";
+import { getQuestionsByTeacherId } from "../../api/question";
 
 const QuestionBank = ()  => {
+  const [questions,setQuestions]= useState([])
+  const getQuestions = async()=>{
+    const data = await getQuestionsByTeacherId()
+    if(data.code === 200){
+      console.log(data.data)
+      setQuestions(data.data)
+    }
+  }
+  // TODO: Fetch questions from the server using the question API
+  useEffect(() => {
+    getQuestions()
+    // TODO: Use effect hook to fetch questions whenever the component mounts and updates the question state
+  },[])
+
     return (
         <>
       <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
@@ -27,10 +35,9 @@ const QuestionBank = ()  => {
             
        
        <QuestionFilter />
-        <QuestionCard question={""} correctAnswer={""} onOptionSelect={function (selOpt: string): void {
-          console.log(selOpt);
-                throw new Error("Function not implemented.");
-              } } />
+        {questions.map((question:any)=>
+          (<QuestionCard question={question}/>)
+          )}
         </div>
         </div>
         </div>

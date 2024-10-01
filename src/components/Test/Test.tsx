@@ -63,7 +63,11 @@ const Test = () => {
   const [incorrectPairs, setIncorrectPairs] = useState([{ text: "" }])
   const [correctPairs, setCorrectPairs] = useState([{ clue: EditorState.createEmpty(), match: "" }])
 
+// fetching categories data
 
+const getParentCategory = ( )=>{
+
+}
 
   const getHtmlFromEditorState = (editorState:any) => {
     const contentState = editorState.getCurrentContent();
@@ -140,6 +144,7 @@ const Test = () => {
 
         questionData:{
         QuestionTypeId:1,
+        CategoryId:1,
         questionText: getHtmlFromEditorState(editorState),
         correctFeedback,
         incorrectFeedback,
@@ -156,6 +161,7 @@ const Test = () => {
       body = {
         questionData:{
         QuestionTypeId:1,
+        CategoryId:1,
         questionText: getHtmlFromEditorState(editorState),
         correctFeedback,
         incorrectFeedback,
