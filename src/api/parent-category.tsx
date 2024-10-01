@@ -16,7 +16,7 @@ export const getAllParentCategories = () => {
     });
 };
 
-export const getParentCategoryById = (id) => {
+export const getParentCategoryById = (id:any) => {
     return fetch(`${baseUrl}/api/parentCategory/${id}`, {
         method: 'GET',
         headers: {
@@ -32,7 +32,7 @@ export const getParentCategoryById = (id) => {
     });
 };
 
-export const updateParentCategory = (id, body) => {
+export const updateParentCategory = (id:any, body:any) => {
     return fetch(`${baseUrl}/api/parentCategory/update/${id}`, {
         method: 'PATCH',
         headers: {
@@ -49,7 +49,7 @@ export const updateParentCategory = (id, body) => {
     });
 };
 
-export const deleteParentCategory = (id) => {
+export const deleteParentCategory = (id:any) => {
     return fetch(`${baseUrl}/api/parentCategory/delete/${id}`, {
         method: 'DELETE',
         headers: {
@@ -65,9 +65,9 @@ export const deleteParentCategory = (id) => {
     });
 };
 
-export const createParentCategory = (body) => {
-    return fetch(`${baseUrl}/api/parentCategory`, {
-        method: 'GET',
+export const createParentCategory = (body:any) => {
+    return fetch(`${baseUrl}/api/parentCategory/create`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,

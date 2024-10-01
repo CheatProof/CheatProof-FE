@@ -16,10 +16,11 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { getAllParentCategories ,createParentCategory} from '../../api/parent-category';
+import { createChildCategory } from "../../api/child-category";
 
 const CategoryManage: React.FC = () => {
   const [categoryName, setCategoryName] = useState('');
-  const [parentCategory, setParentCategory] = useState('');
+  const [parentCategory, setParentCategory] = useState(0);
   const [parentCategories, setParentCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
@@ -27,14 +28,19 @@ const CategoryManage: React.FC = () => {
 
   const handleAddCategory = async() => {
     if (tabValue === 0 && categoryName) {
-      const newCategory = { name: categoryName, parent: parentCategory, questions: 0 };
-      console.log("New category added:", newCategory);
-      setCategoryName('');
-      setParentCategory('');
+      const newCategory = { categoryName: categoryName, parentCategoryId:parentCategory };
+      const data = await createChildCategory(newCategory);
+      console.log(data);
+      if (data.message === "Category created successfully") {
+        console.log("New category added:", newCategory);
+        setCategoryName('');
+        setParentCategory(0);
+      } 
+      
     } else if (tabValue === 1 && newParentCategoryName) {
 
 
-      const newParentCategory = { name: newParentCategoryName };
+      const newParentCategory = { parentCategoryName: newParentCategoryName };
       const data = await createParentCategory(newParentCategory);
       if (data.code === 201) {
         setParentCategories([...parentCategories, data.data]);
@@ -51,7 +57,7 @@ const CategoryManage: React.FC = () => {
     console.log(event)
     setTabValue(newValue);
     setCategoryName('');
-    setParentCategory('');
+    setParentCategory(0);
     setNewParentCategoryName('');
   };
 
@@ -99,11 +105,11 @@ const CategoryManage: React.FC = () => {
             <InputLabel>Parent Category</InputLabel>
             <Select
               value={parentCategory}
-              onChange={(e) => setParentCategory(e.target.value)}
+              onChange={(e) => setParentCategory(Number(e.target.value))}
               label="Select Parent Category"
               disabled={isLoading}
             >
-              <MenuItem value="0">Select Category</MenuItem>
+              <MenuItem value={0}>Select Category</MenuItem>
               {isLoading ? (
                 <MenuItem disabled>
                   <CircularProgress size={24} />
@@ -127,7 +133,7 @@ const CategoryManage: React.FC = () => {
             variant="outlined"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
-            inputProps={{ maxLength: 30 }}
+            inputProps={{ maxLength: 50 }}
             helperText="Categories are used to categorize your questions."
           />
 
@@ -153,7 +159,7 @@ const CategoryManage: React.FC = () => {
             variant="outlined"
             value={newParentCategoryName}
             onChange={(e) => setNewParentCategoryName(e.target.value)}
-            inputProps={{ maxLength: 30 }}
+            inputProps={{ maxLength: 50 }}
             helperText="Parent categories are not used for questions."
           />
 

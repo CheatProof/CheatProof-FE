@@ -6,9 +6,11 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { Modal, Typography, Box, Tooltip, IconButton } from '@mui/material';
 import { IoMdClose } from "react-icons/io";
 import { FaCaretDown } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 
 const QuestionFilter: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<string>('active');
   const [openModal, setOpenModal] = useState(false); // For Modal
 
@@ -183,7 +185,7 @@ const handleMouseLeaveAddQuestion = () => {
         </Typography>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg"
-          onClick={() => alert('Create new test')}
+          onClick={() => navigate('/createQuestion')}
         >
           Create new Test
         </button>
@@ -196,7 +198,7 @@ const handleMouseLeaveAddQuestion = () => {
         </Typography>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg"
-          onClick={() => alert('Add to Question Bank')}
+          onClick={() => navigate('/createQuestion')}
         >
           Add to Question Bank
         </button>
