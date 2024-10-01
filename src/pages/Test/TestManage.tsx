@@ -8,11 +8,11 @@ const TestManage: React.FC = () => {
   const [category, setCategory] = React.useState('All');
   const [sortBy, setSortBy] = React.useState('Alphabetical');
 
-  const handleCategoryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleCategoryChange = (event: any) => {
     setCategory(event.target.value as string);
   };
 
-  const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleSortChange = (event: any) => {
     setSortBy(event.target.value as string);
   };
 

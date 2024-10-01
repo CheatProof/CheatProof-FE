@@ -12,11 +12,12 @@ const Settings: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState(0);
 
-  const toggleSetting = (setting: string) => {
-    setOpenSettings((prev) => ({ ...prev, [setting]: !prev[setting] }));
+  const toggleSetting = (setting: any) => {
+    setOpenSettings((prev:any) => ({ ...prev, [setting]: !prev[setting] }));
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(event);
     setActiveTab(newValue);
   };
 

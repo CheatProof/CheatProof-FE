@@ -1,6 +1,6 @@
 import { baseUrl } from "../env/Env";
 
-export const createQuestion = (body) => {
+export const createQuestion = (body:any) => {
     return fetch(`${baseUrl}/api/question/new`, {
         method: 'POST',
         headers: {

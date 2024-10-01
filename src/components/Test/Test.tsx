@@ -1,26 +1,21 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import multipleChoice from "../../assets/icon-multimedia-grey.png";
 import falseTrue from "../../assets/icon-truefalse-grey.png";
 import matching from "../../assets/icon-matching-grey.png";
 import freeTex from "../../assets/icon-freetext-grey.png";
 import Grammar from "../../assets/icon-grammar-grey.png";
 import Essay from "../../assets/icon-essay-grey.png";
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {  convertToRaw} from 'draft-js';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import draftToHtml from 'draftjs-to-html';
-
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import PreviewQuestion from "../../pages/PreviewQuestion";
 import {createQuestion} from '../../api/question';
 
 
@@ -31,7 +26,7 @@ import FreeTextCard from "../PreviewCards/FreeTextCard";
 import GrammarCard from "../PreviewCards/GrammarCard";
 import EssayCard from "../PreviewCards/EssayCard";
 import MatchingCard from "../PreviewCards/MatchingCard";
-import { useLocation } from "react-router-dom";
+
 
 
 const Test = () => {
@@ -100,7 +95,7 @@ const Test = () => {
         });
         
        
-        return <TrueFalseCard question={getHtmlFromEditorState(editorState)}  options={convertedTrueFalseOption} answerSelection={answerSelection}  />;
+        return <TrueFalseCard question={getHtmlFromEditorState(editorState)}  options={convertedTrueFalseOption}   />;
        
       
       case "freeText":
@@ -111,15 +106,25 @@ const Test = () => {
           };
         });
          
-        return <FreeTextCard question={getHtmlFromEditorState(editorState)}  options={freeTextOption} answerSelection={answerSelection} />;
+        return <FreeTextCard question={getHtmlFromEditorState(editorState)}  options={freeTextOption}  />;
         
       case "grammar":
         return <GrammarCard  question={grammarText} correctAnswer={grammarCorrect} />;
       case "essay":
         return <EssayCard question={getHtmlFromEditorState(editorState)}/>;
       case "matching":
+        const convertedOptions = correctPairs.map((p):any =>{
+          return{
+
+     
+            clue: getHtmlFromEditorState(p.clue),
+            match: p.match
+    
+          }
+        }
+        );
         return <MatchingCard question={getHtmlFromEditorState(editorState)}
-        correctPairs={correctPairs} 
+        correctPairs={convertedOptions} 
         incorrectPairs={incorrectPairs}/>;
       default:
         return <div>No question type selected</div>;
@@ -328,11 +333,11 @@ const Test = () => {
   };
 
   const handlefreeTextOptionDelete = (index: number) => {
-    setfreeTextAnswers(freeText.filter((option, idx) => { return idx !== index }));
+    setfreeTextAnswers(freeText.filter((option, idx) => { option;return idx !== index }));
   };
 
   const handleIncorrectPairDelete = (index: number) => {
-    setIncorrectPairs(incorrectPairs.filter((option, idx) => { return idx !== index }));
+    setIncorrectPairs(incorrectPairs.filter((option, idx) => { option;return idx !== index }));
   };
 
   const handleCorrectPairDelete = (index: number) => {
@@ -343,7 +348,7 @@ const Test = () => {
 
   const handleOptionDelete = (index: number) => {
 
-    setOptions(options.filter((option, idx) => { return idx !== index }));
+    setOptions(options.filter((option, idx) => {option; return idx !== index }));
   };
 
 
@@ -400,6 +405,7 @@ const Test = () => {
 
   return (
     <>
+    {loading && <>loading</>}
       <div className="min-h-screen bg-gray-100 p-8">
         {!showPreview ? (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
           Tests {">"} Question Bank {">"} Add New Questions

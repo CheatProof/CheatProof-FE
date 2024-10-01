@@ -7,7 +7,7 @@ import {
   TextAreaInput,
   WhiteButton,
 } from "../components";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 const EditOrder = () => {
 
@@ -45,7 +45,7 @@ const EditOrder = () => {
                 </span>
               </button>
               <WhiteButton
-                link="/orders/add-order"
+                 disabled={false}
                 textSize="lg"
                 width="48"
                 py="2"
@@ -157,7 +157,7 @@ const EditOrder = () => {
                     />
                   </InputWithLabel>
                   <WhiteButton
-                    link="/orders/add-order"
+                     disabled={false}
                     textSize="lg"
                     width="full"
                     py="2"

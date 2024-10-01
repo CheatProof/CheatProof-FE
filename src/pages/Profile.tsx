@@ -1,4 +1,4 @@
-import { HiOutlineSave, HiOutlineUpload, HiOutlineUser } from "react-icons/hi";
+import { HiOutlineSave, HiOutlineUpload} from "react-icons/hi";
 import { InputWithLabel, Sidebar, SimpleInput, WhiteButton } from "../components";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ const Profile = () => {
             </div>
             {/* Profile update button or any other action */}
             <WhiteButton
-                link="/profile"
+                disabled={false}
                 textSize="lg"
                 width="48"
                 py="2"

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Sidebar } from '../../components';
 import TestDetails from '../../components/GroupTest/GroupTestCreation';
 

@@ -1,10 +1,12 @@
 import { baseUrl } from "../env/Env";
 
-export const getAllChildCategories = () => {
-    return fetch(`${baseUrl}/api/category`, {
+
+export const getAllParentCategories = () => {
+    return fetch(`${baseUrl}/api/parentCategory`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
     })
     .then(response => response.json())
@@ -15,12 +17,13 @@ export const getAllChildCategories = () => {
     });
 };
 
-// Get child category by ID
-export const getChildCategoryById = (id) => {
-    return fetch(`${baseUrl}/api/category/${id}`, {
+
+export const getParentCategoryById = (id:any) => {
+    return fetch(`${baseUrl}/api/parentCategory/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
     })
     .then(response => response.json())
@@ -31,29 +34,13 @@ export const getChildCategoryById = (id) => {
     });
 };
 
-// Create child category
-export const createChildCategory = (body) => {
-    return fetch(`${baseUrl}/api/category/create`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-    })
-    .then(response => response.json())
-    .then(data => data)
-    .catch(error => {
-        console.error('Error:', error);
-        throw error;
-    });
-};
 
-
-export const updateChildCategory = (id, body) => {
-    return fetch(`${baseUrl}/api/category/update/${id}`, {
+export const updateParentCategory = (id:any, body:any) => {
+    return fetch(`${baseUrl}/api/parentCategory/update/${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(body),
     })
@@ -65,13 +52,32 @@ export const updateChildCategory = (id, body) => {
     });
 };
 
-// Delete child category
-export const deleteChildCategory = (id) => {
-    return fetch(`${baseUrl}/api/category/delete/${id}`, {
+
+export const deleteParentCategory = (id:any) => {
+    return fetch(`${baseUrl}/api/parentCategory/delete/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};
+
+
+export const createParentCategory = (body:any) => {
+    return fetch(`${baseUrl}/api/parentCategory`, {
+        method: 'GET', 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(body),  
     })
     .then(response => response.json())
     .then(data => data)

@@ -89,6 +89,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, options, correctA
   const [selOpt, setSelOpt] = useState<string | null>(null); 
 
   const handleOptionClick = (opt: string) => {
+    console.log(selOpt)
     setSelOpt(opt);
     onOptionSelect(opt);
   };

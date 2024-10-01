@@ -74,7 +74,7 @@ import React, { useState } from "react";
 interface MCQPreviewCardProps {
   question: string;
   options: { text: string; isCorrect: boolean }[];
-  answerSelection: "radio" | "checkbox";
+  answerSelection: string;
 }
 
 const MCQPreviewCard: React.FC<MCQPreviewCardProps> = ({ question, options, answerSelection }) => {

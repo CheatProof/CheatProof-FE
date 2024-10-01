@@ -14,7 +14,7 @@ const Notifications = () => {
               </h2>
             </div>
             <WhiteButton
-                link="/notifications"
+                 disabled={false}
                 textSize="lg"
                 width="48"
                 py="2"

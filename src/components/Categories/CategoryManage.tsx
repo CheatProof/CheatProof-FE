@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,81 +9,121 @@ import {
   InputLabel,
   Typography,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   Divider,
   Tabs,
   Tab,
+  CircularProgress,
 } from "@mui/material";
-
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { getAllParentCategories ,createParentCategory} from '../../api/parent-category';
 
 const CategoryManage: React.FC = () => {
   const [categoryName, setCategoryName] = useState('');
   const [parentCategory, setParentCategory] = useState('');
-  const [categories, setCategories] = useState([
-    { name: "Generic (default)", parent: "Generic Parent (default)", questions: 51 },
-  ]);
+  const [parentCategories, setParentCategories] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
+  const [newParentCategoryName, setNewParentCategoryName] = useState('');
 
-  const handleAddCategory = () => {
-    if (categoryName) {
+  const handleAddCategory = async() => {
+    if (tabValue === 0 && categoryName) {
       const newCategory = { name: categoryName, parent: parentCategory, questions: 0 };
-      setCategories([...categories, newCategory]);
+      console.log("New category added:", newCategory);
       setCategoryName('');
+      setParentCategory('');
+    } else if (tabValue === 1 && newParentCategoryName) {
+
+
+      const newParentCategory = { name: newParentCategoryName };
+      const data = await createParentCategory(newParentCategory);
+      if (data.code === 201) {
+        setParentCategories([...parentCategories, data.data]);
+        console.log("New parent category added:", newParentCategory);
+        setNewParentCategoryName('');
+      } else {
+        console.error("Error creating parent category", data);
+      }
+
     }
   };
 
-  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(event)
     setTabValue(newValue);
-    setCategoryName(''); // Reset the category name when tab changes
+    setCategoryName('');
+    setParentCategory('');
+    setNewParentCategoryName('');
   };
+
+  const fetchAllParentCategories = async () => {
+    try {
+      const data = await getAllParentCategories();
+      if (data.code === 200 || data.code === 201) {
+        setParentCategories(data.data);
+      } else {
+        console.error("Error fetching parent categories", data);
+      }
+    } catch (error) {
+      console.error("Error fetching parent categories", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllParentCategories();
+  }, []);
 
   return (
     <Box padding={3}>
-      {/* Category Creation Form */}
+      {/* Header */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h6">Create a category</Typography>
+        <Typography variant="h6">Manage Categories</Typography>
         <IconButton>
           <CloseIcon />
         </IconButton>
       </Box>
 
-      {/* Tab for New Category and New Parent Category */}
+      {/* Tabs for switching between New Category and New Parent Category */}
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="category tabs">
-        <Tab label="New category" />
-        <Tab label="New Parent category" />
+        <Tab label="New Category" />
+        <Tab label="New Parent Category" />
       </Tabs>
 
       <Divider sx={{ my: 2 }} />
 
-      {/* Form Fields based on selected Tab */}
-      {tabValue === 0 ? (
+      {/* Tab 0: New Category Form */}
+      {tabValue === 0 && (
         <>
-          {/* New Category Tab Content */}
-          {/* Parent Category Selection */}
           <FormControl fullWidth margin="normal">
             <InputLabel>Parent Category</InputLabel>
             <Select
               value={parentCategory}
               onChange={(e) => setParentCategory(e.target.value)}
-              label="Parent Category"
+              label="Select Parent Category"
+              disabled={isLoading}
             >
-              <MenuItem value="Generic Parent (default)">Generic Parent (default)</MenuItem>
-              <MenuItem value="Other Parent">Other Parent</MenuItem>
+              <MenuItem value="0">Select Category</MenuItem>
+              {isLoading ? (
+                <MenuItem disabled>
+                  <CircularProgress size={24} />
+                </MenuItem>
+              ) : (
+                parentCategories.map((category) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.parentCategoryName}
+                  </MenuItem>
+                ))
+              )}
             </Select>
             <Typography variant="body2" color="textSecondary" mt={1}>
               Parent categories are not used for questions. They are only used to group your categories.
             </Typography>
           </FormControl>
 
-          {/* Category Name Input */}
           <TextField
             fullWidth
-            label="Name of category"
+            label="Name of Category"
             variant="outlined"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
@@ -91,39 +131,38 @@ const CategoryManage: React.FC = () => {
             helperText="Categories are used to categorize your questions."
           />
 
-          {/* Add Category Button */}
           <Box mt={2}>
             <Button
               variant="contained"
               color="error"
               onClick={handleAddCategory}
-              disabled={!categoryName}
+              disabled={!categoryName || isLoading}
             >
               Add Category
             </Button>
           </Box>
         </>
-      ) : (
+      )}
+
+      {/* Tab 1: New Parent Category Form */}
+      {tabValue === 1 && (
         <>
-          {/* New Parent Category Tab Content */}
-          {/* Parent Category Name Input */}
           <TextField
             fullWidth
-            label="Name of Parent category"
+            label="Name of Parent Category"
             variant="outlined"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
+            value={newParentCategoryName}
+            onChange={(e) => setNewParentCategoryName(e.target.value)}
             inputProps={{ maxLength: 30 }}
             helperText="Parent categories are not used for questions."
           />
 
-          {/* Add Parent Category Button */}
           <Box mt={2}>
             <Button
               variant="contained"
               color="error"
               onClick={handleAddCategory}
-              disabled={!categoryName}
+              disabled={!newParentCategoryName}
             >
               Add Parent Category
             </Button>
@@ -132,41 +171,6 @@ const CategoryManage: React.FC = () => {
       )}
 
       <Divider sx={{ my: 4 }} />
-
-      {/* Category List */}
-      {/* <Typography variant="h6" gutterBottom>
-        Categories
-      </Typography> */}
-
-      {/* <List>
-        {categories.map((category, index) => (
-          <React.Fragment key={index}>
-            <ListItem>
-              <ExpandMoreIcon sx={{ marginRight: 2 }} />
-              <ListItemText
-                primary={category.parent}
-                secondary={
-                  <Box display="flex" justifyContent="space-between">
-                    <Typography>{category.name}</Typography>
-                    <Typography>{category.questions}</Typography>
-                  </Box>
-                }
-              />
-            </ListItem>
-            <Divider />
-          </React.Fragment>
-        ))}
-      </List> */}
-
-      {/* New Category Button */}
-      {/* <Button
-        variant="contained"
-        color="error"
-        startIcon={<AddIcon />}
-        sx={{ mt: 3 }}
-      >
-        + New Category
-      </Button> */}
     </Box>
   );
 };

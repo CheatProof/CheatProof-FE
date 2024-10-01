@@ -1,6 +1,6 @@
 import { baseUrl } from "../env/Env";
 
-export const signIn = (body) => {
+export const signIn = (body:any) => {
     return fetch(`${baseUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -16,7 +16,7 @@ export const signIn = (body) => {
     });
 };
 
-export const signUp = (body) => {
+export const signUp = (body:any) => {
     return fetch(`${baseUrl}/api/auth/signup`, {
         method: 'POST',
         headers: {
@@ -32,7 +32,7 @@ export const signUp = (body) => {
     });
 };
 
-export const resetPassword = (body) => {
+export const resetPassword = (body:any) => {
     return fetch(`${baseUrl}/api/auth/reset-password`, {
         method: 'POST',
         headers: {
@@ -48,7 +48,7 @@ export const resetPassword = (body) => {
     });
 };
 
-export const resetOTP = (token, body) => {
+export const resetOTP = (body:any) => {
     return fetch(`${baseUrl}/api/auth/reset-password-otp/`, {
         method: 'PUT',
         headers: {

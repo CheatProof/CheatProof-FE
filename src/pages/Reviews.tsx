@@ -35,7 +35,7 @@ const Reviews = () => {
                 <span className="dark:text-whiteSecondary text-blackPrimary font-medium">Export</span>
               </button>
               <WhiteButton
-                link="/reviews/create-review"
+                 disabled={false}
                 text="Add a review"
                 textSize="lg"
                 py="2"

@@ -10,7 +10,6 @@ import { FaCaretDown } from "react-icons/fa";
 
 const QuestionFilter: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('active');
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); 
   const [openModal, setOpenModal] = useState(false); // For Modal
 
   const [anchorElActions, setAnchorElActions] = useState<null | HTMLElement>(null); // For "Actions" button

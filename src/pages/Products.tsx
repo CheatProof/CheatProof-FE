@@ -26,7 +26,7 @@ const Products = () => {
                 <AiOutlineExport className="dark:text-whiteSecondary text-blackPrimary text-base" />
                 <span className="dark:text-whiteSecondary text-blackPrimary font-medium">Export</span>
               </button>
-              <WhiteButton link="/products/create-product" text="Add a product" textSize="lg" py="2" width="48"><HiOutlinePlus className="dark:text-blackPrimary text-whiteSecondary" /></WhiteButton>
+              <WhiteButton disabled={false} text="Add a product" textSize="lg" py="2" width="48"><HiOutlinePlus className="dark:text-blackPrimary text-whiteSecondary" /></WhiteButton>
             </div>
           </div>
           <div className="px-4 sm:px-6 lg:px-8 flex justify-between items-center mt-5 max-sm:flex-col max-sm:gap-2">
