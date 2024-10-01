@@ -16,7 +16,7 @@ export const getAllChildCategories = () => {
 };
 
 // Get child category by ID
-export const getChildCategoryById = (id) => {
+export const getChildCategoryById = (id:any) => {
     return fetch(`${baseUrl}/api/category/${id}`, {
         method: 'GET',
         headers: {
@@ -33,7 +33,7 @@ export const getChildCategoryById = (id) => {
 };
 
 // Create child category
-export const createChildCategory = (body) => {
+export const createChildCategory = (body:any) => {
     return fetch(`${baseUrl}/api/category/create`, {
         method: 'POST',
         headers: {
@@ -50,7 +50,7 @@ export const createChildCategory = (body) => {
     });
 };
 
-export const updateChildCategory = (id, body) => {
+export const updateChildCategory = (id:any, body:any) => {
     return fetch(`${baseUrl}/api/category/update/${id}`, {
         method: 'PATCH',
         headers: {
@@ -68,7 +68,7 @@ export const updateChildCategory = (id, body) => {
 };
 
 // Delete child category
-export const deleteChildCategory = (id) => {
+export const deleteChildCategory = (id:any) => {
     return fetch(`${baseUrl}/api/category/delete/${id}`, {
         method: 'DELETE',
         headers: {
