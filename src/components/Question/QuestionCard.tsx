@@ -38,6 +38,15 @@ const QuestionCard = ({ question }: any) => {
           </button>
         ))}
       </div>
+
+      <div className="flex space-x-4 text-sm text-blue-500 ml-2">
+        {/* <button className="hover:underline">Answers</button> */}
+        <button className="hover:underline">Edit</button>
+        {/* <button className="hover:underline">Duplicate</button> */}
+        <button className="hover:underline">Archive</button>
+        <button className="hover:underline">Delete</button>
+        <button className="hover:underline">Used In</button>
+      </div>
     </div>
   );
 };
