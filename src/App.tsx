@@ -1,10 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   Categories,
-  CreateCategory,
-  CreateOrder,
-  CreateProduct,
-  CreateReview,
   CreateUser,
   EditCategory,
   EditOrder,
@@ -30,7 +26,6 @@ import CreateTestManual from "./pages/Test/CreateTestManual";
 import TestManage from "./pages/Test/TestManage";
 import TestDashboard from "./pages/Test/TestDashboard";
 // import MCQCard from "./components/PreviewCards/MCQCard";
-import PreviewQuestion from "./pages/PreviewQuestion";
 import GroupTestMange from "./pages/GroupTest/GroupTestManage";
 
 const router = createBrowserRouter([
@@ -85,19 +80,13 @@ const router = createBrowserRouter([
         path: "/products",
         element: <Products />,
       },
-      {
-        path: "/products/create-product",
-        element: <CreateProduct />,
-      },
+     
       {
         path: "/products/:id",
         element: <EditProduct />,
       },
 
-      {
-        path: "/categories/create-category",
-        element: <CreateCategory />,
-      },
+     
       {
         path: "/categories/:id",
         element: <EditCategory />,
@@ -105,10 +94,6 @@ const router = createBrowserRouter([
       {
         path: "/orders",
         element: <Orders />,
-      },
-      {
-        path: "/orders/create-order",
-        element: <CreateOrder />,
       },
       {
         path: "/orders/1",
@@ -122,10 +107,7 @@ const router = createBrowserRouter([
         path: "/reviews/:id",
         element: <EditReview />,
       },
-      {
-        path: "/reviews/create-review",
-        element: <CreateReview />,
-      },
+    
       {
         path: "/users",
         element: <Users />,
@@ -152,10 +134,6 @@ const router = createBrowserRouter([
       },
 
 
-      {
-        path: "/preview",
-        element: <PreviewQuestion />,
-      },
     ],
     
   },

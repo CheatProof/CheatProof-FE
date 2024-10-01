@@ -30,7 +30,7 @@ const CreateUser = () => {
                 </span>
               </button>
               <WhiteButton
-                link="/users/create-user"
+                disabled={false}
                 textSize="lg"
                 width="48"
                 py="2"

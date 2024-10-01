@@ -36,7 +36,7 @@ const EditReview = () => {
                 </span>
               </button>
               <WhiteButton
-                link="/reviews"
+                 disabled={false}
                 textSize="lg"
                 width="48"
                 py="2"

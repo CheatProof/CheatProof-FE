@@ -35,7 +35,7 @@ const Users = () => {
                 <span className="dark:text-whiteSecondary text-blackPrimary font-medium">Export</span>
               </button>
               <WhiteButton
-                link="/users/create-user"
+                 disabled={false}
                 text="Add a user"
                 textSize="lg"
                 py="2"

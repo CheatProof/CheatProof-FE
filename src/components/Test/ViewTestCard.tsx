@@ -5,7 +5,7 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import { Card, CardContent, Typography, Box, Grid, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ViewTest: React.FC<{ item: any }> = ({ item }) => {
+const ViewTest: React.FC = ({ item }:any) => {
   const navigate = useNavigate();
   console.log(item);
 

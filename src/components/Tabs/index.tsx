@@ -2,10 +2,10 @@ import React, { ReactNode, useState } from "react";
 
 // Define types for Tab props and Tabs component props
 interface TabProps {
-  children: ReactNode;
+  children: any;
   activeTab: number;
   currentTab: number;
-  setActiveTab: (tabIndex: number) => void;
+  setActiveTab: any;
 }
 
 interface TabsProps {
@@ -24,8 +24,8 @@ export function Tabs({ children }: TabsProps) {
     }, 0);
   }
 
-  function tabValidator(tab: React.ReactElement): boolean {
-    return tab.type.displayName === "Tab";
+  function tabValidator(tab: any): boolean {
+    return tab.type?.displayName === "Tab";
   }
 
   // State to track active tab
@@ -34,7 +34,7 @@ export function Tabs({ children }: TabsProps) {
   return (
     <>
       <div className="flex dark:border-blackSecondary border-blackSecondary/35 dark:bg-blackPrimary bg-whiteSecondary border-b-[0.05rem]">
-        {children.map((item, i) => (
+        {children.map((item:any, i) => (
           <React.Fragment key={`tab-${i}`}>
             {tabValidator(item) && (
               <Tab
@@ -42,7 +42,7 @@ export function Tabs({ children }: TabsProps) {
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
               >
-                {item.props.children}
+                {item.props?.children}
               </Tab>
             )}
           </React.Fragment>

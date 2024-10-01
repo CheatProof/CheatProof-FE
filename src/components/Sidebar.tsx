@@ -1,24 +1,9 @@
-// *********************
-// Role of the component: Sidebar component that displays the sidebar navigation
-// Name of the component: Sidebar.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <Sidebar />
-// Input parameters: roles: no input parameters
-// Output: Sidebar component that displays the sidebar navigation
-// *********************
-
 import { HiLogin, HiOutlineHome, HiUserGroup, HiDocumentText, HiLink, HiOutlineUserGroup } from "react-icons/hi";
-import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
-import { HiOutlineTag } from "react-icons/hi";
-import { HiOutlineTruck } from "react-icons/hi";
-import { HiOutlineStar } from "react-icons/hi";
 import { HiOutlineInformationCircle } from "react-icons/hi";
-import { HiOutlineChat } from "react-icons/hi";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { HiOutlineX } from "react-icons/hi";
 import { setSidebar } from "../features/dashboard/dashboardSlice";
-import { HiOutlineUser } from "react-icons/hi";
+
 import { MdVerifiedUser } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
@@ -65,7 +50,7 @@ const Sidebar = () => {
 
           <div
             onClick={() => setIsLandingOpen(() => !isLandingOpen)}
-            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
             <HiDocumentText className="text-lg" />
             <span className="text-md font-semibold">Test</span>
@@ -96,7 +81,7 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to="/landing-v2"
+                to="/categories"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -161,7 +146,7 @@ const Sidebar = () => {
 
              <div
             onClick={() => setIsLinksOpen(() => !isLinksOpen)}
-            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
             <HiLink className="text-lg" />
             <span className="text-md font-semibold">Links</span>
@@ -240,7 +225,7 @@ const Sidebar = () => {
 
 <div
             onClick={() => setIsGroupsOpen(() => !isGroupsOpen)}
-            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
             <HiOutlineUserGroup className="text-lg" />
             <span className="text-md font-semibold">Groups</span>
@@ -319,7 +304,7 @@ const Sidebar = () => {
 
           <div
             onClick={() => setIsAuthOpen(() => !isAuthOpen)}
-            className="block flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
           >
             <MdVerifiedUser className="text-lg" />
             <span className="text-md font-semibold">Auth</span>
