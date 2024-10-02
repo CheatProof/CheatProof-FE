@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import multipleChoice from "../../assets/icon-multimedia-grey.png";
 import falseTrue from "../../assets/icon-truefalse-grey.png";
 import matching from "../../assets/icon-matching-grey.png";
@@ -8,7 +8,7 @@ import Essay from "../../assets/icon-essay-grey.png";
 import { EditorState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import {  convertToRaw} from 'draft-js';
+import { convertToRaw } from 'draft-js';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import draftToHtml from 'draftjs-to-html';
@@ -16,7 +16,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import {createQuestion} from '../../api/question';
+import { createQuestion, getQuestionTypes } from '../../api/question';
 
 
 
@@ -37,6 +37,7 @@ const Test = () => {
   const [incorrectFeedback, setIncorrectFeedback] = useState('');
   const [parentCategory, setParentCategory] = useState("Generic Parent (default)");
   const [subCategory, setSubCategory] = useState("Generic (default)");
+  const [questionTypes, setQuestionTypes] = useState([]);
   const [points, setPoints] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -63,13 +64,34 @@ const Test = () => {
   const [incorrectPairs, setIncorrectPairs] = useState([{ text: "" }])
   const [correctPairs, setCorrectPairs] = useState([{ clue: EditorState.createEmpty(), match: "" }])
 
-// fetching categories data
+  // fetching categories data
 
-const getParentCategory = ( )=>{
+  const getParentCategory = () => {
 
-}
+  }
 
-  const getHtmlFromEditorState = (editorState:any) => {
+  const fetchQuestionType = async () => {
+    setLoading(true);
+
+    try {
+      const data = await getQuestionTypes();
+
+      if (data.code === 200) {
+        console.log("Question types fetched successfully", data.data);
+        setQuestionTypes(data.data);
+        console.log(questionTypes);
+      } else {
+        console.log("Error fetching question types");
+      }
+    } catch (e) {
+      console.error("Error fetching question types", e);
+    } finally {
+      setLoading(false);
+    }
+
+  }
+
+  const getHtmlFromEditorState = (editorState: any) => {
     const contentState = editorState.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
     return draftToHtml(rawContentState);
@@ -88,8 +110,8 @@ const getParentCategory = ( )=>{
             isCorrect: option.isCorrect
           };
         });
-         
-        return <MCQCard question={getHtmlFromEditorState(editorState)}  options={convertedOption} answerSelection={answerSelection} />;
+
+        return <MCQCard question={getHtmlFromEditorState(editorState)} options={convertedOption} answerSelection={answerSelection} />;
       case "trueFalse":
         const convertedTrueFalseOption = trueFalseOption.map((option: any) => {
           return {
@@ -97,11 +119,11 @@ const getParentCategory = ( )=>{
             isCorrect: option.isCorrect
           };
         });
-        
-       
-        return <TrueFalseCard question={getHtmlFromEditorState(editorState)}  options={convertedTrueFalseOption}   />;
-       
-      
+
+
+        return <TrueFalseCard question={getHtmlFromEditorState(editorState)} options={convertedTrueFalseOption} />;
+
+
       case "freeText":
         const freeTextOption = freeText.map((option: any) => {
           return {
@@ -109,73 +131,42 @@ const getParentCategory = ( )=>{
             isCorrect: option.isCorrect
           };
         });
-         
-        return <FreeTextCard question={getHtmlFromEditorState(editorState)}  options={freeTextOption}  />;
-        
-      case "grammar":
-        return <GrammarCard  question={grammarText} correctAnswer={grammarCorrect} />;
-      case "essay":
-        return <EssayCard question={getHtmlFromEditorState(editorState)}/>;
-      case "matching":
-        const convertedOptions = correctPairs.map((p):any =>{
-          return{
 
-     
+        return <FreeTextCard question={getHtmlFromEditorState(editorState)} options={freeTextOption} />;
+
+      case "grammar":
+        return <GrammarCard question={grammarText} correctAnswer={grammarCorrect} />;
+      case "essay":
+        return <EssayCard question={getHtmlFromEditorState(editorState)} />;
+      case "matching":
+        const convertedOptions = correctPairs.map((p): any => {
+          return {
+
+
             clue: getHtmlFromEditorState(p.clue),
             match: p.match
-    
+
           }
         }
         );
         return <MatchingCard question={getHtmlFromEditorState(editorState)}
-        correctPairs={convertedOptions} 
-        incorrectPairs={incorrectPairs}/>;
+          correctPairs={convertedOptions}
+          incorrectPairs={incorrectPairs} />;
       default:
         return <div>No question type selected</div>;
     }
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     setLoading(true);
     var body;
 
     if (selectedQuestionType === "multipleChoice") {
       body = {
 
-        questionData:{
-        QuestionTypeId:1,
-        CategoryId:1,
-        questionText: getHtmlFromEditorState(editorState),
-        correctFeedback,
-        incorrectFeedback,
-        parentCategory,
-        subCategory,
-        points
-      },
-        options: options.map((option: any) => ({ optionText: getHtmlFromEditorState(option.text), isAnswer: option.isCorrect })),
-        answerSelection:answerSelection,
-        isRandomize:randomizeAnswers,
-      };
-    }
-    else if (selectedQuestionType === "trueFalse") {
-      body = {
-        questionData:{
-        QuestionTypeId:1,
-        CategoryId:1,
-        questionText: getHtmlFromEditorState(editorState),
-        correctFeedback,
-        incorrectFeedback,
-        parentCategory,
-        subCategory,
-        points
-      },
-      options: trueFalseOption.map((option: any) => ({ text: option.text, isAnswer: option.isCorrect })),
-      };
-    }
-    else if (selectedQuestionType === "freeText") {
-      body = {
-        questionData:{
-          QuestionTypeId:1,
+        questionData: {
+          QuestionTypeId: 1,
+          CategoryId: 1,
           questionText: getHtmlFromEditorState(editorState),
           correctFeedback,
           incorrectFeedback,
@@ -183,68 +174,99 @@ const getParentCategory = ( )=>{
           subCategory,
           points
         },
-        options: freeText.map((value:any)=> { 
+        options: options.map((option: any) => ({ optionText: getHtmlFromEditorState(option.text), isAnswer: option.isCorrect })),
+        answerSelection: answerSelection,
+        isRandomize: randomizeAnswers,
+      };
+    }
+    else if (selectedQuestionType === "trueFalse") {
+      body = {
+        questionData: {
+          QuestionTypeId: 2,
+          CategoryId: 1,
+          questionText: getHtmlFromEditorState(editorState),
+          correctFeedback,
+          incorrectFeedback,
+          parentCategory,
+          subCategory,
+          points
+        },
+        options: trueFalseOption.map((option: any) => ({ optionText: option.text, isAnswer: option.isCorrect })),
+      };
+    }
+    else if (selectedQuestionType === "freeText") {
+      body = {
+        questionData: {
+          QuestionTypeId: 1,
+          questionText: getHtmlFromEditorState(editorState),
+          correctFeedback,
+          incorrectFeedback,
+          parentCategory,
+          subCategory,
+          points
+        },
+        options: freeText.map((value: any) => {
           return { correctAnswer: value.text }
         })
+      }
     }
-  }
     else if (selectedQuestionType === "grammar") {
       body = {
-        questionData:{
-        QuestionTypeId:1,
-        questionText: grammarText,
-        correctFeedback,
-        incorrectFeedback,
-        parentCategory,
-        subCategory,
-        points
-      },
-        options:[{correctAnswer: grammarCorrect }], 
+        questionData: {
+          QuestionTypeId: 1,
+          questionText: grammarText,
+          correctFeedback,
+          incorrectFeedback,
+          parentCategory,
+          subCategory,
+          points
+        },
+        options: [{ correctAnswer: grammarCorrect }],
       };
     }
     else if (selectedQuestionType === "essay") {
       body = {
-        questionData:{
-          QuestionTypeId:1,
+        questionData: {
+          QuestionTypeId: 1,
           questionText: getHtmlFromEditorState(editorState),
-        correctFeedback,
-        incorrectFeedback,
-        parentCategory,
-        subCategory,
-        points
-      },
+          correctFeedback,
+          incorrectFeedback,
+          parentCategory,
+          subCategory,
+          points
+        },
       };
     }
     else if (selectedQuestionType === "matching") {
       body = {
-        questionData:{
-        QuestionTypeId:1,
-        questionText: getHtmlFromEditorState(editorState),
-        correctFeedback,
-        incorrectFeedback,
-        parentCategory,
-        subCategory,
-        points
-      },
-      matchingOptions: correctPairs.map((value:any)=> {
-        return { clueText: getHtmlFromEditorState(value.clue), matchText: value.match }
-      }),
-      incorrectOptions: incorrectPairs.map((value)=>{
-        return {incorrectMatchText: value}
-      })
+        questionData: {
+          QuestionTypeId: 1,
+          questionText: getHtmlFromEditorState(editorState),
+          correctFeedback,
+          incorrectFeedback,
+          parentCategory,
+          subCategory,
+          points
+        },
+        matchingOptions: correctPairs.map((value: any) => {
+          return { clueText: getHtmlFromEditorState(value.clue), matchText: value.match }
+        }),
+        incorrectOptions: incorrectPairs.map((value) => {
+          return { incorrectMatchText: value }
+        })
 
+      }
     }
-    }
-  
 
-    
-    try{
-      const data =await createQuestion(body);
-  
+
+
+    try {
+      const data = await createQuestion(body);
+
       console.log(data)
-      if(data.code == 201){
-       alert("Question created successfully")
-      }else{
+      if (data.code == 201) {
+        alert("Question created successfully")
+      } else {
         alert("Invalid credentials")
       }
 
@@ -262,6 +284,10 @@ const getParentCategory = ( )=>{
 
     setShowPreview(true);
   };
+
+  useEffect(()=>{
+    fetchQuestionType();
+  },[])
 
 
   // Matching:
@@ -331,7 +357,7 @@ const getParentCategory = ( )=>{
     setfreeTextAnswers(newOptions);
   };
 
-  
+
   const handleIncorrectPairChange = (index: number, newText: any) => {
     const newOptions = [...incorrectPairs];
     newOptions[index].text = newText;
@@ -339,11 +365,11 @@ const getParentCategory = ( )=>{
   };
 
   const handlefreeTextOptionDelete = (index: number) => {
-    setfreeTextAnswers(freeText.filter((option, idx) => { option;return idx !== index }));
+    setfreeTextAnswers(freeText.filter((option, idx) => { option; return idx !== index }));
   };
 
   const handleIncorrectPairDelete = (index: number) => {
-    setIncorrectPairs(incorrectPairs.filter((option, idx) => { option;return idx !== index }));
+    setIncorrectPairs(incorrectPairs.filter((option, idx) => { option; return idx !== index }));
   };
 
   const handleCorrectPairDelete = (index: number) => {
@@ -354,7 +380,7 @@ const getParentCategory = ( )=>{
 
   const handleOptionDelete = (index: number) => {
 
-    setOptions(options.filter((option, idx) => {option; return idx !== index }));
+    setOptions(options.filter((option, idx) => { option; return idx !== index }));
   };
 
 
@@ -411,7 +437,7 @@ const getParentCategory = ( )=>{
 
   return (
     <>
-    {loading && <>loading</>}
+      {loading && <>loading</>}
       <div className="min-h-screen bg-gray-100 p-8">
         {!showPreview ? (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
           Tests {">"} Question Bank {">"} Add New Questions
@@ -565,9 +591,9 @@ const getParentCategory = ( )=>{
                     </label>
 
                     <label className=" font-medium">Set as correct answer</label>
-                    {index === 0 || index===1 ? <span className="font-semibold px-5">(Mandatory)</span> : <FaTrashAlt onClick={() => { handleOptionDelete(index) }} className="text-lg hover:cursor-pointer mx-10" />}
+                    {index === 0 || index === 1 ? <span className="font-semibold px-5">(Mandatory)</span> : <FaTrashAlt onClick={() => { handleOptionDelete(index) }} className="text-lg hover:cursor-pointer mx-10" />}
                   </div>
-                 
+
 
                   <div className={`border ${option.isCorrect ? "border-green-500" : 'border-gray-300'} opacity-35 hover:opacity-100 duration-200`}>
                     <Editor
@@ -646,99 +672,99 @@ const getParentCategory = ( )=>{
                     {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handlefreeTextOptionDelete(index) }} className="mt-2" />}
 
                   </div>
-                // )) : selectedQuestionType === "matching" ? (
-                //   <>
+                  // )) : selectedQuestionType === "matching" ? (
+                  //   <>
 
-                //     {correctPairs.map((option, index) => (
+                  //     {correctPairs.map((option, index) => (
 
-                //       <div className="w-full flex items-center justify-between mb-4">
+                  //       <div className="w-full flex items-center justify-between mb-4">
 
-                //         <div className="w-6/12 border">
-                //           <Editor
-                //             editorState={option.clue}
-                //             toolbarClassName="toolbarClassName"
-                //             wrapperClassName="wrapperClassName"
-                //             editorClassName="editorClassName"
-                //             onEditorStateChange={(value: any) => handleClueChange(index, value)}
-                //             toolbar={{
-                //               inline: { inDropdown: true },
-                //               list: { inDropdown: true },
-                //               textAlign: { inDropdown: true },
-                //               link: { inDropdown: true },
-                //               history: { inDropdown: true },
-                //               image: {
-                //                 previewImage: true,
-                //                 uploadCallback: (file: any) => {
-                //                   return new Promise((resolve, reject) => {
-                //                     const reader = new FileReader();
-                //                     reader.onloadend = () => {
-                //                       resolve({
-                //                         data: {
-                //                           url: reader.result,
-                //                         },
-                //                       });
-                //                     };
+                  //         <div className="w-6/12 border">
+                  //           <Editor
+                  //             editorState={option.clue}
+                  //             toolbarClassName="toolbarClassName"
+                  //             wrapperClassName="wrapperClassName"
+                  //             editorClassName="editorClassName"
+                  //             onEditorStateChange={(value: any) => handleClueChange(index, value)}
+                  //             toolbar={{
+                  //               inline: { inDropdown: true },
+                  //               list: { inDropdown: true },
+                  //               textAlign: { inDropdown: true },
+                  //               link: { inDropdown: true },
+                  //               history: { inDropdown: true },
+                  //               image: {
+                  //                 previewImage: true,
+                  //                 uploadCallback: (file: any) => {
+                  //                   return new Promise((resolve, reject) => {
+                  //                     const reader = new FileReader();
+                  //                     reader.onloadend = () => {
+                  //                       resolve({
+                  //                         data: {
+                  //                           url: reader.result,
+                  //                         },
+                  //                       });
+                  //                     };
 
-                //                     reader.onerror = (reason) => reject(reason);
+                  //                     reader.onerror = (reason) => reject(reason);
 
-                //                     reader.readAsDataURL(file);
-                //                   });
-                //                 },
-                //                 alt: { present: true, mandatory: true },
-                //               },
-                //             }}
-                //           />
-                //         </div>
-                //         <div className="w-1/12 flex justify-center"><FaArrowRightArrowLeft className='w-[2rem] h-auto' /></div>
+                  //                     reader.readAsDataURL(file);
+                  //                   });
+                  //                 },
+                  //                 alt: { present: true, mandatory: true },
+                  //               },
+                  //             }}
+                  //           />
+                  //         </div>
+                  //         <div className="w-1/12 flex justify-center"><FaArrowRightArrowLeft className='w-[2rem] h-auto' /></div>
 
-                //         <div className="w-5/12">
-                //           <input
-                //             type="text"
-                //             className="border-2 border-gray-400 py-1 px-5"
-                //             value={option.match}
-                //             onChange={(e) => handleMatchChange(index, e.target.value)} />
-                //         </div>
+                  //         <div className="w-5/12">
+                  //           <input
+                  //             type="text"
+                  //             className="border-2 border-gray-400 py-1 px-5"
+                  //             value={option.match}
+                  //             onChange={(e) => handleMatchChange(index, e.target.value)} />
+                  //         </div>
 
-                //       </div>))}
-
-
-                //     <button
-
-                //       onClick={addCorrectPairs}
-                //       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                //     >
-                //       + Add another pair
-                //     </button>
-
-                //     {incorrectPairs.map((option:any, index) => (
-
-                //       <div key={index} className="mb-4 flex justify-start items-center gap-2">
-
-                //         <input
-                //           type="text"
-                //           value={option?.text}
-                //           className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${false ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
-                //           onChange={(e) => handleIncorrectPairChange(index, e.target.value)}
-                //         />
-
-                //         {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handleIncorrectPairDelete(index) }} className="mt-2" />}
-
-                //       </div>
-                //     ))}
-
-                //     <button
-
-                //       onClick={addIncorrectPairs}
-                //       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                //     >
-                //       + Add another Incorrect pair
-                //     </button>
-                //   </>
+                  //       </div>))}
 
 
+                  //     <button
 
-                // )
-                 )): selectedQuestionType === "matching" ? (
+                  //       onClick={addCorrectPairs}
+                  //       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  //     >
+                  //       + Add another pair
+                  //     </button>
+
+                  //     {incorrectPairs.map((option:any, index) => (
+
+                  //       <div key={index} className="mb-4 flex justify-start items-center gap-2">
+
+                  //         <input
+                  //           type="text"
+                  //           value={option?.text}
+                  //           className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${false ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
+                  //           onChange={(e) => handleIncorrectPairChange(index, e.target.value)}
+                  //         />
+
+                  //         {index === 0 ? <span className="mt-2">Mandatory</span> : <FaTrashAlt onClick={() => { handleIncorrectPairDelete(index) }} className="mt-2" />}
+
+                  //       </div>
+                  //     ))}
+
+                  //     <button
+
+                  //       onClick={addIncorrectPairs}
+                  //       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  //     >
+                  //       + Add another Incorrect pair
+                  //     </button>
+                  //   </>
+
+
+
+                  // )
+                )) : selectedQuestionType === "matching" ? (
                   <>
                     {correctPairs.map((option, index) => (
                       <div className="w-full flex items-center justify-between mb-4" key={index}>
@@ -767,9 +793,9 @@ const getParentCategory = ( )=>{
                                         },
                                       });
                                     };
-                
+
                                     reader.onerror = (reason) => reject(reason);
-                
+
                                     reader.readAsDataURL(file);
                                   });
                                 },
@@ -778,11 +804,11 @@ const getParentCategory = ( )=>{
                             }}
                           />
                         </div>
-                
+
                         <div className="w-1/12 flex justify-center">
                           <FaArrowRightArrowLeft className="w-[2rem] h-auto" />
                         </div>
-                
+
                         <div className="w-5/12">
                           <input
                             type="text"
@@ -791,8 +817,8 @@ const getParentCategory = ( )=>{
                             onChange={(e) => handleMatchChange(index, e.target.value)}
                           />
                         </div>
-                
-                        
+
+
                         {index >= 2 && (
                           <div className="w-1/12 flex justify-center">
                             <FaTrashAlt
@@ -803,14 +829,14 @@ const getParentCategory = ( )=>{
                         )}
                       </div>
                     ))}
-                
+
                     <button
                       onClick={addCorrectPairs}
                       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                       + Add another pair
                     </button>
-                
+
                     {/* Incorrect Pairs */}
                     {incorrectPairs.map((option: any, index) => (
                       <div key={index} className="mb-4 flex justify-start items-center gap-2">
@@ -820,8 +846,8 @@ const getParentCategory = ( )=>{
                           className={`p-2 mt-2 border border-gray-300 rounded outline-none hover:border-gray-700   ${false ? "border-2 !border-green-400" : "border-[1px] border-gray-300"}`}
                           onChange={(e) => handleIncorrectPairChange(index, e.target.value)}
                         />
-                
-                        
+
+
                         {index < 2 ? (
                           <span className="mt-2">Mandatory</span>
                         ) : (
@@ -832,7 +858,7 @@ const getParentCategory = ( )=>{
                         )}
                       </div>
                     ))}
-                
+
                     <button
                       onClick={addIncorrectPairs}
                       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -1010,7 +1036,7 @@ const getParentCategory = ( )=>{
 
         <div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
           <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>{!showPreview ? "Preview" : "Edit"}</button>
-          <button onClick={()=>handleSubmit()} className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
+          <button onClick={() => handleSubmit()} className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
           <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">
             Save and add more
           </button>

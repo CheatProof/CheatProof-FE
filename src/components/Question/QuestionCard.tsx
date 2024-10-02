@@ -20,7 +20,7 @@ const QuestionCard = ({ question }: any) => {
         <h3 dangerouslySetInnerHTML={{__html:question.questionText}} className='text-xl font-semibold mb-6 mt-6'></h3>
       </div>
       {/* Display options for multiple-choice questions, true/false, etc. */}
-      <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
+   {question.QuestionTypeId === 1   ? (<div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
         {question?.MultipleChoiceQuestions?.[0]?.MultipleChoiceOptions?.map((opt: any, idx: any) => (
           <button
             key={idx}
@@ -34,10 +34,27 @@ const QuestionCard = ({ question }: any) => {
                 <MdOutlineRadioButtonUnchecked className="text-gray-400" />
               )}
             </span>
-            <span dangerouslySetInnerHTML={{ __html:opt.optionText}}/>
+            <span className="inline-block" dangerouslySetInnerHTML={{ __html:opt.optionText}}/>
           </button>
         ))}
-      </div>
+      </div>): question.QuestionTypeId===2   ? (<div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
+        {question?.TrueFalseQuestions?.map((opt: any, idx: any) => (
+          <button
+            key={idx}
+            className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
+              ${opt.isAnswer ? 'bg-gray-100 border border-green-500' : ''}`}
+          >
+            <span className="inline-block mr-2">
+              {opt.isAnswer ? (
+                <CiCircleCheck className="text-green-500" />
+              ) : (
+                <MdOutlineRadioButtonUnchecked className="text-gray-400" />
+              )}
+            </span>
+            <span className="inline-block" dangerouslySetInnerHTML={{ __html:opt.optionText}}/>
+          </button>
+        ))}
+      </div>): (<></>)}
 
       <div className="flex space-x-4 text-sm text-blue-500 ml-2">
         {/* <button className="hover:underline">Answers</button> */}

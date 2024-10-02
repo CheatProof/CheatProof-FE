@@ -27,3 +27,22 @@ export const getQuestionsByTeacherId = () => {
     })
    .then(response => response.json())
 }
+
+
+
+export const getQuestionTypes = ()=>{
+    return fetch(`${baseUrl}/api/question/get/questionTypes`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+   .then(response => response.json())
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+
+
+}
