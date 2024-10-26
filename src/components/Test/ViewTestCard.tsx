@@ -1,18 +1,19 @@
-import React from "react";
 import testIcon from "../../assets/test.png";
 import { FcQuestions } from "react-icons/fc";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { Card, CardContent, Typography, Box, Grid, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ViewTest: React.FC = ({ item }:any) => {
+
+
+const ViewTestCard = ({ test }:any) => {
   const navigate = useNavigate();
-  console.log(item);
+  console.log(test);
 
   return (
     <Card
 
-    onClick={() => navigate("/test/1")}
+    onClick={() => navigate(`/test-dashboard/${test.id}`)}
       sx={{
         width: 300,
         borderLeft: 4,
@@ -39,17 +40,17 @@ const ViewTest: React.FC = ({ item }:any) => {
             transition: "color 0.3s",
           }}
         >
-          CNN Preparation
+          {test.testName}
         </Typography>
         <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: 2 }}>
           <Box>
             <Box display="flex" alignItems="center" mb={1}>
               <FcQuestions style={{ marginRight: "8px" }} />
-              <Typography variant="body2">50 Questions</Typography>
+              <Typography variant="body2">{test.assignedQuestionCount} Questions</Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <IoCheckmarkSharp color="green" style={{ marginRight: "8px" }} />
-              <Typography variant="body2">Total pts: 50</Typography>
+              <Typography variant="body2">Total pts: {test.totalAssignedPoints ? test.totalAssignedPoints : "0"}</Typography>
             </Box>
           </Box>
           <Avatar
@@ -64,4 +65,4 @@ const ViewTest: React.FC = ({ item }:any) => {
   );
 };
 
-export default ViewTest;
+export default ViewTestCard;

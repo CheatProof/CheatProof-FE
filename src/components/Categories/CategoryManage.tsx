@@ -20,7 +20,7 @@ import { createChildCategory } from "../../api/child-category";
 
 const CategoryManage: React.FC = () => {
   const [categoryName, setCategoryName] = useState('');
-  const [parentCategory, setParentCategory] = useState(0);
+  const [parentCategory, setParentCategory] = useState("");
   const [parentCategories, setParentCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
@@ -34,7 +34,7 @@ const CategoryManage: React.FC = () => {
       if (data.message === "Category created successfully") {
         console.log("New category added:", newCategory);
         setCategoryName('');
-        setParentCategory(0);
+        setParentCategory("");
       } 
       
     } else if (tabValue === 1 && newParentCategoryName) {
@@ -57,7 +57,7 @@ const CategoryManage: React.FC = () => {
     console.log(event)
     setTabValue(newValue);
     setCategoryName('');
-    setParentCategory(0);
+    setParentCategory("");
     setNewParentCategoryName('');
   };
 
@@ -105,7 +105,7 @@ const CategoryManage: React.FC = () => {
             <InputLabel>Parent Category</InputLabel>
             <Select
               value={parentCategory}
-              onChange={(e) => setParentCategory(Number(e.target.value))}
+              onChange={(e) => setParentCategory(e.target.value)}
               label="Select Parent Category"
               disabled={isLoading}
             >

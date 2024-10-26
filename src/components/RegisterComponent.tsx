@@ -14,7 +14,7 @@ const RegisterComponent = () => {
   const [username, setUsername] = useState("testing");
   const [firstName, setFirstName] = useState("test");
   const [lastName, setLastName] = useState("123");
-  const [roleId, setRoleId] = useState(1); // Assuming role selection is fixed for now
+  const [roleId, setRoleId] = useState("aa07d85b-aecb-47b1-858e-719fc1dcf4a8"); // Assuming role selection is fixed for now
   const [email, setEmail] = useState("test@gmail.com");
   const [password, setPassword] = useState("123456");
   const [confirmPassword, setConfirmPassword] = useState("123456");
@@ -22,7 +22,7 @@ const RegisterComponent = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    setRoleId(1);
+    setRoleId("aa07d85b-aecb-47b1-858e-719fc1dcf4a8");
     setLoading(true); // Start loading
     try {
       console.log("Registering with email: ", email, " and password: ", password);

@@ -7,14 +7,15 @@ import {
 
 import QuestionFilter from "../../components/Question/QuestionFilter";
 import { getQuestionsByTeacherId } from "../../api/question";
+import MCQTestCard from "../../components/SessionQuestionCards/MCQCard";
 
 const QuestionBank = ()  => {
   const [questions,setQuestions]= useState([])
   const getQuestions = async()=>{
     const data = await getQuestionsByTeacherId()
     if(data.code === 200){
-      console.log(data.data)
-      setQuestions(data.data)
+      console.log(data.data.questions)
+      setQuestions(data.data.questions)
     }
   }
   // TODO: Fetch questions from the server using the question API
@@ -35,9 +36,15 @@ const QuestionBank = ()  => {
             
        
        <QuestionFilter />
-        {questions.map((question:any)=>
-          (<QuestionCard question={question}/>)
+        {questions.map((question:any,idx:number)=>
+          (<QuestionCard question={question} idx={idx} />)
           )}
+
+          {
+            questions.length >0 && (
+              <MCQTestCard question={questions[1]}/>
+            )
+          }
         </div>
         </div>
         </div>

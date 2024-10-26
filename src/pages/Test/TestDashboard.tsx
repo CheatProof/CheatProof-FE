@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar } from "../../components";
 import testIcon from "../../assets/test.png";
 import { IoArrowRedoSharp } from "react-icons/io5";
@@ -8,9 +8,39 @@ import { FcStatistics } from "react-icons/fc";
 import { HiMiniDocumentDuplicate } from "react-icons/hi2";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Box, Grid, Button, Typography, IconButton, Card, CardContent, Tooltip, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@mui/material';
+import { useNavigate, useParams } from "react-router-dom";
+import { getTestById } from "../../api/test";
 
 const TestDashboard: React.FC = () => {
+
+    const {id} = useParams();
+    const navigate = useNavigate()
+
+    const [test, setTest] = useState<any>();
+    const [loading, setLoading] = useState(true);
+
+    const fetchTest=async()=>{
+        // Fetch Test Data
+        // Set test state and set loading to false
+        const testData = await getTestById(id);
+        if(testData.code === 200){
+            console.log(loading)
+            console.log(testData.data);
+            setTest(testData.data);
+            setLoading(false);
+        }
+    }
+
+    useEffect(()=>{
+        fetchTest();
+    }, [id]);
+    
+
+
+
+
     return (
+
         <Box sx={{ display: 'flex', height: 'auto', backgroundColor: 'background.paper', borderTop: 1, borderColor: 'divider' }}>
             <Sidebar />
             <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 5 }, backgroundColor: 'background.default' }}>
@@ -22,12 +52,13 @@ const TestDashboard: React.FC = () => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} display="flex" flexDirection="column" justifyContent="space-between">
                                         <Box>
-                                            <Typography variant="h5" component="h1" fontWeight="bold">
-                                                CCN Preparation
+                                            <Typography variant="h5" component="h1" fontFamily="poppins" fontWeight="bold">
+                                                {test?.testName}
                                             </Typography>
-                                            <Typography variant="body2" color="textSecondary">
-                                                Instructions and resources for CCN preparation
-                                            </Typography>
+                                           
+                                                <p dangerouslySetInnerHTML={{__html:test?.testIntroduction}}></p>
+                                              
+                                           
                                         </Box>
                                         <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
                                             <Box display="flex" gap={2}>
@@ -58,7 +89,7 @@ const TestDashboard: React.FC = () => {
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} sm={6} display="flex" flexDirection="column-reverse" className="h-full gap-y-3 justify-end" justifyContent="end" alignItems="center">
-                                        <Button variant="outlined" startIcon={<CiEdit />} >
+                                        <Button onClick={()=>navigate(`/test/test-editor/view/${id}`)} variant="outlined" startIcon={<CiEdit />} >
                                             Edit Test
                                         </Button>
                                         <Box component="img" src={testIcon} alt="test" sx={{ width: 128 }} />

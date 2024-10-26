@@ -5,7 +5,7 @@ import matching from "../../assets/icon-matching-grey.png";
 import freeTex from "../../assets/icon-freetext-grey.png";
 import Grammar from "../../assets/icon-grammar-grey.png";
 import Essay from "../../assets/icon-essay-grey.png";
-import { EditorState } from 'draft-js';
+import {  convertFromHTML, EditorState } from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToRaw } from 'draft-js';
@@ -16,10 +16,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { createQuestion, getQuestionTypes } from '../../api/question';
-
-
-
+import {  getQuestionsById, getQuestionTypes, updateQuestion } from '../../api/question';
+import {  ContentState } from 'draft-js';
 import MCQCard from "../PreviewCards/MCQCard";
 import TrueFalseCard from "../PreviewCards/TrueFalseCard";
 import FreeTextCard from "../PreviewCards/FreeTextCard";
@@ -32,14 +30,17 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const Test = () => {
+const Test = ({id}:any) => {
+
 const navigate = useNavigate()
 
-  // General
-  const [parentCategories,setParentCategories] = useState([])
-  const [childCategories,setChildCategories] = useState([])
-  const [questionTypes, setQuestionTypes] = useState([{id:"0"}]);
 
+
+  // General
+  const [parentCategories,setParentCategories] = useState<any[]>([])
+  const [childCategories,setChildCategories] = useState<any[]>([])
+  const [questionTypes, setQuestionTypes] = useState([{id:"0"}]);
+  
   
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty()); // question test
@@ -78,18 +79,75 @@ const navigate = useNavigate()
   const [correctPairs, setCorrectPairs] = useState([{ clue: EditorState.createEmpty(), match: "" }])
 
   // fetching categories data
+  const fetchQuestionData = async(cate:any,types:any[]) =>{
+    const data = await getQuestionsById(id)
+
+    if(data.code === 200){
+      console.log(data.data);
+      setEditorState(htmlToEditorState(data.data.questionText));
+      setCorrectFeedback(data.data.correctFeedback);
+      setIncorrectFeedback(data.data.incorrectFeedback);
+      setParentCategory(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.ParentCategories.id );
+console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.ParentCategories.id )
+      setSubCategory(data.data.categoryId);
+      setPoints(data.data.points);
+
+      // MCQS
+      setfreeTextAnswers(data.data.FreeTextQuestions.map((option:any)=>({text:option.correctAnswer})));
+      console.log(data.data?.MultipleChoiceQuestions?.MultipleChoiceOptions);
+      setOptions(data.data?.MultipleChoiceQuestions?.MultipleChoiceOptions.map((option:any) => ({ text:htmlToEditorState(option.optionText), isCorrect: option.isAnswer })));
+      setRandomizeAnswers(data.data.MultipleChoiceQuestions?.randomizeAnswers);
+      setAnswerSelection(data.data.MultipleChoiceQuestions?.answerSelection);
+
+
+       
+    }
+    console.log(questionTypes)
+
+    setSelectedQuestionType(types.findIndex(type=>type.id === data.data.questionTypeId) === 0 ? "multipleChoice" : 
+                            types.findIndex(type=>type.id === data.data.questionTypeId) === 1? "trueFalse" :  
+                            types.findIndex(type=>type.id === data.data.questionTypeId) === 2? "essay" :
+                            types.findIndex(type=>type.id === data.data.questionTypeId) === 3? "grammar" :
+                            types.findIndex(type=>type.id === data.data.questionTypeId) === 4? "Matching" :
+                            types.findIndex(type=>type.id === data.data.questionTypeId) === 5? "freeText" : "ii")
+
+  
+  }
+
 
   const fetchAllChildCategory = async() => {
     const data =await getAllChildCategories();
+    if (data.code === 200){
     setChildCategories(data.data);
+
+    const data1 = await getQuestionTypes();
+
+    if (data1.code === 200) {
+      console.log("Question types fetched successfully", data1.data);
+      setQuestionTypes(data1.data);
+      await fetchQuestionData(data.data,data1.data)
+      console.log(questionTypes);
+    } else {
+      console.log("Error fetching question types");
+    }
+
+
+
+   
+    }
+  
+
     console.log(data.data);
   }
 
   const fetchAllParentCategory = async() => {
     const data =await getAllParentCategories();
+    if (data.code === 200){
     setParentCategories(data.data);
-    console.log(data.data);
-  }
+    await fetchAllChildCategory();
+    }
+    }
+  
 
   const fetchQuestionType = async () => {
     setLoading(true);
@@ -117,6 +175,18 @@ const navigate = useNavigate()
     const rawContentState = convertToRaw(contentState);
     return draftToHtml(rawContentState);
   };
+
+  const htmlToEditorState = (html:any) => {
+    // Convert the HTML to Draft.js ContentState
+    const blocks = convertFromHTML(html);
+    if (blocks) {
+        const contentState = ContentState.createFromBlockArray(blocks.contentBlocks, blocks.entityMap);
+        return EditorState.createWithContent(contentState);
+    }
+    return EditorState.createEmpty();
+};
+
+
 
 
   const renderPreviewCard = () => {
@@ -273,12 +343,12 @@ const navigate = useNavigate()
 
 
     try {
-      const data = await createQuestion(body);
+      const data = await updateQuestion(id,body);
 
       console.log(data)
-      if (data.code == 201) {
+      if (data.code == 200) {
       
-        alert("Question created successfully")
+        alert("Question Update successfully")
         navigate(-1);
       } else {
         alert("Invalid credentials")
@@ -295,10 +365,17 @@ const navigate = useNavigate()
     }
   };
 
+  const fetchall = async( )=>{
+    await fetchQuestionType();
+    await fetchAllParentCategory();
+  
+  }
+
   useEffect(()=>{
-    fetchQuestionType();
-    fetchAllChildCategory();
-    fetchAllParentCategory();
+    fetchall();
+    // eslint-disable-next-line
+    
+
   },[])
 
 
@@ -544,10 +621,11 @@ const navigate = useNavigate()
               : <div className={`border opacity-35 hover:opacity-100 duration-200`}>
                 <Editor
                   editorState={editorState}
+                  onEditorStateChange={onEditorStateChange}
                   toolbarClassName="toolbarClassName"
                   wrapperClassName="wrapperClassName"
                   editorClassName="editorClassName"
-                  onEditorStateChange={onEditorStateChange}
+                  
                   toolbar={{
                     inline: { inDropdown: true },
                     list: { inDropdown: true },

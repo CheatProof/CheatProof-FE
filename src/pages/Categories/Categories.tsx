@@ -1,8 +1,8 @@
-import { CategoryTable, Pagination, RowsPerPage, Sidebar, WhiteButton } from "../components";
+import { CategoryTable, Pagination, RowsPerPage, Sidebar, WhiteButton } from "../../components";
 import { HiOutlinePlus } from "react-icons/hi";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { AiOutlineExport } from "react-icons/ai";
-import CategoryManage from "../components/Categories/CategoryManage";
+import CategoryManage from "../../components/Categories/CategoryManage";
 
 const Categories = () => {
   return (

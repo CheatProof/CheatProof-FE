@@ -27,6 +27,10 @@ import TestManage from "./pages/Test/TestManage";
 import TestDashboard from "./pages/Test/TestDashboard";
 // import MCQCard from "./components/PreviewCards/MCQCard";
 import GroupTestMange from "./pages/GroupTest/GroupTestManage";
+import UpdateQuestion from "./pages/QuestionBank/UpdateQuestion";
+import TestQuestionView from "./pages/Test/TestEditor/TestQuestionView";
+import AddQuestionTestEditor from "./pages/Test/TestEditor/AddQuestions";
+
 
 const router = createBrowserRouter([
   {
@@ -61,12 +65,24 @@ const router = createBrowserRouter([
         element: <QuestionBank />,
       },
       {
+        path: "/questionbank/:id",
+        element: <UpdateQuestion />,
+      },
+      {
         path: "/alltests",
         element: <TestManage />,
       },
       {
-        path: "/test/:id",
+        path: "/test-dashboard/:id",
         element: <TestDashboard />,
+      },
+      {
+        path: "/test/test-editor/view/:id",
+        element: <TestQuestionView/>,
+      },
+      {
+        path: "/test/test-editor/question-bank/:id",
+        element: <AddQuestionTestEditor/>,
       },
       {
         path: "/landing-v2",

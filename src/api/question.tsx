@@ -18,7 +18,19 @@ export const createQuestion = (body:any) => {
 };
 
 export const getQuestionsByTeacherId = () => {
-    return fetch(`${baseUrl}/api/question/get/questionsByTeacher`, {
+    return fetch(`${baseUrl}/api/question/get/byCreator`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+   .then(response => response.json())
+}
+
+
+export const getQuestionsById = (id:any) => {
+    return fetch(`${baseUrl}/api/question/getById/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -45,4 +57,32 @@ export const getQuestionTypes = ()=>{
     });
 
 
+
+
+}
+
+export const updateQuestion = (id:any,question:any)=>{
+
+    return fetch(`${baseUrl}/api/question/update/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(question)
+    })
+   .then(response => response.json())
+}
+
+
+export const assignTestAQuestion = (body:any) => {
+    return fetch(`${baseUrl}/api/test/assign/question`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(body)
+    })
+   .then(response => response.json())
 }

@@ -1,7 +1,7 @@
 import { baseUrl } from "../env/Env";
 
 export const getAllParentCategories = () => {
-    return fetch(`${baseUrl}/api/parentCategory`, {
+    return fetch(`${baseUrl}/api/parentCategory/get/ByUserId`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ export const getAllParentCategories = () => {
     .then(data => data)
     .catch(error => {
         console.error('Error:', error);
-        window.location.href = `${baseUrl}/api/auth/login`;  // Redirect to login page on error
+        // window.location.href = `${baseUrl}/api/auth/login`;  // Redirect to login page on error
     });
 };
 
@@ -61,12 +61,12 @@ export const deleteParentCategory = (id:any) => {
     .then(data => data)
     .catch(error => {
         console.error('Error:', error);
-        window.location.href = `${baseUrl}/api/auth/login`;  // Redirect to login page on error
+        // window.location.href = `${baseUrl}/api/auth/login`;  // Redirect to login page on error
     });
 };
 
 export const createParentCategory = (body:any) => {
-    return fetch(`${baseUrl}/api/parentCategory/create`, {
+    return fetch(`${baseUrl}/api/parentCategory/new`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -78,6 +78,6 @@ export const createParentCategory = (body:any) => {
     .then(data => data)
     .catch(error => {
         console.error('Error:', error);
-        window.location.href = `${baseUrl}/api/auth/login`;  // Redirect to login page on error
+        // window.location.href = `${baseUrl}/api/auth/login`;  // Redirect to login page on error
     });
 };

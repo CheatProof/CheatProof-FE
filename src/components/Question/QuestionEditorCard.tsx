@@ -1,15 +1,47 @@
 import { CiCircleCheck } from "react-icons/ci";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { assignTestAQuestion } from "../../api/question";
+import { removeQuestionFromTest } from "../../api/test";
+import { useState } from "react";
 
-const QuestionCard = ({ question ,idx }: any) => {
+const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
+
+  const [check,setCheck]=useState(question?.assignedStatus)
   // Check if question data is available
   if (!question) {
     return <p>Loading options...</p>;
   }
 
+  const assignQuestion = async()=>{
+    // Add the question to the test
+    // Update the test's question list and update the test editor component
+    const body={
+      testId: testId,
+      questionId: question.id
+    }
+    if(check){
+    const data = await removeQuestionFromTest(testId,question.id);
+    if(data.code === 200 || data.code === 201){
+      setCheck(!check)
+      alert("Question unassigned successfully")
+    } else {
+      alert("Failed to assign question to test")
+    }
+    }else{
+    const data = await assignTestAQuestion(body);
+    if(data.code === 200 || data.code === 201){
+      setCheck(!check)
+      alert("Question assigned successfully")
+    } else {
+      alert("Failed to assign question to test")
+    }
+    }
+  
+  }
+
   return (
-    <div className="bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200">
+    <div className={`bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200 ${check === true?"bg-green-200/40":""}`}>
       <div className="mb-4 ml-2">
         <div className='flex flex-row border-b-2 border-gray-200'>
           <h2 className="text-lg font-semibold text-black">Question {idx+1}</h2>
@@ -76,16 +108,21 @@ const QuestionCard = ({ question ,idx }: any) => {
         ))}
       </div>): (<></>)}
 
+<div className="flex justify-between">
       <div className="flex space-x-4 text-sm text-blue-500 ml-2">
         {/* <button className="hover:underline">Answers</button> */}
         <Link to={`/questionbank/${question.id}`} className="hover:underline">Edit</Link>
         {/* <button className="hover:underline">Duplicate</button> */}
-        <button className="hover:underline">Archive</button>
-        <button className="hover:underline">Delete</button>
+        
+       
         <button className="hover:underline">Used In</button>
       </div>
+     {(typeof check === "boolean") &&  <div className="flex space-x-4 text-sm text-blue-500 ml-2">
+        <button onClick={()=> assignQuestion()} className="hover:underline">{!check?"Assign to Test":"Remove From Test"}</button>
+  </div>}
+  </div>
     </div>
   );
 };
 
-export default QuestionCard;
+export default QuestionEditorCard;
