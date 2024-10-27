@@ -30,6 +30,7 @@ import GroupTestMange from "./pages/GroupTest/GroupTestManage";
 import UpdateQuestion from "./pages/QuestionBank/UpdateQuestion";
 import TestQuestionView from "./pages/Test/TestEditor/TestQuestionView";
 import AddQuestionTestEditor from "./pages/Test/TestEditor/AddQuestions";
+import ImportQuestion from "./pages/QuestionBank/ImportQuestions";
 
 
 const router = createBrowserRouter([
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/questionbank/:id",
         element: <UpdateQuestion />,
+      },
+      {
+        path: "/questionbank/import",
+        element: <ImportQuestion />,
       },
       {
         path: "/alltests",
