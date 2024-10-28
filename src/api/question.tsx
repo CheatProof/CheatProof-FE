@@ -17,16 +17,17 @@ export const createQuestion = (body:any) => {
     });
 };
 
-export const getQuestionsByTeacherId = () => {
-    return fetch(`${baseUrl}/api/question/get/byCreator`, {
+export const getQuestionsByTeacherId = (page = 1, limit = 10) => {
+    return fetch(`${baseUrl}/api/question/get/byCreator?page=${page}&limit=${limit}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
     })
-   .then(response => response.json())
-}
+    .then(response => response.json());
+};
+
 
 
 export const getQuestionsById = (id:any) => {
@@ -86,3 +87,39 @@ export const assignTestAQuestion = (body:any) => {
     })
    .then(response => response.json())
 }
+
+//http://localhost:8080/api/question/importQuestions
+
+export const importQuestions = (file:any) => {
+    const formData = new FormData();
+    formData.append('csvFile', file);
+
+    return fetch(`${baseUrl}/api/question/importQuestions/mcq`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+    })
+   .then(response => response.json())
+}
+
+
+
+// /delete/:id
+
+export const deleteQuestion = (id:any) => {
+    return fetch(`${baseUrl}/api/question/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};

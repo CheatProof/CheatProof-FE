@@ -39,6 +39,7 @@
 // export default FreeTextCard;
 
 
+import { Input } from "@mui/material";
 import { useState } from "react";
 import React from "react";
 import { TiTick } from "react-icons/ti";
@@ -76,6 +77,12 @@ const FreeTextCard: React.FC<FreeTextCardProps> = ({ question, options }) => {
           </div>
         ))}
       </div>
+
+      {/* Add your input field here */}
+      <h3 className="text-lg sm:text-xl font-medium mb-6">
+        Add your answer:
+      </h3>
+      <Input />
     </div>
   );
 };
