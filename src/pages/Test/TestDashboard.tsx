@@ -56,7 +56,7 @@ const TestDashboard: React.FC = () => {
                                                 {test?.testName}
                                             </Typography>
                                            
-                                                <p dangerouslySetInnerHTML={{__html:test?.testIntroduction}}></p>
+                                                <p className="mt-2" dangerouslySetInnerHTML={{__html:test?.testIntroduction}}></p>
                                               
                                            
                                         </Box>
