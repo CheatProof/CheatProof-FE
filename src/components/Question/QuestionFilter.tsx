@@ -73,6 +73,7 @@ const handleMouseLeaveAddQuestion = () => {
            <button
               className="w-full md:w-auto hover:cursor-pointer px-8 pl-4 py-2 border flex border-gray-300 rounded-lg text-sm text-black font-semibold"
               onMouseEnter={handleMouseEnterActions}
+              onClick={handleMouseEnterActions}
               
             >
              Actions
@@ -103,6 +104,7 @@ const handleMouseLeaveAddQuestion = () => {
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:py-2 rounded-lg text-sm"
               onMouseEnter={handleMouseEnterAddQuestion}
+              onClick={handleMouseEnterAddQuestion}
             >
               + Add Question
             </button>

@@ -62,10 +62,10 @@ const Dashboard: React.FC = () => {
       <div className="w-full px-4 py-7 lg:w-[33%]">
         <h2 className="text-black/45 border-b-[0.05rem] border-black/45 py-3 font-bold text-sm">Shortcuts</h2>
         <ul>
-          <li className="mt-3">
+          <li className="mt-3 list-none">
             <a className="text-sky-500 font-semibold text-sm">Create a Test</a>
           </li>
-          <li className="mt-3">
+          <li className="mt-3 list-none">
             <a className="text-sky-500 font-semibold text-sm">Assign a Test</a>
           </li>
         </ul>
