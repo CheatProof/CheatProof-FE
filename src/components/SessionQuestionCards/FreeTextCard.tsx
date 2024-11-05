@@ -9,9 +9,9 @@ import React from "react";
 //   onAnswerSubmit: (answer: string) => void;
 // }
 
-const FreeTextCard: React.FC<any> = ({ question }) => {
-  const [userAnswer, setUserAnswer] = useState("");
-
+const FreeTextCard: React.FC<any> = ({ question,answers }) => {
+  const [userAnswer, setUserAnswer] = useState(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].answer:"");
+  
   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserAnswer(event.target.value);
   };
@@ -21,7 +21,7 @@ const FreeTextCard: React.FC<any> = ({ question }) => {
   };
 
   return (
-    <div className="bg-white w-5/6 md:w-full max-w-3xl h-auto shadow-md rounded-md p-6 my-8 border border-gray-300 max-sm:p-4">
+    <div className="bg-white w-5/6 md:w-full mx-auto max-w-3xl h-auto shadow-md rounded-md p-6 my-8 border border-gray-300 max-sm:p-4">
       {/* Question */}
       <div className="mb-4">
         <div dangerouslySetInnerHTML={{ __html: question.questionText }} />

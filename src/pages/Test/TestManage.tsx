@@ -641,6 +641,7 @@ const TestManage: React.FC = () => {
     try {
       const data = await getAllChildCategories();
       if (data.code === 200 || data.code === 201) {
+        console.log(data.data);
         setChildCategories(data.data);
       } else {
         console.error('Error fetching child categories', data);
@@ -828,6 +829,7 @@ const TestManage: React.FC = () => {
             </Select>
           </FormControl>
 
+        {newTestCategory &&
           <FormControl fullWidth>
             <InputLabel>Subcategory</InputLabel>
             <Select
@@ -836,14 +838,14 @@ const TestManage: React.FC = () => {
               label="Subcategory"
             >
               {childCategories
-                .filter((childCategory: any) => childCategory.parentCategoryId === newTestCategory)
+                .filter((childCategory: any) => {return childCategory.parentCategoryId === newTestCategory})
                 .map((childCategory: any) => (
                   <MenuItem key={childCategory.id} value={childCategory.id}>
-                    {childCategory.childCategoryName}
+                    {childCategory.categoryName}
                   </MenuItem>
                 ))}
             </Select>
-          </FormControl>
+          </FormControl>}
 
           <Box textAlign="right" mt={2}>
             <Button onClick={handleCreateTest} variant="contained" color="primary">

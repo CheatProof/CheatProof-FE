@@ -1,0 +1,103 @@
+import  { useState } from 'react';
+import { Modal, Tabs, Tab, List, ListItem, ListItemText, IconButton, Badge } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
+import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
+
+function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setClose}:any) {
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleTabChange = (event:any, newValue:any) => {
+        console.log(event);
+        setSelectedTab(newValue);
+    };
+
+    const handleBookmark = (index:any)=>{
+        const newQuestions = [...questions];
+        newQuestions[index].bookmarked =!newQuestions[index].bookmarked;
+        setQuestions(newQuestions);
+    }
+
+    return (
+        <Modal className='flex justify-center items-center' open={open} onClose={setClose} >
+           
+            <div className="p-4 w-full max-w-2xl mx-auto max-h-[500px]  bg-white rounded-md shadow-lg">
+                <div className="flex justify-between items-center">
+                    <h2 className="text-lg font-bold">All Questions</h2>
+                    <IconButton onClick={()=>setClose()}>
+                        <CloseIcon />
+                    </IconButton>
+                </div>
+                <Tabs value={selectedTab} onChange={handleTabChange} className="mt-2">
+                    <Tab label="All Questions" />
+                    <Tab 
+                        label={
+                            <Badge badgeContent={0} color="primary">
+                                Bookmarked
+                            </Badge>
+                        } 
+                    />
+                </Tabs>
+                <div className="overflow-y-auto max-h-80 mt-4">
+                    {selectedTab === 0 && (
+                        <List>
+                            {questions.map((question:any, index:any) => (
+                                <ListItem key={index} divider>
+                                    <div className="flex items-center justify-between w-full">
+                                        <div className="flex items-center">
+                                            {/* <BookmarkBorderIcon    className="mr-2" /> */}
+                                            {question.bookmarked ? <FaBookmark onClick={()=>handleBookmark(index)} className="mr-2 text-2xl"/> : <FaRegBookmark onClick={()=>handleBookmark(index)} className='mr-2 text-2xl'/>}
+                                            <ListItemText
+                                                primary={<div
+                                                    dangerouslySetInnerHTML={{ __html: question.questionText }}
+                                                  />
+                                              }
+                                                secondary={question.answered ? "Answered" : "Unanswered"}
+                                                className={`text-sm ${question.answered ? 'text-green-500' : 'text-red-500'}`}
+                                            />
+                                        </div>
+                                        <IconButton edge="end" onClick={() => {onClose(index)}}>
+                                            <ArrowForwardIosIcon fontSize="small" />
+                                        </IconButton>
+                                    </div>
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
+                    {selectedTab === 1 && (
+                        <List>
+                            {questions
+                                .filter((q:any) => q.bookmarked)
+                                .map((question:any, index:any) => (
+                                    <ListItem key={index} divider>
+                                        <div className="flex items-center justify-between w-full">
+                                            <div className="flex items-center">
+                                                {/* <BookmarkBorderIcon className="mr-2" /> */}
+                                                <ListItemText
+                                                  primary={<div
+                                                    dangerouslySetInnerHTML={{ __html: question.questionText }}
+                                                  />}
+                                                secondary={question.answered ? "Answered" : "Unanswered"}
+                                                className={`text-sm ${question.answered ? 'text-green-500' : 'text-red-500'}`}
+                                                />
+                                            </div>
+                                            <IconButton edge="end" onClick={() => {/* navigate to question */}}>
+                                                <ArrowForwardIosIcon fontSize="small" />
+                                            </IconButton>
+                                        </div>
+                                    </ListItem>
+                                ))
+                            }
+                        </List>
+                    )}
+                </div>
+            </div>
+            
+        </Modal>
+    );
+}
+
+export default QuestionNavigationModal;

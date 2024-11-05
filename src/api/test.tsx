@@ -104,7 +104,7 @@ export const getTestByUser = () => {
     });
 };
 
-export const getTestQuestionById =(id: string)=>{
+export const getTestQuestionById =(id: any)=>{
 
     return fetch(`${baseUrl}/api/test/get/questionByTestId/${id}`, {
         method: 'GET',

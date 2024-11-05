@@ -1,29 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-// interface QuestionProps {
-//   question: {
-//     id: string;
-//     questionText: string;
-//     MultipleChoiceQuestions: {
-//       answerSelection: "radio" | "checkbox";
-//       isRandomize: boolean;
-//       MultipleChoiceOptions: {
-//         id: string;
-//         optionText: string;
-//       }[];
-//     };
-//   };
-//   // saveAnswer: (questionId: string, selectedOptions: string[]) => void;
-// }
-
-
-const MCQTestCard: React.FC<any> = ({ question }) => {
+const MCQTestCard: React.FC<any> = ({ question, saveAnswer, answers }) => {
   const { questionText, MultipleChoiceQuestions } = question;
   const { answerSelection, MultipleChoiceOptions } = MultipleChoiceQuestions;
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
 
-  // Randomize options if required
-  const options =  MultipleChoiceOptions;
+  useEffect(() => {
+    const savedAnswer = answers.find((a: any) => a.questionId === question.id);
+    if (savedAnswer) {
+      setSelectedOptions(savedAnswer.answer);
+    } else {
+      setSelectedOptions([]);
+    }
+  }, [answers, question]);
 
   const handleOptionSelect = (optionId: string) => {
     let updatedSelectedOptions;
@@ -37,11 +26,11 @@ const MCQTestCard: React.FC<any> = ({ question }) => {
       updatedSelectedOptions = [optionId];
     }
     setSelectedOptions(updatedSelectedOptions);
-    // saveAnswer(question.id, updatedSelectedOptions); // Save selected answers to the database
+    saveAnswer(question.id, updatedSelectedOptions); // Save selected answers to the database
   };
 
   return (
-    <div className="bg-white w-5/6 md:w-full max-w-2xl h-auto shadow-md rounded-md p-6 my-4 border border-gray-300 max-sm:p-4">
+    <div className="bg-white w-5/6 md:w-full max-w-2xl mx-auto h-auto shadow-md rounded-md p-6 my-4 border border-gray-300 max-sm:p-4">
       {/* Question Text */}
       <div className="mb-4">
         <div dangerouslySetInnerHTML={{ __html: questionText }} />
@@ -50,7 +39,7 @@ const MCQTestCard: React.FC<any> = ({ question }) => {
 
       {/* Options */}
       <div className="space-y-4 mb-6">
-        {options.map((option:any) => (
+        {MultipleChoiceOptions.map((option: any) => (
           <label
             key={option.id}
             className="flex items-center space-x-3 cursor-pointer p-3 border border-gray-300 rounded-lg max-sm:space-x-2"

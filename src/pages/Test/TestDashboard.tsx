@@ -62,7 +62,7 @@ const TestDashboard: React.FC = () => {
                                         </Box>
                                         <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
                                             <Box display="flex" gap={2}>
-                                                <Button variant="contained" color="primary" startIcon={<CgPlayButtonO />}>
+                                                <Button variant="contained" color="primary" onClick={()=>navigate(`/test-dashboard/preview/${id}`)} startIcon={<CgPlayButtonO />}>
                                                     Preview
                                                 </Button>
                                                 <Button variant="contained" color="secondary" startIcon={<IoArrowRedoSharp />}>

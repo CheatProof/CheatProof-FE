@@ -31,6 +31,7 @@ import UpdateQuestion from "./pages/QuestionBank/UpdateQuestion";
 import TestQuestionView from "./pages/Test/TestEditor/TestQuestionView";
 import AddQuestionTestEditor from "./pages/Test/TestEditor/AddQuestions";
 import ImportQuestion from "./pages/QuestionBank/ImportQuestions";
+import TestSession from "./pages/Test/PreviewTest";
 
 
 const router = createBrowserRouter([
@@ -80,6 +81,11 @@ const router = createBrowserRouter([
       {
         path: "/test-dashboard/:id",
         element: <TestDashboard />,
+      },
+      
+      {
+        path: "/test-dashboard/preview/:id",
+        element: <TestSession/>,
       },
       {
         path: "/test/test-editor/view/:id",

@@ -1,29 +1,18 @@
 import React, { useState } from "react";
 
-// interface TrueFalseCardProps {
-//   question: {
-//     id: string;
-//     questionText: string;
-//     TrueFalseQuestions: { 
-//       id: string; 
-//       optionText: string; 
-//       isAnswer: boolean 
-//     }[];
-//   };
-//   // saveAnswer: (questionId: string, selectedOption: string) => void
-// }
 
-const TrueFalseCard: React.FC<any> = ({ question }) => {
+
+const TrueFalseCard: React.FC<any> = ({ question ,saveAnswer,answers}) => {
   const { questionText, TrueFalseQuestions } = question;
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<any>(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].answer:[])
 
-  const handleOptionSelect = (optionId: string) => {
+  const handleOptionSelect = (optionId: any) => {
     setSelectedOption(optionId);
-    // saveAnswer(question.id, optionId); // Save selected answer
+    saveAnswer(question.id, optionId); // Save selected answer
   };
 
   return (
-    <div className="bg-white w-5/6 md:w-full max-w-2xl h-auto shadow-md rounded-md p-6 my-8 border border-gray-300 max-sm:p-4">
+    <div className="bg-white w-5/6 md:w-full max-w-2xl mx-auto h-auto shadow-md rounded-md p-6 my-8 border border-gray-300 max-sm:p-4">
       {/* Question */}
       <div className="mb-4">
         <div dangerouslySetInnerHTML={{ __html: questionText }} />
