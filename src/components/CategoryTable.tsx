@@ -45,7 +45,7 @@ const CategoryTable = () => {
             <th scope="col" className="py-2 pl-4 pr-8 font-semibold sm:pl-6 lg:pl-8">Category</th>
             <th scope="col" className="py-2 pl-0 pr-8 font-semibold table-cell">Number of Questions</th>
             <th scope="col" className="py-2 pl-0 pr-8 font-semibold table-cell lg:pr-20">Parent category</th>
-            <th scope="col" className="py-2 pl-0 pr-4 text-right font-semibold table-cell sm:pr-6 lg:pr-8">Actions</th>
+            <th scope="col" className="py-2 pl-0 pr-4 text-right font-semibold table-cell sm:pr-6 lg:pr-14">Actions</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-white/5">
@@ -68,14 +68,14 @@ const CategoryTable = () => {
               </td>
               <td className="py-4 pl-0 pr-4 text-right text-sm leading-6 dark:text-whiteSecondary text-blackPrimary table-cell  lg:pr-8">
                 <div className="flex gap-x-1 justify-end">
-                  <Link to="/categories/1" className="dark:bg-blackPrimary dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block  justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400">
-                    <HiOutlinePencil className="text-lg" />
+                  <Link to="/categories/1" className="dark:bg-blackPrimary dark:text-whiteSecondary text-blackPrimary w-8 h-8 flex justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400">
+                    <HiOutlinePencil className="text-lg hover:text-2xl" />
                   </Link>
-                  <Link to="/categories/1" className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 block  justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400">
-                    <HiOutlineEye className="text-lg" />
+                  <Link to="/categories/1" className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary w-8 h-8 flex justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400">
+                    <HiOutlineEye className="text-lg hover:text-2xl" />
                   </Link>
-                  <button onClick={() => handleDeleteClick(item.id)} className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary border border-gray-600 w-8 h-8 flex justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400">
-                    <HiOutlineTrash className="text-lg" />
+                  <button onClick={() => handleDeleteClick(item.id)} className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary w-8 h-8 flex justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400">
+                    <HiOutlineTrash className="text-lg hover:text-2xl" />
                   </button>
                 </div>
               </td>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { assignTestAQuestion } from "../../api/question";
 import { removeQuestionFromTest } from "../../api/test";
 import { useState } from "react";
-
+import toast, { Toaster } from 'react-hot-toast';
 const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
 
   const [check,setCheck]=useState(question?.assignedStatus)
@@ -24,17 +24,30 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
     const data = await removeQuestionFromTest(testId,question.id);
     if(data.code === 200 || data.code === 201){
       setCheck(!check)
-      alert("Question unassigned successfully")
+      toast.success("Question unassigned successfully", {
+        duration: 3000,
+        position: 'top-center',
+    
+      })
     } else {
-      alert("Failed to assign question to test")
+      toast.error("Failed to assign question to test", {
+        duration: 3000,
+        position: 'top-center',
+      })
     }
     }else{
     const data = await assignTestAQuestion(body);
     if(data.code === 200 || data.code === 201){
       setCheck(!check)
-      alert("Question assigned successfully")
+      toast.success("Question assigned successfully", {
+        duration: 3000,
+        position: 'top-center',
+      })
     } else {
-      alert("Failed to assign question to test")
+      toast.error("Failed to assign question to test", {
+        duration: 3000,
+        position: 'top-center',
+      })
     }
     }
   
@@ -42,6 +55,7 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
 
   return (
     <div className={`bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200 ${check === true?"bg-green-200/40":""}`}>
+      <Toaster />
       <div className="mb-4 ml-2">
         <div className='flex flex-row border-b-2 border-gray-200'>
           <h2 className="text-lg font-semibold text-black">Question {idx+1}</h2>

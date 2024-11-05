@@ -3,6 +3,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { deleteQuestion } from "../../api/question";
+import toast, { Toaster } from 'react-hot-toast';
 
 const QuestionCard = ({ question, idx, onDelete }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,13 +18,17 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
     if (response.code === 200) {
       onDelete(idx);
     } else {
-      alert("Failed to delete the question. Please try again.");
+      toast.error("Failed to delete the question. Please try again.", {
+        duration: 3000,
+        position: "top-center"
+      });
     }
     setIsModalOpen(false);
   };
 
   return (
     <div className="bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200">
+      <Toaster />
       {/* Question header */}
       <div className="mb-4 ml-2">
         <div className="flex flex-row border-b-2 border-gray-200">

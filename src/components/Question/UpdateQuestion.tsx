@@ -27,6 +27,7 @@ import MatchingCard from "../PreviewCards/MatchingCard";
 import { getAllChildCategories } from "../../api/child-category";
 import { getAllParentCategories } from "../../api/parent-category";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -348,10 +349,16 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
       console.log(data)
       if (data.code == 200) {
       
-        alert("Question Update successfully")
+        toast.success("Question Update successfully", {
+          position: "top-center",
+          duration: 3000
+        })
         navigate(-1);
       } else {
-        alert("Invalid credentials")
+        toast.error("Invalid credentials", {
+          position: "top-center",
+          duration: 3000
+        })
       }
 
 
@@ -528,6 +535,7 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
     <>
       {loading && <>loading</>}
       <div className="min-h-screen bg-gray-100 p-8">
+        <Toaster />
         {!showPreview ? (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
           Tests {">"} Question Bank {">"} Add New Questions
         </h2>) : (<h2 className=" text-gray-700 mb-6 font-bold text-xl">

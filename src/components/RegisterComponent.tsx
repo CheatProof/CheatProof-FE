@@ -508,8 +508,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { signUp } from "../api/auth";
 import styled from "styled-components";
-import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 
 const StyledWhiteButton = styled(WhiteButton)<{ disabled: boolean }>`
   color: ${({ disabled }) => (disabled ? "palevioletred" : "black")};
@@ -562,7 +561,7 @@ const RegisterComponent = () => {
       } else {
         toast.error("Registration failed. Please try again.", {
           position: "top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
       }
     } catch (error) {
@@ -574,7 +573,7 @@ const RegisterComponent = () => {
 
   return (
     <div className="w-[500px] h-[1060px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[800px]">
-     <ToastContainer />
+     <Toaster />
       <div className="flex flex-col items-center gap-10">
         <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
         <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">

@@ -981,8 +981,7 @@ import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
 import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
-import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 
 const LoginComponent = () => {
   const navigate = useNavigate();
@@ -1021,14 +1020,14 @@ const LoginComponent = () => {
       } else {
         toast.error("Invalid credentials.",{
           position:"top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
       }
     } catch (error) {
       console.error("Login failed", error);
       toast.error("Login failed. Please try again.", {
         position:"top-center",
-        autoClose: 5000,
+        duration: 5000,
       });
     } finally {
       setLoading(false);
@@ -1044,14 +1043,14 @@ const LoginComponent = () => {
       if (data.code === 200) {
         toast.success("OTP sent to your email.", {
           position:"top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
         setOpenForgotPassword(false);
         setOpenOTPDialog(true);
       } else {
         toast.error("Failed to send OTP. Please check the email address.",{
           position:"top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
       }
     } catch (error) {
@@ -1075,14 +1074,14 @@ const LoginComponent = () => {
       if (data.code === 200) {
         toast.success("Password reset successfully.", {
           position:"top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
         setOpenOTPDialog(false);
         navigate("/login");
       } else {
         toast.error("Invalid OTP. Failed to reset password.", {
           position:"top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
       }
     } catch (error) {
@@ -1102,7 +1101,7 @@ const LoginComponent = () => {
 
   return (
     <div className="w-[500px] h-[750px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
-      <ToastContainer/>
+      <Toaster/>
       <div className="flex flex-col items-center gap-10">
         <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
         <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">

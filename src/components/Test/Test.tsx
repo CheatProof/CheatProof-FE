@@ -17,6 +17,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { createQuestion, getQuestionTypes } from '../../api/question';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -278,10 +279,16 @@ const navigate = useNavigate()
       console.log(data)
       if (data.code == 201) {
       
-        alert("Question created successfully")
+        toast.success("Question created successfully", {
+          position: "top-center",
+          duration: 3000
+        })
         navigate(-1);
       } else {
-        alert("Invalid credentials")
+        toast.error("Invalid credentials", {
+          position: "top-center",
+          duration: 3000
+        })
       }
 
 
@@ -451,6 +458,7 @@ const navigate = useNavigate()
     <>
       {loading && <>loading</>}
       <div className="min-h-screen bg-gray-100 p-8">
+        <Toaster />
         {!showPreview ? (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
           Tests {">"} Question Bank {">"} Add New Questions
         </h2>) : (<h2 className=" text-gray-700 mb-6 font-bold text-xl">
