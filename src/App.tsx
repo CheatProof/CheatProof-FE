@@ -32,6 +32,7 @@ import TestQuestionView from "./pages/Test/TestEditor/TestQuestionView";
 import AddQuestionTestEditor from "./pages/Test/TestEditor/AddQuestions";
 import ImportQuestion from "./pages/QuestionBank/ImportQuestions";
 import TestSession from "./pages/Test/PreviewTest";
+import Groups from "./pages/Group/Groups";
 
 
 const router = createBrowserRouter([
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
       {
         path: "/test/test-editor/question-bank/:id",
         element: <AddQuestionTestEditor/>,
+      },
+      {
+        path:"/allgroups",
+        element:<Groups/>
       },
       {
         path: "/landing-v2",

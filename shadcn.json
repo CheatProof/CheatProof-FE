@@ -1,0 +1,9 @@
+{
+    "components": [
+      "Button",
+      "Input",
+      "Dialog",
+      "Alert"
+    ]
+  }
+  
