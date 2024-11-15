@@ -62,12 +62,26 @@ const TestDashboard: React.FC = () => {
                                         </Box>
                                         <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
                                             <Box display="flex" gap={2}>
-                                                <Button variant="contained" color="primary" onClick={()=>navigate(`/test-dashboard/preview/${id}`)} startIcon={<CgPlayButtonO />}>
+                                                {/* <Button variant="contained" color="primary" onClick={()=>navigate(`/test-dashboard/preview/${id}`)} startIcon={<CgPlayButtonO />}>
                                                     Preview
                                                 </Button>
                                                 <Button variant="contained" color="secondary" startIcon={<IoArrowRedoSharp />}>
                                                     Assign Test
-                                                </Button>
+                                                </Button> */}
+                                                <button
+                                                className="bg-teal-600 hover:bg-teal-700 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                onClick={()=>navigate(`/test-dashboard/preview/${id}`)} 
+                                            >
+                                                <CgPlayButtonO className="mr-2"/>
+                                                Preview
+                                            </button>
+                                            <button
+                                                className=" bg-sky-600 hover:bg-sky-700 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
+                                            >
+                                                <IoArrowRedoSharp className="mr-2" />
+                                                Assign Test
+                                            </button>
                                             </Box>
                                             <Box display="flex" gap={1}>
                                                 <Tooltip title="Statistics">
@@ -89,9 +103,16 @@ const TestDashboard: React.FC = () => {
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} sm={6} display="flex" flexDirection="column-reverse" className="h-full gap-y-3 justify-end" justifyContent="end" alignItems="center">
-                                        <Button onClick={()=>navigate(`/test/test-editor/view/${id}`)} variant="outlined" startIcon={<CiEdit />} >
+                                        {/* <Button onClick={()=>navigate(`/test/test-editor/view/${id}`)} variant="outlined" startIcon={<CiEdit />} >
                                             Edit Test
-                                        </Button>
+                                        </Button> */}
+                                         <button onClick={()=>navigate(`/test/test-editor/view/${id}`)}
+                                                className=" text-blue-950 bg-white px-4 border border-blue-950 hover:bg-blue-950 hover:text-white md:py-2 rounded-lg text-sm flex items-center"
+                                                    
+                                            >
+                                                <CiEdit className="mr-2" />
+                                                Edit Test
+                                            </button>
                                         <Box component="img" src={testIcon} alt="test" sx={{ width: 128 }} />
                                     </Grid>
                                 </Grid>

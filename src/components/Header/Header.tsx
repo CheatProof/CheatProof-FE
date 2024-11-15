@@ -19,9 +19,16 @@ const Header = ({name,page,id}:any) => {
   return (
     <div className="flex justify-between items-center bg-gray-800 p-4 text-white">
       {/* Exit Button */}
-      <Button variant="contained" onClick={()=>navigate(-1)} className="bg-gray-600 hover:bg-gray-700">
+      {/* <Button variant="contained" onClick={()=>navigate(-1)} className="bg-gray-600 hover:bg-gray-700">
         Back
-      </Button>
+      </Button> */}
+       <button onClick={()=>navigate(-1)}
+        className=" bg-sky-600 hover:bg-sky-700 text-white px-5 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
+         >
+                                                
+                                                Back
+                                            </button>
 
       {/* Header Title */}
       <h4 className="text-lg font-semibold">{name}</h4> / <h4 className="text-lg opacity-55 font-semibold">{page}</h4>
@@ -30,14 +37,21 @@ const Header = ({name,page,id}:any) => {
       <div className="flex items-center space-x-4">
         {/* Add Question Button with Hover Menu */}
         <div onMouseEnter={handleMenuOpen} onMouseLeave={handleMenuClose}>
-          <Button
+          {/* <Button
             startIcon={<Add />}
             variant="contained"
             color="error"
             className="hover:bg-red-700"
           >
             Add Question
-          </Button>
+          </Button> */}
+          <button onClick={()=>navigate(-1)}
+        className=" bg-red-600 hover:bg-red-700 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
+         >
+                      <Add className='mr-2'/>                          
+                                                Add Question
+                                            </button>
 
           <Menu
             anchorEl={anchorEl}
@@ -83,14 +97,27 @@ const Header = ({name,page,id}:any) => {
         </div>
 
         {/* Actions Button */}
-        <Button variant="contained" className="bg-gray-600 hover:bg-gray-700">
+        {/* <Button variant="contained" className="bg-gray-600 hover:bg-gray-700">
           Actions
-        </Button>
+        </Button> */}
+         <button 
+        className=" bg-red-600 hover:bg-red-700 text-white px-5 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
+         >
+                                               
+        Actions
+     </button>
 
         {/* Eye Icon */}
-        <Button variant="contained" className="bg-gray-600 hover:bg-gray-700">
+        {/* <Button variant="contained" className="bg-gray-600 hover:bg-gray-700">
           <Add />
-        </Button>
+        </Button> */}
+        <button 
+        className=" bg-sky-600 hover:bg-sky-700 text-white px-5 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
+         >   
+           <Add />
+          </button>
       </div>
     </div>
   );

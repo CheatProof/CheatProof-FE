@@ -591,8 +591,7 @@ import { TbSearch } from 'react-icons/tb';
 import { getAllParentCategories } from '../../api/parent-category';
 import { createTestByUser, getTestByUser } from '../../api/test';
 import { getAllChildCategories } from '../../api/child-category';
-import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
 import { Circles } from 'react-loader-spinner';
 
 const TestManage: React.FC = () => {
@@ -680,13 +679,13 @@ const TestManage: React.FC = () => {
       if (data.code === 201) {
         toast.success("Test created successfully", {
           position: "top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
         fetchUserTest(); // Refresh tests after creation
       } else {
         toast.error("Error creating test", {
           position: "top-center",
-          autoClose: 5000,
+          duration: 5000,
         });
       }
     } catch (error) {
@@ -713,7 +712,7 @@ const TestManage: React.FC = () => {
         </div>
       ) : (
         <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
-          <ToastContainer />
+          <Toaster />
           <Sidebar />
           <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-9 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
             <div className="w-full pl-3">
