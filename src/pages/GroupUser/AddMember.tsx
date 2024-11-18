@@ -1,11 +1,11 @@
 
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sidebar } from "../../components";
+import AddGroupMembers from "@/components/Group/AddGroupUser";
 
-import GroupsComponent from "../../components/Group/GroupComponent";
 
-const Groups = () => {
+
+const AddGroupUser = () => {
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const Groups = () => {
           <div className="w-full pl-3">
             <h2 className="text-3xl text-black font-bold mb-6 py-6">All Groups</h2>
 
-        <GroupsComponent/>
+        <AddGroupMembers/>
           </div>
         </div>
       </div>
@@ -31,5 +31,5 @@ const Groups = () => {
   );
 };
 
-export default Groups;
+export default AddGroupUser;
 
