@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -18,10 +18,31 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchGroupById } from '../../api/group';
 
 const GroupsManagement = () => {
+  const{id}= useParams()
+  const navigate = useNavigate()
+  const [group, setGroup] = useState<any>(null);
   const [isGroupDescOpen, setIsGroupDescOpen] = useState(false);
+
   const [expandedMember, setExpandedMember] = useState<any>(null);
+
+  const getGroup = async()=>{
+    // fetch group data from API based on id
+    //...
+    const data = await fetchGroupById(id);
+    setGroup(data.data);
+    console.log(data.data);
+    // set group data to state
+
+  }
+
+  // Call getGroup on component mount
+  useEffect(() => {
+    getGroup();
+  }, []);
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-4 p-4">
@@ -61,11 +82,11 @@ const GroupsManagement = () => {
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-2">
             <UserPlus className="w-5 h-5 text-gray-500" />
-            <h2 className="text-xl font-semibold">Section B</h2>
+            <h2 className="text-xl font-semibold">{group?.groupName}</h2>
           </div>
           
           <div className="flex items-center gap-2">
-            <Button variant="ghost" className="flex items-center gap-2">
+            <Button onClick={()=>navigate(`/group-add-member/${id}`)} variant="ghost" className="flex items-center gap-2">
               <UserPlus className="w-4 h-4" />
               Add Members
             </Button>

@@ -14,8 +14,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, ChevronDown, ChevronUp, Users, BarChart2 } from 'lucide-react';
 import { createGroup, fetchGroups } from '../../api/group';
+import { useNavigate } from 'react-router-dom';
 
 const GroupManagement = () => {
+  const navigate =useNavigate()
   const [groups, setGroups] = useState<any[
   ]>([]);
 
@@ -86,7 +88,7 @@ const GroupManagement = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <button 
-              onClick={() => setSearchQuery('')}
+              onClick={() => toggleAllGroups()}
               className="p-2 hover:bg-gray-100 rounded"
             >
               ✕
@@ -133,7 +135,7 @@ const GroupManagement = () => {
                     <BarChart2 className="h-4 w-4" />
                     Statistics
                   </button>
-                  <Button variant="outline" size="sm">
+                  <Button onClick={()=>navigate(`/group-management/${group.id}`)} variant="outline" size="sm">
                     Edit Group ({group.AssignedTestGroups.length})
                   </Button>
                   <button onClick={() => toggleGroup(group.id)}>

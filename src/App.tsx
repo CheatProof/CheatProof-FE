@@ -106,7 +106,7 @@ const router = createBrowserRouter([
         element:<GroupsManagement/>
       },
       {
-        path:"/group-add-member/",
+        path:"/group-add-member/:id",
         element:<AddGroupUser/>
       }, 
       {

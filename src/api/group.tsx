@@ -18,7 +18,7 @@ export const fetchGroups = ()=>{
 // get groups by ID
 
 export const fetchGroupById = (groupId:any) => {
-    const url = `${baseUrl}/api/group/get/byGroupId/${groupId}`;
+    const url = `${baseUrl}/api/group/getById/${groupId}`;
     return fetch(url,{
         method: 'GET',
         headers: {
@@ -78,6 +78,24 @@ export const deleteGroup = (groupId:any) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+localStorage.getItem('token')
         }
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
+
+// http://localhost:8080/api/group/addBulkMembersToGroupByEmail
+
+export const addBulkMembersToGroupByEmail = ( body:any) => {
+    const url = `${baseUrl}/api/group/addBulkMembersToGroupByEmail/`;
+    return fetch(url,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        },
+        body: JSON.stringify(body)
     })
        .then(response => response.json())
        .then(data => data)

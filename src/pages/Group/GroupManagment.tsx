@@ -1,12 +1,14 @@
 
 import { useEffect } from "react";
-import {  useNavigate } from "react-router-dom";
+// import {  useParams } from "react-router-dom";
 import { Sidebar } from "../../components";
 import GroupManagement from "../../components/Group/GroupManagment";
 
 const GroupsManagement = () => {
   
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+ 
 
 
  
