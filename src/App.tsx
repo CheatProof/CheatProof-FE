@@ -10,7 +10,7 @@ import {
   HelpDesk,
   HomeLayout,
   Landing,
-  LandingV2,
+
   Login,
   Notifications,
   Orders,
@@ -25,7 +25,6 @@ import QuestionBank from "./pages/QuestionBank/QuestionBank";
 import CreateTestManual from "./pages/Test/CreateTestManual";
 import TestManage from "./pages/Test/TestManage";
 import TestDashboard from "./pages/Test/TestDashboard";
-// import MCQCard from "./components/PreviewCards/MCQCard";
 import GroupTestMange from "./pages/GroupTest/GroupTestManage";
 import UpdateQuestion from "./pages/QuestionBank/UpdateQuestion";
 import TestQuestionView from "./pages/Test/TestEditor/TestQuestionView";
@@ -33,6 +32,8 @@ import AddQuestionTestEditor from "./pages/Test/TestEditor/AddQuestions";
 import ImportQuestion from "./pages/QuestionBank/ImportQuestions";
 import TestSession from "./pages/Test/PreviewTest";
 import Groups from "./pages/Group/Groups";
+import GroupsManagement from "./pages/Group/GroupManagment";
+import AddGroupUser from "./pages/GroupUser/AddMember";
 
 
 const router = createBrowserRouter([
@@ -101,9 +102,13 @@ const router = createBrowserRouter([
         element:<Groups/>
       },
       {
-        path: "/landing-v2",
-        element: <LandingV2 />,
+        path:"/group-management/:id",
+        element:<GroupsManagement/>
       },
+      {
+        path:"/group-add-member/:id",
+        element:<AddGroupUser/>
+      }, 
       {
         path: "/createQuestion",
         element: <CreateTestManual />,

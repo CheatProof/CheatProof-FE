@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   AlertDescription,
@@ -13,61 +13,42 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, ChevronDown, ChevronUp, Users, BarChart2 } from 'lucide-react';
+import { createGroup, fetchGroups } from '../../api/group';
+import { useNavigate } from 'react-router-dom';
 
 const GroupManagement = () => {
-  const [groups, setGroups] = useState([
-    {
-      id: 1,
-      name: 'Section B',
-      tests: [{
-        name: 'CCN prep',
-        status: 'Available',
-        settings: true,
-        results: true
-      }],
-      isOpen: true
-    },
-    {
-      id: 2,
-      name: 'zaryab',
-      tests: [{
-        name: 'CCN prep',
-        status: 'Unavailable',
-        settings: true,
-        results: true
-      },{
-        name: 'CCN prep',
-        status: 'Available',
-        settings: true,
-        results: true
-      },{
-        name: 'CCN prep',
-        status: 'Available',
-        settings: true,
-        results: true
-      },],
-      isOpen: true
-    }
-  ]);
+  const navigate =useNavigate()
+  const [groups, setGroups] = useState<any[
+  ]>([]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newGroupName, setNewGroupName] = useState('');
   const [allExpanded, setAllExpanded] = useState(true);
 
-  const handleCreateGroup = () => {
+  const handleCreateGroup = async() => {
     if (newGroupName.trim()) {
       const newGroup = {
-        id: groups.length + 1,
-        name: newGroupName,
-        tests: [],
-        isOpen: true
+        groupName : newGroupName.trim(),
+        groupMessage:  "Add some intructions here regarding test" 
       };
-      setGroups([...groups, newGroup]);
+
+      const data = await createGroup(newGroup)
+      if (data.code == 200) {
+        // setGroups([...groups, data.group]);
+        setNewGroupName('');
+        setIsModalOpen(false);
+      } else {
+       
+      }
+
+
       setNewGroupName('');
       setIsModalOpen(false);
     }
   };
+
+
 
   const toggleAllGroups = () => {
     const newState = !allExpanded;
@@ -85,8 +66,18 @@ const GroupManagement = () => {
   };
 
   const filteredGroups = groups.filter(group =>
-    group.name.toLowerCase().includes(searchQuery.toLowerCase())
+    group.groupName.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const getGroups = async( )=>{
+    const groups = await fetchGroups();
+    console.log(groups.data)
+    setGroups(groups.data.map((group:any) => ({...group, isOpen:false})));
+  }
+
+  useEffect(() => {
+    getGroups();
+  }, []);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -97,7 +88,7 @@ const GroupManagement = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <button 
-              onClick={() => setSearchQuery('')}
+              onClick={() => toggleAllGroups()}
               className="p-2 hover:bg-gray-100 rounded"
             >
               ✕
@@ -134,7 +125,7 @@ const GroupManagement = () => {
               <div className="flex items-center justify-between p-4 bg-blue-50">
                 <div className="flex items-center gap-3">
                   <Users className="h-5 w-5 text-gray-500" />
-                  <span className="font-medium">{group.name}</span>
+                  <span className="font-medium">{group.groupName}</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <button className="text-blue-600 hover:text-blue-700 text-sm">
@@ -144,8 +135,8 @@ const GroupManagement = () => {
                     <BarChart2 className="h-4 w-4" />
                     Statistics
                   </button>
-                  <Button variant="outline" size="sm">
-                    Edit Group ({group.tests.length})
+                  <Button onClick={()=>navigate(`/group-management/${group.id}`)} variant="outline" size="sm">
+                    Edit Group ({group.AssignedTestGroups.length})
                   </Button>
                   <button onClick={() => toggleGroup(group.id)}>
                     {group.isOpen ? (
@@ -160,24 +151,24 @@ const GroupManagement = () => {
               {group.isOpen && (
                 <div className="p-4">
                   <div className="text-sm text-gray-600 mb-4">
-                    {group.tests.length} Tests assigned:
+                    {group.AssignedTestGroups.length} Tests assigned:
                   </div>
                   
-                  {group.tests.map((test, index) => (
+                  {group.AssignedTestGroups.map((test:any, index:any) => (
                     <div key={index} className="flex items-center justify-between py-2 border-b">
                       <div className="flex items-center gap-3">
-                        <div className="text-gray-600">{test.name}</div>
+                        <div className="text-gray-600">{test.AssignedTests.Tests.testName}</div>
                       </div>
                       <div className="flex items-center gap-4">
                         <button className="text-gray-600 hover:text-gray-800">
                           Settings
                         </button>
                         <span className={`px-2 py-1 rounded text-sm ${
-                          test.status === 'Available' 
+                          test.AssignedTests.availabilityStatus === 'active' 
                             ? 'text-green-600 bg-green-50' 
                             : 'text-gray-600 bg-gray-50'
                         }`}>
-                          {test.status}
+                          {test.AssignedTests.availabilityStatus}
                         </span>
                         <Button variant="outline" size="sm">
                           Results
