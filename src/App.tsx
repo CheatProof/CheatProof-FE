@@ -34,6 +34,10 @@ import TestSession from "./pages/Test/PreviewTest";
 import Groups from "./pages/Group/Groups";
 import GroupsManagement from "./pages/Group/GroupManagment";
 import AddGroupUser from "./pages/GroupUser/AddMember";
+import SelectTest from "./pages/Test/SelectTest";
+import AssignTest from "./pages/Test/AssignTest";
+import TestSettings from "./pages/Test/TestSettings";
+import ReviewTest from "./pages/Test/ReviewTest";
 
 
 const router = createBrowserRouter([
@@ -53,7 +57,22 @@ const router = createBrowserRouter([
         index: true,
         element: <Landing />,
       },
-
+      {
+        path: "/selecttest",
+        element: <SelectTest />,
+      },
+      {
+        path: "/assigntest",
+        element: <AssignTest />,
+      },
+      {
+        path: "/testsettings",
+        element: <TestSettings />,
+      },
+      {
+        path: "/reviewtest",
+        element: <ReviewTest />,
+      },
       {
         path: "/grouptest",
         element: <GroupTestMange />,
