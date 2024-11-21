@@ -79,7 +79,7 @@ const TestDashboard: React.FC = () => {
                                                 className=" bg-sky-600 hover:bg-sky-700 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
                                                     
                                             >
-                                                <IoArrowRedoSharp className="mr-2" />
+                                                <IoArrowRedoSharp className="mr-2" onClick={()=> navigate('/assigntest')}/>
                                                 Assign Test
                                             </button>
                                             </Box>

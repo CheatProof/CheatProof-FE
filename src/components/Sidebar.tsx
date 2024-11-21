@@ -29,7 +29,7 @@ const Sidebar = () => {
   return (
     <div className="relative">
       <div
-        className={`w-52 h-[100vh] dark:bg-blackPrimary bg-whiteSecondary pt-6 xl:sticky xl:top-0 xl:z-10 max-xl:fixed max-xl:top-0 max-xl:z-10 xl:translate-x-0 border-r-[1px] border-black ${sidebarClass}`}
+        className={`w-60  overflow-auto h-[100vh] dark:bg-blackPrimary bg-whiteSecondary pt-6 xl:sticky xl:top-0 xl:z-10 max-xl:fixed max-xl:top-0 max-xl:z-10 xl:translate-x-0 border-r-[1px] border-black ${sidebarClass}`}
       >
         <HiOutlineX
           className="dark:text-whiteSecondary text-blackPrimary text-2xl ml-auto mb-2 mr-2 cursor-pointer xl:py-3"

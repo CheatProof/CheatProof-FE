@@ -102,3 +102,21 @@ export const addBulkMembersToGroupByEmail = ( body:any) => {
         // Handle errors
         .catch(error => console.error('Error:', error));
 }
+
+
+// /get/groupMembersbyGroupId/:groupId
+
+export const getGroupMembersByGroupId = (groupId:any) => {
+    const url = `${baseUrl}/api/group/get/groupMembersbyGroupId/${groupId}`;
+    return fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        }
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
