@@ -77,9 +77,9 @@ const TestDashboard: React.FC = () => {
                                             </button>
                                             <button
                                                 className=" bg-sky-600 hover:bg-sky-700 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
-                                                    
+                                                onClick={()=> navigate('/assigntest')}    
                                             >
-                                                <IoArrowRedoSharp className="mr-2" onClick={()=> navigate('/assigntest')}/>
+                                                <IoArrowRedoSharp className="mr-2"/>
                                                 Assign Test
                                             </button>
                                             </Box>
@@ -140,14 +140,26 @@ const TestDashboard: React.FC = () => {
                                             <Typography variant="body2">Settings</Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="outlined" color="secondary" disabled>
+                                            {/* <Button variant="outlined" color="secondary" disabled>
                                                 Unavailable
-                                            </Button>
+                                            </Button> */}
+                                            <button
+                                                className="text-green-700 bg-white border border-green-800 px-3 md:py-2 rounded-lg text-sm opacity-35" disabled
+                                            >
+                                                
+                                                UNAVAILABLE
+                                            </button>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="contained" color="success">
+                                            {/* <Button variant="contained" color="success">
                                                 Results
-                                            </Button>
+                                            </Button> */}
+                                            <button
+                                                className="bg-green-600 hover:bg-green-700  text-white px-5 md:py-2 rounded-lg text-sm" 
+                                            >
+                                                
+                                                RESULTS
+                                            </button>
                                         </TableCell>
                                     </TableRow>
 
@@ -163,14 +175,20 @@ const TestDashboard: React.FC = () => {
                                             <Typography variant="body2">Settings</Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="outlined" color="success">
-                                                Available
-                                            </Button>
+                                        <button
+                                                className="text-green-700 border border-green-800 bg-white px-3 md:py-2 rounded-lg text-sm" 
+                                            >
+                                                
+                                                AVAILABLE
+                                            </button>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="contained" color="success">
-                                                Results
-                                            </Button>
+                                        <button
+                                                className="bg-green-600 hover:bg-green-700 text-white px-5 md:py-2 rounded-lg text-sm" 
+                                            >
+                                                
+                                                RESULTS
+                                            </button>
                                         </TableCell>
                                     </TableRow>
 
@@ -186,14 +204,20 @@ const TestDashboard: React.FC = () => {
                                             <Typography variant="body2">Settings</Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="outlined" color="success">
-                                                Available
-                                            </Button>
+                                        <button
+                                                className="text-green-700 border border-green-800 bg-white px-3 md:py-2 rounded-lg text-sm" 
+                                            >
+                                                
+                                                AVAILABLE
+                                            </button>
                                         </TableCell>
                                         <TableCell>
-                                            <Button variant="contained" color="success">
-                                                Results
-                                            </Button>
+                                        <button
+                                                className="bg-green-600 hover:bg-green-700 text-white px-5 md:py-2 rounded-lg text-sm" 
+                                            >
+                                                
+                                                RESULTS
+                                            </button>
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
