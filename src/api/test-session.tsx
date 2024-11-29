@@ -1,0 +1,44 @@
+import { baseUrl } from "../env/Env";
+
+// http://localhost:8080/api/testSession/groups/byStudent
+
+export const fetchStudentGroupsBySession = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/api/testSession/groups/byStudent`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}` // replace YOUR_ACCESS_TOKEN with your actual access token
+        }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching student groups by session:", error);
+    throw error;
+  }
+};
+
+// http://localhost:8080/api/testSession/assignedTests/byGroup/57184a5f-a950-473a-8596-0f134428e907
+
+export const fetchAssignedTestsByGroup = async (groupId:any) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/testSession/assignedTests/byGroup/${groupId}`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}` // replace YOUR_ACCESS_TOKEN with your actual access token
+        }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching assigned tests by group:", error);
+    throw error;
+  }
+};
+

@@ -38,6 +38,9 @@ import SelectTest from "./pages/Test/SelectTest";
 import AssignTest from "./pages/Test/AssignTest";
 import TestSettings from "./pages/Test/TestSettings";
 import ReviewTest from "./pages/Test/ReviewTest";
+import StudentDashboard from "./pages/Student/Dashboard";
+import HomeLayoutStudent from "./pages/HomeLayoutStudent";
+import StudentTest from "./pages/Student/StudentTest";
 
 
 const router = createBrowserRouter([
@@ -50,7 +53,7 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/",
+    path: "/teacher-dashboard",
     element: <HomeLayout />,
     children: [
       {
@@ -58,141 +61,118 @@ const router = createBrowserRouter([
         element: <Landing />,
       },
       {
-        path: "/selecttest",
+        path: "selecttest",
         element: <SelectTest />,
       },
       {
-        path: "/assigntest",
+        path: "assigntest",
         element: <AssignTest />,
       },
       {
-        path: "/testsettings",
+        path: "testsettings",
         element: <TestSettings />,
       },
       {
-        path: "/reviewtest",
+        path: "reviewtest",
         element: <ReviewTest />,
       },
       {
-        path: "/grouptest",
+        path: "grouptest",
         element: <GroupTestMange />,
       },
 
       {
-        path: "/categories",
+        path: "categories",
         element: <Categories />,
       },
 
       {
-        path: "/questionbank",
+        path: "questionbank",
         element: <QuestionBank />,
       },
       {
-        path: "/questionbank/:id",
+        path: "questionbank/:id",
         element: <UpdateQuestion />,
       },
       {
-        path: "/questionbank/import",
+        path: "questionbank/import",
         element: <ImportQuestion />,
       },
       {
-        path: "/alltests",
+        path: "alltests",
         element: <TestManage />,
       },
       {
-        path: "/test-dashboard/:id",
+        path: "test-dashboard/:id",
         element: <TestDashboard />,
       },
       
       {
-        path: "/test-dashboard/preview/:id",
+        path: "test-dashboard/preview/:id",
         element: <TestSession/>,
       },
       {
-        path: "/test/test-editor/view/:id",
+        path: "test/test-editor/view/:id",
         element: <TestQuestionView/>,
       },
       {
-        path: "/test/test-editor/question-bank/:id",
+        path: "test/test-editor/question-bank/:id",
         element: <AddQuestionTestEditor/>,
       },
       {
-        path:"/allgroups",
+        path:"allgroups",
         element:<Groups/>
       },
       {
-        path:"/group-management/:id",
+        path:"group-management/:id",
         element:<GroupsManagement/>
       },
       {
-        path:"/group-add-member/:id",
+        path:"group-add-member/:id",
         element:<AddGroupUser/>
       }, 
       {
-        path: "/createQuestion",
+        path: "createQuestion",
         element: <CreateTestManual />,
       },
-      {
-        path: "/products",
-        element: <Products />,
-      },
      
       {
-        path: "/products/:id",
-        element: <EditProduct />,
-      },
-
-     
-      {
-        path: "/categories/:id",
-        element: <EditCategory />,
-      },
-      {
-        path: "/orders",
-        element: <Orders />,
-      },
-      {
-        path: "/orders/1",
-        element: <EditOrder />,
-      },
-      {
-        path: "/reviews",
-        element: <Reviews />,
-      },
-      {
-        path: "/reviews/:id",
-        element: <EditReview />,
+        path: "users/:id",
+        element: <EditUser />,
       },
     
       {
-        path: "/users",
-        element: <Users />,
-      },
-      {
-        path: "/users/:id",
-        element: <EditUser />,
-      },
-      {
-        path: "/users/create-user",
-        element: <CreateUser />,
-      },
-      {
-        path: "/help-desk",
+        path: "help-desk",
         element: <HelpDesk />,
       },
       {
-        path: "/notifications",
+        path: "notifications",
         element: <Notifications />,
       },
       {
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
       },
-
-
-    ],
-    
+    ], 
   },
+  {
+    path: "student-dashboard",
+    element: <HomeLayoutStudent />,
+    children: [
+
+      {
+        index:true,
+        element: <StudentDashboard />, 
+      },
+      {
+        path: "group-tests/:groupId",
+        element: <StudentTest />,
+      }
+
+    ]
+      
+  }
+  
 ]);
 
 function App() {

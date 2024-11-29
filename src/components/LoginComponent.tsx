@@ -1016,7 +1016,11 @@ const LoginComponent = () => {
       if (data.code === 200) {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data.user));
-        navigate("/");
+        if(data.data.user.Roles[0].roleName === "Teacher"){
+        navigate(`/teacher-dashboard`);
+        } else if(data.data.user.Roles[0].roleName === "Student"){
+        navigate(`/student-dashboard`);
+        }
       } else {
         toast.error("Invalid credentials.",{
           position:"top-center",
