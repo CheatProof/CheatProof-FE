@@ -28,6 +28,7 @@ import { getAllChildCategories } from "../../api/child-category";
 import { getAllParentCategories } from "../../api/parent-category";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
+import { Circles } from 'react-loader-spinner';
 
 
 
@@ -533,6 +534,7 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
 
   return (
     <>
+    
       {loading && <>loading</>}
       <div className="min-h-screen bg-gray-100 p-8">
         <Toaster />
@@ -1166,3 +1168,7 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
 };
 
 export default Test;
+
+
+
+

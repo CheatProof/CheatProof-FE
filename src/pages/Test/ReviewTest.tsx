@@ -252,7 +252,7 @@ const ReviewTest = () => {
               <div className="flex justify-center gap-4">
                 <button
                   className="bg-red-500 text-white px-6 py-2 rounded-lg font-semibold"
-                  onClick={() => navigate("/results")}
+                  onClick={() => navigate("/grouptest")}
                 >
                   Go to Results and Settings
                 </button>

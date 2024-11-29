@@ -166,7 +166,16 @@ const TestSettings = () => {
 
             {/* Settings Component */}
             <Settings />
+
+            <button
+                                                className=" bg-sky-600 hover:bg-sky-700 ml-48 text-white px-4 md:py-2 rounded-lg text-sm"
+                                                onClick={()=> navigate('/reviewtest')}    
+                                            >
+                                                
+                                                Assign Test
+                                            </button>
           </div>
+          
         </div>
       </div>
     </>

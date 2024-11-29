@@ -141,6 +141,7 @@ const TestDashboard: React.FC = () => {
                                         </TableCell>
                                         <TableCell>
                                             {/* <Button variant="outlined" color="secondary" disabled>
+                                            {/* <Button variant="outlined" color="secondary" disabled>
                                                 Unavailable
                                             </Button> */}
                                             <button
@@ -152,6 +153,7 @@ const TestDashboard: React.FC = () => {
                                             </button>
                                         </TableCell>
                                         <TableCell>
+                                            {/* <Button variant="contained" color="success">
                                             {/* <Button variant="contained" color="success">
                                                 Results
                                             </Button> */}
