@@ -131,8 +131,8 @@ const QuestionBank = () => {
           key={i}
           onClick={() => handlePageChange(i)}
           className={`px-4 py-2 mx-1 rounded ${
-            i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'
-          } hover:bg-blue-600 transition-colors`}
+            i === currentPage ? 'bg-color2 text-white' : 'bg-gray-200 text-black'
+          } hover:bg-color1 transition-colors`}
         >
           {i}
         </button>

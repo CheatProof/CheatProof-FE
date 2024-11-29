@@ -1,4 +1,4 @@
-import { CategoryTable, Pagination, RowsPerPage, Sidebar, WhiteButton } from "../../components";
+import { CategoryTable, Pagination, RowsPerPage, Sidebar} from "../../components";
 import { HiOutlinePlus } from "react-icons/hi";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { AiOutlineExport } from "react-icons/ai";
@@ -22,11 +22,27 @@ const Categories = () => {
               </p>
             </div>
             <div className="flex gap-x-2 max-[370px]:flex-col max-[370px]:gap-2 max-[370px]:items-center">
-              <button className="dark:bg-blackPrimary bg-whiteSecondary border border-gray-600 w-32 py-2 text-lg hover:border-gray-500 duration-200 flex items-center justify-center gap-x-2">
+              {/* <button className="dark:bg-blackPrimary bg-whiteSecondary border border-gray-600 w-32 py-2 text-lg hover:border-gray-500 duration-200 flex items-center justify-center gap-x-2">
                 <AiOutlineExport className="dark:text-whiteSecondary text-blackPrimary text-base" />
-                <span className="dark:text-whiteSecondary text-blackPrimary font-medium">Export</span>
-              </button>
-              <WhiteButton disabled={false} onClick={()=>{""}} text="Add a category" textSize="lg" py="2" width="48"><HiOutlinePlus className="dark:text-blackPrimary text-whiteSecondary" /></WhiteButton>
+                <span className="dark:text-whiteSecondary text-fore font-medium">Export</span>
+              </button> */}
+
+<button
+              className="bg-color2 hover:bg-fore text-white px-5 font-semibold md:py-2 rounded-md text-md flex items-center justify-center gap-x-2"
+             
+            >
+              <AiOutlineExport className="dark:text-whiteSecondary text-white text-base" />
+              Export
+            </button>
+              
+              <button
+              className="bg-color2 hover:bg-fore text-white px-4 font-semibold md:py-2 rounded-md text-md flex items-center justify-center gap-x-2"
+              
+            >
+              <HiOutlinePlus className="dark:text-blackPrimary text-whiteSecondary" />
+             
+              Add a category
+            </button>
             </div>
           </div>
           {/* <div className="px-4 sm:px-6 lg:px-8 flex justify-between items-center mt-5 max-sm:flex-col max-sm:gap-2">

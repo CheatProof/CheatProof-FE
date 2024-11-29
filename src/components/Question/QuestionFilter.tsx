@@ -54,13 +54,13 @@ const handleMouseLeaveAddQuestion = () => {
         <div className="flex space-x-4">
           <button
             onClick={() => setActiveTab('active')}
-            className={`px-3 py-1 text-md font-semibold ${activeTab === 'active' ? 'text-blue-400 border-b-2 border-blue-500' : 'text-gray-500'}`}
+            className={`px-3 py-1 text-md font-semibold ${activeTab === 'active' ? 'text-color1 border-b-2 border-blue-500' : 'text-color3'}`}
           >
             Active <span className="bg-blue-100 text-blue-400 text-xs px-2 py-1 rounded-full ml-1">1</span>
           </button>
           <button
             onClick={() => setActiveTab('archived')}
-            className={`px-3 py-1 text-md font-semibold ${activeTab === 'archived' ? 'text-blue-400 border-b-2 border-blue-500' : 'text-gray-500'}`}
+            className={`px-3 py-1 text-md font-semibold ${activeTab === 'archived' ? 'text-color1 border-b-2 border-blue-500' : 'text-color3'}`}
           >
             Archived <span className="bg-blue-100 text-blue-400 text-xs px-2 py-1 rounded-full ml-1">0</span>
           </button>
@@ -102,7 +102,7 @@ const handleMouseLeaveAddQuestion = () => {
 
           <div onMouseLeave={handleMouseLeaveAddQuestion}>
             <button
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:py-2 rounded-lg text-sm"
+              className="bg-color2 hover:bg-fore text-white px-4 md:py-2 rounded-lg text-sm"
               onMouseEnter={handleMouseEnterAddQuestion}
               onClick={handleMouseEnterAddQuestion}
             >
@@ -226,7 +226,7 @@ const handleMouseLeaveAddQuestion = () => {
           <button className="border-gray-300 rounded-lg border-2  mb-4 md:mb-0">
             <Tooltip title='Hide Answers'>
               <IconButton>
-            <BiHide className='w-6 h-4'/>
+            <BiHide className='w-6 h-4 text-color1'/>
             </IconButton>
             </Tooltip>
           </button>
@@ -262,7 +262,7 @@ const handleMouseLeaveAddQuestion = () => {
             <option>Generic Parent</option>
           </select>
 
-          <button className="px-4 py-2 bg-gray-200 text-gray-500 rounded-lg text-sm">
+          <button className="px-4 py-2 bg-white border border-gray-300 text-gray-500 rounded-lg text-sm">
             Filter
           </button>
         </div>

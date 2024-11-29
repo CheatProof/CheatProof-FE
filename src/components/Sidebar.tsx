@@ -50,7 +50,7 @@ const Sidebar = () => {
 
           <div
             onClick={() => setIsLandingOpen(() => !isLandingOpen)}
-            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-black bg-whiteSecondary"
           >
             <HiDocumentText className="text-lg" />
             <span className="text-md font-semibold">Test</span>
@@ -141,7 +141,7 @@ const Sidebar = () => {
           > */}
 
 
-              <span className="text-xs text-gray-500 pl-6 py-3">GIVE YOUR TEST</span>
+              <span className="text-xs text-color2 pl-6 py-3">GIVE YOUR TEST</span>
 
 
              <div

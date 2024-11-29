@@ -117,9 +117,15 @@ const Settings: React.FC = () => {
                 </Box>
 
                 <Box display="flex" justifyContent="flex-end" mt={3}>
-                  <Button variant="contained" color="primary">
+                  {/* <Button variant="contained" color="primary">
                     Save Changes
-                  </Button>
+                  </Button> */}
+                   <button
+          className="bg-color2 hover:bg-color1 text-white px-4 py-2 rounded-lg"
+         
+        >
+          Save Changes
+        </button>
                 </Box>
               </Collapse>
             </Paper>
@@ -255,9 +261,12 @@ const Settings: React.FC = () => {
         </Paper>
   
         {/* Save Changes Button */}
-        <Button variant="contained" color="primary">
+                 <button
+          className="bg-color2 hover:bg-color1 text-white px-3 mt-2 py-2 rounded-lg"
+         
+        >
           Save Changes
-        </Button>
+        </button>
       </Box>
         )}
 

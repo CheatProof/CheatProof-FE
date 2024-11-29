@@ -18,6 +18,7 @@ import { getTestById, getTestQuestionById, updateTestById } from "../../../api/t
 import draftToHtml from "draftjs-to-html";
 import QuestionEditorCard from "../../../components/Question/QuestionEditorCard";
 import { Circles } from 'react-loader-spinner';
+import Sidebar from "../../../components/Header/Header";
 
 export default function CollapsibleEditor() {
   const { id } = useParams();
@@ -92,7 +93,9 @@ export default function CollapsibleEditor() {
 
   return (
     <>
-      <Header name={test?.testName} page={"Editor"} id={id} />
+     <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
+     
+      <Sidebar name={test?.testName} page={"Editor"} id={id} />
       <div className="w-full max-w-4xl mx-auto my-8">
         <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
           <AccordionSummary
@@ -144,9 +147,15 @@ export default function CollapsibleEditor() {
             </div>
 
             <div className="mt-4 flex justify-end">
-              <Button onClick={updateDescription} variant="contained" color="primary">
+              {/* <Button onClick={updateDescription} variant="contained" color="primary">
                 Update
-              </Button>
+              </Button> */}
+              <button
+          className="bg-color2 hover:bg-color1 text-white px-4 py-2 rounded-lg"
+          onClick={updateDescription}
+        >
+          Update
+        </button>
             </div>
           </AccordionDetails>
         </Accordion>
@@ -168,6 +177,104 @@ export default function CollapsibleEditor() {
           ))
         )}
       </div>
+      </div>
     </>
   );
 }
+
+
+
+// return (
+//   <>
+//     <div className="flex h-screen dark:bg-blackPrimary bg-whiteSecondary">
+//       {/* Sidebar */}
+//       <div className="w-64">
+//         <Sidebar name={test?.testName} page={"Editor"} id={id} />
+//       </div>
+
+//       {/* Main Content */}
+//       <div className="flex-1 w-full max-w-4xl mx-auto my-8">
+//         <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
+//           <AccordionSummary
+//             expandIcon={<ExpandMoreIcon />}
+//             aria-controls="panel1a-content"
+//             id="panel1a-header"
+//             className="bg-gray-200"
+//           >
+//             <Typography className="font-semibold">Test Introduction</Typography>
+//           </AccordionSummary>
+//           <AccordionDetails>
+//             <Typography className="text-sm text-gray-500 mb-4">
+//               Introduction text will be displayed before Users start this Test. Introduction text is optional.
+//             </Typography>
+
+//             <div className="border p-4 rounded-md bg-white">
+//               <Editor
+//                 editorState={editorState}
+//                 onEditorStateChange={onEditorStateChange}
+//                 toolbarClassName="toolbarClassName"
+//                 wrapperClassName="wrapperClassName"
+//                 editorClassName="editorClassName"
+//                 toolbar={{
+//                   inline: { inDropdown: true },
+//                   list: { inDropdown: true },
+//                   textAlign: { inDropdown: true },
+//                   link: { inDropdown: true },
+//                   history: { inDropdown: true },
+//                   image: {
+//                     previewImage: true,
+//                     uploadCallback: (file: any) => {
+//                       return new Promise((resolve, reject) => {
+//                         const reader = new FileReader();
+//                         reader.onloadend = () => {
+//                           resolve({
+//                             data: {
+//                               url: reader.result,
+//                             },
+//                           });
+//                         };
+//                         reader.onerror = (reason) => reject(reason);
+//                         reader.readAsDataURL(file);
+//                       });
+//                     },
+//                     alt: { present: true, mandatory: true },
+//                   },
+//                 }}
+//               />
+//             </div>
+
+//             <div className="mt-4 flex justify-end">
+//               <button
+//                 className="bg-color2 hover:bg-color1 text-white px-4 py-2 rounded-lg"
+//                 onClick={updateDescription}
+//               >
+//                 Update
+//               </button>
+//             </div>
+//           </AccordionDetails>
+//         </Accordion>
+
+//         {loading ? (
+//           <div
+//             style={{
+//               display: 'flex',
+//               justifyContent: 'center',
+//               alignItems: 'center',
+//               height: '100vh',
+//             }}
+//           >
+//             <Circles height="80" width="80" color="#152487" ariaLabel="circles-loading" />
+//           </div>
+//         ) : (
+//           questions.map((question, index) => (
+//             <QuestionEditorCard question={question} idx={index} testId={id} key={index} />
+//           ))
+//         )}
+//       </div>
+//     </div>
+//   </>
+// );
+// }
+
+
+

@@ -59,8 +59,8 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
       <div className="mb-4 ml-2">
         <div className='flex flex-row border-b-2 border-gray-200'>
           <h2 className="text-lg font-semibold text-black">Question {idx+1}</h2>
-          <p className='mx-auto mr-8 text-gray-400 text-sm'>{question.Categories.ParentCategories.parentCategoryName} / {question.Categories.categoryName}</p>
-          <p className='text-gray-400 mb-10 text-sm'>{question.points} pts</p>
+          <p className='mx-auto mr-8 text-color2 text-sm'>{question.Categories.ParentCategories.parentCategoryName} / {question.Categories.categoryName}</p>
+          <p className='text-color2 mb-10 text-sm'>{question.points} pts</p>
         </div>
       </div>
       <div className='ml-2'>
@@ -73,11 +73,11 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
           <button
             key={idx}
             className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
-              ${opt.isAnswer ? 'bg-gray-100 border border-green-500' : ''}`}
+              ${opt.isAnswer ? 'bg-gray-100 border border-fore' : ''}`}
           >
             <span className="inline-block mr-2">
               {opt.isAnswer ? (
-                <CiCircleCheck className="text-green-500" />
+                <CiCircleCheck className="text-fore" />
               ) : (
                 <MdOutlineRadioButtonUnchecked className="text-gray-400" />
               )}
@@ -90,11 +90,11 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
           <button
             key={idx}
             className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
-              ${opt.isAnswer ? 'bg-gray-100 border border-green-500' : ''}`}
+              ${opt.isAnswer ? 'bg-gray-100 border border-fore' : ''}`}
           >
             <span className="inline-block mr-2">
               {opt.isAnswer ? (
-                <CiCircleCheck className="text-green-500" />
+                <CiCircleCheck className="text-fore" />
               ) : (
                 <MdOutlineRadioButtonUnchecked className="text-gray-400" />
               )}
@@ -108,11 +108,11 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
           <button
             key={idx}
             className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
-              ${true ? 'bg-gray-100 border border-green-500' : ''}`}
+              ${true ? 'bg-gray-100 border border-fore' : ''}`}
           >
             <span className="inline-block mr-2">
               {true ? (
-                <CiCircleCheck className="text-green-500" />
+                <CiCircleCheck className="text-fore" />
               ) : (
                 <MdOutlineRadioButtonUnchecked className="text-gray-400" />
               )}
@@ -123,7 +123,7 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
       </div>): (<></>)}
 
 <div className="flex justify-between">
-      <div className="flex space-x-4 text-sm text-blue-500 ml-2">
+      <div className="flex space-x-4 text-sm text-color1 ml-2">
         {/* <button className="hover:underline">Answers</button> */}
         <Link to={`/questionbank/${question.id}`} className="hover:underline">Edit</Link>
         {/* <button className="hover:underline">Duplicate</button> */}
@@ -131,7 +131,7 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
        
         <button className="hover:underline">Used In</button>
       </div>
-     {(typeof check === "boolean") &&  <div className="flex space-x-4 text-sm text-blue-500 ml-2">
+     {(typeof check === "boolean") &&  <div className="flex space-x-4 text-sm text-color1 ml-2">
         <button onClick={()=> assignQuestion()} className="hover:underline">{!check?"Assign to Test":"Remove From Test"}</button>
   </div>}
   </div>
