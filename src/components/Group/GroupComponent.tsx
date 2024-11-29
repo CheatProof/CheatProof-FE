@@ -111,7 +111,7 @@ const GroupManagement = () => {
             </div>
             <Button
               onClick={() => setIsModalOpen(true)}
-              className="bg-red-500 hover:bg-red-600 text-white"
+              className="bg-color2 hover:bg-color1 text-white"
             >
               New Group +
             </Button>
@@ -128,10 +128,10 @@ const GroupManagement = () => {
                   <span className="font-medium">{group.groupName}</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <button className="text-blue-600 hover:text-blue-700 text-sm">
+                  <button className="text-color1 hover:text-fore hover:underline text-sm" onClick={()=>navigate(`/selecttest`)}>
                     Assign
                   </button>
-                  <button className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm">
+                  <button className="flex items-center gap-1 text-color1 hover:text-fore hover:underline text-sm">
                     <BarChart2 className="h-4 w-4" />
                     Statistics
                   </button>
@@ -177,7 +177,7 @@ const GroupManagement = () => {
                     </div>
                   ))}
                   
-                  <button className="mt-4 flex items-center gap-2 text-red-500 hover:text-red-600">
+                  <button className="mt-4 flex items-center gap-2 text-fore hover:underline">
                     <span>+</span> Assign a Test
                   </button>
                 </div>

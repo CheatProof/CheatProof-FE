@@ -138,14 +138,22 @@ const CategoryManage: React.FC = () => {
           />
 
           <Box mt={2}>
-            <Button
+            {/* <Button
               variant="contained"
               color="error"
               onClick={handleAddCategory}
               disabled={!categoryName || isLoading}
             >
               Add Category
-            </Button>
+            </Button> */}
+            <button
+              className="bg-color2 hover:bg-fore disabled:bg-gray-400 disabled:text-gray-800 disabled:opacity-50 text-white px-4 font-md md:py-2 rounded-md text-md flex items-center justify-center gap-x-2"
+              onClick={handleAddCategory}
+              disabled={!categoryName || isLoading}
+            >
+             
+              Add Category
+            </button>
           </Box>
         </>
       )}
@@ -164,14 +172,23 @@ const CategoryManage: React.FC = () => {
           />
 
           <Box mt={2}>
-            <Button
+            {/* <Button
               variant="contained"
               color="error"
               onClick={handleAddCategory}
               disabled={!newParentCategoryName}
             >
               Add Parent Category
-            </Button>
+            </Button> */}
+           <button
+              className="bg-color2 hover:bg-fore disabled:bg-gray-400 disabled:text-gray-800 disabled:opacity-50 text-white px-4 font-md md:py-2 rounded-md text-md flex items-center justify-center gap-x-2"
+              onClick={handleAddCategory}
+              disabled={!newParentCategoryName}
+            >
+             
+              Add Category
+            </button>
+
           </Box>
         </>
       )}

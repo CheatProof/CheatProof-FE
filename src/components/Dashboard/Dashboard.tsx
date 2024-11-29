@@ -13,6 +13,9 @@ import Tooltip from '@mui/material/Tooltip';
 import { MdOutlineGroup } from "react-icons/md";
 import Badge from '@mui/material/Badge';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
+import { useNavigate } from "react-router-dom";
+
+
 
 function getRandomNumber(min: number, max: number) {
   return Math.round(Math.random() * (max - min) + min);
@@ -128,41 +131,45 @@ const Dashboard: React.FC = () => {
         <div className="flex justify-center my-5 flex-wrap items-center gap-3">
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl">2</span>
+              <span className="text-4xl text-fore">2</span>
               <MdOutlineGroup className="text-4xl text-purple-800" />
             </div>
-            <p className="text-sm">Totals Groups </p>
+            <p className="text-sm text-fore">Totals Groups </p>
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl">2</span>
+              <span className="text-4xl text-fore">2</span>
               <PiExam className="text-4xl text-red-600" />
             </div>
-            <p className="text-sm">Total Tests </p>
+            <p className="text-sm text-fore">Total Tests </p>
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl">0</span>
+              <span className="text-4xl text-fore">0</span>
               <IoMdCheckmarkCircleOutline className="text-4xl text-green-600" />
             </div>
-            <p className="text-sm">In Progress Test</p>
+            <p className="text-sm text-fore">In Progress Test</p>
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl">0</span>
+              <span className="text-4xl text-fore">0</span>
               <PiClockCountdownLight className="text-4xl text-blue-500" />
             </div>
-            <p className="text-sm">Finished Test</p>
+            <p className="text-sm text-fore">Finished Test</p>
           </div>
         </div>
 
         {/* MUI Tabs */}
         <Box sx={{ width: "100%" }}>
-          <Tabs value={tabValue} onChange={handleTabChange} aria-label="dashboard tabs">
+          <Tabs value={tabValue} 
+          onChange={handleTabChange} 
+          aria-label="dashboard tabs" 
+         >
             <Tab label="Recently Taken Test" />
             <Tab label="Available Soon" />
             <Tab label="Closing Soon" />
           </Tabs>
+         
           <Box mt={2}>
             {tabValue === 0 && <Card />}
             {tabValue === 1 && <Card />}
@@ -193,10 +200,10 @@ const Dashboard: React.FC = () => {
         <h2 className="text-black/45 border-b-[0.05rem] border-black/45 py-3 font-bold text-sm">Shortcuts</h2>
         <ul>
           <li className="mt-3 list-none">
-            <a className="text-sky-500 font-semibold text-sm">Create a Test</a>
+            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/selecttest">Create a Test</a>
           </li>
           <li className="mt-3 list-none">
-            <a className="text-sky-500 font-semibold text-sm">Assign a Test</a>
+            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/assigntest">Assign a Test</a>
           </li>
         </ul>
 

@@ -69,17 +69,17 @@ const TestDashboard: React.FC = () => {
                                                     Assign Test
                                                 </Button> */}
                                                 <button
-                                                className="bg-teal-600 hover:bg-teal-700 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                className="bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
                                                 onClick={()=>navigate(`/test-dashboard/preview/${id}`)} 
                                             >
                                                 <CgPlayButtonO className="mr-2"/>
                                                 Preview
                                             </button>
                                             <button
-                                                className=" bg-sky-600 hover:bg-sky-700 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
-                                                onClick={()=> navigate('/assigntest')}    
+                                                className=" bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                onClick={()=> navigate('/assigntest')}
                                             >
-                                                <IoArrowRedoSharp className="mr-2"/>
+                                                <IoArrowRedoSharp className="mr-2" />
                                                 Assign Test
                                             </button>
                                             </Box>
@@ -107,7 +107,7 @@ const TestDashboard: React.FC = () => {
                                             Edit Test
                                         </Button> */}
                                          <button onClick={()=>navigate(`/test/test-editor/view/${id}`)}
-                                                className=" text-blue-950 bg-white px-4 border border-blue-950 hover:bg-blue-950 hover:text-white md:py-2 rounded-lg text-sm flex items-center"
+                                                className=" text-fore bg-white px-4 border border-blue-950 hover:bg-fore hover:text-white md:py-2 rounded-lg text-sm flex items-center"
                                                     
                                             >
                                                 <CiEdit className="mr-2" />
@@ -141,21 +141,25 @@ const TestDashboard: React.FC = () => {
                                         </TableCell>
                                         <TableCell>
                                             {/* <Button variant="outlined" color="secondary" disabled>
+                                            {/* <Button variant="outlined" color="secondary" disabled>
                                                 Unavailable
                                             </Button> */}
                                             <button
-                                                className="text-green-700 bg-white border border-green-800 px-3 md:py-2 rounded-lg text-sm opacity-35" disabled
+                                                className=" bg-white border border-fore text-fore opacity-60 hover:opacity-75 px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
                                             >
-                                                
+                                            
                                                 UNAVAILABLE
                                             </button>
                                         </TableCell>
                                         <TableCell>
                                             {/* <Button variant="contained" color="success">
+                                            {/* <Button variant="contained" color="success">
                                                 Results
                                             </Button> */}
                                             <button
-                                                className="bg-green-600 hover:bg-green-700  text-white px-5 md:py-2 rounded-lg text-sm" 
+                                                className=" bg-color2 hover:bg-color1 text-white px-5 md:py-2 rounded-md text-sm flex items-center"
+                                                    
                                             >
                                                 
                                                 RESULTS
@@ -176,15 +180,17 @@ const TestDashboard: React.FC = () => {
                                         </TableCell>
                                         <TableCell>
                                         <button
-                                                className="text-green-700 border border-green-800 bg-white px-3 md:py-2 rounded-lg text-sm" 
+                                                className=" bg-white border border-color2 hover:border-fore text-fore px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
                                             >
-                                                
+                                            
                                                 AVAILABLE
                                             </button>
                                         </TableCell>
                                         <TableCell>
                                         <button
-                                                className="bg-green-600 hover:bg-green-700 text-white px-5 md:py-2 rounded-lg text-sm" 
+                                                className=" bg-color2 hover:bg-color1 text-white px-5 md:py-2 rounded-md text-sm flex items-center"
+                                                    
                                             >
                                                 
                                                 RESULTS
@@ -205,15 +211,17 @@ const TestDashboard: React.FC = () => {
                                         </TableCell>
                                         <TableCell>
                                         <button
-                                                className="text-green-700 border border-green-800 bg-white px-3 md:py-2 rounded-lg text-sm" 
+                                                className=" bg-white border border-color2 hover:border-fore text-fore px-4 md:py-2 rounded-lg text-sm flex items-center"
+                                                    
                                             >
-                                                
+                                            
                                                 AVAILABLE
                                             </button>
                                         </TableCell>
                                         <TableCell>
                                         <button
-                                                className="bg-green-600 hover:bg-green-700 text-white px-5 md:py-2 rounded-lg text-sm" 
+                                                className=" bg-color2 hover:bg-color1 text-white px-5 md:py-2 rounded-md text-sm flex items-center"
+                                                    
                                             >
                                                 
                                                 RESULTS

@@ -9,6 +9,8 @@ import { FaBookmark } from "react-icons/fa";
 
 function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setClose}:any) {
     const [selectedTab, setSelectedTab] = useState(0);
+    const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const handleTabChange = (event:any, newValue:any) => {
         console.log(event);
@@ -27,7 +29,7 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
             <div className="p-4 w-full max-w-2xl mx-auto max-h-[500px]  bg-white rounded-md shadow-lg">
                 <div className="flex justify-between items-center">
                     <h2 className="text-lg font-bold">All Questions</h2>
-                    <IconButton onClick={()=>setClose()}>
+                    <IconButton onClick={setClose}>
                         <CloseIcon />
                     </IconButton>
                 </div>

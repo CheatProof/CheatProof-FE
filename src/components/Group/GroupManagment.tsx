@@ -147,7 +147,7 @@ const GroupsManagement = () => {
               <Trash2 className="w-4 h-4" />
               Delete Options
             </Button>
-            <Button className="bg-red-500 hover:bg-red-600 text-white">
+            <Button className="hover:bg-white border-fore border-2 hover:text-fore bg-fore text-white font-medium" onClick={()=>navigate(`/selecttest`)}>
               Assign Test
             </Button>
           </div>
@@ -242,7 +242,7 @@ const GroupsManagement = () => {
                   <Button variant="ghost">
                     Actions
                   </Button>
-                  <Button className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2">
+                  <Button className="bg-color2 hover:bg-color1 text-white flex items-center gap-2">
                     <Plus className="w-4 h-4" />
                     Add new members
                   </Button>

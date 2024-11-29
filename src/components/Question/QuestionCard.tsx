@@ -33,10 +33,10 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
       <div className="mb-4 ml-2">
         <div className="flex flex-row border-b-2 border-gray-200">
           <h2 className="text-lg font-semibold text-black">Question </h2>
-          <p className="mx-auto mr-8 text-gray-400 text-sm">
+          <p className="mx-auto mr-8 text-color2 text-sm">
             {question.Categories.ParentCategories.parentCategoryName} / {question.Categories.categoryName}
           </p>
-          <p className="text-gray-400 mb-10 text-sm">{question.points} pts</p>
+          <p className="text-color2 mb-10 text-sm">{question.points} pts</p>
         </div>
       </div>
       {/* Question content */}
@@ -50,10 +50,10 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
             <button
               key={idx}
               className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
-                ${opt.isAnswer ? 'bg-gray-100 border border-green-500' : ''}`}
+                ${opt.isAnswer ? 'bg-gray-100 border border-fore' : ''}`}
             >
               <span className="inline-block mr-2">
-                {opt.isAnswer ? <CiCircleCheck className="text-green-500" /> : <MdOutlineRadioButtonUnchecked className="text-gray-400" />}
+                {opt.isAnswer ? <CiCircleCheck className="text-fore" /> : <MdOutlineRadioButtonUnchecked className="text-gray-400" />}
               </span>
               <span className="inline-block" dangerouslySetInnerHTML={{ __html: opt.optionText }} />
             </button>
@@ -65,11 +65,11 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
             <button
               key={idx}
               className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
-                ${opt.isAnswer ? 'bg-gray-100 border border-green-500' : ''}`}
+                ${opt.isAnswer ? 'bg-gray-100 border border-fore' : ''}`}
 
             >
               <span className="inline-block mr-2">
-                {opt.isAnswer ? <CiCircleCheck className="text-green-500" /> : <MdOutlineRadioButtonUnchecked className="text-gray-400" />}
+                {opt.isAnswer ? <CiCircleCheck className="text-fore" /> : <MdOutlineRadioButtonUnchecked className="text-gray-400" />}
               </span>
               <span className="inline-block" dangerouslySetInnerHTML={{ __html: opt.optionText }} />
             </button>
@@ -81,10 +81,10 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
             <button
               key={idx}
               className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
-                bg-gray-100 border border-green-500`}
+                bg-gray-100 border border-fore`}
             >
               <span className="inline-block mr-2">
-                <CiCircleCheck className="text-green-500" />
+                <CiCircleCheck className="text-fore" />
               </span>
               <span className="inline-block" dangerouslySetInnerHTML={{ __html: opt.correctAnswer }} />
             </button>
@@ -93,7 +93,7 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
       ) : null}
 
       {/* Actions */}
-      <div className="flex space-x-4 text-sm text-blue-500 ml-2">
+      <div className="flex space-x-4 text-sm text-color1 ml-2">
         <Link to={`/questionbank/${question.id}`} className="hover:underline">Edit</Link>
         <button onClick={() => setIsModalOpen(true)} className="hover:underline">Delete</button>
         <button className="hover:underline">Archive</button>
@@ -115,7 +115,7 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="px-4 py-2 bg-color2 text-white rounded hover:bg-color1"
               >
                 Delete
               </button>

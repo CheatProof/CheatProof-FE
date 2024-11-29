@@ -6,6 +6,12 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			back: '#d9dcd6', // white-gray
+			fore: '#16425b', //dark blue
+			color1: '#2f6690', // mid blue
+			color2: '#3a7ca5', //lighter blue
+			color3: '#81c3d7',  //lightest blue
+
   			blackPrimary: '#030712',
   			blackSecondary: 'rgba(48, 48, 48, 0.90)',
   			whiteSecondary: '#F0F0F0',

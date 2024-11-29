@@ -22,24 +22,24 @@ const Header = () => {
         <Link className="flex items-center" to="/">
           {/* <FaReact className="text-4xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer" /> */}
           <img className="w-[4rem] p-3" src={Logo}/>
-          <span className="dark:text-whiteSecondary text-blackPrimary text-xl font-bold">CheatProof</span>
+          <span className="dark:text-whiteSecondary text-fore text-xl font-bold">CheatProof</span>
         </Link>
         {/* <SearchInput /> */}
         <div className="flex gap-4 items-center max-xl:justify-center">
-          <span className="dark:text-whiteSecondary text-blackPrimary">EN</span>
+          <span className="dark:text-whiteSecondary text-fore">EN</span>
           {darkMode ? (
             <HiOutlineSun
               onClick={() => dispatch(toggleDarkMode())}
-              className="text-xl dark:text-whiteSecondary text-blackPrimary cursor-pointer"
+              className="text-xl dark:text-whiteSecondary text-fore cursor-pointer"
             />
           ) : (
             <HiOutlineMoon
               onClick={() => dispatch(toggleDarkMode())}
-              className="text-xl dark:text-whiteSecondary text-blackPrimary cursor-pointer"
+              className="text-xl dark:text-whiteSecondary text-fore cursor-pointer"
             />
           )}
           <Link to="/notifications">
-            <HiOutlineBell className="text-xl dark:text-whiteSecondary text-blackPrimary" />
+            <HiOutlineBell className="text-xl dark:text-whiteSecondary text-fore" />
           </Link>
           <Link to="/profile">
             <div className="flex gap-2 items-center">
@@ -49,10 +49,10 @@ const Header = () => {
                 className="rounded-full w-10 h-10"
               />
               <div className="flex flex-col">
-                <p className="dark:text-whiteSecondary text-blackPrimary text-base max-xl:text-sm">
+                <p className="dark:text-whiteSecondary text-fore text-base max-xl:text-sm">
                   S.M.Zaryab
                 </p>
-                <p className="dark:text-whiteSecondary text-blackPrimary text-sm max-xl:text-xs">
+                <p className="dark:text-whiteSecondary text-fore text-sm max-xl:text-xs">
                   Teacher
                 </p>
               </div>
