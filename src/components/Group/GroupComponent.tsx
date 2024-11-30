@@ -128,14 +128,14 @@ const GroupManagement = () => {
                   <span className="font-medium">{group.groupName}</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <button className="text-color1 hover:text-fore hover:underline text-sm" onClick={()=>navigate(`/selecttest`)}>
+                  <button className="text-color1 hover:text-fore hover:underline text-sm" onClick={()=>navigate(`/teacher-dashboard/selecttest`)}>
                     Assign
                   </button>
                   <button className="flex items-center gap-1 text-color1 hover:text-fore hover:underline text-sm">
                     <BarChart2 className="h-4 w-4" />
                     Statistics
                   </button>
-                  <Button onClick={()=>navigate(`/group-management/${group.id}`)} variant="outline" size="sm">
+                  <Button onClick={()=>navigate(`/teacher-dashboard/group-management/${group.id}`)} variant="outline" size="sm">
                     Edit Group ({group.AssignedTestGroups.length})
                   </Button>
                   <button onClick={() => toggleGroup(group.id)}>
@@ -160,7 +160,12 @@ const GroupManagement = () => {
                         <div className="text-gray-600">{test.AssignedTests.Tests.testName}</div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <button className="text-gray-600 hover:text-gray-800">
+                        <button onClick={()=>navigate(`/teacher-dashboard/grouptest/${test.id}`,{
+                          state:{
+                            groupTest:test,
+                            group:group
+                          }
+                        })} className="text-gray-600 hover:text-gray-800">
                           Settings
                         </button>
                         <span className={`px-2 py-1 rounded text-sm ${

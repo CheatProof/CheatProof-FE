@@ -38,7 +38,7 @@ const Sidebar = () => {
         <div>
 
         <NavLink
-            to="/"
+            to="/teacher-dashboard/"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
@@ -60,7 +60,7 @@ const Sidebar = () => {
           {isLandingOpen && (
             <div>
               <NavLink
-                to="/alltests"
+                to="/teacher-dashboard/alltests"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -71,7 +71,7 @@ const Sidebar = () => {
 
 
               <NavLink
-                to="/questionbank"
+                to="/teacher-dashboard/questionbank"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -81,7 +81,7 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to="/categories"
+                to="/teacher-dashboard/categories"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -92,7 +92,7 @@ const Sidebar = () => {
 
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -103,7 +103,7 @@ const Sidebar = () => {
 
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -113,7 +113,7 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to="/createQuestion"
+                to="/teacher-dashboard/createQuestion"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -125,7 +125,7 @@ const Sidebar = () => {
           )}
 
           {/* <NavLink
-            to="/products"
+            to="/teacher-dashboard/products"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
@@ -134,7 +134,7 @@ const Sidebar = () => {
             <span className="text-md">Links</span>
           </NavLink>
           <NavLink
-            to="/categories"
+            to="/teacher-dashboard/categories"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
@@ -156,7 +156,7 @@ const Sidebar = () => {
 {isLinksOpen && (
             <div>
               <NavLink
-                to="/"
+                to="/teacher-dashboard/"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -166,7 +166,7 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -177,7 +177,7 @@ const Sidebar = () => {
 
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -188,7 +188,7 @@ const Sidebar = () => {
 
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -199,7 +199,7 @@ const Sidebar = () => {
 
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -212,7 +212,7 @@ const Sidebar = () => {
 
 
 
-          {/* <NavLink  to="/orders"
+          {/* <NavLink  to="/teacher-dashboard/orders"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }>
@@ -235,7 +235,7 @@ const Sidebar = () => {
           {isGroupsOpen && (
             <div>
               <NavLink
-                to="/allgroups"
+                to="/teacher-dashboard/allgroups"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -245,7 +245,7 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -256,7 +256,7 @@ const Sidebar = () => {
 
 
               <NavLink
-                to="/landing-v2"
+                to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -270,7 +270,7 @@ const Sidebar = () => {
 
           {/* </NavLink> */}
           {/* <NavLink
-           to="/orders"
+           to="/teacher-dashboard/orders"
            className={(isActiveObj) =>
              isActiveObj.isActive ? navActiveClass : navInactiveClass
            }>
@@ -284,7 +284,7 @@ const Sidebar = () => {
             <span className="text-md">Orders</span>
           </NavLink>
           <NavLink
-            to="/users"
+            to="/teacher-dashboard/users"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
@@ -293,7 +293,7 @@ const Sidebar = () => {
             <span className="text-md">Users</span>
           </NavLink>
           <NavLink
-            to="/reviews"
+            to="/teacher-dashboard/reviews"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }
@@ -312,7 +312,7 @@ const Sidebar = () => {
           {isAuthOpen && (
             <div>
               <NavLink
-                to="/login"
+                to="/teacher-dashboard/login"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -321,7 +321,7 @@ const Sidebar = () => {
                 <span className="text-md font-semibold">Login</span>
               </NavLink>
               <NavLink
-                to="/register"
+                to="/teacher-dashboard/register"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
@@ -335,7 +335,7 @@ const Sidebar = () => {
 
         <div className="absolute bottom-0 border-1 border-t dark:border-blackSecondary border-blackSecondary w-full">
           <NavLink
-            to="/help-desk"
+            to="/teacher-dashboard/help-desk"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
             }

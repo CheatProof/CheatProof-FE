@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-/**
- * Fetch test details from the API.
- 
- */
-export const fetchTestDetails = async (body:any) => {
+
+
+export const CreateTestGroupAsignement = async (body: any) => {
   try {
     const token = localStorage.getItem('token'); // Replace 'authToken' with the actual key
     console.log('Token:', token);
@@ -36,35 +34,34 @@ export const fetchTestDetails = async (body:any) => {
   }
 };
 
-// import { baseUrl } from "../env/Env"; // Adjust the path as necessary
+// http://localhost:8080/api/test/update/assignedGroupTest/1c47316e-f75a-42e4-aef0-f1eeb7e93646
 
-// /**
-//  * Fetches test details for a specific test and group.
-//  * @param testId - ID of the test.
-//  * @param groupId - ID of the group.
-//  * @returns A promise resolving to the API response data.
-//  */
-// export const fetchTestDetails = (testId: string, groupId: string) => {
-//   const url = `${baseUrl}/api/test/assign/groupTest/new?testId=${testId}&groupId=${groupId}`;
 
-//   return fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + localStorage.getItem('authToken'), // Ensure the token key matches your setup
-//     },
-//     body: JSON.stringify({}), // Include a body if the API expects it, otherwise leave it empty
-//   })
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//       }
-//       return response.json();
-//     })
-//     .then(data => data)
-//     .catch(error => {
-//       console.error('Error fetching test details:', error);
-//       throw error; // Re-throw the error for handling in the calling code
-//     });
-// };
-
+export const UpdateAssignedGroupTest = async (id: any, body: any) => {
+  try {
+    const token = localStorage.getItem('token'); // Replace 'authToken' with the actual key
+    console.log('Token:', token);
+    if (!token) {
+      throw new Error('Authentication token is missing');
+    }
+    const url = `http://localhost:8080/api/test/update/assignedGroupTest/${id}`;
+    const response = await axios.put(
+      url,
+      body,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (response.status === 200) {
+      return response.data.data; // Assuming API returns data in the "data" field
+    } else {
+      throw new Error(`Unexpected response status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error updating test assignment:', error);
+    throw error; // Re-throw the error for the caller to handle
+  }
+}

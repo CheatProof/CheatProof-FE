@@ -134,7 +134,7 @@ const AddQuestionTestEditor = () => {
   }, []);
 
   return (
-    <>
+    <main className="flex">
       <Header name={test?.testName} page={"Add Questions"} id={id} />
       <div className="w-full max-w-4xl mx-auto my-8">
         {loading ? (
@@ -154,7 +154,7 @@ const AddQuestionTestEditor = () => {
           ))
         )}
       </div>
-    </>
+    </main>
   );
 };
 

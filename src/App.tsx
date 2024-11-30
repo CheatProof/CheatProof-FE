@@ -1,24 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   Categories,
-  CreateUser,
-  EditCategory,
-  EditOrder,
-  EditProduct,
-  EditReview,
   EditUser,
   HelpDesk,
   HomeLayout,
   Landing,
-
   Login,
-  Notifications,
-  Orders,
-  Products,
   Profile,
   Register,
-  Reviews,
-  Users,
 } from "./pages";
 
 import QuestionBank from "./pages/QuestionBank/QuestionBank";
@@ -77,7 +66,7 @@ const router = createBrowserRouter([
         element: <ReviewTest />,
       },
       {
-        path: "grouptest",
+        path: "grouptest/:id",
         element: <GroupTestMange />,
       },
 
@@ -144,10 +133,6 @@ const router = createBrowserRouter([
       {
         path: "help-desk",
         element: <HelpDesk />,
-      },
-      {
-        path: "notifications",
-        element: <Notifications />,
       },
       {
         path: "profile",

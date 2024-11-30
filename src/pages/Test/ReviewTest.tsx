@@ -161,13 +161,17 @@
 
 
 import { Sidebar } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { FiFileText } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 
 const ReviewTest = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const {group,test} = location.state;
+  
 
   return (
     <>
@@ -241,18 +245,18 @@ const ReviewTest = () => {
               <div className="flex justify-center items-center gap-4 mb-6 text-gray-700 dark:text-gray-300">
                 <div className="flex items-center gap-2">
                   <FiFileText className="w-5 h-5" />
-                  <span>test1</span>
+                  <span> {test.testName}</span>
                 </div>
                 <span>→</span>
                 <div className="flex items-center gap-2">
                   <FaUsers className="w-5 h-5" />
-                  <span>group1</span>
+                  <span>{group.groupName}</span>
                 </div>
               </div>
               <div className="flex justify-center gap-4">
                 <button
                   className="bg-red-500 text-white px-6 py-2 rounded-lg font-semibold"
-                  onClick={() => navigate("/grouptest")}
+                  onClick={() => navigate("/teacher-dashboard/grouptest")}
                 >
                   Go to Results and Settings
                 </button>

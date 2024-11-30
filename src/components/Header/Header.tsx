@@ -437,7 +437,7 @@ const Sidebar = ({ name, page, id }: any) => {
         {isLandingOpen && (
           <div className="pl-6">
             <NavLink
-              to="/"
+              to={`/teacher-dashboard/createQuestion?testId=`}
               className={({ isActive }) =>
                 isActive ? navActiveClass : navInactiveClass
               }
@@ -445,7 +445,7 @@ const Sidebar = ({ name, page, id }: any) => {
               Add a new question
             </NavLink>
             <NavLink
-              to={`/test/test-editor/question-bank/${id}`}
+              to={`/teacher-dashboard/test/test-editor/question-bank/${id}`}
               className={({ isActive }) =>
                 isActive ? navActiveClass : navInactiveClass
               }

@@ -1,7 +1,7 @@
 
 
 import { Sidebar } from '../../components';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getTestByUser } from '@/api/test';
 
@@ -21,6 +21,10 @@ const SelectTest = () => {
           console.error('Error fetching user test', error);
         }
       };
+
+      useEffect(() => {
+        fetchUserTest();
+      }, []);
     return (
         <>
             <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
@@ -64,13 +68,15 @@ const SelectTest = () => {
                             </div>
 
                             {/* Test List */}
-                            <div className="mt-8">
-                                <div className="text-lg font-semibold mb-4">Select a Test to continue</div>
-                                <div className="bg-white mr-48 py-5 dark:bg-gray-800 p-4 rounded-lg flex justify-between items-center hover:bg-gray-200 dark:hover:bg-gray-700">
-                                    <span className="text-gray-800 dark:text-gray-200">{tests}</span>
-                                    <button className="text-blue-600 font-medium hover:underline" onClick={() => navigate('/assigntest')}>Assign this Test</button>
+                            <div className="text-lg font-semibold mb-4">Select a Test to continue</div>
+                           {tests.map((test:any)=>( 
+                            <div className="">
+                                <div className="bg-white max-w-2xl py-5 dark:bg-gray-800 p-4 rounded-lg flex justify-between items-center hover:bg-gray-200 dark:hover:bg-gray-700">
+                                    <span className="text-gray-800 dark:text-gray-200">{test.testName}</span>
+                                    <Link className="text-blue-600 font-medium hover:underline" state={{test:test}} to='/teacher-dashboard/assigntest'>Assign this Test</Link>
                                 </div>
                             </div>
+                        ))}
 
                             {/* Info Section */}
                             <div className="mt-8 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">

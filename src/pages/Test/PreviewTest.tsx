@@ -333,11 +333,13 @@ function TestSession() {
     if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
-  const openModal = () => setModalOpen(true);
   const closeModal = (index: number) => {
     setCurrentQuestion(index);
     setModalOpen(false);
   };
+  
+  const openModal = () => setModalOpen(true);
+
 
   const fetchQuestions = async () => {
     const data = await getTestQuestionById(id);

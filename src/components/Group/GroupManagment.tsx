@@ -131,7 +131,7 @@ const GroupsManagement = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            <Button onClick={()=>navigate(`/group-add-member/${id}`)} variant="ghost" className="flex items-center gap-2">
+            <Button onClick={()=>navigate(`/teacher-dashboard/group-add-member/${id}`)} variant="ghost" className="flex items-center gap-2">
               <UserPlus className="w-4 h-4" />
               Add Members
             </Button>
@@ -147,7 +147,7 @@ const GroupsManagement = () => {
               <Trash2 className="w-4 h-4" />
               Delete Options
             </Button>
-            <Button className="hover:bg-white border-fore border-2 hover:text-fore bg-fore text-white font-medium" onClick={()=>navigate(`/selecttest`)}>
+            <Button className="hover:bg-white border-fore border-2 hover:text-fore bg-fore text-white font-medium" onClick={()=>navigate(`/teacher-dashboard/selecttest`)}>
               Assign Test
             </Button>
           </div>
@@ -242,7 +242,7 @@ const GroupsManagement = () => {
                   <Button variant="ghost">
                     Actions
                   </Button>
-                  <Button className="bg-color2 hover:bg-color1 text-white flex items-center gap-2">
+                  <Button onClick={()=>navigate(`/teacher-dashboard/group-add-member/${id}`)} className="bg-color2 hover:bg-color1 text-white flex items-center gap-2">
                     <Plus className="w-4 h-4" />
                     Add new members
                   </Button>
@@ -307,7 +307,7 @@ const GroupsManagement = () => {
                         <div className="text-gray-600">{test.AssignedTests.Tests.testName}</div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <button className="text-gray-600 hover:text-gray-800">
+                        <button onClick={()=>navigate(`/teacher-dashboard/grouptest/${test.id}`)} className="text-gray-600 hover:text-gray-800">
                           Settings
                         </button>
                         <span className={`px-2 py-1 rounded text-sm ${

@@ -70,14 +70,14 @@ const TestDashboard: React.FC = () => {
                                                 </Button> */}
                                                 <button
                                                 className="bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
-                                                onClick={()=>navigate(`/test-dashboard/preview/${id}`)} 
+                                                onClick={()=>navigate(`/teacher-dashboard/test-dashboard/preview/${id}`)} 
                                             >
                                                 <CgPlayButtonO className="mr-2"/>
                                                 Preview
                                             </button>
                                             <button
                                                 className=" bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
-                                                onClick={()=> navigate('/assigntest')}
+                                                onClick={()=> navigate('/teacher-dashboard/assigntest')}
                                             >
                                                 <IoArrowRedoSharp className="mr-2" />
                                                 Assign Test
@@ -106,7 +106,7 @@ const TestDashboard: React.FC = () => {
                                         {/* <Button onClick={()=>navigate(`/test/test-editor/view/${id}`)} variant="outlined" startIcon={<CiEdit />} >
                                             Edit Test
                                         </Button> */}
-                                         <button onClick={()=>navigate(`/test/test-editor/view/${id}`)}
+                                         <button onClick={()=>navigate(`/teacher-dashboard/test/test-editor/view/${id}`)}
                                                 className=" text-fore bg-white px-4 border border-blue-950 hover:bg-fore hover:text-white md:py-2 rounded-lg text-sm flex items-center"
                                                     
                                             >

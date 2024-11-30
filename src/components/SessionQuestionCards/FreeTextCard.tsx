@@ -9,16 +9,17 @@ import React from "react";
 //   onAnswerSubmit: (answer: string) => void;
 // }
 
-const FreeTextCard: React.FC<any> = ({ question,answers }) => {
+const FreeTextCard: React.FC<any> = ({ question,answers,saveAnswer }) => {
   const [userAnswer, setUserAnswer] = useState(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].answer:"");
   
   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserAnswer(event.target.value);
+    saveAnswer(question.id,event.target.value);
   };
 
-  const handleAnswerSubmit = () => {
-    // onAnswerSubmit(userAnswer);
-  };
+ 
+    
+
 
   return (
     <div className="bg-white w-5/6 md:w-full mx-auto max-w-3xl h-auto shadow-md rounded-md p-6 my-8 border border-gray-300 max-sm:p-4">
@@ -47,9 +48,7 @@ const FreeTextCard: React.FC<any> = ({ question,answers }) => {
         onChange={handleAnswerChange} 
         className="w-full p-2 border border-gray-300 rounded" 
       />
-      <button onClick={handleAnswerSubmit} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-        Submit
-      </button>
+ 
     </div>
   );
 };

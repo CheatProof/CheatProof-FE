@@ -13,7 +13,7 @@ const ViewTestCard = ({ test }:any) => {
   return (
     <Card
 
-    onClick={() => navigate(`/test-dashboard/${test.id}`)}
+    onClick={() => navigate(`/teacher-dashboard/test-dashboard/${test.id}`)}
       sx={{
         width: 300,
         borderLeft: 4,

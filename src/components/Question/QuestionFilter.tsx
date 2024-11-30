@@ -121,7 +121,7 @@ const handleMouseLeaveAddQuestion = () => {
                   </button>
 
                   <button
-                    onClick={() => window.location.href = '/page2'}
+                    onClick={() => window.location.href = '/teacher-dashboard/questionbank/import'}
                     className="block w-full text-left px-4 py-2 hover:bg-gray-200"
                   >
                     Import spreadsheet (.CSV)
@@ -187,7 +187,7 @@ const handleMouseLeaveAddQuestion = () => {
         </Typography>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg"
-          onClick={() => navigate('/createQuestion')}
+          onClick={() => navigate('/teacher-dashboard/createQuestion')}
         >
           Create new Test
         </button>
