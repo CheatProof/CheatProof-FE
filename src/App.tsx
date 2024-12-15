@@ -30,9 +30,14 @@ import ReviewTest from "./pages/Test/ReviewTest";
 import StudentDashboard from "./pages/Student/Dashboard";
 import HomeLayoutStudent from "./pages/HomeLayoutStudent";
 import StudentTest from "./pages/Student/StudentTest";
+import HomePage from "./pages/Home";
 
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />
+  },
   {
     path: "/login",
     element: <Login />,
