@@ -33,8 +33,15 @@ import StudentTest from "./pages/Student/StudentTest";
 import TestSession from "./pages/Test/TestSession";
 import TestResult from "./pages/Results/TestResult";
 
+import HomePage from "./pages/Home";
+
+
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />
+  },
   {
     path: "/login",
     element: <Login />,
