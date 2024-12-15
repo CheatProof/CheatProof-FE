@@ -200,10 +200,10 @@ const Dashboard: React.FC = () => {
         <h2 className="text-black/45 border-b-[0.05rem] border-black/45 py-3 font-bold text-sm">Shortcuts</h2>
         <ul>
           <li className="mt-3 list-none">
-            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/selecttest">Create a Test</a>
+            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/teacher-dashboard/alltests">Create a Test</a>
           </li>
           <li className="mt-3 list-none">
-            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/assigntest">Assign a Test</a>
+            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/teacher-dasboard/selecttest">Assign a Test</a>
           </li>
         </ul>
 

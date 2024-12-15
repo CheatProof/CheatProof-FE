@@ -1104,42 +1104,68 @@ const LoginComponent = () => {
   const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="w-[500px] h-[750px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
+    <div className="w-[700px] h-[740px] relative dark:bg-gray-900 border-4 rounded-xl border-fore bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
       <Toaster/>
+      <div className="absolute top-4 left-4 flex items-center px-2">
+        <img
+          src="/public/transCheatProof.png" // Replace with the actual path of your logo
+          alt="Logo"
+          className="h-8 w-8 object-contain mr-2" // Adjust size of the logo
+        />
+        <h2 className="text-2xl font-bold text-fore">CheatProof</h2>
+      </div>
       <div className="flex flex-col items-center gap-10">
-        <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
-        <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">
-          Welcome to the dashboard!
-        </h2>
-        <div className="flex gap-5">
-          <ThirdPartyAuthButton>
+      
+
+        <h5 className="text-5xl dark:text-whiteSecondary font-bold text-black max-sm:text-xl mt-20">
+           <span className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move text-5xl font-extrabold">Welcome Back!</span>
+        </h5>
+        
+        {/* <div className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move text-6xl font-extrabold">
+        CheatProof
+      </div> */}
+        <h5 className="text-xl dark:text-whiteSecondary font-semibold text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move max-sm:text-xl">
+          Please enter your credentials
+        </h5>
+        {/* <div className="flex gap-x-8">
+          
+          <button className="text-fore px-6 py-2 rounded-lg flex items-center bg-white border border-fore hover:bg-fore hover:text-white">
+            <span className="font-medium text-lg mr-3">Google</span>
             <FaGoogle className="text-2xl max-sm:text-xl" />
-          </ThirdPartyAuthButton>
-          <ThirdPartyAuthButton>
+          </button>
+          
+       
+          <button className="text-fore px-6 py-2 rounded-lg flex items-center bg-white border border-fore hover:bg-fore hover:text-white">
+          <span className="font-medium text-lg mr-3">Github</span>
             <FaGithub className="text-2xl max-sm:text-xl" />
-          </ThirdPartyAuthButton>
-        </div>
+            </button>
+          
+        </div> */}
 
-        <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p>
+        {/* <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p> */}
 
-        <div className="w-full flex flex-col gap-5">
-          <InputWithLabel label="Email">
+        <div className="w-full flex flex-col gap-8">
+          {/* <InputWithLabel label="Email"> */}
+          <label className="text-black font-semibold mt-4">
+            Email
             <SimpleInput
               type="email"
               placeholder="Enter an email..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </InputWithLabel>
+            </label>
+          {/* </InputWithLabel> */}
 
-          <InputWithLabel label="Password">
+          <label className="text-black font-semibold">
+            Password
             <SimpleInput
               type="password"
               placeholder="Enter a password..."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-          </InputWithLabel>
+          </label>
         </div>
 
         {errorMessage && (
@@ -1153,14 +1179,24 @@ const LoginComponent = () => {
           Forgot password?
         </p>
 
-        <WhiteButton
+        {/* <WhiteButton
           onClick={handleSubmit}
           disabled={!isLoginEnabled || loading}
           textSize="lg"
           width="full"
           py="2"
           text={loading ? "Logging in..." : "Login now"} 
-        />
+        /> */}
+        <button
+  onClick={handleSubmit}
+  disabled={!isLoginEnabled || loading}
+  className={`text-lg px-10 rounded-md py-2 ${
+    !isLoginEnabled || loading ? "bg-white text-gray-400 cursor-not-allowed" : "text-fore font-semibold bg-white border border-fore hover:text-white hover:bg-fore"
+  }`}
+>
+  {loading ? "Logging in..." : "Login"}
+</button>
+
 
         {loading && (
           <p className="dark:text-gray-400 text-gray-700 text-base mt-2">Processing your login...</p>
@@ -1190,7 +1226,8 @@ const LoginComponent = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSendOTP} variant="contained">Send OTP</Button>
+          {/* <Button onClick={handleSendOTP} variant="contained">Send OTP</Button> */}
+          <button onClick={handleSendOTP} className="text-white bg-fore px-4 ml-2 py-2 rounded-lg flex items-center">Send OTP</button>
         </DialogActions>
       </Dialog>
 
@@ -1232,7 +1269,8 @@ const LoginComponent = () => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleResetPassword} variant="contained">Confirm</Button>
+          {/* <Button onClick={handleResetPassword} variant="contained">Confirm</Button> */}
+          <button onClick={handleResetPassword} className="text-white bg-fore px-4 ml-2 py-2 rounded-lg flex items-center">Confirm</button>
         </DialogActions>
       </Dialog>
     </div>

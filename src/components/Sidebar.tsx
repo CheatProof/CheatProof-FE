@@ -22,7 +22,7 @@ const Sidebar = () => {
     : "sidebar-closed";
 
   const navActiveClass: string =
-    "block dark:bg-whiteSecondary flex items-center self-stretch gap-4 py-2 px-6 cursor-pointer max-xl:py-3 dark:text-blackPrimary bg-blue-200 mx-3 rounded text-blackPrimary";
+    "block dark:bg-whiteSecondary flex items-center self-stretch gap-4 py-2 px-6 cursor-pointer max-xl:py-3 dark:text-blackPrimary mx-1 hover:bg-white rounded text-blackPrimary";
   const navInactiveClass: string =
     "block flex items-center self-stretch gap-4 py-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary";
 

@@ -182,7 +182,7 @@ const GroupManagement = () => {
                     </div>
                   ))}
                   
-                  <button className="mt-4 flex items-center gap-2 text-fore hover:underline">
+                  <button className="mt-4 flex items-center gap-2 text-fore hover:underline" onClick={()=> navigate('/teacher-dashboard/selecttest')}>
                     <span>+</span> Assign a Test
                   </button>
                 </div>
@@ -220,7 +220,7 @@ const GroupManagement = () => {
               <Button variant="outline" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </Button>
-              <Button onClick={handleCreateGroup}>
+              <Button onClick={handleCreateGroup} className='bg-color1 hover:bg-fore'>
                 Create Group
               </Button>
             </DialogFooter>

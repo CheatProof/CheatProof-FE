@@ -572,23 +572,41 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="w-[500px] h-[1060px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[800px]">
+    <div className="w-[740px] h-[1070px] dark:bg-gray-900 relative bg-white border-2 rounded-xl border-fore flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[800px]">
      <Toaster />
+     <div className="absolute top-4 left-4 flex items-center px-2">
+        <img
+          src="/public/transCheatProof.png" // Replace with the actual path of your logo
+          alt="Logo"
+          className="h-8 w-8 object-contain mr-2" // Adjust size of the logo
+        />
+        <h2 className="text-2xl font-bold text-fore">CheatProof</h2>
+      </div>
       <div className="flex flex-col items-center gap-10">
-        <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
-        <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">
-          Register on the dashboard!
-        </h2>
-        <div className="flex gap-5">
-          <ThirdPartyAuthButton>
+        
+        <h5 className="text-4xl font-semibold dark:text-whiteSecondary text-blackPrimary max-sm:text-xl mt-20">
+          Join the <span className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore ">CheatProof</span> Community!
+        </h5>
+        <h5 className="text-3xl dark:text-whiteSecondary font-semibold text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore max-sm:text-xl">
+          Sign up
+        </h5>
+        
+        {/* <div className="flex gap-x-8">
+          
+          <button className="text-fore px-6 py-2 rounded-lg flex items-center bg-white border border-fore hover:bg-fore hover:text-white">
+            <span className="font-medium text-lg mr-3">Google</span>
             <FaGoogle className="text-2xl max-sm:text-xl" />
-          </ThirdPartyAuthButton>
-          <ThirdPartyAuthButton>
+          </button>
+          
+         
+          <button className="text-fore px-6 py-2 rounded-lg flex items-center bg-white border border-fore hover:bg-fore hover:text-white">
+          <span className="font-medium text-lg mr-3">Github</span>
             <FaGithub className="text-2xl max-sm:text-xl" />
-          </ThirdPartyAuthButton>
+            </button>
+          
         </div>
 
-        <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p>
+        <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p> */}
 
         <div className="w-full flex flex-col gap-5">
           <InputWithLabel label="Username">
@@ -652,14 +670,22 @@ const RegisterComponent = () => {
           </InputWithLabel>
         </div>
 
-        <StyledWhiteButton
+        {/* <StyledWhiteButton
           onClick={handleSubmit}
           textSize="lg"
           width="full"
           py="2"
           text={loading ? "Registering..." : "Register now"}
           disabled={loading} // Disable button if loading
-        />
+        /> */}
+        <button
+  onClick={handleSubmit}
+  disabled={loading}
+  className={`text-lg px-6 rounded-md py-2 text-fore font-semibold bg-white border border-fore hover:text-white hover:bg-fore
+  }`}
+>
+  {loading ? "Registering..." : "Register now"}
+</button>
 
         {loading && <p className="text-blue-500">Please wait, registering...</p>}
 

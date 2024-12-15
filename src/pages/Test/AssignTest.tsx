@@ -247,7 +247,7 @@ const AssignTest = () => {
                    </div>
                    <hr className="border-gray-400 w-8" />
                    <div className="flex items-center gap-2">
-                     <div className="w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center font-medium">2</div>
+                     <div className="w-5 h-5 bg-color2 text-white rounded-full flex items-center justify-center font-medium">2</div>
                      <span>Assign</span>
                    </div>
                    <hr className="border-gray-400 w-8" />
@@ -314,9 +314,9 @@ const AssignTest = () => {
      User registration required
    </p>
                   <div className="text-gray-800 dark:text-gray-200 text-sm w-full">
-                    <h4 className="font-medium mb-2">1. Select Groups</h4>
+                    <h4 className="font-medium mb-2 flex text-center justify-center">1. Select Groups</h4>
                     {groups.map((group: any) => (
-                      <div className="flex items-center gap-2 mb-2" key={group.id}>
+                      <div className="flex items-center justify-center gap-2 mb-2" key={group.id}>
                         <input
                           type="radio"
                           id={`group-${group.id}`}

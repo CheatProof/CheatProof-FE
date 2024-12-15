@@ -89,10 +89,10 @@ const TestDetails: React.FC = () => {
           </Box>
         </Box>
         <Box display="flex" gap={2}>
-          <button className="bg-green-700 hover:bg-green-800 text-white px-5 py-2 rounded-lg">
+          <button className="bg-color1 hover:bg-fore text-white px-5 py-2 rounded-lg">
             Available
           </button>
-          <button className="border border-blue-900 text-blue-950 hover:text-white hover:bg-blue-950 px-5 py-2 rounded-lg flex justify-center items-center">
+          <button className="border border-blue-900 text-fore hover:text-white hover:bg-fore px-5 py-2 rounded-lg flex justify-center items-center">
             <FiFileText className="mx-1" />
             Preview
           </button>
