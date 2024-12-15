@@ -11,6 +11,7 @@ import Logo from "../assets/CheatProof.svg";
 const Header = () => {
   const dispatch = useAppDispatch();
   const { darkMode } = useAppSelector((state) => state.darkMode);
+  const user:any= localStorage.getItem("user");
 
   return (
     <header className="dark:bg-blackPrimary bg-white">
@@ -50,10 +51,10 @@ const Header = () => {
               />
               <div className="flex flex-col">
                 <p className="dark:text-whiteSecondary text-fore text-base max-xl:text-sm">
-                  S.M.Zaryab
+                {JSON.parse(user).username}
                 </p>
                 <p className="dark:text-whiteSecondary text-fore text-sm max-xl:text-xs">
-                  Teacher
+                {JSON.parse(user).Roles[0].roleName}
                 </p>
               </div>
             </div>
