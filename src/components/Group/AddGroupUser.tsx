@@ -202,7 +202,7 @@ const AddGroupMembers = () => {
             </RadioGroup>
           </div>
 
-          <Button className="w-full" onClick={handleAddMembers}>
+          <Button className="py-2 px-6 flex justify-center items-center text-center bg-color1 hover:bg-fore" onClick={handleAddMembers}>
             Add Members
           </Button>
         </CardContent>

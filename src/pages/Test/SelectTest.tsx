@@ -37,7 +37,7 @@ const SelectTest = () => {
                             <div className="flex items-center justify-center">
                                 <div className="flex gap-6 items-center text-gray-700 dark:text-gray-300">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 bg-blue-500 text-white rounded-full flex items-center justify-center font-medium">1</div>
+                                        <div className="w-5 h-5 bg-color2 text-white rounded-full flex items-center justify-center font-medium">1</div>
                                         <span>Select Test</span>
                                     </div>
                                     <hr className="border-gray-400 w-8" />

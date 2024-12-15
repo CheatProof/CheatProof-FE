@@ -285,7 +285,7 @@ const navigate = useNavigate()
         })
         navigate(-1);
       } else {
-        toast.error("Invalid credentials", {
+        toast.error("Failed to create question", {
           position: "top-center",
           duration: 3000
         })
@@ -301,6 +301,170 @@ const navigate = useNavigate()
       setLoading(false); // End loading
     }
   };
+
+  const hasEditorContent = (state: any) => {
+    return state && state.getCurrentContent().getPlainText().trim() !== "";
+  };
+  
+  const areFieldsValid = () => {
+    switch (selectedQuestionType) {
+      case "multipleChoice":
+        return (
+          // hasEditorContent(editorState) && // Check editor content
+          // points &&
+          // subCategory &&
+          // options.length > 0 &&
+          // options.every(
+          //   (option: any) =>
+          //     typeof option.text === "string" &&
+          //     option.text.trim() !== "" &&
+          //     option.isCorrect !== undefined
+          // )
+
+
+          
+          // hasEditorContent(editorState) && // Editor state validation
+          // points &&
+          // subCategory &&
+          // options.length > 0 &&
+          // options.every(
+          //   (option: any) =>
+          //     option &&
+          //     typeof option.text === "string" &&
+          //     option.text.trim() !== "" &&
+          //     option.isCorrect !== undefined
+          // )
+
+          editorState &&
+                correctFeedback &&
+                incorrectFeedback &&
+                points &&
+                options.length > 0 &&
+                options.every((option: any) => option.text && option.isCorrect !== undefined)
+        );
+  
+      case "trueFalse":
+        return (
+          hasEditorContent(editorState) && // Check editor content
+          points &&
+          subCategory &&
+          trueFalseOption.length > 0 &&
+          trueFalseOption.every(
+            (option: any) =>
+              typeof option.text === "string" &&
+              option.text.trim() !== "" &&
+              option.isCorrect !== undefined
+          )
+        );
+  
+      case "freeText":
+        return (
+          hasEditorContent(editorState) && // Check editor content
+          points &&
+          subCategory &&
+          freeText.length > 0 &&
+          freeText.every(
+            (value: any) =>
+              typeof value.text === "string" && value.text.trim() !== ""
+          )
+        );
+  
+      case "grammar":
+        return (
+          typeof grammarText === "string" &&
+          grammarText.trim() !== "" &&
+          typeof grammarCorrect === "string" &&
+          grammarCorrect.trim() !== "" &&
+          points &&
+          subCategory
+        );
+  
+      case "essay":
+        return hasEditorContent(editorState) && points && subCategory;
+  
+      case "matching":
+        return (
+          // hasEditorContent(editorState) && // Check editor content
+          // points &&
+          // subCategory &&
+          // correctPairs.length > 0 &&
+          // correctPairs.every(
+          //   (pair: any) =>
+          //     typeof pair.clue === "string" &&
+          //     pair.clue.trim() !== "" &&
+          //     typeof pair.match === "string" &&
+          //     pair.match.trim() !== ""
+          // ) &&
+          // incorrectPairs.every(
+          //   (value: any) => typeof value === "string" && value.trim() !== ""
+          // )
+
+          editorState &&
+                correctFeedback &&
+                incorrectFeedback &&
+                points &&
+                correctPairs.length > 0 &&
+                correctPairs.every((value: any) => value.clue && value.match) &&
+                incorrectPairs.every((value: any) => value)
+        );
+  
+      default:
+        return false;
+    }
+  };
+  
+  // const areFieldsValid = () => {
+  //   if (selectedQuestionType === "multipleChoice") {
+  //     return (
+  //       editorState &&
+  //       correctFeedback &&
+  //       incorrectFeedback &&
+  //       points &&
+  //       options.length > 0 &&
+  //       options.every((option: any) => option.text && option.isCorrect !== undefined)
+  //     );
+  //   }
+  //   if (selectedQuestionType === "trueFalse") {
+  //     return (
+  //       editorState &&
+  //       correctFeedback &&
+  //       incorrectFeedback &&
+  //       points &&
+  //       trueFalseOption.every((option: any) => option.text && option.isCorrect !== undefined)
+  //     );
+  //   }
+  //   if (selectedQuestionType === "freeText") {
+  //     return (
+  //       editorState &&
+  //       correctFeedback &&
+  //       incorrectFeedback &&
+  //       points &&
+  //       freeText.length > 0 &&
+  //       freeText.every((value: any) => value.text)
+  //     );
+  //   }
+  //   if (selectedQuestionType === "grammar") {
+  //     return grammarText && grammarCorrect && correctFeedback && incorrectFeedback && points;
+  //   }
+  //   if (selectedQuestionType === "essay") {
+  //     return editorState && correctFeedback && incorrectFeedback && points;
+  //   }
+  //   if (selectedQuestionType === "matching") {
+  //     return (
+  //       editorState &&
+  //       correctFeedback &&
+  //       incorrectFeedback &&
+  //       points &&
+  //       correctPairs.length > 0 &&
+  //       correctPairs.every((value: any) => value.clue && value.match) &&
+  //       incorrectPairs.every((value: any) => value)
+  //     );
+  //   }
+  //   return false; // Default false if no type selected
+  // };
+  
+
+  
 
   useEffect(()=>{
     fetchQuestionType();
@@ -852,7 +1016,7 @@ const navigate = useNavigate()
 
                     <button
                       onClick={addCorrectPairs}
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                      className="bg-color1 text-white px-4 py-2 rounded hover:bg-fore"
                     >
                       + Add another pair
                     </button>
@@ -1074,13 +1238,45 @@ const navigate = useNavigate()
 
         </div>) : renderPreviewCard()}
 
-        <div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-          <button className="border-black bg-rose-800 px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>{!showPreview ? "Preview" : "Edit"}</button>
-          <button onClick={() => handleSubmit()} className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">Save</button>
-          <button className="border-black bg-sky-600 px-5 py-2 rounded-md text-white">
+        {/* <div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+          <button className="border-black bg-fore px-5 py-2 rounded-md text-white" onClick={handlePreviewClick}>{!showPreview ? "Preview" : "Edit"}</button>
+          <button onClick={() => handleSubmit()} className="border-black bg-color1 px-5 py-2 rounded-md text-white">Save</button>
+          <button className="border-black bg-color1 px-5 py-2 rounded-md text-white">
             Save and add more
           </button>
-        </div>
+        </div> */}
+
+<div className="mx-4 mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+  <button
+    className={`border-black bg-fore px-5 py-2 rounded-md text-white ${
+      !areFieldsValid() ? "disabled:bg-gray-400 disabled:cursor-not-allowed" : ""
+    }`}
+    onClick={handlePreviewClick}
+    disabled={!areFieldsValid()}
+  >
+    {!showPreview ? "Preview" : "Edit"}
+  </button>
+
+  <button
+    onClick={handleSubmit}
+    className={`border-black bg-color1 px-5 py-2 rounded-md text-white ${
+      !areFieldsValid() ? "disabled:bg-gray-400 disabled:cursor-not-allowed" : ""
+    }`}
+    disabled={!areFieldsValid()}
+  >
+    Save
+  </button>
+
+  <button
+    className={`border-black bg-color1 px-5 py-2 rounded-md text-white ${
+      !areFieldsValid() ? "disabled:bg-gray-400 disabled:cursor-not-allowed" : ""
+    }`}
+    disabled={!areFieldsValid()}
+  >
+    Save and add more
+  </button>
+</div>
+
 
       </div>
     </>

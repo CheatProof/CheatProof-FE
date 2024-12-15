@@ -125,7 +125,7 @@ const QuestionEditorCard = ({ question ,idx ,testId}: any) => {
 <div className="flex justify-between">
       <div className="flex space-x-4 text-sm text-color1 ml-2">
         {/* <button className="hover:underline">Answers</button> */}
-        <Link to={`/questionbank/${question.id}`} className="hover:underline">Edit</Link>
+        <Link to={`/teacher-dashboard/questionbank/${question.id}`} className="hover:underline">Edit</Link>
         {/* <button className="hover:underline">Duplicate</button> */}
         
        

@@ -213,7 +213,7 @@ const ReviewTest = () => {
                 <div className="flex gap-6 items-center text-gray-700 dark:text-gray-300">
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 text-blackSecondary dark:text-white rounded-full flex items-center justify-center font-medium">1</div>
-                    <span className="hover:cursor-pointer" onClick={() => navigate('/selecttest')}>Select Test</span>
+                    <span className="hover:cursor-pointer" onClick={() => navigate('/teacher-dashboard/selecttest')}>Select Test</span>
                   </div>
                   <hr className="border-gray-400 w-8" />
                   <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ const ReviewTest = () => {
                   </div>
                   <hr className="border-gray-400 w-8" />
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-blue-500 dark:bg-gray-700 text-blackSecondary dark:text-white rounded-full flex items-center justify-center font-medium">4</div>
+                    <div className="w-5 h-5 bg-color2 dark:bg-gray-700 text-white dark:text-white rounded-full flex items-center justify-center font-medium">4</div>
                     <span>Review</span>
                   </div>
                 </div>
@@ -255,13 +255,13 @@ const ReviewTest = () => {
               </div>
               <div className="flex justify-center gap-4">
                 <button
-                  className="bg-red-500 text-white px-6 py-2 rounded-lg font-semibold"
+                  className="bg-color1 text-white px-6 py-2 rounded-lg font-semibold"
                   onClick={() => navigate("/teacher-dashboard/grouptest")}
                 >
                   Go to Results and Settings
                 </button>
                 <button
-                  className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold"
+                  className="bg-color1 text-white px-6 py-2 rounded-lg font-semibold"
                   onClick={() => navigate("/add-members")}
                 >
                   Add members to the group

@@ -415,7 +415,7 @@ const Sidebar = ({ name, page, id }: any) => {
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="hover:bg-white bg-gray-800 text-white border-2 ml-16 w-24 hover:text-fore font-semibold py-2 rounded-lg text-center text-sm flex justify-center items-center mb-6"
+          className="hover:bg-white bg-gray-800 text-white border-2 mt-12 ml-16 w-24 hover:text-fore font-semibold py-2 rounded-lg text-center text-sm flex justify-center items-center mb-12"
         >
           Back
         </button>
@@ -435,7 +435,7 @@ const Sidebar = ({ name, page, id }: any) => {
           <span className="text-md font-semibold">Add Question</span>
         </div>
         {isLandingOpen && (
-          <div className="pl-6">
+          <div className="pl-5">
             <NavLink
               to={`/teacher-dashboard/createQuestion?testId=`}
               className={({ isActive }) =>

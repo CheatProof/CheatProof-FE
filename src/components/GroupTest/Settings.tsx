@@ -735,7 +735,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
       </Box>
 
       <button
-        className="bg-sky-600 hover:bg-sky-700 ml-48 text-white px-4 md:py-2 rounded-lg text-sm"
+        className="bg-color1 hover:bg-fore ml-48 text-white px-4 md:py-2 rounded-lg text-sm"
         onClick={() => handleSave({
           assignTestTypeId: "cfcb5964-bbf8-4d34-bb68-d0b114d2c52e",
           ...groupTest,

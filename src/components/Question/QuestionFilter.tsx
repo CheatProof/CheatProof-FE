@@ -186,7 +186,7 @@ const handleMouseLeaveAddQuestion = () => {
           Into a Test
         </Typography>
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg"
+          className="bg-color1 hover:bg-fore text-white px-5 py-2 rounded-lg"
           onClick={() => navigate('/teacher-dashboard/createQuestion')}
         >
           Create new Test
@@ -199,8 +199,8 @@ const handleMouseLeaveAddQuestion = () => {
           Into your Question Bank
         </Typography>
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg"
-          onClick={() => navigate('/createQuestion')}
+          className="bg-color1 hover:bg-fore text-white px-5 py-2 rounded-lg"
+          onClick={() => navigate('/teacher-dashboard/createQuestion')}
         >
           Add to Question Bank
         </button>

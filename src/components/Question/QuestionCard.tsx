@@ -94,7 +94,7 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
 
       {/* Actions */}
       <div className="flex space-x-4 text-sm text-color1 ml-2">
-        <Link to={`/questionbank/${question.id}`} className="hover:underline">Edit</Link>
+        <Link to={`${question.id}`} className="hover:underline">Edit</Link>
         <button onClick={() => setIsModalOpen(true)} className="hover:underline">Delete</button>
         <button className="hover:underline">Archive</button>
         <button className="hover:underline">Used In</button>

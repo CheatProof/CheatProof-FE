@@ -63,16 +63,16 @@ const TestSettings = () => {
               <div className="flex gap-6 items-center text-gray-700 dark:text-gray-300">
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 text-blackSecondary dark:text-white rounded-full flex items-center justify-center font-medium">1</div>
-                  <span className="hover:cursor-pointer" onClick={() => navigate('/selecttest')}>Select Test</span>
+                  <span className="hover:cursor-pointer" onClick={() => navigate('/teacher-dashboard/selecttest')}>Select Test</span>
                 </div>
                 <hr className="border-gray-400 w-8" />
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 bg-gray-300 text-white rounded-full flex items-center justify-center font-medium">2</div>
-                  <span className="hover:cursor-pointer" onClick={() => navigate('/assigntest')}>Assign</span>
+                  <span className="hover:cursor-pointer" onClick={() => navigate('/teacher-dashboard/assigntest')}>Assign</span>
                 </div>
                 <hr className="border-gray-400 w-8" />
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 bg-blue-500 dark:bg-gray-700 text-blackSecondary dark:text-white rounded-full flex items-center justify-center font-medium">3</div>
+                  <div className="w-5 h-5 bg-color2 dark:bg-gray-700 text-white dark:text-white rounded-full flex items-center justify-center font-medium">3</div>
                   <span>Test settings</span>
                 </div>
                 <hr className="border-gray-400 w-8" />

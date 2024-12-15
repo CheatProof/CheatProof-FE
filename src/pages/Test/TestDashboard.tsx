@@ -77,7 +77,7 @@ const TestDashboard: React.FC = () => {
                                             </button>
                                             <button
                                                 className=" bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
-                                                onClick={()=> navigate('/teacher-dashboard/assigntest')}
+                                                onClick={()=> navigate('/teacher-dashboard/selecttest')}
                                             >
                                                 <IoArrowRedoSharp className="mr-2" />
                                                 Assign Test

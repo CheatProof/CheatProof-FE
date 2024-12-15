@@ -760,10 +760,10 @@ const TestManage: React.FC = () => {
 
                   {/* New Test Button */}
                   <button
-                    className="bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm"
+                    className="bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-md font-medium"
                     onClick={handleModalOpen}
                   >
-                    + Add Question
+                    + Create Test
                   </button>
                 </Box>
               </Box>
