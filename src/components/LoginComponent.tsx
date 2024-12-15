@@ -1011,7 +1011,7 @@ const LoginComponent = () => {
 
     setLoading(true);
     try {
-      const body = { email, password };
+      const body = { username:email, password };
       const data = await signIn(body);
       if (data.code === 200) {
         localStorage.setItem('token', data.data.token);

@@ -8,7 +8,7 @@ const MCQTestCard: React.FC<any> = ({ question, saveAnswer, answers }) => {
   useEffect(() => {
     const savedAnswer = answers.find((a: any) => a.questionId === question.id);
     if (savedAnswer) {
-      setSelectedOptions(savedAnswer.answer);
+      setSelectedOptions(savedAnswer.userAnswer);
     } else {
       setSelectedOptions([]);
     }

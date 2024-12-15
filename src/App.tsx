@@ -19,7 +19,7 @@ import UpdateQuestion from "./pages/QuestionBank/UpdateQuestion";
 import TestQuestionView from "./pages/Test/TestEditor/TestQuestionView";
 import AddQuestionTestEditor from "./pages/Test/TestEditor/AddQuestions";
 import ImportQuestion from "./pages/QuestionBank/ImportQuestions";
-import TestSession from "./pages/Test/PreviewTest";
+import PreviewTestSession   from "./pages/Test/PreviewTest";
 import Groups from "./pages/Group/Groups";
 import GroupsManagement from "./pages/Group/GroupManagment";
 import AddGroupUser from "./pages/GroupUser/AddMember";
@@ -30,6 +30,8 @@ import ReviewTest from "./pages/Test/ReviewTest";
 import StudentDashboard from "./pages/Student/Dashboard";
 import HomeLayoutStudent from "./pages/HomeLayoutStudent";
 import StudentTest from "./pages/Student/StudentTest";
+import TestSession from "./pages/Test/TestSession";
+import TestResult from "./pages/Results/TestResult";
 
 
 const router = createBrowserRouter([
@@ -98,7 +100,7 @@ const router = createBrowserRouter([
       
       {
         path: "test-dashboard/preview/:id",
-        element: <TestSession/>,
+        element: <PreviewTestSession />,
       },
       {
         path: "test/test-editor/view/:id",
@@ -156,6 +158,14 @@ const router = createBrowserRouter([
 
     ]
       
+  }
+  ,{
+    path: "test-session/:id",
+    element: <TestSession/>,
+  },
+  {
+    path: "result-test/:id",
+    element: <TestResult/>,
   }
   
 ]);

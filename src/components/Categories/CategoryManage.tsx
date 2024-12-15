@@ -83,12 +83,12 @@ const CategoryManage: React.FC = () => {
   return (
     <Box padding={3}>
       {/* Header */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      {/* <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="h6">Manage Categories</Typography>
         <IconButton>
           <CloseIcon />
         </IconButton>
-      </Box>
+      </Box> */}
 
       {/* Tabs for switching between New Category and New Parent Category */}
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="category tabs">
@@ -193,7 +193,7 @@ const CategoryManage: React.FC = () => {
         </>
       )}
 
-      <Divider sx={{ my: 4 }} />
+      {/* <Divider sx={{ my: 4 }} /> */}
     </Box>
   );
 };

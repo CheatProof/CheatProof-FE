@@ -10,7 +10,7 @@ import React from "react";
 // }
 
 const FreeTextCard: React.FC<any> = ({ question,answers,saveAnswer }) => {
-  const [userAnswer, setUserAnswer] = useState(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].answer:"");
+  const [userAnswer, setUserAnswer] = useState(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].userAnswer:"");
   
   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserAnswer(event.target.value);

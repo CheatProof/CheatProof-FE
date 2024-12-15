@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const TrueFalseCard: React.FC<any> = ({ question ,saveAnswer,answers}) => {
   const { questionText, TrueFalseQuestions } = question;
-  const [selectedOption, setSelectedOption] = useState<any>(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].answer:[])
+  const [selectedOption, setSelectedOption] = useState<any>(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].userAnswer:[])
 
   const handleOptionSelect = (optionId: any) => {
     setSelectedOption(optionId);

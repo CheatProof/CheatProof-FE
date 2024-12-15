@@ -42,3 +42,49 @@ export const fetchAssignedTestsByGroup = async (groupId:any) => {
   }
 };
 
+// http://localhost:8080/api/testSession/start : Start a test session
+
+export const startTestSession = async (testSession: any) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/testSession/start`,{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}` // replace YOUR_ACCESS_TOKEN with your actual access token
+        },
+        body: JSON.stringify(testSession)
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error starting test session:", error);
+    throw error;
+  }
+};
+
+// http://localhost:8080/api/testSession/end : Submit a test session
+
+export const endTestSession = async (testSession: any) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/testSession/end`,{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}` // replace YOUR_ACCESS_TOKEN with your actual access token
+        },
+        body: JSON.stringify(testSession)
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error submitting test session:", error);
+    throw error;
+  }
+};
+

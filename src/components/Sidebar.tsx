@@ -1,43 +1,69 @@
-import { HiLogin, HiOutlineHome, HiUserGroup, HiDocumentText, HiLink, HiOutlineUserGroup } from "react-icons/hi";
-import { HiOutlineInformationCircle } from "react-icons/hi";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { HiOutlineX } from "react-icons/hi";
-import { setSidebar } from "../features/dashboard/dashboardSlice";
+import {
+  HiLogin,
+  HiOutlineHome,
 
-import { MdVerifiedUser } from "react-icons/md";
-import { NavLink } from "react-router-dom";
-import { useState } from "react";
+  HiDocumentText,
+  HiLink,
+  HiOutlineUserGroup,
+  HiOutlineX,
+} from "react-icons/hi";
+
+import { NavLink, useLocation } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { setSidebar } from "../features/dashboard/dashboardSlice";
+import { useState, useEffect } from "react";
 
 const Sidebar = () => {
-  const [isLandingOpen, setIsLandingOpen] = useState(false);
-  const [isLinksOpen, setIsLinksOpen] = useState(false);
-  const [isGroupsOpen, setIsGroupsOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(""); // Track which dropdown is open
   const { isSidebarOpen } = useAppSelector((state) => state.dashboard);
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
-  // Determine the sidebar class based on isSidebarOpen
-  const sidebarClass: string = isSidebarOpen
-    ? "sidebar-open"
-    : "sidebar-closed";
+  const sidebarClass = isSidebarOpen ? "sidebar-open" : "sidebar-closed";
+  const navActiveClass =
+    "block dark:bg-whiteSecondary flex items-center self-stretch gap-4 py-2 px-6 cursor-pointer max-xl:py-3 text-white bg-slate-900 mx-1 rounded hover:bg-gray-700";
+  const navInactiveClass =
+    "block flex items-center self-stretch gap-4 py-2 px-6 bg-slate-900 cursor-pointer max-xl:py-3 text-white hover:bg-gray-700";
 
-  const navActiveClass: string =
-    "block dark:bg-whiteSecondary flex items-center self-stretch gap-4 py-2 px-6 cursor-pointer max-xl:py-3 dark:text-blackPrimary mx-1 hover:bg-white rounded text-blackPrimary";
-  const navInactiveClass: string =
-    "block flex items-center self-stretch gap-4 py-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary";
+  // Ensure the active tab's dropdown is open based on the current location
+  useEffect(() => {
+    if (
+      location.pathname.startsWith("/teacher-dashboard/alltests") ||
+      location.pathname.startsWith("/teacher-dashboard/questionbank") ||
+      location.pathname.startsWith("/teacher-dashboard/categories") ||
+      location.pathname.startsWith("/teacher-dashboard/landing-v2") ||
+      location.pathname.startsWith("/teacher-dashboard/createQuestion")
+    ) {
+      setOpenDropdown("test");
+    } else if (location.pathname.startsWith("/teacher-dashboard/allgroups")) {
+      setOpenDropdown("groups");
+    } else if (
+      location.pathname.startsWith("/login") ||
+      location.pathname.startsWith("/register")
+    ) {
+      setOpenDropdown("auth");
+    } else {
+      setOpenDropdown("");
+    }
+  }, [location]);
+
+  const handleDropdownToggle = (dropdown:any) => {
+    setOpenDropdown((prev) => (prev === dropdown ? "" : dropdown));
+  };
 
   return (
-    <div className="relative">
+    <div className="relative bg-slate-900">
       <div
-        className={`w-60  overflow-auto h-[100vh] dark:bg-blackPrimary bg-whiteSecondary pt-6 xl:sticky xl:top-0 xl:z-10 max-xl:fixed max-xl:top-0 max-xl:z-10 xl:translate-x-0 border-r-[1px] border-black ${sidebarClass}`}
+        className={`w-60 overflow-auto h-[100vh] bg-slate-900 pt-6 xl:top-0 xl:z-10 max-xl:fixed max-xl:top-0 max-xl:z-10 xl:translate-x-0 border-r-[1px] border-black ${sidebarClass}`}
       >
         <HiOutlineX
           className="dark:text-whiteSecondary text-blackPrimary text-2xl ml-auto mb-2 mr-2 cursor-pointer xl:py-3"
           onClick={() => dispatch(setSidebar())}
         />
-        <div>
 
-        <NavLink
+        <div>
+          {/* Dashboard Link */}
+          <NavLink
             to="/teacher-dashboard/"
             className={(isActiveObj) =>
               isActiveObj.isActive ? navActiveClass : navInactiveClass
@@ -45,19 +71,20 @@ const Sidebar = () => {
           >
             <HiOutlineHome className="text-lg" />
             <span className="text-md font-semibold">Dashboard</span>
-        </NavLink>
+          </NavLink>
 
-
+          {/* Test Dropdown */}
           <div
-            onClick={() => setIsLandingOpen(() => !isLandingOpen)}
-            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-black bg-whiteSecondary"
+            onClick={() => handleDropdownToggle("test")}
+            className={`flex items-center self-stretch gap-4 py-2 my-2 px-6 cursor-pointer max-xl:py-3 text-whiteSecondary hover:bg-gray-700 ${
+              openDropdown === "test" ? "bg-gray-700 text-white" : "bg-slate-900"
+            }`}
           >
             <HiDocumentText className="text-lg" />
             <span className="text-md font-semibold">Test</span>
           </div>
 
-
-          {isLandingOpen && (
+          {openDropdown === "test" && (
             <div>
               <NavLink
                 to="/teacher-dashboard/alltests"
@@ -65,95 +92,39 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-lg" />
                 <span className="text-md font-semibold">All Test</span>
               </NavLink>
-
-
               <NavLink
                 to="/teacher-dashboard/questionbank"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-lg" />
                 <span className="text-md font-semibold">Question Bank</span>
               </NavLink>
-
               <NavLink
                 to="/teacher-dashboard/categories"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-lg" />
                 <span className="text-md font-semibold">Categories</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/teacher-dashboard/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Files</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/teacher-dashboard/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Certificates</span>
-              </NavLink>
-
-              <NavLink
-                to="/teacher-dashboard/createQuestion"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Certificates</span>
               </NavLink>
             </div>
           )}
 
-          {/* <NavLink
-            to="/teacher-dashboard/products"
-            className={(isActiveObj) =>
-              isActiveObj.isActive ? navActiveClass : navInactiveClass
-            }
-          > */}
-            {/* <HiOutlineDevicePhoneMobile className="text-lg" />
-            <span className="text-md">Links</span>
-          </NavLink>
-          <NavLink
-            to="/teacher-dashboard/categories"
-            className={(isActiveObj) =>
-              isActiveObj.isActive ? navActiveClass : navInactiveClass
-            }
-          > */}
-
-
-              <span className="text-xs text-color2 pl-6 py-3">GIVE YOUR TEST</span>
-
-
-             <div
-            onClick={() => setIsLinksOpen(() => !isLinksOpen)}
-            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+          {/* Links Dropdown */}
+          <div
+            onClick={() => handleDropdownToggle("links")}
+            className={`flex items-center self-stretch gap-4 py-2 my-2 px-6 cursor-pointer max-xl:py-3 text-whiteSecondary hover:bg-gray-700 ${
+              openDropdown === "links" ? "bg-gray-700 text-white" : "bg-slate-900"
+            }`}
           >
             <HiLink className="text-lg" />
             <span className="text-md font-semibold">Links</span>
           </div>
 
-
-{isLinksOpen && (
+          {openDropdown === "links" && (
             <div>
               <NavLink
                 to="/teacher-dashboard/"
@@ -161,78 +132,31 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-lg" />
                 <span className="text-md font-semibold">All Links</span>
               </NavLink>
-
               <NavLink
                 to="/teacher-dashboard/landing-v2"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-lg" />
                 <span className="text-md font-semibold">Themes</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/teacher-dashboard/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Access Links</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/teacher-dashboard/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Export</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/teacher-dashboard/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Statistics</span>
               </NavLink>
             </div>
           )}
 
-
-
-          {/* <NavLink  to="/teacher-dashboard/orders"
-            className={(isActiveObj) =>
-              isActiveObj.isActive ? navActiveClass : navInactiveClass
-            }>
-            <HiOutlineTag className="text-lg" />
-          <span className="text-md">Groups</span>
-
-         
-          </NavLink> */}
-
-
-<div
-            onClick={() => setIsGroupsOpen(() => !isGroupsOpen)}
-            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+          {/* Groups Dropdown */}
+          <div
+            onClick={() => handleDropdownToggle("groups")}
+            className={`flex items-center self-stretch gap-4 py-2 my-2 px-6 cursor-pointer max-xl:py-3 text-whiteSecondary hover:bg-gray-700 ${
+              openDropdown === "groups" ? "bg-gray-700 text-white" : "bg-slate-900"
+            }`}
           >
             <HiOutlineUserGroup className="text-lg" />
             <span className="text-md font-semibold">Groups</span>
           </div>
-            
 
-          {isGroupsOpen && (
+          {openDropdown === "groups" && (
             <div>
               <NavLink
                 to="/teacher-dashboard/allgroups"
@@ -240,112 +164,46 @@ const Sidebar = () => {
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <span className="text-lg" />
                 <span className="text-md font-semibold">All Groups</span>
               </NavLink>
-
-              <NavLink
-                to="/teacher-dashboard/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Export</span>
-              </NavLink>
-
-
-              <NavLink
-                to="/teacher-dashboard/landing-v2"
-                className={(isActiveObj) =>
-                  isActiveObj.isActive ? navActiveClass : navInactiveClass
-                }
-              >
-                <span className="text-lg" />
-                <span className="text-md font-semibold">Statistics</span>
-              </NavLink>
-
-                </div>
+            </div>
           )}
 
-          {/* </NavLink> */}
-          {/* <NavLink
-           to="/teacher-dashboard/orders"
-           className={(isActiveObj) =>
-             isActiveObj.isActive ? navActiveClass : navInactiveClass
-           }>
-            
-            </NavLink> */}
-
-
-
-
-            {/* <HiOutlineTruck className="text-lg" />
-            <span className="text-md">Orders</span>
-          </NavLink>
-          <NavLink
-            to="/teacher-dashboard/users"
-            className={(isActiveObj) =>
-              isActiveObj.isActive ? navActiveClass : navInactiveClass
-            }
-          > */}
-            {/* <HiOutlineUser className="text-lg" />
-            <span className="text-md">Users</span>
-          </NavLink>
-          <NavLink
-            to="/teacher-dashboard/reviews"
-            className={(isActiveObj) =>
-              isActiveObj.isActive ? navActiveClass : navInactiveClass
-            }
-          > */}
-            {/* <HiOutlineStar className="text-lg" />
-            <span className="text-md">Reviews</span> */}
-          
-
+          {/* Auth Dropdown */}
           <div
-            onClick={() => setIsAuthOpen(() => !isAuthOpen)}
-            className="flex items-center self-stretch gap-4 py-2 my-2 px-6 dark:bg-blackPrimary dark:hover:bg-blackSecondary cursor-pointer max-xl:py-3 dark:text-whiteSecondary hover:bg-white text-blackPrimary bg-whiteSecondary"
+            onClick={() => handleDropdownToggle("auth")}
+            className={`flex items-center self-stretch gap-4 py-2 my-2 px-6 cursor-pointer max-xl:py-3 text-whiteSecondary hover:bg-gray-700 ${
+              openDropdown === "auth" ? "bg-gray-700 text-white" : "bg-slate-900"
+            }`}
           >
-            <MdVerifiedUser className="text-lg" />
+            <HiLogin className="text-lg" />
             <span className="text-md font-semibold">Auth</span>
           </div>
-          {isAuthOpen && (
+
+          {openDropdown === "auth" && (
             <div>
               <NavLink
-                to="/teacher-dashboard/login"
+                to="/login"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiLogin className="text-lg" />
                 <span className="text-md font-semibold">Login</span>
               </NavLink>
               <NavLink
-                to="/teacher-dashboard/register"
+                to="/register"
                 className={(isActiveObj) =>
                   isActiveObj.isActive ? navActiveClass : navInactiveClass
                 }
               >
-                <HiUserGroup className="text-lg" />
                 <span className="text-md font-semibold">Register</span>
               </NavLink>
             </div>
           )}
         </div>
-
-        <div className="absolute bottom-0 border-1 border-t dark:border-blackSecondary border-blackSecondary w-full">
-          <NavLink
-            to="/teacher-dashboard/help-desk"
-            className={(isActiveObj) =>
-              isActiveObj.isActive ? navActiveClass : navInactiveClass
-            }
-          >
-            <HiOutlineInformationCircle className="text-md" />
-            <span className="text-sm">Help Desk</span>
-          </NavLink>
-        </div>
       </div>
     </div>
   );
 };
+
 export default Sidebar;

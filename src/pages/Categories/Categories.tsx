@@ -35,14 +35,14 @@ const Categories = () => {
               Export
             </button>
               
-              <button
+              {/* <button
               className="bg-color2 hover:bg-fore text-white px-4 font-semibold md:py-2 rounded-md text-md flex items-center justify-center gap-x-2"
               
             >
               <HiOutlinePlus className="dark:text-blackPrimary text-whiteSecondary" />
              
               Add a category
-            </button>
+            </button> */}
             </div>
           </div>
           {/* <div className="px-4 sm:px-6 lg:px-8 flex justify-between items-center mt-5 max-sm:flex-col max-sm:gap-2">
@@ -74,8 +74,8 @@ const Categories = () => {
 
                 <CategoryTable />
           <div className="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-6 max-sm:flex-col gap-4 max-sm:pt-6 max-sm:pb-0">
-            <RowsPerPage />
-            <Pagination />
+            {/* <RowsPerPage />
+            <Pagination /> */}
           </div> 
         </div>
       </div>

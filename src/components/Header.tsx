@@ -4,6 +4,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setSidebar } from "../features/dashboard/dashboardSlice";
 import { Link } from "react-router-dom";
+import Profile from '../assets/user.png';
 // import SearchInput from "./SearchInput";
 import { toggleDarkMode } from "../features/darkMode/darkModeSlice";
 import Logo from "../assets/CheatProof.svg";
@@ -11,21 +12,19 @@ import Logo from "../assets/CheatProof.svg";
 const Header = () => {
   const dispatch = useAppDispatch();
   const { darkMode } = useAppSelector((state) => state.darkMode);
-  const user:any= localStorage.getItem("user");
+  const user: any = localStorage.getItem("user");
 
   return (
-    <header className="dark:bg-blackPrimary bg-white">
-      <div className="flex justify-between items-center px-9 max-xl:flex-col max-xl:gap-y-7 max-[400px]:px-4">
+    <header className="sticky top-0 z-50 dark:bg-blackPrimary bg-white shadow-md">
+      <div className="flex justify-between items-center px-9 max-xl:flex-col max-[400px]:px-4">
         <HiOutlineMenu
           className="text-2xl dark:text-whiteSecondary text-blackPrimary absolute bottom-7 left-5 xl:hidden max-sm:static max-sm:order-1 cursor-pointer"
           onClick={() => dispatch(setSidebar())}
         />
         <Link className="flex items-center" to="/">
-          {/* <FaReact className="text-4xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer" /> */}
-          <img className="w-[4rem] p-3" src={Logo}/>
+          <img className="w-[3.5rem] p-3" src={Logo} alt="Logo" />
           <span className="dark:text-whiteSecondary text-fore text-xl font-bold">CheatProof</span>
         </Link>
-        {/* <SearchInput /> */}
         <div className="flex gap-4 items-center max-xl:justify-center">
           <span className="dark:text-whiteSecondary text-fore">EN</span>
           {darkMode ? (
@@ -45,16 +44,16 @@ const Header = () => {
           <Link to="/profile">
             <div className="flex gap-2 items-center">
               <img
-                src="/src/assets/zaryab.jpeg"
+                src={Profile}
                 alt="profile"
                 className="rounded-full w-10 h-10"
               />
               <div className="flex flex-col">
                 <p className="dark:text-whiteSecondary text-fore text-base max-xl:text-sm">
-                {JSON.parse(user).username}
+                  {JSON.parse(user).username}
                 </p>
                 <p className="dark:text-whiteSecondary text-fore text-sm max-xl:text-xs">
-                {JSON.parse(user).Roles[0].roleName}
+                  {JSON.parse(user).Roles[0].roleName}
                 </p>
               </div>
             </div>
