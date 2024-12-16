@@ -1147,7 +1147,7 @@ const LoginComponent = () => {
         <div className="w-full flex flex-col gap-8">
           {/* <InputWithLabel label="Email"> */}
           <label className="text-black font-semibold mt-4">
-            Email
+            Username
             <SimpleInput
               type="email"
               placeholder="Enter an email..."

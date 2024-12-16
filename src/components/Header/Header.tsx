@@ -370,7 +370,9 @@
 
 
 
-import { useState } from "react";
+
+
+import { useState, useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import { HiOutlineHome, HiDocumentText, HiOutlineX } from "react-icons/hi";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -380,6 +382,23 @@ const Sidebar = ({ name, page, id }: any) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to toggle sidebar visibility
   const [isLandingOpen, setIsLandingOpen] = useState(false); // For the "Test" section dropdown
 
+
+  // Responsive Sidebar Initialization
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1400) {
+        setIsSidebarOpen(true); // lg screens or larger => sidebar closed initially
+      } else {
+        setIsSidebarOpen(false); // smaller screens => sidebar open initially
+      }
+    };
+
+    handleResize(); // Set the initial state on component mount
+    window.addEventListener("resize", handleResize); // Listen for window resizing
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const navActiveClass =
     "flex items-center mr-6 my-2 font-medium justify-center text-center gap-4 py-1 px-6 text-fore bg-gray-200 rounded-lg";
   const navInactiveClass =
@@ -387,14 +406,14 @@ const Sidebar = ({ name, page, id }: any) => {
 
   return (
     <div className="relative">
-      {/* Hamburger Icon for Opening Sidebar */}
+       {/* Hamburger Icon for Opening Sidebar  */}
       
       {!isSidebarOpen && (
         <button
           onClick={() => setIsSidebarOpen(true)}
-          className="fixed top-4 left-4 text-fore text-lg z-50 hover:text-gray-400"
+          className="top-4 left-4 justify-center absolute text-fore text-lg font-semibold z-50 hover:text-gray-400"
         >
-          ☰ 
+         ☰ 
         </button>
       )}
 
@@ -412,30 +431,33 @@ const Sidebar = ({ name, page, id }: any) => {
           <HiOutlineX />
         </button>
 
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="hover:bg-white bg-gray-800 text-white border-2 mt-12 ml-16 w-24 hover:text-fore font-semibold py-2 rounded-lg text-center text-sm flex justify-center items-center mb-12"
-        >
-          Back
-        </button>
+       
 
         {/* Sidebar Title */}
-        <div className="mb-6">
+        <div className="mb-3 mt-6">
           <h4 className="text-lg font-semibold">{name}</h4>
           <h4 className="text-lg opacity-75 font-semibold">{page}</h4>
         </div>
 
+         {/* Back Button */}
+         <div className="flex justify-normal text-center items-center">
+         <button
+          onClick={() => navigate(-1)}
+          className="hover:bg-white bg-gray-800 text-white border-2 w-full mt-3 hover:text-fore font-semibold py-2 rounded-lg border-x-transparent text-center text-base flex justify-center items-center mb-5"
+        >
+          Back
+        </button>
+        </div>
         {/* Test Section with Dropdown */}
         <div
           onClick={() => setIsLandingOpen(!isLandingOpen)}
-          className="flex items-center self-stretch gap-4 py-2 my-2 px-6 hover:bg-gray-700 cursor-pointer text-white"
+          className="flex items-center self-stretch py-2 my-2 pl-6 hover:bg-gray-700 cursor-pointer text-white"
         >
           <HiDocumentText className="text-lg" />
-          <span className="text-md font-semibold">Add Question</span>
+          <span className="text-md font-semibold pl-2">Add Question</span>
         </div>
         {isLandingOpen && (
-          <div className="pl-5">
+          <div className="pl-8 text-sm text-left">
             <NavLink
               to={`/teacher-dashboard/createQuestion?testId=`}
               className={({ isActive }) =>
@@ -472,6 +494,7 @@ const Sidebar = ({ name, page, id }: any) => {
         )}
 
         {/* Actions Link */}
+        <div className="">
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -481,11 +504,11 @@ const Sidebar = ({ name, page, id }: any) => {
           <HiOutlineHome className="text-lg" />
           <span className="text-md font-semibold">Actions</span>
         </NavLink>
-
+          </div>
         {/* Additional Buttons */}
-        <button className="bg-gray-800 hover:bg-white hover:text-gray-800 hover:border-gray-800 border-2 text-white mt-8 w-1/4 text-center ml-20 font-medium py-2 my-4 rounded-lg text-sm flex items-center justify-center">
+        {/* <button className="bg-gray-800 hover:bg-white hover:text-gray-800 hover:border-gray-800 border-2 text-white mt-8 w-1/4 text-center ml-20 font-medium py-2 my-4 rounded-lg text-sm flex items-center justify-center">
           <Add />
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -69,7 +69,7 @@ const HomePage = () => {
     },
     {
       icon: <MdDashboard className="text-fore"/>,
-      title: "Multiple Dashboard's",
+      title: "Personalized Dashboards",
       description:
         "CheatProof Offers Personalized Dashboards for Teachers & Students, ensuring smooth user experience.",
     },
@@ -94,14 +94,27 @@ const HomePage = () => {
         />
         <h2 className="text-3xl font-bold text-fore">CheatProof</h2>
       </div>
+      <div className="absolute top-4 right-4 flex items-center ">
+      <button onClick={()=>navigate("/register")}
+            className="text-base items-center justify-center mr-3 py-1 text-center  hover:text-white hover:bg-fore text-fore border-fore font-semibold border rounded-md px-7 bg-white "
+            >Sign Up</button>
+      <button
+  onClick={()=>navigate("/login")} 
+  
+  className={`text-base px-6 rounded-md py-1 text-fore font-semibold bg-white border border-fore hover:text-white hover:bg-fore
+  }`}
+>
+ Log In
+</button>
+      </div>
                 <div className="flex justify-center items-center w-full">
                 <div className="flex-grow flex flex-col  lg:flex-row justify-center items-center container">
                     <div className="w-full flex-1 flex flex-col gap-8 lg:gap-10 pl-8 px-9 md:pr-0 py-16 lg:py-30 text-justify lg:text-left transition-all duration-400">
-                        <div className="flex flex-col gap-10 lg:gap-12">
+                        <div className="flex flex-col gap-10 lg:gap-8 ">
                             <h2
                         
                                 
-                                className="text-center lg:text-left text-3xl md:text-6xl text-[#323229] transition-all duration-400 "
+                                className="text-center lg:text-left text-3xl md:text-6xl lg:text-5xl 2xl:text-5xl lg:mt-10 text-[#323229] transition-all duration-400 "
                             >
 
                                 Secure <span className="text-fore font-semibold">Assessments</span>, Trusted{" "}<span className="text-color1 font-semibold">Results</span>  </h2>
@@ -115,7 +128,7 @@ const HomePage = () => {
                             we've transformed test conduction into a seamless and secure process, ensuring integrity and reliability for educational institutions."  
                             </h2>
                         </div>
-                        <div className="w-full hidden container flex-wrap md:flex items-center justify-center md:gap-12 lg:gap-20 lg:justify-start px-16 lg:px-0 transition-all duration-400">
+                        <div className="w-full hidden container md:flex items-center justify-center md:gap-12 lg:gap-20 lg:justify-start px-16 lg:px-0 transition-all duration-400">
                             <div className="flex flex-row gap-1 items-center md:text-3xl">
 
                                 <FontAwesomeIcon icon={faClipboardList} className="text-fore" color="blue" />
@@ -135,18 +148,19 @@ const HomePage = () => {
                                 Get Started </span><FontAwesomeIcon icon={faAngleDoubleRight} className="pl-2" />
 
                             </Button> */}
+                           
                               <button
-  onClick={()=>navigate("/login")} 
+  onClick={()=>navigate("/register")} 
   
   className={`text-lg px-6 rounded-md py-2 text-fore font-semibold bg-white border border-fore hover:text-white hover:bg-fore
   }`}
 >
- Sign In
+ Join Now!
 </button>
                         </div>
                     </div>
                     <div className="flex-1 flex items-center justify-center">
-                        <img src={Surveillance} alt="" className="w-full max-w-3xl p-8 md:p-4 lg:p-[4rem] transition-all duration-400" />
+                        <img src={Surveillance} alt="" className="w-full h-full max-w-2xl p-8 md:p-4 lg:p-[4rem] transition-all duration-400" />
                     </div>
 
 
@@ -259,15 +273,15 @@ const HomePage = () => {
 <section className="overflow-hidden pt-20 pb-12 lg:pt-[2px] lg:pb-[90px] border-4 border-x-transparent  border-fore bg-white text-fore">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-10 items-center">
-            <div className="flex justify-center lg:justify-start">
+            <div className="flex justify-center ">
               <img
                 src={picture}
                 alt=""
-                className="max-w-full lg:max-w-[600px] lg:w-auto lg:p-4 lg:ml-[-30px] transition-all duration-400"
+                className="max-w-full lg:max-w-[450px] lg:w-auto lg:p-4 lg:ml-[-30px] transition-all duration-400"
               />
             </div>
 
-            <div className="lg:pt-14">
+            <div className="lg:pt-14 md:px-16">
               <span className="block mb-4 text-3xl lg:text-4xl font-semibold text-center lg:text-left">
               Effortless Test Creation and Student Management
               </span>
