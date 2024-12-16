@@ -154,7 +154,11 @@ const StudentDashboard: React.FC = () => {
               </div>
               <div className="flex items-center">
              
-             <MdOutlineArrowRightAlt onClick={()=>navigate(`/student-dashboard/group-tests/${group.id}`)} className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800 hover:bg-slate-400 hover:text-white" />
+             <MdOutlineArrowRightAlt onClick={()=>navigate(`/student-dashboard/group-tests/${group.id}`,{
+              state:{
+                group: group,
+              }
+             })} className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800 hover:bg-slate-400 hover:text-white" />
            </div>
          </div>
 

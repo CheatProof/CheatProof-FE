@@ -34,6 +34,7 @@ import TestSession from "./pages/Test/TestSession";
 import TestResult from "./pages/Results/TestResult";
 
 import HomePage from "./pages/Home";
+import ManageResults from "./pages/Results/ManageResults";
 
 
 
@@ -164,7 +165,7 @@ const router = createBrowserRouter([
       },
       {
         path: "results",
-        element: <TestSession />,
+        element: <ManageResults />,
       }
 
     ]

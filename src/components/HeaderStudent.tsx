@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { toggleDarkMode } from "../features/darkMode/darkModeSlice";
 // import Logo from "../assets/CheatProof.svg";
 import { SidebarTrigger } from "./ui/sidebar";
+import Profile from '../assets/user.png';
 const HeaderStudent = () => {
   const dispatch = useAppDispatch();
   const { darkMode } = useAppSelector((state) => state.darkMode);
@@ -13,8 +14,9 @@ const HeaderStudent = () => {
   console.log(user)
 
   return (
-    <header className="dark:bg-blackPrimary bg-white">
+    <header className="sticky top-0 z-50 dark:bg-blackPrimary bg-white shadow-md">
       <div className="flex justify-between items-center px-9 py-2 max-xl:flex-col max-xl:gap-y-7 max-[400px]:px-4">
+        
         
     <SidebarTrigger/>
        
@@ -38,7 +40,7 @@ const HeaderStudent = () => {
           <Link to="/profile">
             <div className="flex gap-2 items-center">
               <img
-                src="/src/assets/zaryab.jpeg"
+                src={Profile}
                 alt="profile"
                 className="rounded-full w-10 h-10"
               />

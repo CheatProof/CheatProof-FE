@@ -1,10 +1,11 @@
 import  { AppSidebar}  from "../../components/Student/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import HeaderStudent from "@/components/HeaderStudent";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAssignedTestsByGroup } from "@/api/test-session";
 import { Card } from "@mui/material";
+import { Footer } from "@/components";
 
 
 
@@ -12,6 +13,8 @@ import { Card } from "@mui/material";
 
 
 const StudentTest: React.FC = () => {
+  const location = useLocation()
+  const {group}=location.state
 
   const {groupId} = useParams()
   const [test, setTest] = useState<any | null>(null);
@@ -34,9 +37,9 @@ const StudentTest: React.FC = () => {
     <main className="w-full">
     <HeaderStudent />
      
-      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full  ">
+      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full h ">
         <div className="w-full px-3 py-4">
-       <h1 className="!text-3xl !font-semibold">{test?.groupName}</h1>
+       <h1 className="!text-3xl !font-semibold">{group?.groupName}</h1>
         {/* <div dangerouslySetInnerHTML={{__html:test?.groupMessage}}  className="mt-4"/> */}
         {test?.newGroup?.map((quiz:any) => (
         <Card key={quiz.AssignedTests.Tests.id} className="bg-white shadow-md p-3 my-2">
@@ -72,10 +75,10 @@ const StudentTest: React.FC = () => {
 </div>
             <div>
             <p className="text-sm text-gray-500">
-              <strong>Created By:</strong> {quiz.AssignedTests.Tests.createdBy}
+              <strong>Created By:</strong> {quiz.AssignedTests.Tests.Users.firstName + " " + quiz.AssignedTests.Tests.Users.lastName}
             </p>
             <p className="text-sm text-gray-500">
-              <strong>Category ID:</strong> {quiz.AssignedTests.Tests.categoryId}
+              <strong>Category ID:</strong> {quiz.AssignedTests.Tests.Categories.categoryName}
             </p>
 
             </div>
@@ -86,6 +89,7 @@ const StudentTest: React.FC = () => {
 
         </div>
       </div>
+      <Footer />
     </main>
     </SidebarProvider>
   );
