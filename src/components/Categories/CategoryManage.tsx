@@ -1,64 +1,60 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   TextField,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
   Typography,
-  IconButton,
-  Divider,
   Tabs,
   Tab,
   CircularProgress,
+  Divider,
 } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
-import { getAllParentCategories ,createParentCategory} from '../../api/parent-category';
+import {toast, Toaster } from 'react-hot-toast'; // Import toast
+import { getAllParentCategories, createParentCategory } from "../../api/parent-category";
 import { createChildCategory } from "../../api/child-category";
 
 const CategoryManage: React.FC = () => {
-  const [categoryName, setCategoryName] = useState('');
+  const [categoryName, setCategoryName] = useState("");
   const [parentCategory, setParentCategory] = useState("");
   const [parentCategories, setParentCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
-  const [newParentCategoryName, setNewParentCategoryName] = useState('');
+  const [newParentCategoryName, setNewParentCategoryName] = useState("");
 
-  const handleAddCategory = async() => {
+  const handleAddCategory = async () => {
     if (tabValue === 0 && categoryName) {
-      const newCategory = { categoryName: categoryName, parentCategoryId:parentCategory };
+      const newCategory = { categoryName: categoryName, parentCategoryId: parentCategory };
       const data = await createChildCategory(newCategory);
-      console.log(data);
+
       if (data.message === "Category created successfully") {
-        console.log("New category added:", newCategory);
-        setCategoryName('');
+        toast.success("New category added successfully!"); // Show success toaster
+        setCategoryName("");
         setParentCategory("");
-      } 
-      
+      } else {
+        toast.error("Failed to add category.");
+      }
     } else if (tabValue === 1 && newParentCategoryName) {
-
-
       const newParentCategory = { parentCategoryName: newParentCategoryName };
       const data = await createParentCategory(newParentCategory);
-      if (data.code === 201) {
-        setParentCategories([...parentCategories, data.data]);
-        console.log("New parent category added:", newParentCategory);
-        setNewParentCategoryName('');
-      } else {
-        console.error("Error creating parent category", data);
-      }
 
+      if (data.code === 201) {
+        toast.success("New parent category added successfully!"); // Show success toaster
+        setParentCategories([...parentCategories, data.data]);
+        setNewParentCategoryName("");
+      } else {
+        toast.error("Failed to add parent category.");
+      }
     }
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(event)
     setTabValue(newValue);
-    setCategoryName('');
+    setCategoryName("");
     setParentCategory("");
-    setNewParentCategoryName('');
+    setNewParentCategoryName("");
   };
 
   const fetchAllParentCategories = async () => {
@@ -81,16 +77,8 @@ const CategoryManage: React.FC = () => {
   }, []);
 
   return (
+  
     <Box padding={3}>
-      {/* Header */}
-      {/* <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h6">Manage Categories</Typography>
-        <IconButton>
-          <CloseIcon />
-        </IconButton>
-      </Box> */}
-
-      {/* Tabs for switching between New Category and New Parent Category */}
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="category tabs">
         <Tab label="New Category" />
         <Tab label="New Parent Category" />
@@ -98,9 +86,9 @@ const CategoryManage: React.FC = () => {
 
       <Divider sx={{ my: 2 }} />
 
-      {/* Tab 0: New Category Form */}
       {tabValue === 0 && (
         <>
+        <Toaster />
           <FormControl fullWidth margin="normal">
             <InputLabel>Parent Category</InputLabel>
             <Select
@@ -138,29 +126,20 @@ const CategoryManage: React.FC = () => {
           />
 
           <Box mt={2}>
-            {/* <Button
-              variant="contained"
-              color="error"
-              onClick={handleAddCategory}
-              disabled={!categoryName || isLoading}
-            >
-              Add Category
-            </Button> */}
             <button
               className="bg-color2 hover:bg-fore disabled:bg-gray-400 disabled:text-gray-800 disabled:opacity-50 text-white px-4 font-md md:py-2 rounded-md text-md flex items-center justify-center gap-x-2"
               onClick={handleAddCategory}
               disabled={!categoryName || isLoading}
             >
-             
               Add Category
             </button>
           </Box>
         </>
       )}
 
-      {/* Tab 1: New Parent Category Form */}
       {tabValue === 1 && (
         <>
+        <Toaster />
           <TextField
             fullWidth
             label="Name of Parent Category"
@@ -172,28 +151,16 @@ const CategoryManage: React.FC = () => {
           />
 
           <Box mt={2}>
-            {/* <Button
-              variant="contained"
-              color="error"
-              onClick={handleAddCategory}
-              disabled={!newParentCategoryName}
-            >
-              Add Parent Category
-            </Button> */}
-           <button
+            <button
               className="bg-color2 hover:bg-fore disabled:bg-gray-400 disabled:text-gray-800 disabled:opacity-50 text-white px-4 font-md md:py-2 rounded-md text-md flex items-center justify-center gap-x-2"
               onClick={handleAddCategory}
               disabled={!newParentCategoryName}
             >
-             
               Add Category
             </button>
-
           </Box>
         </>
       )}
-
-      {/* <Divider sx={{ my: 4 }} /> */}
     </Box>
   );
 };

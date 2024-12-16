@@ -30,6 +30,22 @@ const SelectTest = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchInitialTests = async () => {
+      try {
+        setIsLoadingTests(true);
+        const data = await getAllTests(); // Fetch all tests initially
+        if (data.code === 200 || data.code === 201) {
+          setTests(data.data); // Display all tests
+        } else {
+          console.error("Error fetching all tests", data);
+        }
+      } catch (error) {
+        console.error("Error fetching initial tests", error);
+      } finally {
+        setIsLoadingTests(false);
+      }
+    };
+  
     const fetchCategories = async () => {
       try {
         setIsLoadingCategories(true);
@@ -42,34 +58,40 @@ const SelectTest = () => {
           setChildCategories(childData.data);
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       } finally {
         setIsLoadingCategories(false);
       }
     };
-
+  
+    // Fetch both categories and initial tests
     fetchCategories();
+    fetchInitialTests();
   }, []);
-
-  // Fetch tests when a category is selected
+  
   const handleCategoryChange = async (categoryId: string) => {
     setSelectedCategory(categoryId);
-    if (categoryId === '0') {
-      setTests([]); 
-      return;
-    }
-
+  
     try {
       setIsLoadingTests(true);
-      const data = await getTestByUser(); 
-      if (data.code === 200 || data.code === 201) {
-        
-        const filteredTests = data.data.filter(
-          (test: any) => test.categoryId === categoryId
-        );
-        setTests(filteredTests);
+  
+      if (categoryId === '0') {
+        const data = await getAllTests(); // Fetch all tests
+        if (data.code === 200 || data.code === 201) {
+          setTests(data.data); // Display all tests
+        } else {
+          console.error("Error fetching all tests", data);
+        }
       } else {
-        console.error("Error fetching tests", data);
+        const data = await getTestByUser(); // Fetch tests by user
+        if (data.code === 200 || data.code === 201) {
+          const filteredTests = data.data.filter(
+            (test: any) => test.categoryId === categoryId
+          );
+          setTests(filteredTests);
+        } else {
+          console.error("Error fetching tests by category", data);
+        }
       }
     } catch (error) {
       console.error("Error fetching tests", error);
@@ -77,6 +99,93 @@ const SelectTest = () => {
       setIsLoadingTests(false);
     }
   };
+  
+
+//   useEffect(() => {
+//     const fetchCategories = async () => {
+//       try {
+//         setIsLoadingCategories(true);
+//         const parentData = await getAllParentCategories();
+//         const childData = await getAllChildCategories();
+//         if (parentData.code === 200 || parentData.code === 201) {
+//           setParentCategories(parentData.data);
+//         }
+//         if (childData.code === 200 || childData.code === 201) {
+//           setChildCategories(childData.data);
+//         }
+//       } catch (error) {
+//         console.error('Error fetching categories:', error);
+//       } finally {
+//         setIsLoadingCategories(false);
+//       }
+//     };
+
+//     fetchCategories();
+//   }, []);
+
+//   const handleCategoryChange = async (categoryId: string) => {
+//     setSelectedCategory(categoryId);
+  
+//     try {
+//       setIsLoadingTests(true);
+  
+//       // Fetch all tests if "Select Category" (ID "0") is chosen
+//       if (categoryId === '0') {
+//         const data = await getAllTests(); // Fetch all tests
+//         if (data.code === 200 || data.code === 201) {
+//           setTests(data.data); // Display all tests
+//         } else {
+//           console.error("Error fetching all tests", data);
+//         }
+//       } else {
+//         // Fetch tests by user and filter by the selected category
+//         const data = await getTestByUser();
+//         if (data.code === 200 || data.code === 201) {
+//           const filteredTests = data.data.filter(
+//             (test: any) => test.categoryId === categoryId
+//           );
+//           setTests(filteredTests);
+//         } else {
+//           console.error("Error fetching tests by category", data);
+//         }
+//       }
+//     } catch (error) {
+//       console.error("Error fetching tests", error);
+//     } finally {
+//       setIsLoadingTests(false);
+//     }
+//   };
+  
+
+  // Fetch tests when a category is selected
+//   const handleCategoryChange = async (categoryId: string) => {
+//     setSelectedCategory(categoryId);
+//     if (categoryId === '0') {
+//       setTests([]); 
+//       return;
+//     }
+
+//     try {
+//       setIsLoadingTests(true);
+//       const data = await getTestByUser(); 
+//       if (data.code === 200 || data.code === 201) {
+        
+//         const filteredTests = data.data.filter(
+//           (test: any) => test.categoryId === categoryId
+//         );
+//         setTests(filteredTests);
+//       } else {
+//         console.error("Error fetching tests", data);
+//       }
+//     } catch (error) {
+//       console.error("Error fetching tests", error);
+//     } finally {
+//       setIsLoadingTests(false);
+//     }
+//   };
+
+
+
 //       if (data.code === 200 || data.code === 201) {
 //         setTests(data.data);
 //       } else {

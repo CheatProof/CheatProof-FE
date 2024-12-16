@@ -5,6 +5,7 @@ import { Box, Typography, Card } from "@mui/material";
 import { FiFileText } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 import { CreateTestGroupAsignement } from "@/api/grouptest";
+import {toast, Toaster} from "react-hot-toast";
 
 const TestSettings = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const TestSettings = () => {
   
       // Simulate API call to save the test settings
       const response = await CreateTestGroupAsignement(assignBody);
-  
+      toast.success("Test settings saved successfully!");
       // Navigate to review page after successful assignment
       navigate("/teacher-dashboard/reviewtest", {
         state: {
@@ -44,10 +45,11 @@ const TestSettings = () => {
           message: "Test is Assigned saved successfully!",
         },
       });
-  
+      toast.success("Test settings saved successfully!");
       console.log("Test Settings Saved");
     } catch (error) {
       // Handle any errors during the save operation
+      toast.error("Failed to save test settings!"); 
       console.error("Error saving test settings:", error);
       // You can display an error message or do other error handling here
     }
@@ -56,8 +58,10 @@ const TestSettings = () => {
   return (
     <>
       <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
+        
         <Sidebar />
         <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-9 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
+        <Toaster />
           <div className="w-10/12 pl-3">
             <div className="flex items-center justify-center">
               <div className="flex gap-6 items-center text-gray-700 dark:text-gray-300">

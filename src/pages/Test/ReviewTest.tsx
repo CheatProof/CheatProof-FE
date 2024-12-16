@@ -256,13 +256,13 @@ const ReviewTest = () => {
               <div className="flex justify-center gap-4">
                 <button
                   className="bg-color1 text-white px-6 py-2 rounded-lg font-semibold"
-                  onClick={() => navigate("/teacher-dashboard/grouptest")}
+                  onClick={() => navigate("/teacher-dashboard/allgroups")}
                 >
                   Go to Results and Settings
                 </button>
                 <button
                   className="bg-color1 text-white px-6 py-2 rounded-lg font-semibold"
-                  onClick={() => navigate("/add-members")}
+                  onClick={() => navigate("/teacher-dashboard/group-add-member/:id")}
                 >
                   Add members to the group
                 </button>
@@ -276,7 +276,7 @@ const ReviewTest = () => {
               </p>
               <button
                 className="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold"
-                onClick={() => navigate("/notify-members")}
+                onClick={() => navigate("/teacher-dashboard/allgroups")}
               >
                 Notify Members
               </button>

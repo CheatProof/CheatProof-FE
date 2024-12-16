@@ -54,6 +54,7 @@ const TestDetails: React.FC = () => {
     } catch (error) {
       // Log the error for debugging purposes
       console.error("Error updating assigned group test:", error);
+      toast.error("Error updating assigned group test");
   
       // Handle the error, such as showing an error message to the user
       // Example: toast.error("Failed to update the group test settings.");
