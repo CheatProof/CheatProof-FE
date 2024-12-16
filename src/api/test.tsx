@@ -156,3 +156,20 @@ export const removeQuestionFromTest = (testId:any,questionId:any)=>{
         throw error;
     });
 }
+
+// /get/testWithGroups/:testId
+
+export const getTestWithGroups = (testId:any) => {
+    return fetch(`${baseUrl}/api/test/get/testWithGroups/${testId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer '+ localStorage.getItem('token'),
+        },
+    })
+   .then(response => response.json())
+   .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+}
