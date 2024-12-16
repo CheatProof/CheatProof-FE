@@ -37,7 +37,7 @@ const StudentTest: React.FC = () => {
     <main className="w-full">
     <HeaderStudent />
      
-      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full h ">
+      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full min-h-screen  ">
         <div className="w-full px-3 py-4">
        <h1 className="!text-3xl !font-semibold">{group?.groupName}</h1>
         {/* <div dangerouslySetInnerHTML={{__html:test?.groupMessage}}  className="mt-4"/> */}

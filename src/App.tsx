@@ -166,6 +166,9 @@ const router = createBrowserRouter([
       {
         path: "results",
         element: <ManageResults />,
+      },{
+        path:"profile",
+        element:<Profile/>
       }
 
     ]

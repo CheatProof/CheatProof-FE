@@ -971,14 +971,10 @@
 
 
 
-
-
-
 import { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
-import { FaReact } from "react-icons/fa6"; 
-import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
-import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
+import { FaArrowRight } from "react-icons/fa6";
+import {  SimpleInput } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
 import toast, { Toaster } from 'react-hot-toast';
