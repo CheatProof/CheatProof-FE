@@ -1,8 +1,13 @@
+import HeaderStudent from "@/components/HeaderStudent";
+import ResultQuestionCard from "@/components/Question/ResultQuestionCard";
+import { AppSidebar } from "@/components/Student/Sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { useLocation } from "react-router-dom";
 
 const ResultSummaryCard = () => {
   const location = useLocation();
   const { results } = location.state;
+  console.log(results)
 
   // Format duration to minutes and seconds
   const formatDuration = (ms:any) => {
@@ -17,8 +22,14 @@ const ResultSummaryCard = () => {
   };
 
   return (
-    <div className="bg-white w-full min-h-screen flex items-center justify-center">
-      <div className="w-[600px] h-auto mx-auto mt-10 bg-white rounded-3xl shadow-lg flex flex-col">
+   <>
+   <SidebarProvider>
+         <AppSidebar/>
+    <main className="w-full">
+    <HeaderStudent />
+
+    <div className="bg-white w-full  flex items-center justify-center">
+      <div className="w-[600px] h-auto mx-auto mt-10 bg-white rounded-3xl shadow-lg flex ">
         {/* Header Section */}
         <div className="bg-gradient-to-bl from-[#6D28D9] via-[#6A1FB9] to-[#590F99] text-white rounded-t-3xl p-6 text-center shadow-[inset_0_0_100px_rgba(70,39,202,1)]">
           <h3 className="text-lg">Your Result</h3>
@@ -67,7 +78,21 @@ const ResultSummaryCard = () => {
           </div>
         </div>
       </div>
+ 
     </div>
+    <div className="max-w-6xl mx-auto">
+        {
+            results.allQuestions.map((question:any,index:any)=>{
+                // const answers=JSON.parse(question.userAnswers)
+               return (
+            <div key={question.question.id}>
+                <ResultQuestionCard question={question.question}  userAnswers={question.userAnswer} idx={index}/>
+            </div>)})
+        }
+      </div>
+     </main>
+     </SidebarProvider>
+    </>
   );
 };
 

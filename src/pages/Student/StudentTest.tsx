@@ -23,7 +23,7 @@ const StudentTest: React.FC = () => {
     setTest(data.data)
     // setTest(data) // update the state with the fetched data
     console.log(data)
-  }
+  } 
   useEffect(() => {
     getTest()
   }, [groupId])
@@ -38,7 +38,7 @@ const StudentTest: React.FC = () => {
         <div className="w-full px-3 py-4">
        <h1 className="!text-3xl !font-semibold">{test?.groupName}</h1>
         {/* <div dangerouslySetInnerHTML={{__html:test?.groupMessage}}  className="mt-4"/> */}
-        {test?.AssignedTestGroups.map((quiz:any) => (
+        {test?.newGroup?.map((quiz:any) => (
         <Card key={quiz.AssignedTests.Tests.id} className="bg-white shadow-md p-3 my-2">
           <div className="flex justify-between items-center">
             <h6  className="text-blue-500 font-bold">

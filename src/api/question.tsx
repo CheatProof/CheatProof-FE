@@ -17,8 +17,8 @@ export const createQuestion = (body:any) => {
     });
 };
 
-export const getQuestionsByTeacherId = (page = 1, limit = 10) => {
-    return fetch(`${baseUrl}/api/question/get/byCreator?page=${page}&limit=${limit}`, {
+export const getQuestionsByTeacherId = (page = 1, limit = 10,filters:any) => {
+    return fetch(`${baseUrl}/api/question/get/byCreator?page=${page}&limit=${limit}&${filters}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -123,3 +123,17 @@ export const deleteQuestion = (id:any) => {
         throw error;
     });
 };
+
+
+// http://localhost:8080/api/test/get/testTypes/
+
+export const getTestTypes = () => {
+    return fetch(`${baseUrl}/api/test/get/testTypes`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    .then(response => response.json())
+}

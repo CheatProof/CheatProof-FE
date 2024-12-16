@@ -172,7 +172,13 @@ const router = createBrowserRouter([
   },
   {
     path: "result-test/:id",
-    element: <TestResult/>,
+    element: <HomeLayoutStudent/>,
+
+    children:[
+      {index: true,
+        element:<TestResult/>
+      }
+    ]
   }
   
 ]);
