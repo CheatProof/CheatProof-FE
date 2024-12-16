@@ -400,7 +400,7 @@ const Sidebar = ({ name, page, id }: any) => {
   }, []);
 
   const navActiveClass =
-    "flex items-center mr-6 my-2 font-medium justify-center text-center gap-4 py-1 px-6 text-fore bg-gray-200 rounded-lg";
+    "flex items-center my-2 font-medium justify-center text-center gap-4 py-2  text-fore bg-gray-200 rounded-lg";
   const navInactiveClass =
     "flex item-center gap-4 py-2 px-6 font-medium text-white hover:bg-gray-700 rounded-lg";
 
@@ -443,7 +443,7 @@ const Sidebar = ({ name, page, id }: any) => {
          <div className="flex justify-normal text-center items-center">
          <button
           onClick={() => navigate(-1)}
-          className="hover:bg-white bg-gray-800 text-white border-2 w-full mt-3 hover:text-fore font-semibold py-2 rounded-lg border-x-transparent text-center text-base flex justify-center items-center mb-5"
+          className="hover:bg-white bg-gray-800 text-white border-2 w-full mt-3 hover:text-fore font-semibold py-2 rounded-lg text-center text-base flex justify-center items-center mb-5"
         >
           Back
         </button>
@@ -457,7 +457,7 @@ const Sidebar = ({ name, page, id }: any) => {
           <span className="text-md font-semibold pl-2">Add Question</span>
         </div>
         {isLandingOpen && (
-          <div className="pl-8 text-sm text-left">
+          <div className="pl-3 text-sm text-left">
             <NavLink
               to={`/teacher-dashboard/createQuestion?testId=`}
               className={({ isActive }) =>

@@ -59,6 +59,7 @@ const TestManage: React.FC = () => {
         setChildCategories(data.data);
       } else {
         console.error('Error fetching child categories', data);
+        toast.error("Error fetching child categories");
       }
     } catch (error) {
       console.error('Error fetching child categories', error);
