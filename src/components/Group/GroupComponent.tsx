@@ -91,7 +91,11 @@ const GroupManagement = () => {
               onClick={() => toggleAllGroups()}
               className="p-2 hover:bg-gray-100 rounded"
             >
-              ✕
+              {allExpanded ? (
+        <ChevronUp className="h-5 w-5 text-gray-500" />
+      ) : (
+        <ChevronDown className="h-5 w-5 text-gray-500" />
+      )}
             </button>
             <div className="relative">
               <Input

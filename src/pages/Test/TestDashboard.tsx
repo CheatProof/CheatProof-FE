@@ -7,9 +7,9 @@ import { CiEdit } from "react-icons/ci";
 import { FcStatistics } from "react-icons/fc";
 import { HiMiniDocumentDuplicate } from "react-icons/hi2";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { Box, Grid, Button, Typography, IconButton, Card, CardContent, Tooltip, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@mui/material';
+import { Box, Grid, Typography, IconButton, Card, CardContent, Tooltip, Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@mui/material';
 import { useNavigate, useParams } from "react-router-dom";
-import { getTestById } from "../../api/test";
+import { getTestById, getTestWithGroups } from "../../api/test";
 
 const TestDashboard: React.FC = () => {
 
@@ -17,6 +17,7 @@ const TestDashboard: React.FC = () => {
     const navigate = useNavigate()
 
     const [test, setTest] = useState<any>();
+    const [groups, setGroups] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     const fetchTest=async()=>{
@@ -31,7 +32,22 @@ const TestDashboard: React.FC = () => {
         }
     }
 
+    const fetchtestWithGroups = async()=>{
+        // Fetch Test Data with Groups
+        // Set test state and set loading to false
+        const testData = await getTestWithGroups(id);
+        if(testData.code === 200){
+            console.log(loading)
+            console.log(testData.data.AssignedTests);
+            setGroups(testData.data.AssignedTests);
+            // setTest(testData.data);
+            setLoading(false);
+        }
+
+    }
+
     useEffect(()=>{
+        fetchtestWithGroups();
         fetchTest();
     }, [id]);
     
@@ -129,50 +145,14 @@ const TestDashboard: React.FC = () => {
                             <Table>
                                 <TableBody>
                                     {/* First Row */}
-                                    <TableRow>
-                                        <TableCell>
-                                            <Box display="flex" alignItems="center">
-                                                <FcStatistics style={{ marginRight: '8px' }} />
-                                                <Typography variant="body1">Zaryab</Typography>
-                                            </Box>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">Settings</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            {/* <Button variant="outlined" color="secondary" disabled>
-                                            {/* <Button variant="outlined" color="secondary" disabled>
-                                                Unavailable
-                                            </Button> */}
-                                            <button
-                                                className=" bg-white border border-fore text-fore opacity-60 hover:opacity-75 px-4 md:py-2 rounded-lg text-sm flex items-center"
-                                                    
-                                            >
-                                            
-                                                UNAVAILABLE
-                                            </button>
-                                        </TableCell>
-                                        <TableCell>
-                                            {/* <Button variant="contained" color="success">
-                                            {/* <Button variant="contained" color="success">
-                                                Results
-                                            </Button> */}
-                                            <button
-                                                className=" bg-color2 hover:bg-color1 text-white px-5 md:py-2 rounded-md text-sm flex items-center"
-                                                    
-                                            >
-                                                
-                                                RESULTS
-                                            </button>
-                                        </TableCell>
-                                    </TableRow>
+                           
 
                                     {/* Second Row */}
-                                    <TableRow>
+                               {    groups.map((group:any)=> (<TableRow key={group.id}>
                                         <TableCell>
                                             <Box display="flex" alignItems="center">
                                                 <FcStatistics style={{ marginRight: '8px' }} />
-                                                <Typography variant="body1">Section B</Typography>
+                                                <Typography variant="body1">{group.AssignedTestGroups.Groups.groupName}</Typography>
                                             </Box>
                                         </TableCell>
                                         <TableCell>
@@ -196,38 +176,10 @@ const TestDashboard: React.FC = () => {
                                                 RESULTS
                                             </button>
                                         </TableCell>
-                                    </TableRow>
+                                    </TableRow>))}
 
                                     {/* Third Row */}
-                                    <TableRow>
-                                        <TableCell>
-                                            <Box display="flex" alignItems="center">
-                                                <FcStatistics style={{ marginRight: '8px' }} />
-                                                <Typography variant="body1">Zaryab</Typography>
-                                            </Box>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">Settings</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                        <button
-                                                className=" bg-white border border-color2 hover:border-fore text-fore px-4 md:py-2 rounded-lg text-sm flex items-center"
-                                                    
-                                            >
-                                            
-                                                AVAILABLE
-                                            </button>
-                                        </TableCell>
-                                        <TableCell>
-                                        <button
-                                                className=" bg-color2 hover:bg-color1 text-white px-5 md:py-2 rounded-md text-sm flex items-center"
-                                                    
-                                            >
-                                                
-                                                RESULTS
-                                            </button>
-                                        </TableCell>
-                                    </TableRow>
+                               
                                 </TableBody>
                             </Table>
                         </TableContainer>
