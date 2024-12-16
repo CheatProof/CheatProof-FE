@@ -1,7 +1,4 @@
-import { Sidebar } from "../../components";
-import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchGroups } from "@/api/group";
-import { useEffect, useState } from "react";
+
 // const AssignTest = () => {
 //     const navigate = useNavigate();
 //     const location = useLocation();
@@ -198,6 +195,10 @@ import { useEffect, useState } from "react";
 
 // export default AssignTest;
 
+import { Sidebar } from "../../components";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { fetchGroups } from "@/api/group";
+import { useEffect, useState } from "react";
 const AssignTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -313,7 +314,7 @@ const AssignTest = () => {
                      <p className="text-gray-700 dark:text-gray-300 text-sm mt-2 mb-4 self-center">
      User registration required
    </p>
-                  <div className="text-gray-800 dark:text-gray-200 text-sm w-full">
+                  {/* <div className="text-gray-800 dark:text-gray-200 text-sm w-full">
                     <h4 className="font-medium mb-2 flex text-center justify-center">1. Select Groups</h4>
                     {groups.map((group: any) => (
                       <div className="flex items-center justify-center gap-2 mb-2" key={group.id}>
@@ -337,14 +338,64 @@ const AssignTest = () => {
                         </label>
                       </div>
                     ))}
-                    {/* <button className="text-blue-500 text-sm underline">+ Create new Group</button> */}
-                  </div>
-                  <button
+                    
+                  </div> */}
+                  <div className="text-gray-800 dark:text-gray-200 text-sm w-full">
+  <h4 className="font-medium mb-2 flex text-center justify-center">1. Select Groups</h4>
+  
+  {groups.length > 0 ? (
+    // Display groups if available
+    groups.map((group: any) => (
+      <div className="flex items-center justify-center gap-2 mb-2" key={group.id}>
+        <input
+          type="radio"
+          id={`group-${group.id}`}
+          className="h-4 w-4 text-blue-500 border-gray-300 rounded"
+          name="groupSelection"
+          value={group.id}
+          checked={selectedGroup === group.id}
+          onChange={() => {
+            setSelectedGroup(group.id);
+            setFullGroup(group);
+          }}
+        />
+        <label
+          htmlFor={`group-${group.id}`}
+          className="text-gray-700 dark:text-gray-300"
+        >
+          {group.groupName}
+        </label>
+      </div>
+    ))
+  ) : (
+    // Display message if no groups are available
+    <div className="text-center text-gray-500 dark:text-gray-400 mt-4">
+      Note: Test has already been assigned to all groups.
+    </div>
+  )}
+</div>
+
+                  {/* <button
                     className="bg-blue-500 text-white px-6 py-2 mt-6 rounded-lg font-semibold self-center"
                     onClick={() => navigate('/teacher-dashboard/testsettings',{state:{selectedGroup:fullGroup,test:test}})}
                   >
                     Next
-                  </button>
+                  </button> */}
+                  <button
+                  className={`px-6 py-2 mt-6 rounded-lg font-semibold self-center ${
+                    groups.length === 0
+                      ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+                      : "bg-blue-500 text-white hover:bg-blue-600"
+                  }`}
+                  onClick={() =>
+                    navigate('/teacher-dashboard/testsettings', {
+                      state: { selectedGroup: fullGroup, test: test },
+                    })
+                  }
+                  disabled={groups.length === 0} // Disable button if no groups available
+                >
+                  Next
+                </button>
                 </div>
 
                 <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg w-[400px] flex flex-col items-center shadow-md">

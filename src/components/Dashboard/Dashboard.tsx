@@ -203,7 +203,7 @@ const Dashboard: React.FC = () => {
             <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/teacher-dashboard/alltests">Create a Test</a>
           </li>
           <li className="mt-3 list-none">
-            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/teacher-dasboard/selecttest">Assign a Test</a>
+            <a className="text-color1 font-semibold text-sm hover:cursor-pointer" href="/teacher-dashboard/selecttest">Assign a Test</a>
           </li>
         </ul>
 
