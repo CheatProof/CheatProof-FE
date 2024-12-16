@@ -161,6 +161,10 @@ const router = createBrowserRouter([
       {
         path: "group-tests/:groupId",
         element: <StudentTest />,
+      },
+      {
+        path: "results",
+        element: <TestSession />,
       }
 
     ]
