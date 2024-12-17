@@ -152,7 +152,7 @@ const TestDashboard: React.FC = () => {
                                         <TableCell>
                                             <Box display="flex" alignItems="center">
                                                 <FcStatistics style={{ marginRight: '8px' }} />
-                                                <Typography variant="body1">{group.AssignedTestGroups.Groups.groupName}</Typography>
+                                                <Typography variant="body1">{group.AssignedTestGroups?.Groups?.groupName}</Typography>
                                             </Box>
                                         </TableCell>
                                         <TableCell>

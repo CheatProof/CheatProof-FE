@@ -1100,7 +1100,7 @@ const LoginComponent = () => {
   const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="w-[700px] h-[740px] relative dark:bg-gray-900 border-4 rounded-xl border-fore bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
+    <div className="w-[700px] min-h-[740px] relative dark:bg-gray-900 border-4 rounded-xl border-fore bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
       <Toaster/>
       <div className="absolute top-4 left-4 flex items-center px-2">
         <img

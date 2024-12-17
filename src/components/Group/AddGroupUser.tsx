@@ -8,7 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Info } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
+// import { Spinner } from '@/components/ui/spinner';
 import { addBulkMembersToGroupByEmail } from '../../api/group';
+import { CgSpinner } from 'react-icons/cg';
 
 const AddGroupMembers = () => {
   const navigate = useNavigate();
@@ -19,42 +21,51 @@ const AddGroupMembers = () => {
   const [sendLoginDetails, setSendLoginDetails] = useState(false);
   const [language, setLanguage] = useState('English');
   const [commonPassword, setCommonPassword] = useState('');
+  const [loading, setLoading] = useState(false); // Loading state
 
-  const handleAddMembers = async() => {
-    const memberLines = memberInput.split('\n').filter(Boolean); // Split lines and remove empty ones
-  
-    const members = memberLines.map((line) => {
-      // Adjust parsing based on nameOrder
-      let firstName = "";
-      let lastName = "";
-      let email = "";
-  
-      if (nameOrder === "firstLast") {
-        [firstName, lastName, email] = line.split(',').map((field) => field.trim());
-      } else if (nameOrder === "lastFirst") {
-        [lastName, firstName, email] = line.split(',').map((field) => field.trim());
+  const handleAddMembers = async () => {
+    setLoading(true); // Start loading
+    try {
+      const memberLines = memberInput.split('\n').filter(Boolean); // Split lines and remove empty ones
+      const members = memberLines.map((line) => {
+        let firstName = '';
+        let lastName = '';
+        let email = '';
+        if (nameOrder === 'firstLast') {
+          [firstName, lastName, email] = line.split(',').map((field) => field.trim());
+        } else if (nameOrder === 'lastFirst') {
+          [lastName, firstName, email] = line.split(',').map((field) => field.trim());
+        }
+        return { firstName, lastName, email };
+      });
+
+      const invalidMembers = members.filter(
+        (member) => !member.firstName || !member.lastName || !member.email
+      );
+
+      if (invalidMembers.length > 0) {
+        alert('Each line must include First Name, Last Name, and Email, separated by commas.');
+        setLoading(false);
+        return;
       }
-  
-      // Return the member object
-      return { firstName, lastName, email };
-    });
-  
-    // Validate each member's fields
-    const invalidMembers = members.filter(
-      (member) => !member.firstName || !member.lastName || !member.email
-    );
-  
-    if (invalidMembers.length > 0) {
-      alert("Each line must include First Name, Last Name, and Email, separated by commas.");
-      return;
-    }
-  
-    console.log("Valid Members:", members);
 
-    const data = await addBulkMembersToGroupByEmail({newMembers: members,commonPassword:commonPassword,groupId:id});
-    console.log("API Response:", data);
-  
-    // Proceed with further logic, e.g., API call to save members
+      const data = await addBulkMembersToGroupByEmail({
+        newMembers: members,
+        commonPassword,
+        groupId: id,
+        sendEmail: sendLoginDetails,
+        sendEmailToAdmin: true,
+      });
+
+      navigate('/teacher-dashboard/group-add-member/new-members', {
+        state: { user: data },
+      });
+    } catch (error) {
+      console.error('Error adding members:', error);
+      alert('Failed to add members. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
   
 
@@ -203,7 +214,7 @@ const AddGroupMembers = () => {
           </div>
 
           <Button className="py-2 px-6 flex justify-center items-center text-center bg-color1 hover:bg-fore" onClick={handleAddMembers}>
-            Add Members
+          {loading ? <CgSpinner  className="animate-spin h-5 w-5 mr-2" /> : 'Add Members'} {/* Show spinner while loading */}
           </Button>
         </CardContent>
       </Card>

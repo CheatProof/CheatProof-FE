@@ -392,7 +392,7 @@ const AssignTest = () => {
                       state: { selectedGroup: fullGroup, test: test },
                     })
                   }
-                  disabled={groups.length === 0} // Disable button if no groups available
+                  disabled={groups.length === 0 && !fullGroup} // Disable button if no groups available
                 >
                   Next
                 </button>
