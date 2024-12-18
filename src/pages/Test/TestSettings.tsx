@@ -104,7 +104,7 @@ const TestSettings = () => {
                   <Typography variant="h5">{test.testName}</Typography>
                   <Box display="flex" alignItems="center" mt={1}>
                     <FaUsers />
-                    <Typography ml={1}>{selectedGroup.groupName},{selectedGroup.id}</Typography>
+                    <Typography ml={1}>{selectedGroup.groupName}</Typography>
                   </Box>
                 </Box>
               </Box>

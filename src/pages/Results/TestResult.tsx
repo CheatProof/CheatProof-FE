@@ -11,7 +11,7 @@ const ResultSummaryCard = () => {
 
   const location = useLocation();
   const { results ,quiz} = location.state;
-  console.log(quiz)
+  console.log(results)
 
   // Format duration to minutes and seconds
   const formatDuration = (ms:any) => {
@@ -102,7 +102,7 @@ const ResultSummaryCard = () => {
                 // const answers=JSON.parse(question.userAnswers)
                return (
             <div key={question.question.id}>
-                <ResultQuestionCard question={question.question}  userAnswers={question.userAnswer} idx={index}/>
+                <ResultQuestionCard question={question.question}  userAnswers={question.userAnswer} idx={index} correctQuestions={results.correctQuestions}/>
             </div>)})
         }
       </div>

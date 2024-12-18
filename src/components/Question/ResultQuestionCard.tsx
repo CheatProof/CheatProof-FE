@@ -2,10 +2,12 @@ import { CiCircleCheck } from "react-icons/ci";
 import { MdOutlineRadioButtonUnchecked, MdClose } from "react-icons/md";
 import { Toaster } from "react-hot-toast";
 
-const ResultQuestionCard = ({ question, idx, userAnswers }: any) => {
+const ResultQuestionCard = ({ question, idx, userAnswers ,correctQuestions}: any) => {
   if (!question) {
     return <p>Loading options...</p>;
   }
+
+  const isCorrect=correctQuestions.some((ques:any)=>ques.question.id=== question.id)
 
   return (
     <div className="bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200">
@@ -17,7 +19,7 @@ const ResultQuestionCard = ({ question, idx, userAnswers }: any) => {
           <p className="mx-auto mr-8 text-color2 text-sm">
             {/* {question.Categories.ParentCategories.parentCategoryName} / {question.Categories.categoryName} */}
           </p>
-          <p className="text-color2 mb-10 text-sm">{question.points} pts</p>
+          <p className="text-color2 mb-10 text-sm"> {isCorrect?question.points:0} pts / {question.points} pts</p>
         </div>
       </div>
       {/* Question content */}

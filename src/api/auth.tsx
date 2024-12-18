@@ -63,3 +63,42 @@ export const resetOTP = (body:any) => {
         throw error;
     });
 };
+
+// http://localhost:8080/api/user/getTestAnalytics?month=12
+
+export const getTestAnalytics = (month: string) => {
+    console.log(month)
+    return fetch(`${baseUrl}/api/user/getTestAnalytics?month=12`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};
+
+// http://localhost:8080/api/user/getUserAnalytics
+
+export const getUserAnalytics = () => {
+    return fetch(`${baseUrl}/api/user/getUserAnalytics`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};
+
+

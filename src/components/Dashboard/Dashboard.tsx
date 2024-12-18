@@ -68,7 +68,7 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] 
     </Tooltip>
   );
 }
-const Dashboard: React.FC = () => {
+const Dashboard = ({analytics}:any) => {
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -131,14 +131,14 @@ const Dashboard: React.FC = () => {
         <div className="flex justify-center my-5 flex-wrap items-center gap-3">
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl text-fore">2</span>
+              <span className="text-4xl text-fore">1</span>
               <MdOutlineGroup className="text-4xl text-purple-800" />
             </div>
             <p className="text-sm text-fore">Totals Groups </p>
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl text-fore">2</span>
+              <span className="text-4xl text-fore">4</span>
               <PiExam className="text-4xl text-red-600" />
             </div>
             <p className="text-sm text-fore">Total Tests </p>
@@ -152,7 +152,7 @@ const Dashboard: React.FC = () => {
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl text-fore">0</span>
+              <span className="text-4xl text-fore">3</span>
               <PiClockCountdownLight className="text-4xl text-blue-500" />
             </div>
             <p className="text-sm text-fore">Finished Test</p>

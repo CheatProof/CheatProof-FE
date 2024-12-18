@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { PiClockCountdownLight, PiExam } from "react-icons/pi";
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -11,7 +9,6 @@ import { MdOutlineArrowRightAlt, MdOutlineGroup, MdToday } from "react-icons/md"
 import Badge from '@mui/material/Badge';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { fetchStudentGroupsBySession } from "@/api/test-session";
-import { group } from "console";
 import { useNavigate } from "react-router-dom";
 
 function getRandomNumber(min: number, max: number) {
@@ -165,28 +162,7 @@ const StudentDashboard: React.FC = () => {
           ))
           }
         
-{/* 
-          <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
-            <div className="flex items-center">
-              <span className="text-4xl">2</span>
-              <PiExam className="text-4xl text-red-600" />
-            </div>
-            <p className="text-sm">Total Tests </p>
-          </div> */}
-          {/* <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
-            <div className="flex items-center">
-              <span className="text-4xl">0</span>
-              <IoMdCheckmarkCircleOutline className="text-4xl text-green-600" />
-            </div>
-            <p className="text-sm">In Progress Test</p>
-          </div> */}
-          {/* <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
-            <div className="flex items-center">
-              <span className="text-4xl">0</span>
-              <PiClockCountdownLight className="text-4xl text-blue-500" />
-            </div>
-            <p className="text-sm">Finished Test</p>
-          </div> */}
+
         </div>
 
         {/* MUI Tabs */}

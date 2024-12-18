@@ -1,18 +1,24 @@
-import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
+import { HiOutlineMoon, HiOutlineSun, HiOutlineLogout } from "react-icons/hi";
 import { HiOutlineBell } from "react-icons/hi";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setSidebar } from "../features/dashboard/dashboardSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Profile from '../assets/user.png';
-// import SearchInput from "./SearchInput";
 import { toggleDarkMode } from "../features/darkMode/darkModeSlice";
 import Logo from "../assets/CheatProof.svg";
 
 const Header = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { darkMode } = useAppSelector((state) => state.darkMode);
-  const user: any = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <header className="sticky top-0 z-50 dark:bg-blackPrimary bg-white shadow-md">
@@ -26,7 +32,7 @@ const Header = () => {
           <span className="dark:text-whiteSecondary text-fore text-xl font-bold">CheatProof</span>
         </Link>
         <div className="flex gap-4 items-center max-xl:justify-center">
-          <span className="dark:text-whiteSecondary text-fore">EN</span>
+          {/* <span className="dark:text-whiteSecondary text-fore">EN</span>
           {darkMode ? (
             <HiOutlineSun
               onClick={() => dispatch(toggleDarkMode())}
@@ -40,8 +46,8 @@ const Header = () => {
           )}
           <Link to="/notifications">
             <HiOutlineBell className="text-xl dark:text-whiteSecondary text-fore" />
-          </Link>
-          <Link to="/profile">
+          </Link> */}
+          <Link to="/teacher-dashboard/profile">
             <div className="flex gap-2 items-center">
               <img
                 src={Profile}
@@ -50,17 +56,23 @@ const Header = () => {
               />
               <div className="flex flex-col">
                 <p className="dark:text-whiteSecondary text-fore text-base max-xl:text-sm">
-                  {JSON.parse(user).username}
+                  {user?.username || "Guest"}
                 </p>
                 <p className="dark:text-whiteSecondary text-fore text-sm max-xl:text-xs">
-                  {JSON.parse(user).Roles[0].roleName}
+                  {user?.Roles?.[0]?.roleName || "Role"}
                 </p>
               </div>
             </div>
           </Link>
+          <HiOutlineLogout
+            className="text-xl dark:text-whiteSecondary text-fore cursor-pointer"
+            onClick={handleLogout}
+            title="Logout"
+          />
         </div>
       </div>
     </header>
   );
 };
+
 export default Header;

@@ -23,6 +23,7 @@ import Surveillance from "../assets/8262066.jpg";
 import { useNavigate } from "react-router-dom";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import { FcDocument } from "react-icons/fc";
+import Footer from "./Footer";
 
 
 const HomePage = () => {
@@ -432,8 +433,15 @@ const HomePage = () => {
   
 
 
+
         
       </div>
+      <Footer/>
+
+
+
+
+
     </>
   );
 };

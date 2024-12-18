@@ -971,14 +971,10 @@
 
 
 
-
-
-
 import { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
-import { FaReact } from "react-icons/fa6"; 
-import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
-import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
+import { FaArrowRight } from "react-icons/fa6";
+import {  SimpleInput } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
 import toast, { Toaster } from 'react-hot-toast';
@@ -1104,7 +1100,7 @@ const LoginComponent = () => {
   const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="w-[700px] h-[740px] relative dark:bg-gray-900 border-4 rounded-xl border-fore bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
+    <div className="w-[700px] min-h-[740px] relative dark:bg-gray-900 border-4 rounded-xl border-fore bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
       <Toaster/>
       <div className="absolute top-4 left-4 flex items-center px-2">
         <img

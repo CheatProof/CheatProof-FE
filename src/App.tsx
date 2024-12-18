@@ -35,6 +35,7 @@ import TestResult from "./pages/Results/TestResult";
 
 import HomePage from "./pages/Home";
 import ManageResults from "./pages/Results/ManageResults";
+import AddMemberList from "./pages/GroupUser/AddMemberList";
 
 
 
@@ -129,7 +130,12 @@ const router = createBrowserRouter([
       {
         path:"group-add-member/:id",
         element:<AddGroupUser/>
-      }, 
+      },
+      {
+        path:"group-add-member/new-members",
+        element:<AddMemberList/>
+      } 
+      ,
       {
         path: "createQuestion",
         element: <CreateTestManual />,
@@ -166,6 +172,9 @@ const router = createBrowserRouter([
       {
         path: "results",
         element: <ManageResults />,
+      },{
+        path:"profile",
+        element:<Profile/>
       }
 
     ]

@@ -7,7 +7,7 @@ import { BiHelpCircle } from 'react-icons/bi';
 import Settings from './Settings';
 import { useLocation } from 'react-router-dom';
 import { UpdateAssignedGroupTest } from '@/api/grouptest';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 // import { console } from 'inspector';
 
 interface Result {
@@ -43,6 +43,7 @@ const TestDetails: React.FC = () => {
         testId: groupTest.AssignedTests.Tests.id,
        
       }
+
       const response = await UpdateAssignedGroupTest(groupTest.assignedTestId, assignBody);
   
       // Log the response for debugging purposes
@@ -182,6 +183,7 @@ const TestDetails: React.FC = () => {
 
       </div>
       }
+      <Toaster/>
     </Box>
   );
 };

@@ -18,8 +18,20 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchGroupById, getGroupMembersByGroupId, updateGroup } from '../../api/group';
+import { deleteGroup, fetchGroupById, getGroupMembersByGroupId, updateGroup } from '../../api/group';
 import { ContentState, convertFromHTML, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from "react-draft-wysiwyg";
@@ -33,6 +45,7 @@ const GroupsManagement = () => {
   const [groupMembers, setGroupMembers] = useState<any[]>([]);
   const [isGroupDescOpen, setIsGroupDescOpen] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [isDeleting, setIsDeleting] = useState(false);
   const [newGroupName, setNewGroupName] = useState("")
 
   const onEditorStateChange = (editorState: any) => {
@@ -52,6 +65,25 @@ const GroupsManagement = () => {
       return EditorState.createWithContent(contentState);
     }
     return EditorState.createEmpty();
+  };
+
+  const handleDeleteGroup = async () => {
+    try {
+      setIsDeleting(true);
+      const response = await deleteGroup(group.id)
+
+      if (response.code==200) {
+        navigate('/teacher-dashboard/allgroups');
+      } else {
+        console.error('Failed to delete group');
+        // You might want to show an error toast here
+      }
+    } catch (error) {
+      console.error('Error deleting group:', error);
+      // You might want to show an error toast here
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const [expandedMember, setExpandedMember] = useState<any>(null);
@@ -143,10 +175,33 @@ const GroupsManagement = () => {
               <Settings className="w-4 h-4" />
               Member Settings
             </Button>
-            <Button variant="ghost" className="flex items-center gap-2">
-              <Trash2 className="w-4 h-4" />
-              Delete Options
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50">
+                  <Trash2 className="w-4 h-4" />
+                  Delete Group
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure you want to delete this group?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the group
+                    "{group?.groupName}" and remove all associated data. 
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={isDeleting}
+                    onClick={handleDeleteGroup}
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    {isDeleting ? "Deleting..." : "Delete Group"}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <Button className="hover:bg-white border-fore border-2 hover:text-fore bg-fore text-white font-medium" onClick={()=>navigate(`/teacher-dashboard/selecttest`)}>
               Assign Test
             </Button>

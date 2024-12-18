@@ -138,8 +138,8 @@ const TestDashboard: React.FC = () => {
 
                     {/* Table Section for Assignments */}
                     <Grid item xs={12}>
-                        <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-                            Assigned 3 times
+                        <Typography  className="text-3xl" sx={{ mb: 2 }}>
+                            Assigned {groups.length} times
                         </Typography>
                         <TableContainer component={Paper}>
                             <Table>
@@ -152,7 +152,7 @@ const TestDashboard: React.FC = () => {
                                         <TableCell>
                                             <Box display="flex" alignItems="center">
                                                 <FcStatistics style={{ marginRight: '8px' }} />
-                                                <Typography variant="body1">{group.AssignedTestGroups.Groups.groupName}</Typography>
+                                                <Typography variant="body1">{group.AssignedTestGroups?.Groups?.groupName}</Typography>
                                             </Box>
                                         </TableCell>
                                         <TableCell>

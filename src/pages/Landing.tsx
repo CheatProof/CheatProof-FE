@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Tabs, Tab, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Tabs, Tab, Box, CircularProgress } from "@mui/material";
 import { Sidebar } from "../components";
 import Dashboard from "../components/Dashboard/Dashboard";
-
+import { getTestAnalytics, getUserAnalytics } from "@/api/auth";
 
 // TabPanel component for displaying content based on the active tab
 const TabPanel = ({ children, value, index }: any) => {
@@ -20,11 +20,35 @@ const TabPanel = ({ children, value, index }: any) => {
 
 const Landing: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
+  const [analytics, setAnalytics] = useState(null);
+  const [userData, setUserData] = useState(null); // Add state for user analytics
+  const [loading, setLoading] = useState(false); // Add loading state
+
+  const fetchAnalytics = async () => {
+    setLoading(true); // Start loading
+    try {
+      const data = await getTestAnalytics("12");
+      const userData = await getUserAnalytics() 
+        
+      // Fetch analytics
+      setUserData(userData); // Set user analytics state if available
+      setAnalytics(data);
+      console.log(userData);
+    } catch (error) {
+      console.error("Error fetching analytics:", error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(event)
+    console.log("Tab changed:", event); // Log tab change event for debugging purposes
     setTabValue(newValue);
   };
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, []);
 
   return (
     <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
@@ -34,12 +58,20 @@ const Landing: React.FC = () => {
           <Tabs value={tabValue} onChange={handleChange}>
             <Tab label="Overview" />
             <Tab label="Latest Result" />
-            {/* Add more tabs here if necessary */}
           </Tabs>
 
           <TabPanel value={tabValue} index={0}>
-            <Dashboard />
+            {loading ? (
+              // Show spinner while loading
+              <Box display="flex" justifyContent="center" alignItems="center" height="200px">
+                <CircularProgress size={50} />
+              </Box>
+            ) : (
+              // Show Dashboard when data is loaded
+              <Dashboard analytics={analytics} />
+            )}
           </TabPanel>
+
           <TabPanel value={tabValue} index={1}>
             <div>Tab 2 Content</div>
           </TabPanel>

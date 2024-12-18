@@ -33,7 +33,7 @@ const SelectTest = () => {
     const fetchInitialTests = async () => {
       try {
         setIsLoadingTests(true);
-        const data = await getAllTests(); // Fetch all tests initially
+        const data = await getTestByUser(); // Fetch all tests initially
         if (data.code === 200 || data.code === 201) {
           setTests(data.data); // Display all tests
         } else {
