@@ -45,7 +45,7 @@ const TestSettings = () => {
           message: "Test is Assigned saved successfully!",
         },
       });
-      toast.success("Test settings saved successfully!");
+      
       console.log("Test Settings Saved");
     } catch (error) {
       // Handle any errors during the save operation
