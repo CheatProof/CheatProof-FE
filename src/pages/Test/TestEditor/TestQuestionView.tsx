@@ -169,7 +169,7 @@ export default function CollapsibleEditor() {
                 height: "100vh",
               }}
             >
-              <Circles height="80" width="80" color="blue" ariaLabel="loading" />
+              <Circles height="80" width="80" color="#152487" ariaLabel="loading" />
             </div>
           ) : (
             questions.map((question, index) => (

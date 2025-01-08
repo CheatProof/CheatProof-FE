@@ -21,12 +21,12 @@ export function AppSidebar() {
     const items = [
         {
           title: "Home",
-          url: "#",
+          url: "/student-dashboard",
           icon: Home,
         },
         {
           title: "Result",
-          url: "#",
+          url: "/student-dashboard/results",
           icon: Inbox,
         },
 
@@ -44,16 +44,16 @@ export function AppSidebar() {
             <Link className="flex items-center py-4" to="/">
           {/* <FaReact className="text-4xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer" /> */}
           <img className="w-[4rem] p-3" src={Logo}/>
-          <span className="dark:text-whiteSecondary text-blackPrimary text-xl font-bold">CheatProof</span>
+          <span className="dark:text-whiteSecondary text-fore text-xl font-bold">CheatProof</span>
         </Link></SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="mt-8">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                      <item.icon className="text-fore mt-4"/>
+                      <span className="text-fore text-lg mt-4 font-semibold">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

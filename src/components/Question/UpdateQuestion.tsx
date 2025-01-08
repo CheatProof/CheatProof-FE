@@ -42,7 +42,8 @@ const navigate = useNavigate()
   const [parentCategories,setParentCategories] = useState<any[]>([])
   const [childCategories,setChildCategories] = useState<any[]>([])
   const [questionTypes, setQuestionTypes] = useState([{id:"0"}]);
-  
+  const [isSaving, setIsSaving] = useState(false); // Loader for the first button
+const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Loader for the second button
   
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty()); // question test
@@ -188,6 +189,25 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
     return EditorState.createEmpty();
 };
 
+
+const handleSubmitWithSave = async () => {
+  setIsSaving(true);
+  try {
+    await handleSubmit(); // Call your submit logic
+  } finally {
+    setIsSaving(false);
+  }
+};
+
+const handleSubmitWithSaveAndAddMore = async () => {
+  setIsSavingAndAddingMore(true);
+  try {
+    await handleSubmit(); // Call your submit logic
+    navigate(location.pathname, { replace: true }); // Reload the current page
+  } finally {
+    setIsSavingAndAddingMore(false);
+  }
+};
 
 
 
@@ -1285,7 +1305,7 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
     {!showPreview ? "Preview" : "Edit"}
   </button>
 
-  <button
+  {/* <button
     onClick={handleSubmit}
     className={`border-black bg-color1 px-5 py-2 rounded-md text-white ${
       !areFieldsValid() ? "disabled:bg-gray-400 disabled:cursor-not-allowed" : ""
@@ -1302,7 +1322,42 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
     disabled={!areFieldsValid()}
   >
     Save and add more
-  </button>
+  </button> */}
+
+  
+<button
+  onClick={handleSubmitWithSave}
+  className={`border-black bg-color1 px-5 py-2 rounded-md text-white ${
+    !areFieldsValid() ? "disabled:bg-gray-400 disabled:cursor-not-allowed" : ""
+  }`}
+  disabled={!areFieldsValid()}
+>
+  {isSaving ? (
+    <div className="flex items-center gap-2">
+      <Circles height="20" width="20" color="#fff" ariaLabel="loading-indicator" />
+      Saving...
+    </div>
+  ) : (
+    "Save"
+  )}
+</button>
+
+<button
+  onClick={handleSubmitWithSaveAndAddMore}
+  className={`border-black bg-color1 px-5 py-2 rounded-md text-white ${
+    !areFieldsValid() ? "disabled:bg-gray-400 disabled:cursor-not-allowed" : ""
+  }`}
+  disabled={!areFieldsValid()}
+>
+  {isSavingAndAddingMore ? (
+    <div className="flex items-center gap-2">
+      <Circles height="20" width="20" color="#fff" ariaLabel="loading-indicator" />
+      Saving...
+    </div>
+  ) : (
+    "Save & add more"
+  )}
+</button>
 </div>
 
       </div>

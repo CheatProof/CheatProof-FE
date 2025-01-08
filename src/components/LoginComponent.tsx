@@ -1100,27 +1100,27 @@ const LoginComponent = () => {
   const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="w-[700px] min-h-[740px] relative dark:bg-gray-900 border-4 rounded-xl border-fore bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
+    <div className="w-full max-w-[500px] lg:max-w-[700px] mx-auto mt-10 flex flex-col items-center justify-center bg-gray-50 p-6 sm:p-10 shadow-md border-4 rounded-xl border-fore">
       <Toaster/>
-      <div className="absolute top-4 left-4 flex items-center px-2">
+      <div className="absolute top-14 left-2 md:top-4 md:left-4 flex items-center px-2">
         <img
           src="/public/transCheatProof.png" // Replace with the actual path of your logo
           alt="Logo"
           className="h-8 w-8 object-contain mr-2" // Adjust size of the logo
         />
-        <h2 className="text-2xl font-bold text-fore">CheatProof</h2>
+        <h2 className="text-lg sm:text-2xl font-bold text-fore">CheatProof</h2>
       </div>
-      <div className="flex flex-col items-center gap-10">
+      <div className="flex flex-col md:items-center gap-10">
       
 
-        <h5 className="text-5xl dark:text-whiteSecondary font-bold text-black max-sm:text-xl mt-20">
-           <span className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move text-5xl font-extrabold">Welcome Back!</span>
+        <h5 className="text-5xl dark:text-whiteSecondary font-bold text-black max-sm:text-xl mt-0 xl:mt-10">
+           <span className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move text-3xl md:text-5xl font-extrabold">Welcome Back!</span>
         </h5>
         
         {/* <div className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move text-6xl font-extrabold">
         CheatProof
       </div> */}
-        <h5 className="text-xl dark:text-whiteSecondary font-semibold text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move max-sm:text-xl">
+        <h5 className="md:text-xl text-base dark:text-whiteSecondary font-semibold text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move max-sm:text-xl">
           Please enter your credentials
         </h5>
         {/* <div className="flex gap-x-8">
@@ -1274,8 +1274,6 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
-
-
 
 
 

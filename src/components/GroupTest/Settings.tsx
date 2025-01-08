@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Typography, Paper, Collapse, Divider, Radio, RadioGroup, FormControlLabel, Tabs, Tab, TextField, MenuItem, Select, Switch, Checkbox, Tooltip, Alert } from '@mui/material';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { Circles } from 'react-loader-spinner';
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+
 
 const Settings = ({ handleSave ,groupTest }: any) => {
   console.log('Setting',groupTest);
@@ -30,6 +34,8 @@ const Settings = ({ handleSave ,groupTest }: any) => {
   });
 
   console.log(groupTest?.attemptsAllowed)
+
+  const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState(0);
   const [availabilityStatus, setAvailabilityStatus] = useState(groupTest?.availabilityStatus? groupTest?.availabilityStatus: 'available');
@@ -165,6 +171,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
 
   return (
     <>
+    <Toaster/>
       <Box display="flex">
         {/* Left Sidebar Tabs */}
         <Box minWidth={180} mr={2}>
@@ -734,7 +741,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
         </Box>
       </Box>
 
-      <button
+      {/* <button
         className="bg-color1 hover:bg-fore ml-48 text-white px-4 md:py-2 rounded-lg text-sm"
         onClick={() => handleSave({
           assignTestTypeId: "cfcb5964-bbf8-4d34-bb68-d0b114d2c52e",
@@ -810,13 +817,89 @@ const Settings = ({ handleSave ,groupTest }: any) => {
           passingMarksPercentage:passMark,
           testCompletedMessage:testCompletedMessage,
          
-          webhook:"http://localhost"
-         
+          webhook:"http://localhost",
+          
+         setLoading
 
         })}
       >
-        Assign Test
-      </button>
+        {loading ? (
+                <Circles
+                  height="20"
+                  width="20"
+                  color="primary"
+                  ariaLabel="circles-loading"
+                  visible={true}
+                />
+              ) : (
+        "Assign Test" )}
+      </button> */}
+
+<button
+  className="bg-color1 hover:bg-fore ml-48 text-white px-4 md:py-2 rounded-lg text-sm"
+  onClick={() => handleSave({
+    assignTestTypeId: "cfcb5964-bbf8-4d34-bb68-d0b114d2c52e",
+    ...groupTest,
+    // Availability
+    availableFrom: availabilityFrom,
+    availableUntil: availabilityUntil,
+    availabilityStatus: availabilityStatus,
+    // Attempts
+    attemptsAllowed: attemptCount,
+    // Print/Copy/paste/IP
+    allowPrinting: allowPrinting,
+    allowCopyText: allowHighlightCopy,
+    allowPasting: allowPasting,
+    allowTextTransition: allowTranslation,
+    // IP recording
+    recordPublic: ipRecord,
+    recordPrivate: true,
+    // Question Settings
+    displayCategories: displayCategories,
+    displayInstructions: displayGuidelines,
+    displayPoints: displayPoints,
+    questionPerPage: questionsPerPage,
+    // Answer Settings
+    mandatoryAnswer: mandatory,
+    autoFinishTest: autoFinish,
+    instantReview: instantReview,
+    revealCorrectAnswer: revealAnswers,
+    allowChangeAnswer: changeAnswers,
+    allowQuestionBookmark: bookmarkQuestions,
+    spellCheck: spellCheck,
+    // Randomize Settings
+    randomize: randomizeQuestions,
+    // Time Limit Settings
+    timeLimit: testDuration,
+    // Resume Settings
+    resumeLater: resumeLaterDisplay,
+    // Result Page
+    resultScorePoints: points,
+    resultScorePercentage: percentage,
+    customFeedback: customFeedback,
+    gradedQuestions: gradedQuestions,
+    revealCorrectResults: revealAnswers1,
+    revealIncorrectResults: incorrectQuestionsOnly,
+    resultByCategory: resultsByCategory,
+    displayCertificateOnPassing: downloadCertificate,
+    passingMarksPercentage: passMark,
+    testCompletedMessage: testCompletedMessage,
+    webhook: "http://localhost",
+  }, setLoading)} // Pass setLoading as a separate argument
+>
+  {loading ? (
+    <Circles
+      height="20"
+      width="20"
+      color="primary"
+      ariaLabel="circles-loading"
+      visible={true}
+    />
+  ) : (
+    "Assign Test"
+  )}
+</button>
+
     </>
   );
 };

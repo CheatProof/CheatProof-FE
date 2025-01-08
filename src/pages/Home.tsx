@@ -115,7 +115,7 @@ const HomePage = () => {
                             <h2
                         
                                 
-                                className="text-center lg:text-left text-3xl md:text-6xl lg:text-5xl 2xl:text-5xl lg:mt-10 text-[#323229] transition-all duration-400 "
+                                className="text-center mt-10 md:mt-0 lg:text-left text-3xl md:text-6xl lg:text-5xl 2xl:text-5xl lg:mt-10 text-[#323229] transition-all duration-400 "
                             >
 
                                 Secure <span className="text-fore font-semibold">Assessments</span>, Trusted{" "}<span className="text-color1 font-semibold">Results</span>  </h2>
@@ -283,7 +283,7 @@ const HomePage = () => {
             </div>
 
             <div className="lg:pt-14 md:px-16">
-              <span className="block mb-4 text-3xl lg:text-4xl font-semibold text-center lg:text-left">
+              <span className="block mb-4 mt-6 sm:mt-0 text-3xl lg:text-4xl font-semibold text-center lg:text-left">
               Effortless Test Creation and Student Management
               </span>
 

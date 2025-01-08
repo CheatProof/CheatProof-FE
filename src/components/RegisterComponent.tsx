@@ -572,7 +572,8 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="w-[740px] h-[1070px] dark:bg-gray-900 relative bg-white border-2 rounded-xl border-fore flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[800px]">
+    // max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[800px]
+    <div className="w-full min-w-[350px] md:max-w-[740px] dark:bg-gray-900 relative bg-white border-2 rounded-xl border-fore flex flex-col justify-between items-center py-10 ">
      <Toaster />
      <div className="absolute top-4 left-4 flex items-center px-2">
         <img

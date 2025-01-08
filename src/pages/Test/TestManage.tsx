@@ -88,27 +88,55 @@ const TestManage: React.FC = () => {
   const handleModalClose = () => setModalOpen(false);
 
   // Handle creating a new test
-  const handleCreateTest = async () => {
-    try {
-      const body = { testName: newTestName, categoryId: newChildCategory };
-      const data = await createTestByUser(body);
-      if (data.code === 201) {
-        toast.success("Test created successfully", {
-          position: "top-center",
-          duration: 5000,
-        });
-        fetchUserTest(); // Refresh tests after creation
-      } else {
-        toast.error("Error creating test", {
-          position: "top-center",
-          duration: 5000,
-        });
-      }
-    } catch (error) {
-      console.error('Error creating new test', error);
+  // const handleCreateTest = async () => {
+  //   try {
+  //     const body = { testName: newTestName, categoryId: newChildCategory };
+  //     const data = await createTestByUser(body);
+  //     if (data.code === 201) {
+  //       toast.success("Test created successfully", {
+  //         position: "top-center",
+  //         duration: 5000,
+  //       });
+  //       fetchUserTest(); // Refresh tests after creation
+  //     } else {
+  //       toast.error("Error creating test", {
+  //         position: "top-center",
+  //         duration: 5000,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error creating new test', error);
+  //   }
+  //   handleModalClose();
+  // };
+
+  const [creatingTest, setCreatingTest] = useState(false); // Track creation process
+
+const handleCreateTest = async () => {
+  setCreatingTest(true); // Start spinner
+  try {
+    const body = { testName: newTestName, categoryId: newChildCategory };
+    const data = await createTestByUser(body);
+    if (data.code === 201) {
+      toast.success("Test created successfully", {
+        position: "top-center",
+        duration: 5000,
+      });
+      fetchUserTest(); // Refresh tests after creation
+    } else {
+      toast.error("Error creating test", {
+        position: "top-center",
+        duration: 5000,
+      });
     }
+  } catch (error) {
+    console.error('Error creating new test', error);
+  } finally {
+    setCreatingTest(false); // Stop spinner
     handleModalClose();
-  };
+  }
+};
+
 
   return (
     <>
@@ -197,7 +225,99 @@ const TestManage: React.FC = () => {
       )}
 
       {/* Modal for Creating New Test */}
-      <Modal
+      {/* Modal for Creating New Test */}
+<Modal
+  open={modalOpen}
+  onClose={handleModalClose}
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description"
+>
+  <Box
+    sx={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    }}
+  >
+    <Typography id="modal-title" variant="h6" component="h2" mb={2}>
+      Create New Test
+    </Typography>
+
+    <TextField
+      label="Test Name"
+      variant="outlined"
+      fullWidth
+      value={newTestName}
+      onChange={(e) => setNewTestName(e.target.value)}
+      sx={{ mb: 2 }}
+    />
+
+    <FormControl sx={{ mb: 2 }} fullWidth>
+      <InputLabel>Category</InputLabel>
+      <Select
+        value={newTestCategory}
+        onChange={(e) => setNewTestCategory(e.target.value)}
+        label="Category"
+      >
+        {parentCategories.map((parentCategory: any) => (
+          <MenuItem key={parentCategory.id} value={parentCategory.id}>
+            {parentCategory.parentCategoryName}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+
+    {newTestCategory && (
+      <FormControl fullWidth>
+        <InputLabel>Subcategory</InputLabel>
+        <Select
+          value={newChildCategory}
+          onChange={(e) => setNewChildCatgory(e.target.value)}
+          label="Subcategory"
+        >
+          {childCategories
+            .filter(
+              (childCategory: any) =>
+                childCategory.parentCategoryId === newTestCategory
+            )
+            .map((childCategory: any) => (
+              <MenuItem key={childCategory.id} value={childCategory.id}>
+                {childCategory.categoryName}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
+    )}
+
+    <Box textAlign="right" mt={2}>
+      <Button
+        onClick={handleCreateTest}
+        variant="contained"
+        color="primary"
+        disabled={creatingTest} 
+        style={{ display: 'flex', alignItems: 'center', gap: '10px'}}
+      >
+        {creatingTest && (
+          <Circles
+            height="20"
+            width="20"
+            color="#FFFFFF"
+            ariaLabel="circles-loading"
+          />
+        )}
+        Create
+      </Button>
+    </Box>
+  </Box>
+</Modal>
+
+      {/* <Modal
         open={modalOpen}
         onClose={handleModalClose}
         aria-labelledby="modal-title"
@@ -268,7 +388,7 @@ const TestManage: React.FC = () => {
             </Button>
           </Box>
         </Box>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

@@ -37,6 +37,8 @@ import draftToHtml from 'draftjs-to-html';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "draft-js/dist/Draft.css";
+import toast, { Toaster } from 'react-hot-toast';
+import { Circles } from "react-loader-spinner";
 
 const GroupsManagement = () => {
   const{id}= useParams()
@@ -47,6 +49,8 @@ const GroupsManagement = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [isDeleting, setIsDeleting] = useState(false);
   const [newGroupName, setNewGroupName] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [membersLoading, setMembersLoading] = useState(true);
 
   const onEditorStateChange = (editorState: any) => {
     setEditorState(editorState);
@@ -107,23 +111,28 @@ const GroupsManagement = () => {
     console.log(data.data);
  
     setGroupMembers(data.data);
+    setMembersLoading(false);
 
     // set group members data to state
   }
 
   const editGroup = async ()=>{
+    setLoading(true);
     const editGroup = {
       groupName: newGroupName,
       groupMessage: getHtmlFromEditorState(editorState)
     }
     const data = await updateGroup(group.id,editGroup);
     if(data.code === 200){
+      toast.success("Group edited successfully");
       console.log('Group edited successfully');
       // handle success
     }else{
+      toast.error("Failed to edit group");
       console.log('Failed to edit group');
       // handle failure
     }
+    setLoading(false);
   }
 
 //   {
@@ -149,6 +158,7 @@ const GroupsManagement = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-4 p-4">
+      <Toaster/>
       {/* Navigation Card */}
 
 
@@ -266,7 +276,17 @@ const GroupsManagement = () => {
                 }}
               />
             <Button onClick={()=>editGroup()} className="bg-blue-500 hover:bg-blue-600 text-white">
-              Save Description
+            {loading ? (
+    <Circles
+      height="20"
+      width="20"
+      color="primary"
+      ariaLabel="circles-loading"
+      visible={true}
+    />
+  ):(
+              "Save Description"
+  )}
             </Button>
           </div>
         </CollapsibleContent>
@@ -304,46 +324,74 @@ const GroupsManagement = () => {
                 </div>
               </div>
 
-              {/* Member List with Collapsible Details */}
-              {groupMembers.map((member:any, index:any) => (
-                <Collapsible
-                  key={index}
-                  open={expandedMember === index}
-                  onOpenChange={() => setExpandedMember(expandedMember === index ? null : index)}
+              {membersLoading ? (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "flex-start",
+      height: "100vh",
+    }}
+  >
+    <Circles height="60" width="60" color="#152487" ariaLabel="loading" />
+  </div>
+) : (
+  <>
+    {/* Member List with Collapsible Details */}
+    {groupMembers.map((member: any, index: any) => (
+      <Collapsible
+        key={index}
+        open={expandedMember === index}
+        onOpenChange={() =>
+          setExpandedMember(expandedMember === index ? null : index)
+        }
+      >
+        <Card className="mb-2">
+          <CollapsibleTrigger className="w-full">
+            <div className="p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                  <UserPlus className="w-4 h-4 text-gray-500" />
+                </div>
+                <span className="font-medium">{member.User.username}</span>
+              </div>
+              <ChevronDown
+                className={`w-4 h-4 transform transition-transform ${
+                  expandedMember === index ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="p-4 !text-[75%] border-t bg-gray-50">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Key className="w-4 h-4 text-gray-500" />
+                <span>Password: ********</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-gray-500" />
+                <span>Email: {member.User.email}</span>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">
+                  Edit Details
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-red-500 hover:text-red-600"
                 >
-                  <Card className="mb-2">
-                    <CollapsibleTrigger className="w-full">
-                      <div className="p-4 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                            <UserPlus className="w-4 h-4 text-gray-500" />
-                          </div>
-                          <span className="font-medium">{member.User.username}</span>
-                        </div>
-                        <ChevronDown className={`w-4 h-4 transform transition-transform ${expandedMember === index ? 'rotate-180' : ''}`} />
-                      </div>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="p-4  !text-[75%] border-t bg-gray-50">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <Key className="w-4 h-4 text-gray-500" />
-                          <span>Password: ********</span>  
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Mail className="w-4 h-4 text-gray-500" />
-                          <span>Email: {member.User.email}</span>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm">Edit Details</Button>
-                          <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600">
-                            Remove Member
-                          </Button>
-                        </div>
-                      </div>
-                    </CollapsibleContent>
-                  </Card>
-                </Collapsible>
-              ))}
+                  Remove Member
+                </Button>
+              </div>
+            </div>
+          </CollapsibleContent>
+        </Card>
+      </Collapsible>
+    ))}
+  </>
+)}
+
             </TabsContent>
 
             <TabsContent value="assigned">
@@ -392,3 +440,4 @@ const GroupsManagement = () => {
 };
 
 export default GroupsManagement;
+

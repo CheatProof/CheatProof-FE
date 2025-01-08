@@ -94,7 +94,7 @@ export default function Footer() {
               CheatProof
             </h6>
             <p>
-            Experience the future of secure online assessments with CheatProof. By leveraging advanced AI proctoring and monitoring techniques
+            Experience the future of secure online assessments with <span className="text-fore font-medium">CheatProof</span> by leveraging advanced AI proctoring and monitoring techniques.
             </p>
           </div>
           {/* <!-- Products section --> */}
@@ -104,7 +104,7 @@ export default function Footer() {
               Login
             </h6>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200"
+              <a href="/register" className="text-neutral-600 dark:text-neutral-200"
               >Sign Up</a>
             </p>
             <p className="mb-4">

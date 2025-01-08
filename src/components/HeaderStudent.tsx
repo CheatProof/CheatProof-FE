@@ -22,7 +22,7 @@ const HeaderStudent = () => {
   return (
     <header className="sticky top-0 z-50 dark:bg-blackPrimary bg-white shadow-md">
       <div className="flex justify-between items-center px-9 py-2 max-xl:flex-col max-xl:gap-y-7 max-[400px]:px-4">
-        <SidebarTrigger />
+        <SidebarTrigger className=""/>
 
         <div className="flex gap-4 items-center max-xl:justify-center">
           <Link to="/student-dashboard/profile">
@@ -43,7 +43,7 @@ const HeaderStudent = () => {
             </div>
           </Link>
           <HiOutlineLogout
-            className="text-xl dark:text-whiteSecondary text-blackPrimary cursor-pointer"
+            className="text-2xl ml-4 dark:text-whiteSecondary text-blackPrimary cursor-pointer"
             onClick={handleLogout}
             title="Logout"
           />
@@ -54,3 +54,65 @@ const HeaderStudent = () => {
 };
 
 export default HeaderStudent;
+
+
+// import { HiOutlineLogout } from "react-icons/hi";
+// import { useAppSelector } from "../hooks";
+// import { Link, useNavigate } from "react-router-dom";
+// import { SidebarTrigger, useSidebar } from "./ui/sidebar"; // Ensure correct import
+// import Profile from "../assets/user.png";
+
+// const HeaderStudent = () => {
+//   const navigate = useNavigate();
+
+//   const user = JSON.parse(localStorage.getItem("user") || "null");
+
+//   const handleLogout = () => {
+//     localStorage.removeItem("token");
+//     localStorage.removeItem("user");
+//     navigate("/login");
+//   };
+
+//   // Check if SidebarProvider is present
+//   let hasSidebarProvider = true;
+//   try {
+//     useSidebar();
+//   } catch {
+//     hasSidebarProvider = false;
+//   }
+
+//   return (
+//     <header className="sticky top-0 z-50 dark:bg-blackPrimary bg-white shadow-md">
+//       <div className="flex justify-between items-center px-9 py-2 max-xl:flex-col max-xl:gap-y-7 max-[400px]:px-4">
+//         {/* Only render SidebarTrigger if SidebarProvider is available */}
+//         {hasSidebarProvider && <SidebarTrigger className="" />}
+//         <div className="flex gap-4 items-center max-xl:justify-center">
+//           <Link to="/student-dashboard/profile">
+//             <div className="flex gap-2 items-center">
+//               <img
+//                 src={Profile}
+//                 alt="profile"
+//                 className="rounded-full w-10 h-10"
+//               />
+//               <div className="flex flex-col">
+//                 <p className="dark:text-whiteSecondary text-blackPrimary text-base max-xl:text-sm">
+//                   {user?.username || "Guest"}
+//                 </p>
+//                 <p className="dark:text-whiteSecondary text-blackPrimary text-sm max-xl:text-xs">
+//                   {user?.Roles?.[0]?.roleName || "Role"}
+//                 </p>
+//               </div>
+//             </div>
+//           </Link>
+//           <HiOutlineLogout
+//             className="text-2xl ml-4 dark:text-whiteSecondary text-blackPrimary cursor-pointer"
+//             onClick={handleLogout}
+//             title="Logout"
+//           />
+//         </div>
+//       </div>
+//     </header>
+//   );
+// };
+
+// export default HeaderStudent;
