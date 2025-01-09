@@ -88,6 +88,20 @@ export const assignTestAQuestion = (body:any) => {
    .then(response => response.json())
 }
 
+// http://localhost:8080/api/test/assign/questionInBulk
+
+export const assignTestAQuestionInBulk = (body:any) => {
+    return fetch(`${baseUrl}/api/test/assign/questionInBulk`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(body)
+    })
+   .then(response => response.json())
+}
+
 //http://localhost:8080/api/question/importQuestions
 
 export const importQuestions = (file:any) => {

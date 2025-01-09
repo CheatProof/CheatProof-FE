@@ -9,7 +9,6 @@ import {
   Profile,
   Register,
 } from "./pages";
-import React from "react";
 import { SidebarProvider } from "@/components/ui/sidebar"; // Ensure correct path
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -43,6 +42,7 @@ import ManageResults from "./pages/Results/ManageResults";
 import AddMemberList from "./pages/GroupUser/AddMemberList";
 import StudentResults from "./pages/Student/Results";
 import ResultDetails from "./pages/Student/ResultDetails";
+import AddQuestionBulk from "./pages/Test/TestEditor/AddQuestionBulk";
 
 
 const router = createBrowserRouter([
@@ -125,6 +125,11 @@ const router = createBrowserRouter([
         path: "test/test-editor/question-bank/:id",
         element: <AddQuestionTestEditor/>,
       },
+      {
+        path: "test/test-editor/question-bulk-list/:id",
+        element: <AddQuestionBulk/>,
+      }
+      ,
       {
         path:"allgroups",
         element:<Groups/>

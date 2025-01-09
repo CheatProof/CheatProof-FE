@@ -34,8 +34,8 @@ export const darkModeSlice = createSlice({
         state.darkMode = false;
       } else {
         document.documentElement.classList.add("dark");
-        localStorage.theme = "dark";
-        state.darkMode = true;
+        localStorage.theme = "light";
+        state.darkMode = false;
       }
     },
   },
