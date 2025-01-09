@@ -3,6 +3,7 @@ import { InputWithLabel, Sidebar, SimpleInput, WhiteButton } from "../components
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import profile from "../assets/user.png";
+import { Button } from "@/components/ui/button";
 
 const Profile = () => {
   const data: any = localStorage.getItem("user");
@@ -50,7 +51,7 @@ const Profile = () => {
                 Your Profile
               </h2>
             </div>
-            <WhiteButton
+            {/* <WhiteButton
               disabled={false}
               textSize="lg"
               width="48"
@@ -60,7 +61,10 @@ const Profile = () => {
               // className="hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               <HiOutlineSave className="dark:text-blackPrimary text-whiteSecondary text-xl" />
-            </WhiteButton>
+            </WhiteButton> */}
+            <Button className="hover:bg-white border-fore border-2 hover:text-fore bg-fore text-white text-base font-medium py-5 px-5">
+              Update Profile
+            </Button>
           </div>
           <div className="px-4 sm:px-6 lg:px-8 pb-8 pt-8">
             <div className="flex flex-col gap-4">
@@ -83,10 +87,10 @@ const Profile = () => {
 
                 <button
                   onClick={() => toast("Change profile picture functionality coming soon!")}
-                  className="dark:bg-blackPrimary bg-whiteSecondary border border-gray-600 w-72 py-2 text-lg dark:hover:border-gray-500 hover:border-gray-400 duration-200 flex items-center justify-center gap-x-2 hover:shadow-md"
+                  className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-base font-semibold py-3 px-5 duration-200 flex items-center justify-center gap-x-2 hover:shadow-md"
                 >
-                  <HiOutlineUpload className="dark:text-whiteSecondary text-blackPrimary text-xl" />
-                  <span className="dark:text-whiteSecondary text-blackPrimary font-medium">
+                  <HiOutlineUpload className="" />
+                  <span className="">
                     Change profile picture
                   </span>
                 </button>
@@ -163,7 +167,7 @@ const Profile = () => {
                           }
                         />
                       </InputWithLabel>
-                      <WhiteButton
+                      {/* <WhiteButton
                         disabled={false}
                         textSize="lg"
                         width="48"
@@ -171,7 +175,10 @@ const Profile = () => {
                         text="Update Password"
                         onClick={handlePasswordUpdate}
                         // className="hover:bg-gray-200 dark:hover:bg-gray-700"
-                      />
+                      /> */}
+                      <button onClick={handlePasswordUpdate}
+                       className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-sm font-medium mt-4 py-2 px-3 duration-200 flex items-center justify-center hover:shadow-md"
+                > Update Password</button>
                     </div>
                   )}
                 </div>
@@ -217,7 +224,7 @@ const Profile = () => {
                           }
                         />
                       </InputWithLabel>
-                      <WhiteButton
+                      {/* <WhiteButton
                         disabled={false}
                         textSize="lg"
                         width="48"
@@ -225,7 +232,10 @@ const Profile = () => {
                         text="Update Username"
                         onClick={handleUsernameUpdate}
                         // className="hover:bg-gray-200 dark:hover:bg-gray-700"
-                      />
+                      /> */}
+                      <button onClick={handleUsernameUpdate}
+                       className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-sm font-medium mt-4 py-2 px-3 duration-200 flex items-center justify-center hover:shadow-md"
+                      >Update Username</button>
                     </div>
                   )}
                 </div>

@@ -6,12 +6,12 @@ import { FiFileText } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 import { CreateTestGroupAsignement } from "@/api/grouptest";
 import {toast, Toaster} from "react-hot-toast";
-
+import { useState } from "react";
 const TestSettings = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-
+//  const [loading, setLoading] = useState(false);
   
 
   // Extract data from the location state
@@ -21,12 +21,45 @@ const TestSettings = () => {
   console.log(selectedGroup)
 
 
-  const handleSave = async (data: any) => {
-    try {
-      // Perform save operation here
-      // For demonstration purposes, we just log the save action
-      console.log(data);
+  // const handleSave = async (data: any) => {
+  //   try {
+  //     // Perform save operation here
+  //     // For demonstration purposes, we just log the save action
+  //     console.log(data);
   
+  //     const assignBody: any = {
+  //       ...data,
+  //       groupId: selectedGroup.id,
+  //       testId: test.id,
+  //     };
+  
+  //     // Simulate API call to save the test settings
+  //     const response = await CreateTestGroupAsignement(assignBody);
+  //     toast.success("Test settings saved successfully!");
+  //     // Navigate to review page after successful assignment
+  //     navigate("/teacher-dashboard/reviewtest", {
+  //       state: {
+  //         group: selectedGroup,
+  //         test,
+  //         response: response,
+  //         message: "Test is Assigned saved successfully!",
+  //       },
+  //     });
+      
+  //     console.log("Test Settings Saved");
+  //   } catch (error) {
+  //     // Handle any errors during the save operation
+  //     toast.error("Failed to save test settings!"); 
+  //     console.error("Error saving test settings:", error);
+  //     // You can display an error message or do other error handling here
+  //   }
+  // };
+
+  const handleSave = async (data: any, setLoading: (value: boolean) => void) => {
+    try {
+      setLoading(true); // Start the loader
+  
+      // Prepare the data for the API call
       const assignBody: any = {
         ...data,
         groupId: selectedGroup.id,
@@ -35,25 +68,29 @@ const TestSettings = () => {
   
       // Simulate API call to save the test settings
       const response = await CreateTestGroupAsignement(assignBody);
+  
       toast.success("Test settings saved successfully!");
-      // Navigate to review page after successful assignment
+  
+      // Navigate to the review page after successful assignment
       navigate("/teacher-dashboard/reviewtest", {
         state: {
           group: selectedGroup,
           test,
           response: response,
-          message: "Test is Assigned saved successfully!",
+          message: "Test is Assigned successfully!",
         },
       });
-      toast.success("Test settings saved successfully!");
+  
       console.log("Test Settings Saved");
     } catch (error) {
       // Handle any errors during the save operation
-      toast.error("Failed to save test settings!"); 
+      toast.error("Failed to save test settings!");
       console.error("Error saving test settings:", error);
-      // You can display an error message or do other error handling here
+    } finally {
+      setLoading(false); // Stop the loader in both success and error cases
     }
   };
+  
 
   return (
     <>

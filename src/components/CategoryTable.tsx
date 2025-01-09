@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HiOutlinePencil, HiOutlineTrash, HiOutlineEye } from "react-icons/hi";
 import { getQuestionsCountByCategoryId, deleteChildCategory, updateChildCategory } from "../api/child-category"; // Add your update function here
 import { useEffect, useState } from "react";
+import { Circles } from "react-loader-spinner";
 
 const CategoryTable = () => {
   const [categories, setCategories] = useState<any[]>([]);
@@ -11,10 +12,12 @@ const CategoryTable = () => {
   const [categoryIdToDelete, setCategoryIdToDelete] = useState<string | null>(null);
   const [categoryIdToEdit, setCategoryIdToEdit] = useState<string | null>(null);
   const [newCategoryName, setNewCategoryName] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   const fetchCategories = async () => {
     const category = await getQuestionsCountByCategoryId();
     setCategories(category.data);
+    setLoading(false);
   };
 
   const handleDeleteClick = (categoryId: string) => {
@@ -69,7 +72,8 @@ const CategoryTable = () => {
             <th scope="col" className="py-2 pl-0 pr-4 text-right font-semibold table-cell sm:pr-6 lg:pr-14">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/5">
+        {/* <tbody className="divide-y divide-white/5">
+        
           {categories.map((item: any) => (
             <tr key={nanoid()}>
               <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
@@ -105,7 +109,67 @@ const CategoryTable = () => {
               </td>
             </tr>
           ))}
-        </tbody>
+        
+        </tbody> */}
+
+<tbody className="divide-y divide-white/5">
+  {loading ? (
+    <tr>
+      <td colSpan={4} className="text-center py-4">
+        
+        <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "start",
+                height: "80vh",
+              }}
+            >
+              <Circles height="80" width="80" color="#152487" ariaLabel="loading" />
+            </div>
+      </td>
+    </tr>
+  ) : (
+    categories.map((item: any) => (
+      <tr key={nanoid()}>
+        <td className="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
+          <div className="flex items-center gap-x-4">
+            <div className="truncate text-sm font-medium leading-6 dark:text-whiteSecondary text-blackPrimary">
+              {item.categoryName}
+            </div>
+          </div>
+        </td>
+        <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
+          <div className="flex items-center gap-x-2 justify-start">
+            <div className="dark:text-whiteSecondary text-blackPrimary block">
+              {item.questionCount}
+            </div>
+          </div>
+        </td>
+        <td className="py-4 pl-0 pr-8 text-sm leading-6 dark:text-whiteSecondary text-blackPrimary table-cell lg:pr-20">
+          {item.ParentCategories.parentCategoryName}
+        </td>
+        <td className="py-4 pl-0 pr-4 text-right text-sm leading-6 dark:text-whiteSecondary text-blackPrimary table-cell lg:pr-8">
+          <div className="flex gap-x-1 justify-end">
+            <button
+              onClick={() => handleEditClick(item.id, item.categoryName)}
+              className="dark:bg-blackPrimary dark:text-whiteSecondary text-blackPrimary w-8 h-8 flex justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400"
+            >
+              <HiOutlinePencil className="text-lg hover:text-2xl" />
+            </button>
+            <button
+              onClick={() => handleDeleteClick(item.id)}
+              className="dark:bg-blackPrimary bg-whiteSecondary dark:text-whiteSecondary text-blackPrimary w-8 h-8 flex justify-center items-center cursor-pointer dark:hover:border-gray-500 hover:border-gray-400"
+            >
+              <HiOutlineTrash className="text-lg hover:text-2xl" />
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
       </table>
 
       {/* Delete Modal */}

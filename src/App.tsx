@@ -9,6 +9,11 @@ import {
   Profile,
   Register,
 } from "./pages";
+import React from "react";
+import { SidebarProvider } from "@/components/ui/sidebar"; // Ensure correct path
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+
 
 import QuestionBank from "./pages/QuestionBank/QuestionBank";
 import CreateTestManual from "./pages/Test/CreateTestManual";
@@ -36,7 +41,8 @@ import TestResult from "./pages/Results/TestResult";
 import HomePage from "./pages/Home";
 import ManageResults from "./pages/Results/ManageResults";
 import AddMemberList from "./pages/GroupUser/AddMemberList";
-
+import StudentResults from "./pages/Student/Results";
+import ResultDetails from "./pages/Student/ResultDetails";
 
 
 const router = createBrowserRouter([
@@ -171,8 +177,12 @@ const router = createBrowserRouter([
       },
       {
         path: "results",
-        element: <ManageResults />,
+        element: <StudentResults />,
       },{
+        path: "result-details",
+        element: <ResultDetails />,
+      },
+     {
         path:"profile",
         element:<Profile/>
       }
@@ -198,7 +208,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  <SidebarProvider>
+  <Router>
+    <Routes>
+      <Route path="student-dashboard/results" element={<StudentResults />} />
+    </Routes>
+  </Router>
+</SidebarProvider>
   return <RouterProvider router={router} />;
 }
 
 export default App;
+
