@@ -94,7 +94,38 @@ const QuestionEditorCard = ({ question, idx, testId }: any) => {
               <span className="inline-block" dangerouslySetInnerHTML={{ __html: opt.optionText }} />
             </button>
           ))}
-        </div>) : null}
+        </div>)  : question.questionTypeId === "1edada12-0532-4058-b79f-3e43efac97e1" ? (
+        <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
+          {question?.TrueFalseQuestions?.map((opt: any, idx: any) =>(
+            <button
+              key={idx}
+              className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
+                ${opt.isAnswer ? 'bg-gray-100 border border-fore' : ''}`}
+
+            >
+              <span className="inline-block mr-2">
+                {opt.isAnswer ? <CiCircleCheck className="text-fore" /> : <MdOutlineRadioButtonUnchecked className="text-gray-400" />}
+              </span>
+              <span className="inline-block" dangerouslySetInnerHTML={{ __html: opt.optionText }} />
+            </button>
+          ))}
+        </div>
+      ) : question.questionTypeId === "cfa02311-dde4-4b4f-ae96-6d416a5c0396" ? (
+        <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
+          {question?.FreeTextQuestions?.map((opt: any, idx: any) => (
+            <button
+              key={idx}
+              className={`w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 rounded-lg 
+                bg-gray-100 border border-fore`}
+            >
+              <span className="inline-block mr-2">
+                <CiCircleCheck className="text-fore" />
+              </span>
+              <span className="inline-block" dangerouslySetInnerHTML={{ __html: opt.correctAnswer }} />
+            </button>
+          ))}
+        </div>
+      ) : null}
 
       <div className="flex justify-between">
         <div className="flex space-x-4 text-sm text-color1 ml-2">
