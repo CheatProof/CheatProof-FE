@@ -4,6 +4,11 @@ import { useParams } from "react-router-dom";
 import { getTestById, getTestForAssignment } from "../../../api/test";
 import { Circles } from "react-loader-spinner";
 import { assignTestAQuestionInBulk, getQuestionTypes } from "@/api/question";
+import { toast, Toaster } from "react-hot-toast";
+import { CheckTwoTone } from "@mui/icons-material";
+import { Checkbox } from "@mui/material";
+
+
 
 const AddQuestionBulk = () => {
   const { id } = useParams();
@@ -11,11 +16,13 @@ const AddQuestionBulk = () => {
   const [selectedQuestions, setSelectedQuestions] = useState(new Set());
   const [test, setTest] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [questionLoading, setQuestionLoading] = useState(true);
   const [questionTypes, setQuestionTypes] = useState<any>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [randomModalVisible, setRandomModalVisible] = useState(false);
   const [randomCounts, setRandomCounts] = useState<any>({});
   const [selectCount, setSelectCount] = useState(10);
+  const [isAssigning, setIsAssigning] = useState(false); 
 
   const fetchTest = async () => {
     const testData = await getTestById(id);
@@ -41,6 +48,7 @@ const AddQuestionBulk = () => {
           data.data.filter((q: any) => q.assignedStatus).map((q: any) => q.id)
         );
         setSelectedQuestions(preSelected);
+        setQuestionLoading(false);
       } else {
         console.error("Error fetching questions", data);
       }
@@ -75,24 +83,47 @@ const AddQuestionBulk = () => {
     }
   };
 
+  // const handleAssignQuestions = async () => {
+  //   try {
+  //     const questionIds = Array.from(selectedQuestions);
+  //     const body = {
+  //       testId: id,
+  //       questionIds:questionIds,
+  //     };
+  //     const response = await assignTestAQuestionInBulk(body);
+  //     if (response.success) {
+  //       toast.success("Questions assigned successfully!");
+  //       setSelectedQuestions(new Set());
+  //     } else {
+  //       toast.error("Failed to assign questions.");
+  //     }
+  //   } catch (error) {
+  //     toast.error("An error occurred while assigning questions.");
+  //   }
+  // };
+
   const handleAssignQuestions = async () => {
+    setIsAssigning(true); // Start loader
     try {
       const questionIds = Array.from(selectedQuestions);
       const body = {
         testId: id,
-        questionIds:questionIds,
+        questionIds: questionIds,
       };
       const response = await assignTestAQuestionInBulk(body);
       if (response.success) {
-        alert("Questions assigned successfully!");
+        toast.success("Questions assigned successfully!");
         setSelectedQuestions(new Set());
       } else {
-        alert("Failed to assign questions.");
+        toast.error("Failed to assign questions.");
       }
     } catch (error) {
-      alert("An error occurred while assigning questions.");
+      toast.error("An error occurred while assigning questions.");
+    } finally {
+      setIsAssigning(false); 
     }
   };
+
 
   const handleRandomSelection = () => {
     const randomSelected = new Set();
@@ -118,8 +149,13 @@ const AddQuestionBulk = () => {
   return (
     <main className="flex">
       <Header name={test?.testName} page={"Add Bulk Questions"} id={id} />
+      
       <div className="w-full max-w-4xl mx-auto my-8">
-        {loading ? (
+        <Toaster />
+        <div className="w-full py-4 mb-8 flex text-center justify-center md:justify-start">
+        <span className="text-3xl font-semibold ">Add Bulk Questions </span>
+        </div>
+        {questionLoading ? (
           <div
             style={{
               display: "flex",
@@ -135,26 +171,26 @@ const AddQuestionBulk = () => {
             <div className="flex justify-between mb-4">
               <div>
                 <button
-                  className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+                  className="px-4 py-2 bg-white text-fore border-2 border-fore rounded-lg hover:bg-fore hover:text-white"
                   onClick={handleSelectAll}
                 >
                   {selectedQuestions.size === questions.length ? "Deselect All" : "Select All"}
                 </button>
                 <button
-                  className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                  className="ml-4 px-4 py-2 bg-color1 text-white rounded-lg hover:bg-fore"
                   onClick={() => setRandomModalVisible(true)}
                 >
                   Select Random
                 </button>
 
                 <button
-                  className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  className="ml-4 px-4 py-2 bg-color1 text-white rounded-lg hover:bg-fore"
                   onClick={() => setModalVisible(true)}
                 >
                   Select Top N Questions
                 </button>
               </div>
-              <div>
+              <div className="mt-3">
                 Selected: {selectedQuestions.size} / {questions.length}
               </div>
             </div>
@@ -171,6 +207,19 @@ const AddQuestionBulk = () => {
                     <th className="border border-gray-300 px-4 py-2">Points</th>
                   </tr>
                 </thead>
+
+                {loading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <Circles height="80" width="80" color="#152487" ariaLabel="circles-loading" />
+          </div>
+        ) : (
                 <tbody>
                   {questions.map((question: any) => (
                     <tr
@@ -178,8 +227,8 @@ const AddQuestionBulk = () => {
                       className="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors"
                     >
                       <td className="border border-gray-300 px-4 py-2 text-center">
-                        <input
-                          type="checkbox"
+                        <Checkbox className="bg-fore text-fore"
+                          // type="checkbox"
                           checked={selectedQuestions.has(question.id)}
                           onChange={() => handleCheckboxChange(question.id)}
                         />
@@ -206,15 +255,31 @@ const AddQuestionBulk = () => {
                     </tr>
                   ))}
                 </tbody>
+        )}
               </table>
             </div>
 
-            <div className="flex justify-end mt-4">
+            {/* <div className="flex justify-end mt-4">
               <button
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all"
+                className="px-6 py-2 bg-color1 text-white rounded-lg shadow-md hover:bg-fore transition-all"
                 onClick={handleAssignQuestions}
               >
                 Assign Questions
+              </button>
+            </div> */}
+
+              <div className="flex justify-end mt-4">
+              <button
+                className="px-3 py-2 bg-color1 text-white rounded-lg shadow-md hover:bg-fore transition-all flex items-center"
+                onClick={handleAssignQuestions}
+                disabled={isAssigning} // Disable the button while loading
+              >
+                {isAssigning && (
+                  <Circles height="20" width="20" color="#ffffff" ariaLabel="loading-spinner" />
+                )}
+                <span className="ml-2">
+                  {isAssigning ? "Assigning..." : "Assign Questions"}
+                </span>
               </button>
             </div>
 
@@ -222,6 +287,10 @@ const AddQuestionBulk = () => {
               <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                 <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
                   <h2 className="text-lg font-bold mb-4">Select Random Questions</h2>
+                  <p className="bg-gray-100 mb-5 rounded text-black/55 text-xs p-3">
+                  Select the number of questions for each question category. 
+                  The system will randomly choose that number of questions from the question bank for each category.
+        </p>
                   <div className="grid grid-cols-2 gap-6 my-2">
 
                   {questionTypes.map((type: any) => (
@@ -244,15 +313,15 @@ const AddQuestionBulk = () => {
           </div>
         ))}
         </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between mt-5">
                     <button
-                      className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                      className="px-5 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800"
                       onClick={handleRandomSelection}
                     >
                       Select
                     </button>
                     <button
-                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                      className="px-5 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800"
                       onClick={() => setRandomModalVisible(false)}
                     >
                       Cancel
@@ -266,18 +335,22 @@ const AddQuestionBulk = () => {
               <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                 <div className="bg-white p-8 rounded-lg shadow-lg">
                   <h2 className="text-lg font-bold mb-4">Select Top N Questions</h2>
-                  <div className="flex justify-around">
+                  <p className="bg-gray-100 mb-5 rounded text-black/55 text-xs p-3">
+                  Select the top 'n' questions from the question bank to assign to the test. <br /><br />
+                  The Custom Count option allows users to specify the exact number of questions to be assigned.
+        </p>
+                  <div className="flex justify-around gap-x-2 mb-4">
                     {[10, 20, 30].map((n) => (
                       <button
                         key={n}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        className="px-4 py-2 bg-color2 text-white rounded-lg hover:bg-color1"
                         onClick={() => handleSelectTopN(n)}
                       >
                         Top {n}
                       </button>
                     ))}
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-6 mb-3">
                     <label className="block mb-2">Custom Count:</label>
                     <input
                       type="number"
@@ -285,19 +358,22 @@ const AddQuestionBulk = () => {
                       value={selectCount}
                       onChange={(e) => setSelectCount(Number(e.target.value))}
                     />
+                    </div>
+                    <div className="flex justify-between mt-5">
                     <button
-                      className="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                      className="mt-2 px-5 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800"
                       onClick={() => handleSelectTopN(selectCount)}
                     >
                       Select
                     </button>
-                  </div>
+                  
                   <button
-                    className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="mt-2 px-5 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800"
                     onClick={() => setModalVisible(false)}
                   >
                     Cancel
                   </button>
+                 </div>
                 </div>
               </div>
             )}
