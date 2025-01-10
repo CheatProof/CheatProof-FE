@@ -10,8 +10,8 @@ const setDarkMode = (): boolean => {
     (!("theme" in localStorage) &&
       window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
-    document.documentElement.classList.add("dark");
-    return true;
+    document.documentElement.classList.remove("dark");
+    return false;
   } else {
     document.documentElement.classList.remove("dark");
     return false;

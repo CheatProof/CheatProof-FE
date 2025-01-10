@@ -114,7 +114,7 @@ export const fetchStudentResultsBySession = async () => {
 
 export const fetchGroupTestResultsByAssignedTestGroup = async (assignedTestGroupId: any) => {
   try {
-    const response = await fetch(`${baseUrl}/api/results/byGroupTest/${assignedTestGroupId}`,{
+    const response = await fetch(`${baseUrl}/api/testSession/results/byGroupTest/${assignedTestGroupId}`,{
         headers:{
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem("token")}` // replace YOUR_ACCESS_TOKEN with your actual access token

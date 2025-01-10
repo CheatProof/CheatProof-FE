@@ -111,7 +111,7 @@ const AddQuestionBulk = () => {
         questionIds: questionIds,
       };
       const response = await assignTestAQuestionInBulk(body);
-      if (response.success) {
+      if (response.code ===201 || response.code === 200) {
         toast.success("Questions assigned successfully!");
         setSelectedQuestions(new Set());
       } else {
@@ -150,9 +150,9 @@ const AddQuestionBulk = () => {
     <main className="flex">
       <Header name={test?.testName} page={"Add Bulk Questions"} id={id} />
       
-      <div className="w-full max-w-4xl mx-auto my-8">
+      <div className="w-full  mx-3 my-8">
         <Toaster />
-        <div className="w-full py-4 mb-8 flex text-center justify-center md:justify-start">
+        <div className="w-full  mb-3 flex text-center justify-center md:justify-start">
         <span className="text-3xl font-semibold ">Add Bulk Questions </span>
         </div>
         {questionLoading ? (
@@ -195,9 +195,9 @@ const AddQuestionBulk = () => {
               </div>
             </div>
 
-            <div className="overflow-auto max-h-[450px]">
-              <table className="w-full border-collapse border border-gray-300 table-auto">
-                <thead className="sticky top-0 bg-gray-100">
+            <div className="overflow-auto max-h-[63vh] border-2 border-gray-300">
+              <table className="w-full border-collapse top-0 border-2 border-gray-300 table-auto">
+                <thead className="sticky top-[-1px] z-[9]  bg-gray-100">
                   <tr>
                     <th className="border border-gray-300 px-4 py-2">Select</th>
                     <th className="border border-gray-300 px-4 py-2">Index</th>
@@ -227,7 +227,7 @@ const AddQuestionBulk = () => {
                       className="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors"
                     >
                       <td className="border border-gray-300 px-4 py-2 text-center">
-                        <Checkbox className="bg-fore text-fore"
+                        <Checkbox className="bg-fore text-fore  z-0"
                           // type="checkbox"
                           checked={selectedQuestions.has(question.id)}
                           onChange={() => handleCheckboxChange(question.id)}
@@ -284,7 +284,7 @@ const AddQuestionBulk = () => {
             </div>
 
             {randomModalVisible && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center z-[11] items-center">
                 <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
                   <h2 className="text-lg font-bold mb-4">Select Random Questions</h2>
                   <p className="bg-gray-100 mb-5 rounded text-black/55 text-xs p-3">
@@ -332,7 +332,7 @@ const AddQuestionBulk = () => {
             )}
 
 {modalVisible && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center z-[11] items-center">
                 <div className="bg-white p-8 rounded-lg shadow-lg">
                   <h2 className="text-lg font-bold mb-4">Select Top N Questions</h2>
                   <p className="bg-gray-100 mb-5 rounded text-black/55 text-xs p-3">
@@ -346,7 +346,8 @@ const AddQuestionBulk = () => {
                         className="px-4 py-2 bg-color2 text-white rounded-lg hover:bg-color1"
                         onClick={() => handleSelectTopN(n)}
                       >
-                        Top {n}
+                        Top {n} Questions
+
                       </button>
                     ))}
                   </div>

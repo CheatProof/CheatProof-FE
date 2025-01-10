@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Card, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Avatar } from '@mui/material';
 import { FiFileText } from 'react-icons/fi';
 import { FaUsers } from 'react-icons/fa';
@@ -8,6 +8,7 @@ import Settings from './Settings';
 import { useLocation } from 'react-router-dom';
 import { UpdateAssignedGroupTest } from '@/api/grouptest';
 import toast, { Toaster } from 'react-hot-toast';
+import { fetchGroupTestResultsByAssignedTestGroup } from '@/api/test-session';
 // import { console } from 'inspector';
 
 interface Result {
@@ -18,20 +19,35 @@ interface Result {
   date: string;
 }
 
-const results: Result[] = [
-  { name: 'Average', percentage: 4, score: '2 / 50', duration: '00:04:44', date: '' },
-  { name: 'yabzar naqvi', percentage: 4, score: '2 / 50', duration: '00:04:44', date: "Sat 21 Sep '24 6:37pm" },
-];
+
+const exportToCSV = (data: Result[], filename: string) => {
+  const headers = ['Name', 'Percentage', 'Score', 'Duration', 'Date'];
+  const csvContent =
+    [headers.join(','), ...data.map((row) => `${row.name},${row.percentage},${row.score},${row.duration},${row.date}`)].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+  link.click();
+};
 
 const TestDetails: React.FC = () => {
 
-  
+  const [results, setResults] = useState<Result[]>([
+    { name: 'Average', percentage: 4, score: '2 / 50', duration: '00:04:44', date: '' },
+    { name: 'yabzar naqvi', percentage: 4, score: '2 / 50', duration: '00:04:44', date: "Sat 21 Sep '24 6:37pm" },
+  ]);
+
+
   const location = useLocation();
-  const {groupTest,group} = location.state;
+  const { groupTest, group } = location.state;
   console.log(groupTest)
-  
+
   const [activeTab, setActiveTab] = useState(0);
-  const testName=groupTest.AssignedTests.Tests.testName; // Default test name
+  const testName = groupTest.AssignedTests.Tests.testName; // Default test name
   const groupName = group.groupName; // Default group name
 
   const handleSave = async (body: any) => {
@@ -41,30 +57,118 @@ const TestDetails: React.FC = () => {
         ...body,
         groupId: group.id,
         testId: groupTest.AssignedTests.Tests.id,
-       
+
       }
 
       const response = await UpdateAssignedGroupTest(groupTest.assignedTestId, assignBody);
-  
+
       // Log the response for debugging purposes
       toast.success("Changes saved Successfully")
       console.log(response);
-  
+
       // Update the state with the response or perform other necessary actions
       // For example: setState(response.data);
     } catch (error) {
       // Log the error for debugging purposes
       console.error("Error updating assigned group test:", error);
       toast.error("Error updating assigned group test");
-  
+
       // Handle the error, such as showing an error message to the user
       // Example: toast.error("Failed to update the group test settings.");
     }
   };
-  
+
+  const fetchResults = async () => {
+    try {
+      // Fetch the results for the current test and group
+      const results = await fetchGroupTestResultsByAssignedTestGroup(groupTest.id);
+
+      if (!results || results.code !== 200) {
+        throw new Error("Failed to fetch results or invalid response structure.");
+      }
+
+      console.log(results);
+
+      // Transform the results into the desired format
+      const transformedResults = transformData(results);
+
+      // Calculate the average
+      if (transformedResults.length > 0) {
+        const totalScores = transformedResults.reduce((acc, item) => acc + parseFloat(item.score.split('/')[0]), 0);
+        const totalMaxScores = transformedResults.reduce((acc, item) => acc + parseFloat(item.score.split('/')[1]), 0);
+        const totalDurations = transformedResults.reduce((acc, item) => acc + parseDuration(item.duration), 0);
+
+        const averageResult: any = {
+          name: "Average",
+          percentage: ((totalScores / totalMaxScores) * 100).toFixed(2),
+          score: `--`,
+          duration: formatDuration(totalDurations / transformedResults.length), // average duration
+          date: "N/A", // No specific date for the average entry
+        };
+
+        // Add the average as the first entry in the results array
+        transformedResults.unshift(averageResult);
+      }
+
+      // Set the results state with the transformed data
+      setResults(transformedResults);
+    } catch (error) {
+      console.error("Error fetching group test results:", error);
+      // Optionally handle the error in the UI or log it further
+    }
+  };
+
+  // Helper function to convert duration strings like "00:00:41" into seconds
+  const parseDuration = (duration: any) => {
+    const [hours, minutes, seconds] = duration.split(':').map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  };
+
+  // Helper function to format seconds into "HH:MM:SS"
+  const formatDuration = (totalSeconds: any) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+    return [hours, minutes, seconds]
+      .map((val) => String(val).padStart(2, '0'))
+      .join(':');
+  };
 
 
-  
+
+
+
+  function transformData(data: any): Result[] {
+    const groupMembers = data.data.Groups.GroupMembers;
+
+    return groupMembers.flatMap((member: any) => {
+      const name = `${member.firstName} ${member.lastName}`;
+
+      return member.TestSessions.map((session: any) => {
+        const {
+         
+            points = 0,
+            totalPoints = 0,
+            duration = 0,
+            dateStarted = 0
+         
+        } = session.TestResults || {};
+        
+        const percentage = ((points / totalPoints) * 100).toFixed(2);
+        const formattedDuration = new Date(duration).toISOString().substr(11, 8); // Format HH:mm:ss
+        const formattedDate = new Date(dateStarted).toLocaleDateString();
+
+        return {
+          name,
+          percentage: parseFloat(percentage),
+          score: `${points}/${totalPoints}`,
+          duration: formattedDuration,
+          date: formattedDate,
+        };
+      });
+    });
+  }
+
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     console.log(event)
@@ -73,11 +177,22 @@ const TestDetails: React.FC = () => {
 
   useEffect(() => {
 
+    fetchResults();
   }, []);
 
 
+  const getPercentageColor = (percentage: any) => {
+    // Calculate the red and green components dynamically
+    const red = percentage < 50 ? 255 : Math.floor(255 - (percentage - 50) * 5.1);
+    const green = percentage > 50 ? 255 : Math.floor(percentage * 5.1);
+
+    // Return the color in RGB format
+    return `rgb(${red}, ${green}, 0)`;
+  };
+
+
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ px: 2 }}>
       {/* Header Card */}
       <Card sx={{ p: 3, mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box display="flex" alignItems="center">
@@ -97,6 +212,9 @@ const TestDetails: React.FC = () => {
           <button className="border border-blue-900 text-fore hover:text-white hover:bg-fore px-5 py-2 rounded-lg flex justify-center items-center">
             <FiFileText className="mx-1" />
             Preview
+          </button>
+          <button onClick={() => exportToCSV(results, 'test_results.csv')} className="border border-blue-900 text-fore hover:text-white hover:bg-fore px-5 py-2 rounded-lg flex justify-center items-center">
+            Export to CSV
           </button>
         </Box>
       </Card>
@@ -156,7 +274,7 @@ const TestDetails: React.FC = () => {
                         <Box
                           sx={{
                             width: `${result.percentage}%`,
-                            bgcolor: result.percentage > 0 ? 'primary.main' : 'transparent',
+                            bgcolor: getPercentageColor(result.percentage),
                             height: '8px',
                             borderRadius: '4px',
                           }}
@@ -173,17 +291,18 @@ const TestDetails: React.FC = () => {
                   </TableRow>
                 ))}
               </TableBody>
+
             </Table>
           </TableContainer>
         </Box>
       )}
-      {activeTab === 1 && 
-      <div className='mt-2'>
-      <Settings groupTest={groupTest?.AssignedTests} handleSave={handleSave}/>
+      {activeTab === 1 &&
+        <div className='mt-2'>
+          <Settings groupTest={groupTest?.AssignedTests} handleSave={handleSave} />
 
-      </div>
+        </div>
       }
-      <Toaster/>
+      <Toaster />
     </Box>
   );
 };

@@ -7,6 +7,7 @@ import FreeTextCard from '../../components/SessionQuestionCards/FreeTextCard';
 import { ListIcon, User } from 'lucide-react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { endTestSession, startTestSession } from '@/api/test-session';
+import { AlertDialog,AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,AlertDialogAction } from '@/components/ui/alert-dialog';
 
 function TestSession() {
   const { id } = useParams();
@@ -18,6 +19,13 @@ function TestSession() {
   const {quiz}= location?.state
 
   console.log(quiz)
+
+  const [tabSwitchCount, setTabSwitchCount] = useState(() => 
+    parseInt(localStorage.getItem('tabSwitchCount') || '0')
+  );
+  const [showTabWarning, setShowTabWarning] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
+  
 
 
   const [showInstructions, setShowInstructions] = useState<boolean>(
@@ -42,6 +50,7 @@ function TestSession() {
   const totalTime = quiz.AssignedTests.timeLimit * 60; // Total time in seconds (5 hours)
 
   const handleStartTest = async() => {
+
 
     
 
@@ -70,6 +79,10 @@ function TestSession() {
     setTestStarted(true); // Indicate that the test has started
     localStorage.setItem('testStarted', 'true');
     setTimer(totalTime); // Set timer to 5 hours in seconds
+
+
+    setTabSwitchCount(0);
+    localStorage.setItem('tabSwitchCount', '0');
 
 
     navigate(`?sessionId=${testSessionId}`,{
@@ -121,18 +134,6 @@ function TestSession() {
   
  
 
-  // const renderSessionCard = (question: any) => {
-  //         switch (question.questionTypeId) {
-  //           case '0d1010c6-5835-4f21-a610-435dddabf739':
-  //             return <MCQTestCard question={question} saveAnswer={handleSelectAnswer} answers={selectedAnswers} />;
-  //           case '1edada12-0532-4058-b79f-3e43efac97e1':
-  //             return <TrueFalseCard question={question} saveAnswer={handleSelectAnswer} answers={selectedAnswers} />;
-  //           case 'cfa02311-dde4-4b4f-ae96-6d416a5c0396':
-  //             return <FreeTextCard question={question} saveAnswer={handleSelectAnswer} answers={selectedAnswers} />;
-  //           default:
-  //             return <div>No question type selected</div>;
-  //         }
-  // };
 
   const handleNextQuestion = () => {
     if (currentQuestion < questions.length - 1) {
@@ -176,6 +177,7 @@ function TestSession() {
     localStorage.removeItem('currentQuestion');
     sessionStorage.removeItem('showInstructions');
     localStorage.removeItem('testStarted');
+    localStorage.removeItem('tabSwitchCount');
 
     navigate(`/result-test/${sessionId}`,{
       state: {
@@ -212,6 +214,34 @@ function TestSession() {
   }, [currentQuestion, questions]);
 
   const timeBarWidth = (timer / totalTime) * 100; // Calculate percentage width of the time bar
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && testStarted && !showInstructions) {
+        const newCount = tabSwitchCount + 1;
+        setTabSwitchCount(newCount);
+        localStorage.setItem('tabSwitchCount', newCount.toString());
+        
+        const remainingAttempts = 10 - newCount;
+        
+        if (newCount >= 10) {
+          setWarningMessage('You have exceeded the maximum number of tab switches. The test will now end.');
+          setShowTabWarning(true);
+          setTimeout(() => {
+            finishTest();
+          }, 3000);
+        } else {
+          setWarningMessage(`Warning: You have switched tabs ${newCount} time${newCount === 1 ? '' : 's'}. The test will end after 10 switches. (${remainingAttempts} attempt${remainingAttempts === 1 ? '' : 's'} remaining)`);
+          setShowTabWarning(true);
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [tabSwitchCount, testStarted, showInstructions]);
 
   return (
     <div className="p-4 flex min-h-screen justify-center items-center">
@@ -286,29 +316,6 @@ function TestSession() {
 </div>
 
 
-  {/* <div className="flex space-x-2 mt-4">
-    <button
-      className="bg-color1 text-white px-4 py-2 rounded-lg"
-      disabled={currentQuestion <= 0}
-      onClick={handlePreviousQuestion}
-    >
-      Previous
-    </button>
-    <button
-      className="bg-color1 text-white px-4 py-2 rounded-lg"
-      disabled={checkAllAnsweredOrEnd()}
-      onClick={handleNextQuestion}
-    >
-      Next
-    </button>
-    <button
-      className="bg-red-500 text-white px-4 py-2 rounded-lg"
-      onClick={finishTest}
-    >
-      Finish Test
-    </button>
-  </div> */}
-
 <div className="flex space-x-4 items-center justify-center">
            
         <button className="bg-color2 enabled:hover:bg-color1 text-white disabled:opacity-50 px-4 py-2 rounded-md" onClick={handlePreviousQuestion} disabled={currentQuestion === 0}
@@ -334,6 +341,23 @@ function TestSession() {
 </div>
 
       )}
+
+<AlertDialog open={showTabWarning} onOpenChange={() => setShowTabWarning(false)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tab Switch Detected</AlertDialogTitle>
+            <AlertDialogDescription>
+              {warningMessage}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowTabWarning(false)}>
+              Continue Test
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
     </div>
   );
 }
