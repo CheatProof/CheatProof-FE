@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import { HiOutlineHome, HiDocumentText, HiOutlineX } from "react-icons/hi";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ name, page, id }: any) => {
@@ -66,13 +67,17 @@ const Sidebar = ({ name, page, id }: any) => {
         </div>
 
          {/* Back Button */}
-         <div className="flex justify-normal text-center items-center">
-         <button
-          onClick={() => navigate(-1)}
-          className="hover:bg-white bg-gray-800 text-white border-2 w-full mt-3 hover:text-fore font-semibold py-2 rounded-lg text-center text-base flex justify-center items-center mb-5"
-        >
+         <div onClick={() => navigate(-1)} 
+         className="flex items-center self-stretch py-2 my-2 pl-6 hover:bg-gray-700 cursor-pointer text-white">
+         <IoMdArrowRoundBack className="text-lg "/>
+         <span
+          
+          // className="hover:cursor-pointer bg-gray-800 text-white flex mt-4 font-semibold py-2 rounded-lg text-base mb-5"
+       className="text-base font-semibold pl-2"
+       >
+          
           Back
-        </button>
+        </span>
         </div>
         {/* Test Section with Dropdown */}
         <div
@@ -80,7 +85,7 @@ const Sidebar = ({ name, page, id }: any) => {
           className="flex items-center self-stretch py-2 my-2 pl-6 hover:bg-gray-700 cursor-pointer text-white"
         >
           <HiDocumentText className="text-lg" />
-          <span className="text-md font-semibold pl-2">Add Question</span>
+          <span className="text-base font-semibold pl-2">Add Question</span>
         </div>
         {isLandingOpen && (
           <div className="pl-3 text-sm text-left">
@@ -128,7 +133,7 @@ const Sidebar = ({ name, page, id }: any) => {
           }
         >
           <HiOutlineHome className="text-lg" />
-          <span className="text-md font-semibold">Actions</span>
+          <span className="text-base font-semibold">Actions</span>
         </NavLink>
           </div>
         {/* Additional Buttons */}
