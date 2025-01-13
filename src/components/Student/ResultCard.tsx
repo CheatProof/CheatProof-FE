@@ -49,7 +49,7 @@ const ResultCard = () => {
 
   return (
     <div
-      className="relative bg-white block p-6 border border-gray-100 rounded-lg max-w-2xl mx-auto mt-12"
+      className="relative bg-white block p-6 border border-gray-100 rounded-lg min-w-4xl mx-auto mt-12"
 
     >
       <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-color3 via-color2 to-color1"></span>

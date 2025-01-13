@@ -24,7 +24,7 @@ const StudentResults = ()=>{
         <h1 className="text-3xl mt-12 font-semibold ml-12 lg:ml-24">Student Results</h1>
         </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
+          <div className="  gap-6 mx-5 p-4">
       <ResultCard />
       <ResultCard />
       <ResultCard />

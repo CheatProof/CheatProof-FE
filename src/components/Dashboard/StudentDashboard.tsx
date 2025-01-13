@@ -8,12 +8,16 @@ import Tooltip from '@mui/material/Tooltip';
 import { MdOutlineArrowRightAlt, MdOutlineGroup, MdToday } from "react-icons/md";
 import Badge from '@mui/material/Badge';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
-import { fetchStudentGroupsBySession } from "@/api/test-session";
+import { fetchIncompleteTestsByStudent, fetchStudentGroupsBySession } from "@/api/test-session";
 import { useNavigate } from "react-router-dom";
 
 function getRandomNumber(min: number, max: number) {
   return Math.round(Math.random() * (max - min) + min);
 }
+
+
+
+
 
 function fakeFetch(date: Dayjs, { signal }: { signal: AbortSignal }) {
   return new Promise<{ daysToHighlight: number[] }>((resolve, reject) => {
@@ -70,6 +74,7 @@ const StudentDashboard: React.FC = () => {
   const navigate = useNavigate()
 
   const [groups,setGroups]= useState([])
+  const [inCompleteTestSessions,setInCompleteTestSessions]=useState<any>([]);
 
   const fetchGroups = async( )=>{
     // fetch groups data from API
@@ -77,11 +82,23 @@ const StudentDashboard: React.FC = () => {
     const data = await fetchStudentGroupsBySession();
     setGroups(data.data)
     console.log(data.data)
+    
 
   }  
 
+  // fetchIncompleteTestsByStudent
+  const getIncompleteTestsByStudent = async () => {
+    // fetch incomplete tests data from API
+    // return incomplete tests data
+    const data = await fetchIncompleteTestsByStudent();
+    setInCompleteTestSessions(data.data)
+    console.log(data.data)
+    console.log(JSON.parse(data.data[0].test))
+  }
+
   React.useEffect(() => {
-    fetchGroups()
+    fetchGroups();
+    getIncompleteTestsByStudent();
   }, [])
 
   
@@ -138,9 +155,8 @@ const StudentDashboard: React.FC = () => {
 
         <div className="flex flex-col justify-center my-5 flex-wrap items-center gap-3">
 
-          {
-          groups.map((group:any) =>(
-            <div className="w-full  rounded shadow flex  items-center justify-between p-3  bg-white  text-blackPrimary/55">
+          {groups.map((group:any) =>(
+            <div key={group.id} className="w-full  rounded shadow flex  items-center justify-between p-3  bg-white  text-blackPrimary/55">
             <div className="flex  items-center">
               <div className="flex items-center">
              
@@ -164,6 +180,35 @@ const StudentDashboard: React.FC = () => {
         
 
         </div>
+
+        <h2 className="font-bold text-3xl ml-10">Resume Test</h2>
+
+        {inCompleteTestSessions.map((testSession:any) =>(
+            <div key={testSession.id} className="w-full  rounded shadow flex  items-center justify-between p-3  bg-white  text-blackPrimary/55">
+            <div className="flex  items-center">
+              <div className="flex items-center">
+             
+                <MdOutlineGroup className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800" />
+              </div>
+  
+              <p className="text-sm">{testSession.AssignedTests.Tests.testName}</p>
+              </div>
+              <div className="flex items-center">
+             
+             <MdOutlineArrowRightAlt onClick={()=>navigate(`/test-session/${testSession.assignedTestId}?sessionId=${testSession.id}`,{
+              state:{
+
+                testSession: testSession,
+                quiz:testSession
+              }
+             })} className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800 hover:bg-slate-400 hover:text-white" />
+           </div>
+         </div>
+
+          ))
+          }
+
+
 
         {/* MUI Tabs */}
         {/* <Box sx={{ width: "100%" }}>

@@ -31,6 +31,11 @@ const StudentTest: React.FC = () => {
     getTest()
   }, [groupId])
 
+  const countAssignedTest = (id:any)=>{
+    const attempts = test.attemptsByUser.TestSessions.filter((session:any)=>{return session.assignedTestId === id})
+    return attempts.length
+  }
+
   return (
     <SidebarProvider>
          <AppSidebar/>
@@ -48,7 +53,7 @@ const StudentTest: React.FC = () => {
               {quiz.AssignedTests.Tests.testName}
             </h6>
             <p  className="text-sm text-gray-500">
-              Attempt Allowed : 0/{quiz.AssignedTests.attemptsAllowed}
+              Attempt Allowed : {countAssignedTest(quiz.assignedTestId)}/{quiz.AssignedTests.attemptsAllowed}
             </p>
             </div>
             <div className="flex justify-between my-1">
@@ -64,13 +69,20 @@ const StudentTest: React.FC = () => {
             </div>
             <div className="flex justify-between items-center">
 <div>
-    <Link to={`/test-session/${quiz.assignedTestId}`}
+{ !(countAssignedTest(quiz.assignedTestId)  >= quiz.AssignedTests.attemptsAllowed)  &&   <Link to={`/test-session/${quiz.assignedTestId}`}
        state={{
          quiz: quiz,
        }}
       className="text-white bg-blue-700 rounded px-2 py-1">
       Start Test
-    </Link>
+    </Link>}
+
+    { (countAssignedTest(quiz.assignedTestId)  >= quiz.AssignedTests.attemptsAllowed)  &&   <span
+      className="text-white bg-red-400 rounded px-2 py-1">
+      zero Attempts Remaining
+    </span>}
+
+     {!quiz.AssignedTests.Tests.isActive && <p className="text-sm text-gray-500">Quiz is not active yet.</p>}
   
 </div>
             <div>
