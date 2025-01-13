@@ -191,7 +191,7 @@ function TestSession() {
  
 
   useEffect(() => {
-    if (testStarted) {
+    if (testStarted && timer >= 0) {
       const interval = setInterval(() => {
         setTimer((prev) => {
           const updatedTimer = prev - 1;

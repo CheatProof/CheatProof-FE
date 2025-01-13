@@ -5,7 +5,7 @@ import { getTestById, getTestForAssignment } from "../../../api/test";
 import { Circles } from "react-loader-spinner";
 import { assignTestAQuestionInBulk, getQuestionTypes } from "@/api/question";
 import { toast, Toaster } from "react-hot-toast";
-import { CheckTwoTone } from "@mui/icons-material";
+// import { CheckTwoTone } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 
 
@@ -113,7 +113,7 @@ const AddQuestionBulk = () => {
       const response = await assignTestAQuestionInBulk(body);
       if (response.code ===201 || response.code === 200) {
         toast.success("Questions assigned successfully!");
-        setSelectedQuestions(new Set());
+        // setSelectedQuestions(new Set());
       } else {
         toast.error("Failed to assign questions.");
       }
