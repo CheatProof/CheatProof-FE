@@ -36,7 +36,10 @@ const Test = ({id}:any) => {
 
 const navigate = useNavigate()
 
+const [image, setImage] = useState<File | null>(null);
 
+  // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3000";
+  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
   // General
   const [parentCategories,setParentCategories] = useState<any[]>([])
@@ -730,7 +733,7 @@ const handleSubmitWithSaveAndAddMore = async () => {
             {/* <PreviewQuestion selectedQuestionType={selectedQuestionType} />  */}
           </div>
 
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
               2. Write your question
             </h3>
@@ -795,6 +798,84 @@ const handleSubmitWithSaveAndAddMore = async () => {
                       alt: { present: true, mandatory: true },
                     },
                   }}
+                />
+              </div>}
+          </div> */}
+
+<div className="mb-8">
+            <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
+                2. Write your question
+            </h3>
+            <div className="mb-4">
+                <label className="font-semibold text-gray-700">Upload an Image (Optional):</label>
+                <input
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                            setImage(e.target.files[0]);
+                        }
+                    }}
+                    className="w-full p-2 mt-2 border border-gray-300 rounded"
+                />
+            </div>
+            {selectedQuestionType === "grammar" ?
+              (
+                <>
+                  <div className="mb-4">
+                    <label className="font-semibold text-gray-700">Add a sentence with incorrect punctuation or grammar </label>
+                    <input
+                      value={grammarText}
+                      onChange={(e) => setGrammarText(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded"
+
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="font-semibold text-red-600">Add the Correct version to be graded against (not seen during the test) </label>
+                    <input
+                      value={grammarCorrect}
+                      onChange={(e) => setGrammarCorrect(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded"
+
+                    />
+
+                  </div>
+
+                </>
+              )
+              : <div className={`border opacity-35 hover:opacity-100 duration-200`}>
+                <Editor
+                    editorState={editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    onEditorStateChange={onEditorStateChange}
+                    toolbar={{
+                        inline: { inDropdown: true },
+                        list: { inDropdown: true },
+                        textAlign: { inDropdown: true },
+                        link: { inDropdown: true },
+                        history: { inDropdown: true },
+                        image: {
+                            previewImage: true,
+                            uploadCallback: (file: File) => {
+                                const data = new FormData();
+                                data.append("image", file);
+
+                                return fetch(`${BASE_URL}/upload`, {
+                                    method: "POST",
+                                    body: data,
+                                })
+                                    .then((response) => response.json())
+                                    .then((result) => ({
+                                        data: { link: result.secure_url },
+                                    }));
+                            },
+                            alt: { present: true, mandatory: true },
+                        },
+                    }}
                 />
               </div>}
           </div>

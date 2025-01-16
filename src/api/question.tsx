@@ -1,21 +1,40 @@
 import { baseUrl } from "../env/Env";
 
-export const createQuestion = (body:any) => {
+
+export const createQuestion = (formData: FormData) => {
     return fetch(`${baseUrl}/api/question/new`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
+            // Do not set 'Content-Type'; FormData will handle it automatically
         },
-        body: JSON.stringify(body)
+        body: formData,
     })
-    .then(response => response.json())
-    .then(data => data)
-    .catch(error => {
+    .then((response) => response.json())
+    .then((data) => data)
+    .catch((error) => {
         console.error('Error:', error);
         throw error;
     });
 };
+
+
+// export const createQuestion = (body:any) => {
+//     return fetch(`${baseUrl}/api/question/new`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             Authorization: `Bearer ${localStorage.getItem('token')}`,
+//         },
+//         body: JSON.stringify(body)
+//     })
+//     .then(response => response.json())
+//     .then(data => data)
+//     .catch(error => {
+//         console.error('Error:', error);
+//         throw error;
+//     });
+// };
 
 export const getQuestionsByTeacherId = (page = 1, limit = 10,filters:any) => {
     return fetch(`${baseUrl}/api/question/get/byCreator?page=${page}&limit=${limit}&${filters}`, {
