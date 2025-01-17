@@ -43,6 +43,13 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
       <div className="ml-2">
         <h3 dangerouslySetInnerHTML={{ __html: question.questionText }} className="text-xl font-semibold mb-6 mt-6"></h3>
       </div>
+
+      {/* Image Section */}
+      {question.imageUrl && (
+        <div className="flex justify-center mb-6">
+          <img src={question.imageUrl} alt="Question related" className="max-w-full h-auto rounded-lg shadow" />
+        </div>
+      )}
       {/* Options */}
       {question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" ? (
         <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">

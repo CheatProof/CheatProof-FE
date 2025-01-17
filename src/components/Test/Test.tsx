@@ -314,75 +314,75 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
     setLoading(true);
     const formData = new FormData();
   
-    console.log("submit", image);
+    // console.log("submit", image);
    
 
   
     try {
       if (selectedQuestionType === "multipleChoice") {
-        formData.append("questionTypeId", questionTypes[0]?.id || "");
-        formData.append("categoryId", subCategory.toString());
-        formData.append("questionText", getHtmlFromEditorState(editorState));
-        formData.append("correctFeedback", correctFeedback || "");
-        formData.append("incorrectFeedback", incorrectFeedback || "");
+        formData.append("questionData[questionTypeId]", questionTypes[0]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
         options.forEach((option, index) => {
-          formData.append(`options[${index}].optionText`, getHtmlFromEditorState(option.text));
-          formData.append(`options[${index}].isAnswer`, option.isCorrect.toString());
+          formData.append(`options[${index}][optionText]`, getHtmlFromEditorState(option.text));
+          formData.append(`options[${index}][isAnswer]`, option.isCorrect.toString());
         });
         formData.append("answerSelection", answerSelection || "");
         formData.append("isRandomize", randomizeAnswers.toString());
       } else if (selectedQuestionType === "trueFalse") {
-        formData.append("questionTypeId", questionTypes[1]?.id || "");
-        formData.append("categoryId", subCategory.toString());
-        formData.append("questionText", getHtmlFromEditorState(editorState));
+        formData.append("questionData[questionTypeId]", questionTypes[1]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
         formData.append("questionMedia", image || "");
-        formData.append("correctFeedback", correctFeedback || "");
-        formData.append("incorrectFeedback", incorrectFeedback || "");
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
         trueFalseOption.forEach((option, index) => {
-          formData.append(`options[${index}].optionText`, option.text);
-          formData.append(`options[${index}].isAnswer`, option.isCorrect.toString());
+          formData.append(`options[${index}][optionText]`, option.text);
+          formData.append(`options[${index}][isAnswer]`, option.isCorrect.toString());
         });
       } else if (selectedQuestionType === "freeText") {
-        formData.append("questionTypeId", questionTypes[5]?.id || "");
-        formData.append("categoryId", subCategory.toString());
-        formData.append("questionText", getHtmlFromEditorState(editorState));
-        formData.append("correctFeedback", correctFeedback || "");
-        formData.append("incorrectFeedback", incorrectFeedback || "");
+        formData.append("questionData[questionTypeId]", questionTypes[5]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
         freeText.forEach((value, index) => {
-          formData.append(`options[${index}].correctAnswer`, value.text);
+          formData.append(`options[${index}][correctAnswer]`, value.text);
         });
       } else if (selectedQuestionType === "grammar") {
-        formData.append("questionTypeId", questionTypes[3]?.id || "");
-        formData.append("categoryId", subCategory.toString());
-        formData.append("questionText", grammarText || "");
-        formData.append("correctFeedback", correctFeedback || "");
-        formData.append("incorrectFeedback", incorrectFeedback || "");
+        formData.append("questionData[questionTypeId]", questionTypes[3]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", grammarText || "");
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
-        formData.append("options[0].correctAnswer", grammarCorrect || "");
+        formData.append("options[0][correctAnswer]", grammarCorrect || "");
       } else if (selectedQuestionType === "essay") {
-        formData.append("questionTypeId", questionTypes[2]?.id || "");
-        formData.append("categoryId", subCategory.toString());
-        formData.append("questionText", getHtmlFromEditorState(editorState));
-        formData.append("correctFeedback", correctFeedback || "");
-        formData.append("incorrectFeedback", incorrectFeedback || "");
+        formData.append("questionData[questionTypeId]", questionTypes[2]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
       } else if (selectedQuestionType === "matching") {
-        formData.append("questionTypeId", questionTypes[4]?.id || "");
-        formData.append("categoryId", subCategory.toString());
-        formData.append("questionText", getHtmlFromEditorState(editorState));
-        formData.append("correctFeedback", correctFeedback || "");
-        formData.append("incorrectFeedback", incorrectFeedback || "");
+        formData.append("questionData[questionTypeId]", questionTypes[4]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
         correctPairs.forEach((value, index) => {
-          formData.append(`matchingOptions[${index}].clueText`, getHtmlFromEditorState(value.clue));
-          formData.append(`matchingOptions[${index}].matchText`, value.match);
-          formData.append(`matchingOptions[${index}].matchPoints`, "1");
+          formData.append(`matchingOptions[${index}][clueText]`, getHtmlFromEditorState(value.clue));
+          formData.append(`matchingOptions[${index}][matchText]`, value.match);
+          formData.append(`matchingOptions[${index}][matchPoints]`, "1");
         });
         incorrectPairs.forEach((value, index) => {
-          formData.append(`incorrectOptions[${index}].incorrectMatchText`, value.text);
+          formData.append(`incorrectOptions[${index}][incorrectMatchText]`, value.text);
         });
       }
   

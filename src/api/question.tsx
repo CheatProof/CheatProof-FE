@@ -1,5 +1,31 @@
 import { baseUrl } from "../env/Env";
 
+// export const createQuestion = (formData: FormData) => {
+//     // Debugging: Log FormData
+//     for (const [key, value] of formData.entries()) {
+//         console.log(`${key}: ${value}`);
+//     }
+
+//     return fetch(`${baseUrl}/api/question/new`, {
+//         method: 'POST',
+//         headers: {
+//             Authorization: `Bearer ${localStorage.getItem('token')}`,
+//         },
+//         body: formData,
+//     })
+//     .then((response) => {
+//         if (!response.ok) {
+//             throw new Error(`Server responded with status: ${response.status}`);
+//         }
+//         return response.json();
+//     })
+//     .then((data) => data)
+//     .catch((error) => {
+//         console.error('Error in createQuestion:', error);
+//         throw error;
+//     });
+// };
+
 
 export const createQuestion = (formData: FormData) => {
     return fetch(`${baseUrl}/api/question/new`, {
@@ -17,6 +43,7 @@ export const createQuestion = (formData: FormData) => {
         throw error;
     });
 };
+
 
 
 // export const createQuestion = (body:any) => {
