@@ -36,6 +36,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 const Test = () => {
 const navigate = useNavigate()
 const location = useLocation();
+const [image, setImage] = useState<File | null>(null);
+
+
+  // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3000";
+  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
   // General
   const [parentCategories,setParentCategories] = useState([])
   const [childCategories,setChildCategories] = useState([])
@@ -177,131 +182,232 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
     }
   };
 
+  // const handleSubmit = async () => {
+  //   setLoading(true);
+  //   var body;
+  //   console.log("submit", image);
+
+  //   if (selectedQuestionType === "multipleChoice") {
+  //     body = {
+
+  //       questionData: {
+  //         questionTypeId: questionTypes[0]?.id,
+  //         categoryId: subCategory,
+  //         questionText: getHtmlFromEditorState(editorState),
+  //         correctFeedback,
+  //         incorrectFeedback,
+  //         points
+  //       },
+  //       options: options.map((option: any) => ({ optionText: getHtmlFromEditorState(option.text), isAnswer: option.isCorrect })),
+  //       answerSelection: answerSelection,
+  //       isRandomize: randomizeAnswers,
+  //     };
+  //   }
+  //   else if (selectedQuestionType === "trueFalse") {
+  //     body = {
+  //       questionData: {
+  //         questionTypeId: questionTypes[1]?.id,
+  //         categoryId: subCategory,
+  //         questionText: getHtmlFromEditorState(editorState),
+  //         questionMedia: image,
+  //         correctFeedback,
+  //         incorrectFeedback,
+  //         points
+  //       },
+  //       options: trueFalseOption.map((option: any) => ({ optionText: option.text, isAnswer: option.isCorrect })),
+  //     };
+  //   }
+  //   else if (selectedQuestionType === "freeText") {
+  //     body = {
+  //       questionData: {
+  //         questionTypeId: questionTypes[5]?.id,
+  //         questionText: getHtmlFromEditorState(editorState),
+  //         correctFeedback,
+  //         incorrectFeedback,
+  //         categoryId:subCategory,
+  //         points
+  //       },
+  //       options: freeText.map((value: any) => {
+  //         return { correctAnswer: value.text }
+  //       })
+  //     }
+  //   }
+  //   else if (selectedQuestionType === "grammar") {
+  //     body = {
+  //       questionData: {
+  //         questionTypeId: questionTypes[3]?.id,
+  //         questionText: grammarText,
+  //         correctFeedback,
+  //         incorrectFeedback,
+  //         categoryId:subCategory,
+  //         points
+  //       },
+  //       options: [{ correctAnswer: grammarCorrect }],
+  //     };
+  //   }
+  //   else if (selectedQuestionType === "essay") {
+  //     body = {
+  //       questionData: {
+  //         questionTypeId: questionTypes[2]?.id,
+  //         questionText: getHtmlFromEditorState(editorState),
+  //         correctFeedback,
+  //         incorrectFeedback,
+       
+  //         categoryId:subCategory,
+  //         points
+  //       },
+  //     };
+  //   }
+  //   else if (selectedQuestionType === "matching") {
+  //     body = {
+  //       questionData: {
+  //         questionTypeId: questionTypes[4]?.id,
+  //         questionText: getHtmlFromEditorState(editorState),
+  //         correctFeedback,
+  //         incorrectFeedback,
+       
+  //         categoryId:subCategory,
+  //         points
+  //       },
+  //       matchingOptions: correctPairs.map((value: any) => {
+  //         return { clueText: getHtmlFromEditorState(value.clue), matchText: value.match,matchPoints: 1 }
+  //       }),
+  //       incorrectOptions: incorrectPairs.map((value) => {
+  //         return { incorrectMatchText: value }
+  //       })
+
+  //     }
+  //   }
+
+
+
+  //   try {
+  //     const data = await createQuestion(body);
+
+  //     console.log(data)
+  //     if (data.code == 201) {
+      
+  //       toast.success("Question created successfully", {
+  //         position: "top-center",
+  //         duration: 3000
+  //       })
+  //       navigate(-1);
+  //     } else {
+  //       toast.error("Failed to create question", {
+  //         position: "top-center",
+  //         duration: 3000
+  //       })
+  //     }
+
+
+
+
+  //   } catch (error) {
+  //     console.error("Login failed", error);
+  //     // TODO: Handle error (e.g., show error message to user)
+  //   } finally {
+  //     setLoading(false); // End loading
+  //   }
+  // };
+
   const handleSubmit = async () => {
     setLoading(true);
-    var body;
+    const formData = new FormData();
+  
+    // console.log("submit", image);
+   
 
-    if (selectedQuestionType === "multipleChoice") {
-      body = {
-
-        questionData: {
-          questionTypeId: questionTypes[0]?.id,
-          categoryId: subCategory,
-          questionText: getHtmlFromEditorState(editorState),
-          correctFeedback,
-          incorrectFeedback,
-          points
-        },
-        options: options.map((option: any) => ({ optionText: getHtmlFromEditorState(option.text), isAnswer: option.isCorrect })),
-        answerSelection: answerSelection,
-        isRandomize: randomizeAnswers,
-      };
-    }
-    else if (selectedQuestionType === "trueFalse") {
-      body = {
-        questionData: {
-          questionTypeId: questionTypes[1]?.id,
-          categoryId: subCategory,
-          questionText: getHtmlFromEditorState(editorState),
-          correctFeedback,
-          incorrectFeedback,
-          points
-        },
-        options: trueFalseOption.map((option: any) => ({ optionText: option.text, isAnswer: option.isCorrect })),
-      };
-    }
-    else if (selectedQuestionType === "freeText") {
-      body = {
-        questionData: {
-          questionTypeId: questionTypes[5]?.id,
-          questionText: getHtmlFromEditorState(editorState),
-          correctFeedback,
-          incorrectFeedback,
-          categoryId:subCategory,
-          points
-        },
-        options: freeText.map((value: any) => {
-          return { correctAnswer: value.text }
-        })
-      }
-    }
-    else if (selectedQuestionType === "grammar") {
-      body = {
-        questionData: {
-          questionTypeId: questionTypes[3]?.id,
-          questionText: grammarText,
-          correctFeedback,
-          incorrectFeedback,
-          categoryId:subCategory,
-          points
-        },
-        options: [{ correctAnswer: grammarCorrect }],
-      };
-    }
-    else if (selectedQuestionType === "essay") {
-      body = {
-        questionData: {
-          questionTypeId: questionTypes[2]?.id,
-          questionText: getHtmlFromEditorState(editorState),
-          correctFeedback,
-          incorrectFeedback,
-       
-          categoryId:subCategory,
-          points
-        },
-      };
-    }
-    else if (selectedQuestionType === "matching") {
-      body = {
-        questionData: {
-          questionTypeId: questionTypes[4]?.id,
-          questionText: getHtmlFromEditorState(editorState),
-          correctFeedback,
-          incorrectFeedback,
-       
-          categoryId:subCategory,
-          points
-        },
-        matchingOptions: correctPairs.map((value: any) => {
-          return { clueText: getHtmlFromEditorState(value.clue), matchText: value.match,matchPoints: 1 }
-        }),
-        incorrectOptions: incorrectPairs.map((value) => {
-          return { incorrectMatchText: value }
-        })
-
-      }
-    }
-
-
-
+  
     try {
-      const data = await createQuestion(body);
-
-      console.log(data)
-      if (data.code == 201) {
-      
+      if (selectedQuestionType === "multipleChoice") {
+        formData.append("questionData[questionTypeId]", questionTypes[0]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
+        formData.append("points", points.toString());
+        options.forEach((option, index) => {
+          formData.append(`options[${index}][optionText]`, getHtmlFromEditorState(option.text));
+          formData.append(`options[${index}][isAnswer]`, option.isCorrect.toString());
+        });
+        formData.append("answerSelection", answerSelection || "");
+        formData.append("isRandomize", randomizeAnswers.toString());
+      } else if (selectedQuestionType === "trueFalse") {
+        formData.append("questionData[questionTypeId]", questionTypes[1]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionMedia", image || "");
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
+        formData.append("points", points.toString());
+        trueFalseOption.forEach((option, index) => {
+          formData.append(`options[${index}][optionText]`, option.text);
+          formData.append(`options[${index}][isAnswer]`, option.isCorrect.toString());
+        });
+      } else if (selectedQuestionType === "freeText") {
+        formData.append("questionData[questionTypeId]", questionTypes[5]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
+        formData.append("points", points.toString());
+        freeText.forEach((value, index) => {
+          formData.append(`options[${index}][correctAnswer]`, value.text);
+        });
+      } else if (selectedQuestionType === "grammar") {
+        formData.append("questionData[questionTypeId]", questionTypes[3]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", grammarText || "");
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
+        formData.append("points", points.toString());
+        formData.append("options[0][correctAnswer]", grammarCorrect || "");
+      } else if (selectedQuestionType === "essay") {
+        formData.append("questionData[questionTypeId]", questionTypes[2]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
+        formData.append("points", points.toString());
+      } else if (selectedQuestionType === "matching") {
+        formData.append("questionData[questionTypeId]", questionTypes[4]?.id || "");
+        formData.append("questionData[categoryId]", subCategory.toString());
+        formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionData[correctFeedback]", correctFeedback || "");
+        formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
+        formData.append("points", points.toString());
+        correctPairs.forEach((value, index) => {
+          formData.append(`matchingOptions[${index}][clueText]`, getHtmlFromEditorState(value.clue));
+          formData.append(`matchingOptions[${index}][matchText]`, value.match);
+          formData.append(`matchingOptions[${index}][matchPoints]`, "1");
+        });
+        incorrectPairs.forEach((value, index) => {
+          formData.append(`incorrectOptions[${index}][incorrectMatchText]`, value.text);
+        });
+      }
+  
+      const data = await createQuestion(formData);
+      console.log(data);
+  
+      if (data.code === 201) {
         toast.success("Question created successfully", {
           position: "top-center",
-          duration: 3000
-        })
+          duration: 3000,
+        });
         navigate(-1);
       } else {
         toast.error("Failed to create question", {
           position: "top-center",
-          duration: 3000
-        })
+          duration: 3000,
+        });
       }
-
-
-
-
     } catch (error) {
-      console.error("Login failed", error);
-      // TODO: Handle error (e.g., show error message to user)
+      console.error("Submission failed", error);
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
     }
   };
+  
 
   const handleSubmitWithSave = async () => {
     setIsSaving(true);
@@ -703,7 +809,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
             {/* <PreviewQuestion selectedQuestionType={selectedQuestionType} />  */}
           </div>
 
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
               2. Write your question
             </h3>
@@ -769,7 +875,134 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
                   }}
                 />
               </div>}
+          </div> */}
+           <div className="mb-8">
+            <h3 className="font-bold text-gray-700 mb-3 border-b-[0.05rem] border-black/25 py-3 text-lg">
+                2. Write your question
+            </h3>
+            <div className="mb-4">
+                <label className="font-semibold text-gray-700">Upload an Image (Optional):</label>
+                <input
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                            setImage(e.target.files[0]);
+                        }
+                    }}
+                    className="w-full p-2 mt-2 border border-gray-300 rounded"
+                />
+            </div>
+            {selectedQuestionType === "grammar" ?
+              (
+                <>
+                  <div className="mb-4">
+                    <label className="font-semibold text-gray-700">Add a sentence with incorrect punctuation or grammar </label>
+                    <input
+                      value={grammarText}
+                      onChange={(e) => setGrammarText(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded"
+
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="font-semibold text-red-600">Add the Correct version to be graded against (not seen during the test) </label>
+                    <input
+                      value={grammarCorrect}
+                      onChange={(e) => setGrammarCorrect(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded"
+
+                    />
+
+                  </div>
+
+                </>
+              )
+              : <div className={`border opacity-35 hover:opacity-100 duration-200`}>
+                <Editor
+                    editorState={editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    onEditorStateChange={onEditorStateChange}
+                    toolbar={{
+                        inline: { inDropdown: true },
+                        list: { inDropdown: true },
+                        textAlign: { inDropdown: true },
+                        link: { inDropdown: true },
+                        history: { inDropdown: true },
+                        image: {
+                            previewImage: true,
+                            uploadCallback: (file: File) => {
+                                const data = new FormData();
+                                data.append("image", file);
+
+                                return fetch(`${BASE_URL}/upload`, {
+                                    method: "POST",
+                                    body: data,
+                                })
+                                    .then((response) => response.json())
+                                    .then((result) => ({
+                                        data: { link: result.secure_url },
+                                    }));
+                            },
+                            alt: { present: true, mandatory: true },
+                        },
+                    }}
+                />
+              </div>}
           </div>
+            {/* <div className="mb-4">
+                <label className="font-semibold text-gray-700">Upload an Image (Optional):</label>
+                <input
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                            setImage(e.target.files[0]);
+                        }
+                    }}
+                    className="w-full p-2 mt-2 border border-gray-300 rounded"
+                />
+            </div>
+            <div className="border opacity-35 hover:opacity-100 duration-200">
+                <Editor
+                    editorState={editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    onEditorStateChange={onEditorStateChange}
+                    toolbar={{
+                        inline: { inDropdown: true },
+                        list: { inDropdown: true },
+                        textAlign: { inDropdown: true },
+                        link: { inDropdown: true },
+                        history: { inDropdown: true },
+                        image: {
+                            previewImage: true,
+                            uploadCallback: (file: File) => {
+                                const data = new FormData();
+                                data.append("image", file);
+
+                                return fetch(`${BASE_URL}/upload`, {
+                                    method: "POST",
+                                    body: data,
+                                })
+                                    .then((response) => response.json())
+                                    .then((result) => ({
+                                        data: { link: result.secure_url },
+                                    }));
+                            },
+                            alt: { present: true, mandatory: true },
+                        },
+                    }}
+                />
+            </div>
+        </div>
+   */}
+
+
 
           {(selectedQuestionType !== "grammar" && selectedQuestionType !== "essay") && (
             <div className="mb-8">
