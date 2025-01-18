@@ -10,6 +10,7 @@ import Badge from '@mui/material/Badge';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { fetchIncompleteTestsByStudent, fetchStudentGroupsBySession } from "@/api/test-session";
 import { useNavigate } from "react-router-dom";
+import { Circles } from "react-loader-spinner";
 
 function getRandomNumber(min: number, max: number) {
   return Math.round(Math.random() * (max - min) + min);
@@ -75,12 +76,15 @@ const StudentDashboard: React.FC = () => {
 
   const [groups,setGroups]= useState([])
   const [inCompleteTestSessions,setInCompleteTestSessions]=useState<any>([]);
+  const [groupLoading, setGroupLoading] = useState(false)
 
   const fetchGroups = async( )=>{
     // fetch groups data from API
     // return groups data
+    setGroupLoading(true);
     const data = await fetchStudentGroupsBySession();
     setGroups(data.data)
+    setGroupLoading(false);
     console.log(data.data)
     
 
@@ -153,6 +157,12 @@ const StudentDashboard: React.FC = () => {
           </select>
         </div>
 
+        {groupLoading ? (
+                    <div className="flex justify-center items-center h-40">
+                      <Circles height="80" width="80" color="#152487" ariaLabel="loading" />
+                    </div>
+                  ) : (
+
         <div className="flex flex-col justify-center my-5 flex-wrap items-center gap-3">
 
           {groups.map((group:any) =>(
@@ -180,7 +190,7 @@ const StudentDashboard: React.FC = () => {
         
 
         </div>
-
+                  )}
         <h2 className="font-bold text-3xl ml-10">Resume Test</h2>
 
         {inCompleteTestSessions.map((testSession:any) =>(
