@@ -108,18 +108,38 @@ export const getQuestionTypes = ()=>{
 
 }
 
-export const updateQuestion = (id:any,question:any)=>{
+// export const updateQuestion = (id:any,question:any)=>{
+
+//     return fetch(`${baseUrl}/api/question/update/${id}`, {
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             Authorization: `Bearer ${localStorage.getItem('token')}`,
+//         },
+//         body: JSON.stringify(question)
+//     })
+//    .then(response => response.json())
+// }
+
+export const updateQuestion = (id: any, formData: FormData) => {
+    
 
     return fetch(`${baseUrl}/api/question/update/${id}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
+            // Do not set 'Content-Type'; FormData handles it
         },
-        body: JSON.stringify(question)
+        body: formData,
     })
-   .then(response => response.json())
-}
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error('Error:', error);
+            throw error;
+        });
+};
+
+
 
 
 export const assignTestAQuestion = (body:any) => {

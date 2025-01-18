@@ -370,6 +370,9 @@ const handleSubmitWithSaveAndAddMore = async () => {
       formData.append("questionData[questionTypeId]", questionTypes[0]?.id || "");
       formData.append("questionData[categoryId]", subCategory.toString());
       formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+      if (image){
+        formData.append("questionMedia", image || "");
+      }
       formData.append("questionData[correctFeedback]", correctFeedback || "");
       formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
       formData.append("points", points.toString());
@@ -378,12 +381,18 @@ const handleSubmitWithSaveAndAddMore = async () => {
         formData.append(`options[${index}][isAnswer]`, option.isCorrect.toString());
       });
       formData.append("answerSelection", answerSelection || "");
-      formData.append("isRandomize", randomizeAnswers.toString());
+      // formData.append("isRandomize", randomizeAnswers.toString());
+      
+      formData.append("isRandomize", randomizeAnswers ? randomizeAnswers.toString() : "false");
+
     } else if (selectedQuestionType === "trueFalse") {
       formData.append("questionData[questionTypeId]", questionTypes[1]?.id || "");
       formData.append("questionData[categoryId]", subCategory.toString());
       formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
-      formData.append("questionMedia", image || "");
+      if (image){
+        formData.append("questionMedia", image || "");
+      }
+     
       formData.append("questionData[correctFeedback]", correctFeedback || "");
       formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
       formData.append("points", points.toString());
@@ -395,6 +404,9 @@ const handleSubmitWithSaveAndAddMore = async () => {
       formData.append("questionData[questionTypeId]", questionTypes[5]?.id || "");
       formData.append("questionData[categoryId]", subCategory.toString());
       formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+      if (image){
+        formData.append("questionMedia", image || "");
+      }
       formData.append("questionData[correctFeedback]", correctFeedback || "");
       formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
       formData.append("points", points.toString());
@@ -405,6 +417,9 @@ const handleSubmitWithSaveAndAddMore = async () => {
       formData.append("questionData[questionTypeId]", questionTypes[3]?.id || "");
       formData.append("questionData[categoryId]", subCategory.toString());
       formData.append("questionData[questionText]", grammarText || "");
+      if (image){
+        formData.append("questionMedia", image || "");
+      }
       formData.append("questionData[correctFeedback]", correctFeedback || "");
       formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
       formData.append("points", points.toString());
@@ -413,6 +428,9 @@ const handleSubmitWithSaveAndAddMore = async () => {
       formData.append("questionData[questionTypeId]", questionTypes[2]?.id || "");
       formData.append("questionData[categoryId]", subCategory.toString());
       formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+      if (image){
+        formData.append("questionMedia", image || "");
+      }
       formData.append("questionData[correctFeedback]", correctFeedback || "");
       formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
       formData.append("points", points.toString());
@@ -420,6 +438,9 @@ const handleSubmitWithSaveAndAddMore = async () => {
       formData.append("questionData[questionTypeId]", questionTypes[4]?.id || "");
       formData.append("questionData[categoryId]", subCategory.toString());
       formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+      if (image){
+        formData.append("questionMedia", image || "");
+      }
       formData.append("questionData[correctFeedback]", correctFeedback || "");
       formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
       formData.append("points", points.toString());
@@ -433,9 +454,8 @@ const handleSubmitWithSaveAndAddMore = async () => {
       });
     }
 
-
     try {
-      const data = await updateQuestion(id,body);
+      const data = await updateQuestion(id,formData);
 
       console.log(data)
       if (data.code == 200) {
@@ -462,6 +482,34 @@ const handleSubmitWithSaveAndAddMore = async () => {
       setLoading(false); // End loading
     }
   };
+  //   try {
+  //     const data = await updateQuestion(id,body);
+
+  //     console.log(data)
+  //     if (data.code == 200) {
+      
+  //       toast.success("Question Update successfully", {
+  //         position: "top-center",
+  //         duration: 3000
+  //       })
+  //       navigate(-1);
+  //     } else {
+  //       toast.error("Invalid credentials", {
+  //         position: "top-center",
+  //         duration: 3000
+  //       })
+  //     }
+
+
+
+
+  //   } catch (error) {
+  //     console.error("Login failed", error);
+  //     // TODO: Handle error (e.g., show error message to user)
+  //   } finally {
+  //     setLoading(false); // End loading
+  //   }
+  // };
 
   const fetchall = async( )=>{
     await fetchQuestionType();
