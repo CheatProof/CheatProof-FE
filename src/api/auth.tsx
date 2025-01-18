@@ -101,4 +101,22 @@ export const getUserAnalytics = () => {
     });
 };
 
+// /getTeacherAnalytics
+
+export const getTeacherAnalytics = () => {
+    return fetch(`${baseUrl}/api/user/getTeacherAnalytics`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};
+
 

@@ -217,3 +217,16 @@ export const getTestTypes = () => {
     })
     .then(response => response.json())
 }
+
+// GET : /archiveQuestion/:questionId
+
+export const archiveQuestion = (questionId:any) => {
+    return fetch(`${baseUrl}/api/question/archiveQuestion/${questionId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    .then(response => response.json())
+}

@@ -147,7 +147,7 @@ const ResultSummaryCard = () => {
               <path
                 className="text-fore stroke-current"
                 strokeWidth="4"
-                strokeDasharray="91.7, 100"
+                strokeDasharray={`${results.percentage.toFixed(2)}, 100`}
                 fill="none"
                 d="M18 2.0845
                 a 15.9155 15.9155 0 0 1 0 31.831

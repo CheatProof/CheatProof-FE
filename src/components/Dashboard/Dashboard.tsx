@@ -131,28 +131,28 @@ const Dashboard = ({analytics}:any) => {
         <div className="flex justify-center my-5 flex-wrap items-center gap-3">
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl text-fore">1</span>
+              <span className="text-4xl text-fore">{analytics?.GroupsCount}</span>
               <MdOutlineGroup className="text-4xl text-purple-800" />
             </div>
             <p className="text-sm text-fore">Totals Groups </p>
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl text-fore">4</span>
+              <span className="text-4xl text-fore">{analytics?.TestsCount}</span>
               <PiExam className="text-4xl text-red-600" />
             </div>
             <p className="text-sm text-fore">Total Tests </p>
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl text-fore">0</span>
+              <span className="text-4xl text-fore">{analytics?.InProgressTestsCount}</span>
               <IoMdCheckmarkCircleOutline className="text-4xl text-green-600" />
             </div>
             <p className="text-sm text-fore">In Progress Test</p>
           </div>
           <div className="w-full lg:w-[49%] rounded shadow flex justify-center items-center flex-col bg-white h-40 text-blackPrimary/55">
             <div className="flex items-center">
-              <span className="text-4xl text-fore">3</span>
+              <span className="text-4xl text-fore">{analytics?.FinishedTestsCount}</span>
               <PiClockCountdownLight className="text-4xl text-blue-500" />
             </div>
             <p className="text-sm text-fore">Finished Test</p>

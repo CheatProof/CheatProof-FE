@@ -273,7 +273,6 @@ const handleSubmitWithSaveAndAddMore = async () => {
   const handleSubmit = async () => {
     const formData = new FormData();
     setLoading(true);
-    var body;
 
     // if (selectedQuestionType === "multipleChoice") {
     //   body = {

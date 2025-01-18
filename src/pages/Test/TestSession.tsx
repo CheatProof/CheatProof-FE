@@ -215,33 +215,71 @@ function TestSession() {
 
   const timeBarWidth = (timer / totalTime) * 100; // Calculate percentage width of the time bar
 
+  // useEffect(() => {
+  //   const handleVisibilityChange = () => {
+  //     if (document.hidden && testStarted && !showInstructions) {
+  //       const newCount = tabSwitchCount + 1;
+  //       setTabSwitchCount(newCount);
+  //       localStorage.setItem('tabSwitchCount', newCount.toString());
+        
+  //       const remainingAttempts = 10 - newCount;
+        
+  //       if (newCount >= 10) {
+  //         setWarningMessage('You have exceeded the maximum number of tab switches. The test will now end.');
+  //         setShowTabWarning(true);
+  //         setTimeout(() => {
+  //           finishTest();
+  //         }, 3000);
+  //       } else {
+  //         setWarningMessage(`Warning: You have switched tabs ${newCount} time${newCount === 1 ? '' : 's'}. The test will end after 10 switches. (${remainingAttempts} attempt${remainingAttempts === 1 ? '' : 's'} remaining)`);
+  //         setShowTabWarning(true);
+  //       }
+  //     }
+  //   };
+
+  //   document.addEventListener('visibilitychange', handleVisibilityChange);
+  //   return () => {
+  //     document.removeEventListener('visibilitychange', handleVisibilityChange);
+  //   };
+  // }, [tabSwitchCount, testStarted, showInstructions]);
+
+
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden && testStarted && !showInstructions) {
+    const handleVisibilityOrBlur = () => {
+      if ((document.hidden || document.activeElement === document.body) && testStarted && !showInstructions) {
         const newCount = tabSwitchCount + 1;
         setTabSwitchCount(newCount);
         localStorage.setItem('tabSwitchCount', newCount.toString());
-        
+  
         const remainingAttempts = 10 - newCount;
-        
+  
         if (newCount >= 10) {
-          setWarningMessage('You have exceeded the maximum number of tab switches. The test will now end.');
+          setWarningMessage('You have exceeded the maximum number of tab switches or window interactions. The test will now end.');
           setShowTabWarning(true);
           setTimeout(() => {
             finishTest();
           }, 3000);
         } else {
-          setWarningMessage(`Warning: You have switched tabs ${newCount} time${newCount === 1 ? '' : 's'}. The test will end after 10 switches. (${remainingAttempts} attempt${remainingAttempts === 1 ? '' : 's'} remaining)`);
+          setWarningMessage(
+            `Warning: You have switched tabs or interacted outside the window ${newCount} time${newCount === 1 ? '' : 's'}. 
+            The test will end after 10 switches. (${remainingAttempts} attempt${remainingAttempts === 1 ? '' : 's'} remaining)`
+          );
           setShowTabWarning(true);
         }
       }
     };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+    // Add event listeners
+    document.addEventListener('visibilitychange', handleVisibilityOrBlur);
+    window.addEventListener('blur', handleVisibilityOrBlur);
+  
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      // Cleanup event listeners
+      document.removeEventListener('visibilitychange', handleVisibilityOrBlur);
+      window.removeEventListener('blur', handleVisibilityOrBlur);
     };
-  }, [tabSwitchCount, testStarted, showInstructions]);
+  }, [tabSwitchCount, testStarted, showInstructions, finishTest]);
+  
 
   return (
     <div className="p-4 flex min-h-screen justify-center items-center">

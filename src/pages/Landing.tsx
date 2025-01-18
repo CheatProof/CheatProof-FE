@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Tabs, Tab, Box, CircularProgress } from "@mui/material";
 import { Sidebar } from "../components";
 import Dashboard from "../components/Dashboard/Dashboard";
-import { getTestAnalytics, getUserAnalytics } from "@/api/auth";
+import { getTeacherAnalytics } from "@/api/auth";
 
 // TabPanel component for displaying content based on the active tab
 const TabPanel = ({ children, value, index }: any) => {
@@ -27,12 +27,12 @@ const Landing: React.FC = () => {
   const fetchAnalytics = async () => {
     setLoading(true); // Start loading
     try {
-      const data = await getTestAnalytics("12");
-      const userData = await getUserAnalytics() 
+      // const data = await getTestAnalytics("12");
+      const userData = await getTeacherAnalytics()
         
       // Fetch analytics
-      setUserData(userData); // Set user analytics state if available
-      setAnalytics(data);
+      setUserData(userData.data); // Set user analytics state if available
+      // setAnalytics(data);
       console.log(userData);
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -68,7 +68,7 @@ const Landing: React.FC = () => {
               </Box>
             ) : (
               // Show Dashboard when data is loaded
-              <Dashboard analytics={analytics} />
+              <Dashboard analytics={userData} />
             )}
           </TabPanel>
 

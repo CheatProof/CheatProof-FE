@@ -2,11 +2,12 @@ import { useState } from "react";
 import { CiCircleCheck } from "react-icons/ci";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { deleteQuestion } from "../../api/question";
+import { archiveQuestion, deleteQuestion } from "../../api/question";
 import toast, { Toaster } from 'react-hot-toast';
 
-const QuestionCard = ({ question, idx, onDelete }: any) => {
+const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
 
   if (!question) {
     return <p>Loading options...</p>;
@@ -25,6 +26,23 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
     }
     setIsModalOpen(false);
   };
+  // Handle archive action
+  const handleArchive = async () => {
+    // TODO: Implement archive question logic
+    const response = await archiveQuestion(question.id);
+    if (response.code === 200) {
+      toast.success("Question archived successfully.", {
+        duration: 3000,
+        position: "top-center"
+      });
+    } else {
+      toast.error("Failed to archive the question. Please try again.", {
+        duration: 3000,
+        position: "top-center"
+      });
+    }
+    setIsArchiveModalOpen(false);
+  };
 
   return (
     <div className="bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200">
@@ -32,7 +50,7 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
       {/* Question header */}
       <div className="mb-4 ml-2">
         <div className="flex flex-row border-b-2 border-gray-200">
-          <h2 className="text-lg font-semibold text-black">Question </h2>
+          <h2 className="text-lg font-semibold text-black">Question {question.index}</h2>
           <p className="mx-auto mr-8 text-color2 text-sm">
             {question.Categories.ParentCategories.parentCategoryName} / {question.Categories.categoryName}
           </p>
@@ -51,7 +69,8 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
         </div>
       )}
       {/* Options */}
-      {question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" ? (
+      
+      {hide  && (question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" ? (
         <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
           {question?.MultipleChoiceQuestions?.MultipleChoiceOptions?.map((opt: any, idx: any) => (
             <button
@@ -97,13 +116,13 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
             </button>
           ))}
         </div>
-      ) : null}
+      ) : null)}
 
       {/* Actions */}
       <div className="flex space-x-4 text-sm text-color1 ml-2">
         <Link to={`${question.id}`} className="hover:underline">Edit</Link>
         <button onClick={() => setIsModalOpen(true)} className="hover:underline">Delete</button>
-        <button className="hover:underline">Archive</button>
+        <button onClick={()=> setIsArchiveModalOpen(true)} className="hover:underline">Archive</button>
         <button className="hover:underline">Used In</button>
       </div>
 
@@ -130,6 +149,31 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
           </div>
         </div>
       )}
+      {/* Archive Confirmation Modal */}
+
+      {isArchiveModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 className="text-xl font-semibold mb-4">Archive Confirmation</h2>
+            <p>Are you sure you want to archive this question?</p>
+            <div className="flex justify-end space-x-4 mt-6">
+              <button
+                onClick={() => setIsArchiveModalOpen(false)}
+                className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+              onClick={handleArchive}
+                className="px-4 py-2 bg-color2 text-white rounded hover:bg-color1"
+              >
+                Archive
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    }
     </div>
   );
 };

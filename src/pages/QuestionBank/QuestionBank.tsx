@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from '../../components';
 import QuestionCard from '../../components/Question/QuestionCard';
-import { getQuestionsByTeacherId, getQuestionTypes, getTestTypes } from '../../api/question';
+import { getQuestionsByTeacherId, getQuestionTypes } from '../../api/question';
 import { Circles } from 'react-loader-spinner';
+import { LuEye } from "react-icons/lu";
 
 import Popper from '@mui/material/Popper';
 import Paper from '@mui/material/Paper';
@@ -18,6 +19,8 @@ const QuestionBank = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
+  const [totalQuestions,setTotalQuestions] = useState(0);
+  const [totalArchive,setTotalArchive] = useState(0);
   const [currentPage, setCurrentPage] = useState(parseInt(new URLSearchParams(location.search).get('page') || '1'));
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -36,6 +39,7 @@ const QuestionBank = () => {
     search:'',
 
   });
+  const [hideAnswer,setHideAnswer] = useState(false);
 
   const fetchCategories = async () => {
     try {
@@ -79,10 +83,20 @@ const QuestionBank = () => {
 
   const getQuestions = async (page = 1,filters:any) => {
     setLoading(true);
-    const data = await getQuestionsByTeacherId(page, pageSize,`categoryId=${filters.category}&questionTypeById=${filters.type}&searchItem=${filters.search}`); // Modify API as needed
+    const data = await getQuestionsByTeacherId(page, pageSize,`categoryId=${filters.category}&questionTypeById=${filters.type}&searchItem=${filters.search}&isArchive=${activeTab==="active"?false:true}`); // Modify API as needed
+    const data1 = await getQuestionsByTeacherId(page, pageSize,`categoryId=${filters.category}&questionTypeById=${filters.type}&searchItem=${filters.search}&isArchive=${true}`); // Modify API as needed
+
     if (data.code === 200) {
+  
       setQuestions(data.data.questions);
+      
+      
+      setTotalArchive(data1.data.totalQuestions);
+
       setTotalPages(Math.ceil(data.data.totalQuestions / pageSize));
+      if(activeTab==="active"){
+      setTotalQuestions(data.data.totalQuestions);
+      }
     }
     setLoading(false);
   };
@@ -138,13 +152,13 @@ const QuestionBank = () => {
                   onClick={() => setActiveTab('active')}
                   className={`px-3 py-1 text-md font-semibold ${activeTab === 'active' ? 'text-color1 border-b-2 border-blue-500' : 'text-color3'}`}
                 >
-                  Active <span className="bg-blue-100 text-blue-400 text-xs px-2 py-1 rounded-full ml-1">{questions.length}</span>
+                  Active <span className="bg-blue-100 text-blue-400 text-xs px-2 py-1 rounded-full ml-1">{totalQuestions}</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('archived')}
                   className={`px-3 py-1 text-md font-semibold ${activeTab === 'archived' ? 'text-color1 border-b-2 border-blue-500' : 'text-color3'}`}
                 >
-                  Archived <span className="bg-blue-100 text-blue-400 text-xs px-2 py-1 rounded-full ml-1">0</span>
+                  Archived <span className="bg-blue-100 text-blue-400 text-xs px-2 py-1 rounded-full ml-1">{totalArchive}</span>
                 </button>
               </div>
               <div className="flex space-x-4 items-center">
@@ -194,10 +208,10 @@ const QuestionBank = () => {
 
                  <div className='flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 pb-1'>
                     <div className='flex space-x-4'>
-                      <button className="border-gray-300 rounded-lg border-2  mb-4 md:mb-0">
-                        <Tooltip title='Hide Answers'>
+                      <button onClick={()=>setHideAnswer(!hideAnswer)} className="border-gray-300 rounded-lg border-2  mb-4 md:mb-0">
+                        <Tooltip title={hideAnswer?"Unhide Answer":'Hide Answers'}>
                           <IconButton>
-                        <BiHide className='w-6 h-4 text-color1'/>
+                        {hideAnswer?(<LuEye className='w-6 h-4 text-color1'/>): (<BiHide className='w-6 h-4 text-color1'/>)}
                         </IconButton>
                         </Tooltip>
                       </button>
@@ -276,7 +290,7 @@ const QuestionBank = () => {
             <>
               <div className="question-list">
                 {questions.map((question, idx) => (
-                  <QuestionCard key={idx} question={question} idx={currentPage} onDelete={getQuestions} />
+                  <QuestionCard key={idx} question={question} idx={currentPage} hide={hideAnswer} onDelete={getQuestions} />
                 ))}
               </div>
               <div className="flex justify-center mt-8 mb-4">{renderPagination()}</div>
