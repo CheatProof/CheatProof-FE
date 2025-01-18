@@ -47,7 +47,7 @@ const QuestionCard = ({ question, idx, onDelete }: any) => {
       {/* Image Section */}
       {question.questionMedia && (
         <div className="flex justify-center mb-6">
-          <img src={question.questionMedia} alt="Question image" className="max-w-md h-auto rounded-lg shadow" />
+          <img src={question.questionMedia} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
         </div>
       )}
       {/* Options */}

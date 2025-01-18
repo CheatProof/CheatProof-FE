@@ -323,6 +323,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
         formData.append("questionData[questionTypeId]", questionTypes[0]?.id || "");
         formData.append("questionData[categoryId]", subCategory.toString());
         formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionMedia", image || "");
         formData.append("questionData[correctFeedback]", correctFeedback || "");
         formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
@@ -348,6 +349,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
         formData.append("questionData[questionTypeId]", questionTypes[5]?.id || "");
         formData.append("questionData[categoryId]", subCategory.toString());
         formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionMedia", image || "");
         formData.append("questionData[correctFeedback]", correctFeedback || "");
         formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
@@ -358,6 +360,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
         formData.append("questionData[questionTypeId]", questionTypes[3]?.id || "");
         formData.append("questionData[categoryId]", subCategory.toString());
         formData.append("questionData[questionText]", grammarText || "");
+        formData.append("questionMedia", image || "");
         formData.append("questionData[correctFeedback]", correctFeedback || "");
         formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
@@ -366,6 +369,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
         formData.append("questionData[questionTypeId]", questionTypes[2]?.id || "");
         formData.append("questionData[categoryId]", subCategory.toString());
         formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionMedia", image || "");
         formData.append("questionData[correctFeedback]", correctFeedback || "");
         formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
@@ -373,6 +377,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
         formData.append("questionData[questionTypeId]", questionTypes[4]?.id || "");
         formData.append("questionData[categoryId]", subCategory.toString());
         formData.append("questionData[questionText]", getHtmlFromEditorState(editorState));
+        formData.append("questionMedia", image || "");
         formData.append("questionData[correctFeedback]", correctFeedback || "");
         formData.append("questionData[incorrectFeedback]", incorrectFeedback || "");
         formData.append("points", points.toString());
