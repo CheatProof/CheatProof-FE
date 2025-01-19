@@ -119,4 +119,41 @@ export const getTeacherAnalytics = () => {
     });
 };
 
+// /updatePassword
+
+export const updatePassword = (body:any) => {
+    return fetch(`${baseUrl}/api/auth/updatePassword`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};
+
+// /updateUsername
+
+export const updateUsername = (body:any) => {
+    return fetch(`${baseUrl}/api/auth/updateUsername`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};
 

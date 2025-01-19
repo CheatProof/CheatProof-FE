@@ -1,9 +1,10 @@
-import { HiOutlineSave, HiOutlineUpload, HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
+import {  HiOutlineUpload, HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
 import { InputWithLabel, Sidebar, SimpleInput } from "../components";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import profile from "../assets/user.png";
 import { Button } from "@/components/ui/button";
+import { updatePassword, updateUsername } from "@/api/auth";
 
 const Profile = () => {
   const data: any = localStorage.getItem("user");
@@ -19,12 +20,12 @@ const Profile = () => {
   const inputObject:any = {
     username: user.username,
     email: user.email,
-    password: "",
-    confirmPassword: "",
   }
 
   const [passwordSection, setPasswordSection] = useState(false);
   const [usernameSection, setUsernameSection] = useState(false);
+  const [loadingPassword, setLoadingPassword] = useState(false);
+  const [loadingUsername, setLoadingUsername] = useState(false);
 
   const [passwordInput, setPasswordInput] = useState({
     currentPassword: "",
@@ -38,14 +39,66 @@ const Profile = () => {
   });
 
   const handlePasswordUpdate = async () => {
-    toast.success("Password updated successfully!");
-    console.log("Password update payload:", passwordInput);
+
+    if (passwordInput.currentPassword === "" || passwordInput.newPassword === "" || passwordInput.confirmNewPassword === "") {
+      toast.error("All fields are required!");
+      return;
+    }
+    if (passwordInput.newPassword!== passwordInput.confirmNewPassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
+    setLoadingPassword(true);
+    const body:any ={
+      password: passwordInput.currentPassword,
+      newPassword: passwordInput.newPassword,
+    }
+
+    const response = await updatePassword(body)
+    if(response.code === 200){
+
+      toast.success("Password updated successfully!");
+      setPasswordInput({
+        currentPassword: "",
+        newPassword: "",
+        confirmNewPassword: "",
+      });
+      setPasswordSection(false);
+      setLoadingPassword(false);
+    } else {
+      toast.error("Failed to update password!");
+      setLoadingPassword(false);
+    }
+   
   };
 
   const handleUsernameUpdate = async () => {
-    toast.success("Username updated successfully!");
-    console.log("Username update payload:", usernameInput);
-  };
+    if (usernameInput.newUsername === "" || usernameInput.confirmUsername === "") {
+      toast.error("All fields are required!");
+      return;
+    }
+    if (usernameInput.newUsername!== usernameInput.confirmUsername) {
+      toast.error("Usernames do not match!");
+      return;
+    }
+    setLoadingUsername(true);
+    const body:any ={
+      username: usernameInput.newUsername,
+    }
+    const response = await updateUsername(body)
+    if(response.code === 200){
+      toast.success("Username updated successfully!");
+      setUsernameInput({
+        newUsername: "",
+        confirmUsername: "",
+      });
+      setUsernameSection(false);
+      setLoadingUsername(false);
+    } else {
+      toast.error("Failed to update username!");
+      setLoadingUsername(false);
+    }
+  }
 
   return (
     <div className="h-auto border-t border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
@@ -107,13 +160,13 @@ const Profile = () => {
                 <InputWithLabel label="Your username">
                   <p className="dark:text-whiteSecondary text-blackPrimary flex items-center gap-2">
                     {inputObject.username}{" "}
-                    <HiOutlineSave className="text-xl cursor-pointer hover:text-blue-500" />
+                    {/* <HiOutlineSave className="text-xl cursor-pointer hover:text-blue-500" /> */}
                   </p>
                 </InputWithLabel>
                 <InputWithLabel label="Your email">
                   <p className="dark:text-whiteSecondary text-blackPrimary flex items-center gap-2">
                     {inputObject.email}{" "}
-                    <HiOutlineSave className="text-xl cursor-pointer hover:text-blue-500" />
+                    {/* <HiOutlineSave className="text-xl cursor-pointer hover:text-blue-500" /> */}
                   </p>
                 </InputWithLabel>
               </div>
@@ -183,9 +236,10 @@ const Profile = () => {
                         onClick={handlePasswordUpdate}
                         // className="hover:bg-gray-200 dark:hover:bg-gray-700"
                       /> */}
-                      <button onClick={handlePasswordUpdate}
+                          <button onClick={handlePasswordUpdate}
+                      disabled={loadingPassword}
                        className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-sm font-medium mt-4 py-2 px-3 duration-200 flex items-center justify-center hover:shadow-md"
-                > Update Password</button>
+                > {loadingPassword?"Changing":"Update Password"}</button>
                     </div>
                   )}
                 </div>
@@ -240,9 +294,10 @@ const Profile = () => {
                         onClick={handleUsernameUpdate}
                         // className="hover:bg-gray-200 dark:hover:bg-gray-700"
                       /> */}
-                      <button onClick={handleUsernameUpdate}
+                       <button onClick={handleUsernameUpdate}
+                      disabled={loadingUsername}
                        className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-sm font-medium mt-4 py-2 px-3 duration-200 flex items-center justify-center hover:shadow-md"
-                      >Update Username</button>
+                      >{loadingUsername?"Changing...":'Update Username'}</button>
                     </div>
                   )}
                 </div>

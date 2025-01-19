@@ -410,7 +410,17 @@ const GroupsManagement = () => {
                         <div className="text-gray-600">{test.AssignedTests.Tests.testName}</div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <button onClick={()=>navigate(`/teacher-dashboard/grouptest/${test.id}`)} className="text-gray-600 hover:text-gray-800">
+                        <button onClick={()=>navigate(`/teacher-dashboard/grouptest/${test.id}`,{
+                          replace: true,
+                          
+                            state: {
+                              groupTest1: test,
+                              group1: group,
+                            },
+                          
+                        })
+
+                      } className="text-gray-600 hover:text-gray-800">
                           Settings
                         </button>
                         <span className={`px-2 py-1 rounded text-sm ${
