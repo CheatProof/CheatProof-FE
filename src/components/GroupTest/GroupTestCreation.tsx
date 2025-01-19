@@ -5,10 +5,11 @@ import { FaUsers } from 'react-icons/fa';
 import { BiHelpCircle } from 'react-icons/bi';
 // import { fetchTestDetails } from '@/api/grouptest'; // Import the API function
 import Settings from './Settings';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { UpdateAssignedGroupTest } from '@/api/grouptest';
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchGroupTestResultsByAssignedTestGroup } from '@/api/test-session';
+import { getAssignedGroupTest } from '@/api/group';
 // import { console } from 'inspector';
 
 interface Result {
@@ -35,6 +36,7 @@ const exportToCSV = (data: Result[], filename: string) => {
 };
 
 const TestDetails: React.FC = () => {
+  const {id}=useParams();
 
   const [results, setResults] = useState<Result[]>([
     { name: 'Average', percentage: 4, score: '2 / 50', duration: '00:04:44', date: '' },
@@ -43,12 +45,16 @@ const TestDetails: React.FC = () => {
 
 
   const location = useLocation();
-  const { groupTest, group } = location.state;
-  console.log(groupTest)
+  const { groupTest1, group1 } = location.state;
+  console.log(groupTest1)
 
   const [activeTab, setActiveTab] = useState(0);
-  const testName = groupTest.AssignedTests.Tests.testName; // Default test name
-  const groupName = group.groupName; // Default group name
+  const [testName,setTestName] = useState(groupTest1.AssignedTests.Tests.testName); // Default test name
+  const [groupName,setgroupName] = useState(group1.groupName); // Default group name
+  const [groupTest,setgroupTest] = useState(groupTest1); 
+  const [group,setGroup]=useState(group1)
+
+  
 
   const handleSave = async (body: any) => {
     try {
@@ -78,6 +84,20 @@ const TestDetails: React.FC = () => {
     }
   };
 
+  const fetchGroupTest = async()=>{
+    try {
+      const response = await getAssignedGroupTest(id);
+      setgroupTest(response?.data);
+      setTestName(response.data?.AssignedTests?.Tests?.testName);
+      // setgroupName(response?.data?.Groups?.groupName);
+      // setGroup(response?.data?.Groups);
+      
+  }catch(err) {
+    console.error("Error fetching group test:", err);
+    toast.error("Error fetching group test");
+  }
+
+}
   const fetchResults = async () => {
     try {
       // Fetch the results for the current test and group
@@ -178,6 +198,7 @@ const TestDetails: React.FC = () => {
   useEffect(() => {
 
     fetchResults();
+    fetchGroupTest();
   }, []);
 
 
@@ -189,6 +210,9 @@ const TestDetails: React.FC = () => {
     // Return the color in RGB format
     return `rgb(${red}, ${green}, 0)`;
   };
+
+
+
 
 
   return (
@@ -298,7 +322,7 @@ const TestDetails: React.FC = () => {
       )}
       {activeTab === 1 &&
         <div className='mt-2'>
-          <Settings groupTest={groupTest?.AssignedTests} handleSave={handleSave} />
+         {groupTest && <Settings groupTest={groupTest?.AssignedTests} handleSave={handleSave} />}
 
         </div>
       }

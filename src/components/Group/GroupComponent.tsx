@@ -222,8 +222,8 @@ const GroupManagement = () => {
                               onClick={() =>
                                 navigate(`/teacher-dashboard/grouptest/${test.id}`, {
                                   state: {
-                                    groupTest: test,
-                                    group: group,
+                                    groupTest1: test,
+                                    group1: group,
                                   },
                                 })
                               }

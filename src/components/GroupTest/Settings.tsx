@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, Paper, Collapse, Divider, Radio, RadioGroup, FormControlLabel, Tabs, Tab, TextField, MenuItem, Select, Switch, Checkbox, Tooltip, Alert } from '@mui/material';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { Circles } from 'react-loader-spinner';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 
 
@@ -33,14 +33,27 @@ const Settings = ({ handleSave ,groupTest }: any) => {
     webHooks:false
   });
 
+  const formatToDateTimeLocal = (date:any) => {
+    if (!date) return ""; // Return an empty string if no date is provided
+  
+    const d = new Date(date); // Create a Date object
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const day = String(d.getDate()).padStart(2, "0");
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+  
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   console.log(groupTest?.attemptsAllowed)
 
   const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState(0);
   const [availabilityStatus, setAvailabilityStatus] = useState(groupTest?.availabilityStatus? groupTest?.availabilityStatus: 'available');
-  const [availabilityFrom, setAvailabilityFrom] = useState(groupTest?.availableFrom? groupTest?.availableFrom:'');
-  const [availabilityUntil, setAvailabilityUntil] = useState(groupTest?.availableUntil? groupTest?.availableUntil:'');
+  const [availabilityFrom, setAvailabilityFrom] = useState(groupTest?.availableFrom? formatToDateTimeLocal(groupTest?.availableFrom):'');
+  const [availabilityUntil, setAvailabilityUntil] = useState(groupTest?.availableUntil? formatToDateTimeLocal(groupTest?.availableUntil):'');
   const [attemptCount, setAttemptCount] = useState(groupTest?.attemptsAllowed? groupTest?.attemptsAllowed:1);
   const [ipRecord, setIpRecord] = useState(groupTest?.recordPublicIP? groupTest?.recordPublicIP:false);
   const [allowPrinting, setAllowPrinting] = useState(groupTest?.allowPrinting? groupTest?.allowPrinting:false);

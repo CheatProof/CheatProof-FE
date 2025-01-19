@@ -120,3 +120,20 @@ export const getGroupMembersByGroupId = (groupId:any) => {
         // Handle errors
         .catch(error => console.error('Error:', error));
 }
+
+// /getById/assignedGroupTest/:assignedTestGroupId
+
+export const getAssignedGroupTest = (assignedTestGroupId:any) => {
+    const url = `${baseUrl}/api/group/getById/assignedGroupTest/${assignedTestGroupId}`;
+    return fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        }
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
