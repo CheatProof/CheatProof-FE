@@ -90,9 +90,9 @@ const QuestionBank = () => {
   
       setQuestions(data.data.questions);
       
-      
+      if(data1.code === 200){
       setTotalArchive(data1.data.totalQuestions);
-
+      }
       setTotalPages(Math.ceil(data.data.totalQuestions / pageSize));
       if(activeTab==="active"){
       setTotalQuestions(data.data.totalQuestions);
