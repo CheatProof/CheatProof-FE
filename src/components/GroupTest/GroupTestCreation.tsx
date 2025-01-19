@@ -109,8 +109,8 @@ const TestDetails: React.FC = () => {
 
       console.log(results);
 
-      setGroup(results.Groups);
-      setgroupName(results.Groups.groupName);
+      setGroup(results.data.Groups);
+      setgroupName(results.data.Groups.groupName);
       // Transform the results into the desired format
       const transformedResults = transformData(results);
 

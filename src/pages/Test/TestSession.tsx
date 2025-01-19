@@ -9,6 +9,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { endTestSession, startTestSession } from '@/api/test-session';
 import { AlertDialog,AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Circles } from 'react-loader-spinner';
+import toast, { Toaster } from 'react-hot-toast';
 
 function TestSession() {
   const { id } = useParams();
@@ -46,20 +47,22 @@ function TestSession() {
     ()=> JSON.parse(localStorage.getItem('Questions') || `[]`)
 );
   const [testStarted, setTestStarted] = useState<boolean>(
-    JSON.parse(localStorage.getItem('testStarted') || 'true')
+    JSON.parse(localStorage.getItem('testStarted') || 'false')
   ); // Track if test has started
 
   const totalTime = quiz.AssignedTests.timeLimit * 60; // Total time in seconds (5 hours)
 
   const handleStartTest = async() => {
+    
     setStaredLoading(true);
 
 
     
 
     const data = await startTestSession({assignedTestId:id})
+    console.log(data)
 
-    
+    if (data.code === 200 || data.code === 201){
     const testSessionId = data.data.sessionId;
 
 
@@ -97,6 +100,13 @@ function TestSession() {
       }
     });
 
+  }else if(data.code === 409){
+    toast.error('On going test Session Found');
+    setStaredLoading(false);
+  }else if (data.code === 422){
+    toast.error('Test is unavailable ')
+    setStaredLoading(false);
+  }
 
   };
 
@@ -150,10 +160,10 @@ function TestSession() {
     if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
-  // const closeModal = (index: number) => {
-  //   setCurrentQuestion(index);
-  //   setModalOpen(false);
-  // };
+  const closeModal = (index: number) => {
+    setCurrentQuestion(index);
+    setModalOpen(false);
+  };
   
   const openModal = () => setModalOpen(true);
 
@@ -311,10 +321,10 @@ function TestSession() {
             <div className="flex justify-center">
               <button
               disabled={startedLoading}
-                className="bg-color2 hover:bg-color1 text-white px-4 py-2 rounded-lg"
+                className="bg-color2 flex items-center hover:bg-color1 text-white px-4 py-2 rounded-lg"
                 onClick={handleStartTest}
               >
-                Continue {startedLoading && (<Circles height="10" width="10" color="#152487" ariaLabel="circles-loading" />)}
+                <span className='mr-2'>Continue</span> {startedLoading && (<Circles wrapperClass='mr-2' height="15" width="15" color="#ffffff" ariaLabel="circles-loading" />)}
               </button>
             </div>
           </Box>
@@ -378,8 +388,8 @@ function TestSession() {
   <QuestionNavigationModal
     questions={questions}
     open={modalOpen}
-    // onClose={closeModal}
-    onClose={() => setModalOpen(false)}
+    onClose={closeModal}
+    setClose={() => setModalOpen(false)}
     currentQuestion={currentQuestion}
   />
 </div>
@@ -402,6 +412,8 @@ function TestSession() {
         </AlertDialogContent>
       </AlertDialog>
 
+
+<Toaster/>
     </div>
   );
 }

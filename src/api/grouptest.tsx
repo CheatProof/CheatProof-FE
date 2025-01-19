@@ -1,3 +1,4 @@
+import { baseUrl } from '@/env/Env';
 import axios from 'axios';
 
 
@@ -10,7 +11,7 @@ export const CreateTestGroupAsignement = async (body: any) => {
       throw new Error('Authentication token is missing');
     }
 
-    const url = `http://localhost:8080/api/test/assign/groupTest/new`;
+    const url = `${baseUrl}/api/test/assign/groupTest/new`;
 
     const response = await axios.post(
       url,
@@ -44,7 +45,7 @@ export const UpdateAssignedGroupTest = async (id: any, body: any) => {
     if (!token) {
       throw new Error('Authentication token is missing');
     }
-    const url = `http://localhost:8080/api/test/update/assignedGroupTest/${id}`;
+    const url = `${baseUrl}/api/test/update/assignedGroupTest/${id}`;
     const response = await axios.put(
       url,
       body,
