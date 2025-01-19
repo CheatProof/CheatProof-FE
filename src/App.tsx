@@ -43,6 +43,7 @@ import AddMemberList from "./pages/GroupUser/AddMemberList";
 import StudentResults from "./pages/Student/Results";
 import ResultDetails from "./pages/Student/ResultDetails";
 import AddQuestionBulk from "./pages/Test/TestEditor/AddQuestionBulk";
+import ProfileStudent from "./pages/ProfileStudent";
 
 
 const router = createBrowserRouter([
@@ -189,7 +190,7 @@ const router = createBrowserRouter([
       },
      {
         path:"profile",
-        element:<Profile/>
+        element:<ProfileStudent/>
       }
 
     ]

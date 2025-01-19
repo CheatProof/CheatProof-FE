@@ -32,7 +32,7 @@ export function AppSidebar() {
 
         {
           title: "Profile Settings",
-          url: `/user/${JSON.parse(user).id}`,
+          url: `/student-dashboard/profile`,
           icon: Settings,
         },
       ]
