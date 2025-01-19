@@ -1,5 +1,5 @@
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Sidebar } from "../../components";
 import AddGroupMembers from "@/components/Group/AddGroupUser";
 
@@ -7,7 +7,7 @@ import AddGroupMembers from "@/components/Group/AddGroupUser";
 
 const AddGroupUser = () => {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
 
 

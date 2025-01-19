@@ -333,10 +333,10 @@ function TestSession() {
     if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
-  const closeModal = (index: number) => {
-    setCurrentQuestion(index);
-    setModalOpen(false);
-  };
+  // const closeModal = (index: number) => {
+  //   setCurrentQuestion(index);
+  //   setModalOpen(false);
+  // };
   
   const openModal = () => setModalOpen(true);
 

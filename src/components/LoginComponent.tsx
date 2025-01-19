@@ -984,8 +984,8 @@ const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [otpLoading, setOtpLoading] = useState(false);
-  const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
+  // const [otpLoading, setOtpLoading] = useState(false);
+  // const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
   const [openOTPDialog, setOpenOTPDialog] = useState(false);
   const [otp, setOtp] = useState("");
@@ -1036,7 +1036,7 @@ const LoginComponent = () => {
 
   // Handle sending OTP for password reset
   const handleSendOTP = async () => {
-    setOtpLoading(true); 
+    // setOtpLoading(true); 
     try {
       const body = { email: resetEmail };
       const data = await resetOTP(body);
@@ -1056,7 +1056,7 @@ const LoginComponent = () => {
     } catch (error) {
       console.error("Error sending OTP", error);
     } finally {
-      setOtpLoading(false);
+      // setOtpLoading(false);
     }
   };
 
@@ -1067,7 +1067,7 @@ const LoginComponent = () => {
       return;
     }
 
-    setResetPasswordLoading(true); 
+    // setResetPasswordLoading(true); 
     try {
       const body = { email: resetEmail, otp, newPassword };
       const data = await resetPassword(body);
@@ -1087,7 +1087,7 @@ const LoginComponent = () => {
     } catch (error) {
       console.error("Error resetting password", error);
     } finally {
-      setResetPasswordLoading(false);
+      // setResetPasswordLoading(false);
     }
   };
 

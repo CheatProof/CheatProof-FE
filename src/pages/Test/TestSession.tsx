@@ -8,6 +8,7 @@ import { ListIcon, User } from 'lucide-react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { endTestSession, startTestSession } from '@/api/test-session';
 import { AlertDialog,AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Circles } from 'react-loader-spinner';
 
 function TestSession() {
   const { id } = useParams();
@@ -25,6 +26,7 @@ function TestSession() {
   );
   const [showTabWarning, setShowTabWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
+  const [startedLoading, setStaredLoading] = useState(false);
   
 
 
@@ -50,6 +52,7 @@ function TestSession() {
   const totalTime = quiz.AssignedTests.timeLimit * 60; // Total time in seconds (5 hours)
 
   const handleStartTest = async() => {
+    setStaredLoading(true);
 
 
     
@@ -83,6 +86,8 @@ function TestSession() {
 
     setTabSwitchCount(0);
     localStorage.setItem('tabSwitchCount', '0');
+
+    setStaredLoading(false);
 
 
     navigate(`?sessionId=${testSessionId}`,{
@@ -145,10 +150,10 @@ function TestSession() {
     if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
-  const closeModal = (index: number) => {
-    setCurrentQuestion(index);
-    setModalOpen(false);
-  };
+  // const closeModal = (index: number) => {
+  //   setCurrentQuestion(index);
+  //   setModalOpen(false);
+  // };
   
   const openModal = () => setModalOpen(true);
 
@@ -305,10 +310,11 @@ function TestSession() {
             <Typography variant="body2" className="text-color1 mb-4 flex"><span> Note:</span> <span dangerouslySetInnerHTML={{__html:quiz.AssignedTests.Tests.testIntroduction}}></span></Typography>
             <div className="flex justify-center">
               <button
+              disabled={startedLoading}
                 className="bg-color2 hover:bg-color1 text-white px-4 py-2 rounded-lg"
                 onClick={handleStartTest}
               >
-                Continue
+                Continue {startedLoading && (<Circles height="10" width="10" color="#152487" ariaLabel="circles-loading" />)}
               </button>
             </div>
           </Box>

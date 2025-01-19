@@ -4,7 +4,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  Button,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -17,7 +16,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "draft-js/dist/Draft.css";
 import "tailwindcss/tailwind.css";
-import Header from "../../../components/Header/Header";
+// import Header from "../../../components/Header/Header";
 import { useParams } from "react-router-dom";
 import {
   getTestById,
@@ -83,6 +82,7 @@ export default function CollapsibleEditor() {
   };
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    console.log(event)
     setExpanded(isExpanded ? panel : false);
   };
 

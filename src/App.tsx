@@ -38,7 +38,7 @@ import TestSession from "./pages/Test/TestSession";
 import TestResult from "./pages/Results/TestResult";
 
 import HomePage from "./pages/Home";
-import ManageResults from "./pages/Results/ManageResults";
+// import ManageResults from "./pages/Results/ManageResults";
 import AddMemberList from "./pages/GroupUser/AddMemberList";
 import StudentResults from "./pages/Student/Results";
 import ResultDetails from "./pages/Student/ResultDetails";

@@ -1,5 +1,5 @@
 import { HiOutlineSave, HiOutlineUpload, HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
-import { InputWithLabel, Sidebar, SimpleInput, WhiteButton } from "../components";
+import { InputWithLabel, Sidebar, SimpleInput } from "../components";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import profile from "../assets/user.png";
@@ -9,12 +9,19 @@ const Profile = () => {
   const data: any = localStorage.getItem("user");
   const user = JSON.parse(data);
 
-  const [inputObject, setInputObject] = useState({
+  // const [inputObject, setInputObject] = useState({
+  //   username: user.username,
+  //   email: user.email,
+  //   password: "",
+  //   confirmPassword: "",
+  // });
+
+  const inputObject:any = {
     username: user.username,
     email: user.email,
     password: "",
     confirmPassword: "",
-  });
+  }
 
   const [passwordSection, setPasswordSection] = useState(false);
   const [usernameSection, setUsernameSection] = useState(false);

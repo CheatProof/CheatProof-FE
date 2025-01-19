@@ -1,7 +1,7 @@
 import  { useState } from 'react';
 import { Modal, Tabs, Tab, List, ListItem, ListItemText, IconButton, Badge } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+// import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import { FaRegBookmark } from "react-icons/fa";
@@ -9,8 +9,8 @@ import { FaBookmark } from "react-icons/fa";
 
 function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setClose}:any) {
     const [selectedTab, setSelectedTab] = useState(0);
-    const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    // const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+    // const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const handleTabChange = (event:any, newValue:any) => {
         console.log(event);

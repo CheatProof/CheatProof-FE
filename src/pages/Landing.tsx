@@ -20,7 +20,7 @@ const TabPanel = ({ children, value, index }: any) => {
 
 const Landing: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
-  const [analytics, setAnalytics] = useState(null);
+  // const [analytics, setAnalytics] = useState(null);
   const [userData, setUserData] = useState(null); // Add state for user analytics
   const [loading, setLoading] = useState(false); // Add loading state
 

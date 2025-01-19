@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
-import { Link } from "react-router-dom";
-import { HiOutlinePencil, HiOutlineTrash, HiOutlineEye } from "react-icons/hi";
+// import { Link } from "react-router-dom";
+import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
 import { getQuestionsCountByCategoryId, deleteChildCategory, updateChildCategory } from "../api/child-category"; // Add your update function here
 import { useEffect, useState } from "react";
 import { Circles } from "react-loader-spinner";

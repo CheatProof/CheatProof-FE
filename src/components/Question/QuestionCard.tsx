@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiCircleCheck } from "react-icons/ci";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { archiveQuestion, deleteQuestion } from "../../api/question";
+import { archiveQuestion, deleteQuestion, usedInTests } from "../../api/question";
 import toast, { Toaster } from 'react-hot-toast';
 
 const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
+  const [isUsedInModalOpen, setIsUsedInModalOpen] = useState(false);
+  const [usedInQuestions, setUsedInQuestions] = useState([]);
 
   if (!question) {
     return <p>Loading options...</p>;
@@ -44,6 +46,25 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
     setIsArchiveModalOpen(false);
   };
 
+  const fetchUsedInTest = async()=>{
+    // TODO: Implement logic to fetch questions that use this question
+    const response = await usedInTests(question.id);
+    if (response.code === 200) {
+      setUsedInQuestions(response.data);
+    } else {
+      toast.error("Failed to fetch questions that use this question. Please try again.", {
+        duration: 3000,
+        position: "top-center"
+      });
+    }
+  }
+
+  useEffect(() => {
+    if(isUsedInModalOpen){
+      fetchUsedInTest()
+    }
+  },[isUsedInModalOpen]);
+
   return (
     <div className="bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200">
       <Toaster />
@@ -70,7 +91,7 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
       )}
       {/* Options */}
       
-      {hide  && (question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" ? (
+      {!hide  && (question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" ? (
         <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
           {question?.MultipleChoiceQuestions?.MultipleChoiceOptions?.map((opt: any, idx: any) => (
             <button
@@ -121,9 +142,9 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
       {/* Actions */}
       <div className="flex space-x-4 text-sm text-color1 ml-2">
         <Link to={`${question.id}`} className="hover:underline">Edit</Link>
-        <button onClick={() => setIsModalOpen(true)} className="hover:underline">Delete</button>
+        <button onClick={()=> setIsModalOpen(true)} className="hover:underline">Delete</button>
         <button onClick={()=> setIsArchiveModalOpen(true)} className="hover:underline">Archive</button>
-        <button className="hover:underline">Used In</button>
+        <button onClick={()=> setIsUsedInModalOpen(true)} className="hover:underline">Used In</button>
       </div>
 
       {/* Confirmation Modal */}
@@ -173,6 +194,32 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
           </div>
         </div>
       )
+    }
+    {isUsedInModalOpen && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+          <h2 className="text-xl font-semibold mb-4">Used In</h2>
+          {/* TODO: Implement used in modal */}
+      {usedInQuestions.length===0 ?(  <ul>
+          {usedInQuestions.map((test:any, index:any) => (
+            <li className=" list-none" key={index}>
+              <span className="text-color2 text-sm mr-2">{index + 1}. </span>
+              {test.testName}
+            </li>
+          ))}
+        </ul>):(<p>Question Not used in any Test</p>)}
+          <div className="flex justify-end space-x-4 mt-6">
+            <button
+              onClick={() => setIsUsedInModalOpen(false)}
+              className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+
     }
     </div>
   );

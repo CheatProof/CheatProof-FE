@@ -2,7 +2,7 @@
 // import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { Sidebar } from "../../components";
-import { Circles } from 'react-loader-spinner';
+// import { Circles } from 'react-loader-spinner';
 import GroupsComponent from "../../components/Group/GroupComponent";
 
 const Groups = () => {

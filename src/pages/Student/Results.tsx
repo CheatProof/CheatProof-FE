@@ -1,8 +1,8 @@
 import HeaderStudent from "@/components/HeaderStudent";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { Link, useNavigate } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import Profile from "../assets/user.png";
+// import { useAppDispatch, useAppSelector } from "@/hooks";
+// import { Link, useNavigate } from "react-router-dom";
+import { SidebarProvider } from "@/components/ui/sidebar";
+// import Profile from "../assets/user.png";
 import { AppSidebar } from "@/components/Student/Sidebar";
 import { Footer } from "@/components";
 import ResultCard from "@/components/Student/ResultCard";

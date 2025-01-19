@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import Tooltip from '@mui/material/Tooltip';
-import { MdOutlineArrowRightAlt, MdOutlineGroup, MdToday } from "react-icons/md";
+import { MdOutlineArrowRightAlt, MdOutlineGroup } from "react-icons/md";
 import Badge from '@mui/material/Badge';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { fetchIncompleteTestsByStudent, fetchStudentGroupsBySession } from "@/api/test-session";

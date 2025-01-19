@@ -225,6 +225,7 @@ const CategoryManage: React.FC = () => {
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(event)
     setTabValue(newValue);
     setCategoryName("");
     setParentCategory("");

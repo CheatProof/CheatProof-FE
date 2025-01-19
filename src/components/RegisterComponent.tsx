@@ -496,30 +496,30 @@
 
 
 
-import { FaReact } from "react-icons/fa6";
-import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
+// import { FaReact } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa6";
 import {
   InputWithLabel,
   SimpleInput,
-  ThirdPartyAuthButton,
-  WhiteButton,
+
+ 
 } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { signUp } from "../api/auth";
-import styled from "styled-components";
+// import styled from "styled-components";
 import toast, { Toaster } from 'react-hot-toast';
 
-const StyledWhiteButton = styled(WhiteButton)<{ disabled: boolean }>`
-  color: ${({ disabled }) => (disabled ? "palevioletred" : "black")};
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-`;
+// const StyledWhiteButton = styled(WhiteButton)<{ disabled: boolean }>`
+//   color: ${({ disabled }) => (disabled ? "palevioletred" : "black")};
+//   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+// `;
 
 const RegisterComponent = () => {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [roleId, setRoleId] = useState("aa07d85b-aecb-47b1-858e-719fc1dcf4a8"); // Pre-defined for now
+  const roleId = "aa07d85b-aecb-47b1-858e-719fc1dcf4a8"; // Pre-defined for now
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

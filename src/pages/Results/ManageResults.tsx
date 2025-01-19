@@ -12,6 +12,7 @@ const ManageResults = () => {
             // Display results
             console.log(data.data)
             setResult(data.data)
+            console.log(results)
         }
     }
 

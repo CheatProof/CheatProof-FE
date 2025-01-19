@@ -1,5 +1,5 @@
-import { CategoryTable, Pagination, RowsPerPage, Sidebar} from "../../components";
-import { HiOutlinePlus } from "react-icons/hi";
+import { CategoryTable,  Sidebar} from "../../components";
+// import { HiOutlinePlus } from "react-icons/hi";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { AiOutlineExport } from "react-icons/ai";
 import CategoryManage from "../../components/Categories/CategoryManage";

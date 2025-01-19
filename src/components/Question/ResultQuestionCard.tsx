@@ -2,7 +2,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import { MdOutlineRadioButtonUnchecked, MdClose } from "react-icons/md";
 import { Toaster } from "react-hot-toast";
 
-const ResultQuestionCard = ({ question, idx, userAnswers ,correctQuestions}: any) => {
+const ResultQuestionCard = ({ question, userAnswers ,correctQuestions}: any) => {
   if (!question) {
     return <p>Loading options...</p>;
   }

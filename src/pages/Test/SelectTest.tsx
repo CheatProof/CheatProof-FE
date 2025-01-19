@@ -1,22 +1,16 @@
 import { Sidebar } from '../../components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getAllTests, getTestByUser } from '@/api/test'; // Adjust API endpoint for fetching tests by category
 import { getAllParentCategories } from '../../api/parent-category';
 import { getAllChildCategories } from '../../api/child-category';
 import {
-  Box,
-  Button,
-  TextField,
+
   Select,
   MenuItem,
   FormControl,
   InputLabel,
-  Typography,
-  IconButton,
-  Divider,
-  Tabs,
-  Tab,
+
   CircularProgress,
 } from '@mui/material';
 
@@ -27,7 +21,7 @@ const SelectTest = () => {
   const [tests, setTests] = useState<any[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isLoadingTests, setIsLoadingTests] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchInitialTests = async () => {
@@ -53,6 +47,7 @@ const SelectTest = () => {
         const childData = await getAllChildCategories();
         if (parentData.code === 200 || parentData.code === 201) {
           setParentCategories(parentData.data);
+          console.log(parentCategories)
         }
         if (childData.code === 200 || childData.code === 201) {
           setChildCategories(childData.data);

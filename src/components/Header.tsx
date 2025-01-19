@@ -78,20 +78,20 @@
 // export default Header;
 
 
-import { HiOutlineMoon, HiOutlineSun, HiOutlineLogout } from "react-icons/hi";
-import { HiOutlineBell } from "react-icons/hi";
+import {  HiOutlineLogout } from "react-icons/hi";
+// import { HiOutlineBell } from "react-icons/hi";
 import { HiOutlineMenu } from "react-icons/hi";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch } from "../hooks";
 import { setSidebar } from "../features/dashboard/dashboardSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Profile from '../assets/user.png';
-import { toggleDarkMode } from "../features/darkMode/darkModeSlice";
+// import { toggleDarkMode } from "../features/darkMode/darkModeSlice";
 import Logo from "../assets/CheatProof.svg";
 
 const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { darkMode } = useAppSelector((state) => state.darkMode);
+  // const { darkMode } = useAppSelector((state) => state.darkMode);
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
   const handleLogout = () => {

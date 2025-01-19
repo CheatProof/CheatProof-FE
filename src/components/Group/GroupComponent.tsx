@@ -55,7 +55,7 @@ const GroupManagement = () => {
   
       try {
         const data = await createGroup(newGroup);
-        if (data.code === 200) {
+        if (data.code === 201) {
           toast.success("Group created successfully.",{
             position: "top-center",
             duration: 3000,

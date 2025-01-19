@@ -83,7 +83,7 @@ const QuestionBank = () => {
 
   const getQuestions = async (page = 1,filters:any) => {
     setLoading(true);
-    const data = await getQuestionsByTeacherId(page, pageSize,`categoryId=${filters.category}&questionTypeById=${filters.type}&searchItem=${filters.search}&isArchive=${activeTab==="active"?false:true}`); // Modify API as needed
+    const data = await getQuestionsByTeacherId(page, pageSize,`categoryId=${filters.category}&questionTypeById=${filters.type}&searchItem=${filters.search}&isArchive=${activeTab==="active"?false:true}${filters.status === ""? ``:`&status=${filters.status}`} `); // Modify API as needed
     const data1 = await getQuestionsByTeacherId(page, pageSize,`categoryId=${filters.category}&questionTypeById=${filters.type}&searchItem=${filters.search}&isArchive=${true}`); // Modify API as needed
 
     if (data.code === 200) {
@@ -97,6 +97,9 @@ const QuestionBank = () => {
       if(activeTab==="active"){
       setTotalQuestions(data.data.totalQuestions);
       }
+    }
+    if(data.code=== 404){
+      setQuestions([]);
     }
     setLoading(false);
   };
@@ -233,10 +236,15 @@ const QuestionBank = () => {
                         </button>
                       </div>
             
-                      <select className="w-full md:w-auto px-4 py-2 border border-gray-300 hover:border-black rounded-lg text-sm text-gray-500">
-                        <option>Any Status</option>
-                        <option>Used</option>
-                        <option>Unused</option>
+                      <select 
+                      name="status"
+                      value={filters.status}
+                    
+                      onChange={handleFilterChange}
+                      className="w-full md:w-auto px-4 py-2 border border-gray-300 hover:border-black rounded-lg text-sm text-gray-500">
+                        <option value={""}>Any Status</option>
+                        <option value={"used"}>Used</option>
+                        <option value={"unUsed"}>Unused</option>
                       </select>
             
                       <select 

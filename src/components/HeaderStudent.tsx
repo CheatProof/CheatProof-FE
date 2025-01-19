@@ -1,6 +1,6 @@
 import {  HiOutlineLogout } from "react-icons/hi";
 
-import { useAppDispatch, useAppSelector } from "../hooks";
+// import { useAppDispatch, useAppSelector } from "../hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { SidebarTrigger } from "./ui/sidebar";
 import Profile from "../assets/user.png";

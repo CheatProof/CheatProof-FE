@@ -1,10 +1,10 @@
 // import { Button, Typography } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDoubleRight, faCheckDouble, faClipboardList, faComputer, faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import {  faCheckDouble, faClipboardList, faComputer } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import {Typography} from "@mui/material";
-import Button from "@mui/material";
-import { WhiteButton } from "@/components";
+// import {Typography} from "@mui/material";
+// import Button from "@mui/material";
+// import { WhiteButton } from "@/components";
 
 import { FaBook, FaClipboardQuestion, FaUserGraduate } from "react-icons/fa6";
 import { LuFileEdit } from "react-icons/lu";
@@ -16,7 +16,7 @@ import picture from "../assets/image.png"
 
 // import NavBar from "../Components/NavBar";
 // import Footer from "../Components/Footer";
-import Testimonal1 from "../assets/1716884674044-1687426573382.jpeg"
+// import Testimonal1 from "../assets/1716884674044-1687426573382.jpeg"
 
 // import Surveillance from "../Assets/8262066.jpg";
 import Surveillance from "../assets/8262066.jpg";
