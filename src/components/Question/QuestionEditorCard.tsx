@@ -76,6 +76,11 @@ const QuestionEditorCard = ({ question, idx, testId }: any) => {
       <div className="ml-2">
         <h3 dangerouslySetInnerHTML={{ __html: question.questionText }} className="text-xl font-semibold mb-6 mt-6"></h3>
       </div>
+      {question.questionMedia && (
+        <div className="flex justify-center mb-6">
+          <img src={question.questionMedia} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
+        </div>
+      )}
       {question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" ? (
         <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
           {question?.MultipleChoiceQuestions?.MultipleChoiceOptions?.map((opt: any, idx: any) => (
