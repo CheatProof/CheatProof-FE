@@ -246,7 +246,7 @@ function TestSession() {
   const history = useNavigate();
 
   const [showInstructions, setShowInstructions] = useState<boolean>(
-    () => JSON.parse(sessionStorage.getItem('showInstructions') || 'true')
+    () => JSON.parse(sessionStorage.getItem('showInstructions') || 'true') 
   );
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -258,7 +258,7 @@ function TestSession() {
   );
   const [questions, setQuestions] = useState<any[]>([]);
   const [testStarted, setTestStarted] = useState<boolean>(
-    JSON.parse(localStorage.getItem('testStarted') || 'true')
+    JSON.parse(localStorage.getItem('testStarted') || 'false')
   ); // Track if test has started
 
   const totalTime = 0.05 * 60 * 60; // Total time in seconds (5 hours)
@@ -273,10 +273,10 @@ function TestSession() {
 
   const handleSelectAnswer = (questionId: string, answer: any | any[]) => {
     const newSelectedAnswers = selectedAnswers.map((ans: any) =>
-      ans.questionId === questionId ? { questionId, answer } : ans
+      ans.questionId === questionId ? { questionId, userAnswer:answer,timeTaken:240 } : ans
     );
     if (!selectedAnswers.find((ans: any) => ans.questionId === questionId)) {
-      newSelectedAnswers.push({ questionId, answer });
+      newSelectedAnswers.push({ questionId, userAnswer:answer,timeTaken:240 });
     }
     setSelectedAnswers(newSelectedAnswers);
     localStorage.setItem('selectedAnswers', JSON.stringify(newSelectedAnswers));

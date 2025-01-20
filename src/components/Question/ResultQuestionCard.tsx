@@ -69,9 +69,7 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions}: any) => 
         {/* Handle True/False Questions */}
         {question.questionTypeId === "1edada12-0532-4058-b79f-3e43efac97e1" &&
           question?.TrueFalseQuestions?.map((opt: any, optIdx: any) => {
-            const isUserAnswer =
-              Array.isArray(userAnswers) &&
-              userAnswers.includes(opt.optionText); // Check if user's answer includes this option
+            const isUserAnswer = userAnswers === opt.id; // Check if user's answer includes this option
             const isCorrect = opt.isAnswer;
             return (
               <button

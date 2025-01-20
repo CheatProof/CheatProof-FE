@@ -57,6 +57,7 @@ const Profile = () => {
     const response = await updatePassword(body)
     if(response.code === 200){
 
+
       toast.success("Password updated successfully!");
       setPasswordInput({
         currentPassword: "",
@@ -66,7 +67,10 @@ const Profile = () => {
       setPasswordSection(false);
       setLoadingPassword(false);
     } else {
-      toast.error("Failed to update password!");
+      const error = response?.errors.map((error:any) => error.msg)
+      error.join("\n");
+      toast.error(`${response.message} \n
+        ${error?error:""}`);
       setLoadingPassword(false);
     }
    
@@ -87,6 +91,8 @@ const Profile = () => {
     }
     const response = await updateUsername(body)
     if(response.code === 200){
+     localStorage.setItem("user", JSON.stringify({...user,username:usernameInput.newUsername}))
+
       toast.success("Username updated successfully!");
       setUsernameInput({
         newUsername: "",
@@ -95,7 +101,10 @@ const Profile = () => {
       setUsernameSection(false);
       setLoadingUsername(false);
     } else {
-      toast.error("Failed to update username!");
+      const error = response?.errors.map((error:any) => error.msg)
+      error.join("\n");
+      toast.error(`${response.message} \n
+        ${error?error:""}`);
       setLoadingUsername(false);
     }
   }

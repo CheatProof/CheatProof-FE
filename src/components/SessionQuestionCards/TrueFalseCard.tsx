@@ -1,13 +1,22 @@
 import { baseImgUrl, baseUrl } from "@/env/Env";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-
-
-const TrueFalseCard: React.FC<any> = ({ question ,saveAnswer,answers}) => {
+const TrueFalseCard: React.FC<any> = ({ question, saveAnswer, answers }) => {
   const { questionText, TrueFalseQuestions } = question;
-  const [selectedOption, setSelectedOption] = useState<any>(answers.filter((a:any) => a.questionId === question.id).length>0?answers.filter((a:any) => a.questionId === question.id)[0].userAnswer:[])
+  
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const handleOptionSelect = (optionId: any) => {
+  // Update selected option when answers or question changes
+  useEffect(() => {
+    const answer = answers.find((a: any) => a.questionId === question.id);
+    if (answer) {
+      setSelectedOption(answer.userAnswer);
+    } else {
+      setSelectedOption(null);
+    }
+  }, [answers, question]);
+
+  const handleOptionSelect = (optionId: string) => {
     setSelectedOption(optionId);
     saveAnswer(question.id, optionId); // Save selected answer
   };
@@ -23,13 +32,17 @@ const TrueFalseCard: React.FC<any> = ({ question ,saveAnswer,answers}) => {
       {/* Image Section */}
       {question.questionMedia && (
         <div className="flex justify-center mb-6">
-          <img src={`${question.questionMedia.startsWith("uploads\\") ? baseUrl:baseImgUrl}/${question.questionMedia}`} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
+          <img
+            src={`${question.questionMedia.startsWith("uploads\\") ? baseUrl : baseImgUrl}/${question.questionMedia}`}
+            alt="Question image"
+            className="max-w-lg max-h-[500px] rounded-lg shadow"
+          />
         </div>
       )}
 
       {/* Options */}
       <div className="space-y-4 mb-6">
-        {TrueFalseQuestions.map((option:any) => (
+        {TrueFalseQuestions.map((option: any) => (
           <label
             key={option.id}
             className="flex items-center space-x-3 cursor-pointer p-3 border border-gray-300 rounded-lg max-sm:space-x-2"

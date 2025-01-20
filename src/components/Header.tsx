@@ -148,7 +148,7 @@ const Header = () => {
           />
           <div className="hidden sm:flex flex-col">
             <p className="dark:text-whiteSecondary text-blackPrimary text-sm sm:text-base">
-              {user?.username || "Guest"}
+              {user?.firstName || "Guest"}
             </p>
             <p className="dark:text-whiteSecondary text-gray-500 text-xs sm:text-sm">
               {user?.Roles?.[0]?.roleName || "Role"}

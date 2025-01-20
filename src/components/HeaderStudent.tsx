@@ -34,7 +34,7 @@ const HeaderStudent = () => {
               />
               <div className="flex flex-col">
                 <p className="dark:text-whiteSecondary text-blackPrimary text-base max-xl:text-sm">
-                  {user?.username || "Guest"}
+                  {user?.firstName || "Guest"}
                 </p>
                 <p className="dark:text-whiteSecondary text-blackPrimary text-sm max-xl:text-xs">
                   {user?.Roles?.[0]?.roleName || "Role"}

@@ -2,6 +2,7 @@ import HeaderStudent from "@/components/HeaderStudent";
 import ResultQuestionCard from "@/components/Question/ResultQuestionCard";
 import { AppSidebar } from "@/components/Student/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const ResultSummaryCard = () => {
@@ -22,6 +23,9 @@ const ResultSummaryCard = () => {
   const formatDate = (date:any) => {
     return new Date(date).toLocaleString();
   };
+  useEffect(()=>{
+    localStorage.removeItem("sessionId")
+  },[])
 
   return (
    <>

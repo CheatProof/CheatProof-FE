@@ -60,6 +60,7 @@ const ProfileStudent = () => {
     const response = await updatePassword(body)
     if(response.code === 200){
 
+
       toast.success("Password updated successfully!");
       setPasswordInput({
         currentPassword: "",
@@ -69,7 +70,10 @@ const ProfileStudent = () => {
       setPasswordSection(false);
       setLoadingPassword(false);
     } else {
-      toast.error("Failed to update password!");
+      const error = response?.errors.map((error:any) => error.msg)
+      error.join("\n");
+      toast.error(`${response.message} \n
+        ${error?error:""}`);
       setLoadingPassword(false);
     }
    
@@ -90,6 +94,8 @@ const ProfileStudent = () => {
     }
     const response = await updateUsername(body)
     if(response.code === 200){
+     localStorage.setItem("user", JSON.stringify({...user,username:usernameInput.newUsername}))
+
       toast.success("Username updated successfully!");
       setUsernameInput({
         newUsername: "",
@@ -98,12 +104,13 @@ const ProfileStudent = () => {
       setUsernameSection(false);
       setLoadingUsername(false);
     } else {
-      toast.error("Failed to update username!");
+      const error = response?.errors.map((error:any) => error.msg)
+      error.join("\n");
+      toast.error(`${response.message} \n
+        ${error?error:""}`);
       setLoadingUsername(false);
     }
-
- 
-  };
+  }
 
   return (
     <SidebarProvider>

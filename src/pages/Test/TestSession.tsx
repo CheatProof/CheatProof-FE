@@ -28,6 +28,7 @@ function TestSession() {
   const [showTabWarning, setShowTabWarning] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
   const [startedLoading, setStaredLoading] = useState(false);
+  const [finishedLoading, setFinishedLoading] = useState(false);
   
 
 
@@ -88,9 +89,11 @@ function TestSession() {
 
 
     setTabSwitchCount(0);
-    localStorage.setItem('tabSwitchCount', '0');
+    localStorage.setItem('tabSwitchCount', '0'); 
 
     setStaredLoading(false);
+
+    localStorage.setItem('sessionId', testSessionId);
 
 
     navigate(`?sessionId=${testSessionId}`,{
@@ -174,9 +177,10 @@ function TestSession() {
   };
 
   const finishTest = async() => {
+    setFinishedLoading(true);
 
     const queryParams = new URLSearchParams(location.search);
-    const sessionId = queryParams.get("sessionId");
+    const sessionId = queryParams.get("sessionId")?queryParams.get("sessionId"):localStorage.getItem("sessionId");
 
     const results = await endTestSession({
       testSessionId: sessionId,
@@ -193,6 +197,7 @@ function TestSession() {
     sessionStorage.removeItem('showInstructions');
     localStorage.removeItem('testStarted');
     localStorage.removeItem('tabSwitchCount');
+    setFinishedLoading(false);
 
     navigate(`/result-test/${sessionId}`,{
       state: {
@@ -309,7 +314,7 @@ function TestSession() {
                 <ul className="list-disc list-inside space-y-2 text-fore">
                   <li className="text-sm">Number of questions: <strong>{quiz.AssignedTests.Tests.Questions.length}</strong></li>
                   <li className="text-sm">Has a time limit of: <strong>{quiz.AssignedTests.timeLimit}:00 min </strong></li>
-                  <li className="text-sm">Number of attempts allowed: <strong>{quiz.AssignedTests.attemptsAllowed}</strong> </li>
+                  <li className="text-sm">Number of attempts allowed: <strong>{quiz.AssignedTests.attemptsAllowed===0?"Unlimited":""}</strong> </li>
                   <li className="text-sm">Must be finished in one sitting. You cannot save and finish later.</li>
                   <li className="text-sm">Questions displayed per page: <strong>{quiz.AssignedTests.questionPerPage}</strong></li>
                   <li className="text-sm">Will allow you to go back and change your answers.</li>
@@ -379,9 +384,9 @@ function TestSession() {
        >
          Next
         </button>
-       <button className="bg-white text-fore border enabled:hover:bg-fore  enabled:hover:text-white border-fore font-semibold disabled:opacity-40 px-4 py-2 rounded-md" disabled={!checkAllAnsweredOrEnd()} onClick={finishTest}
+       <button  className="bg-white flex items-center text-fore border enabled:hover:bg-fore  enabled:hover:text-white border-fore font-semibold disabled:opacity-40 px-4 py-2 rounded-md" disabled={!checkAllAnsweredOrEnd() || finishedLoading} onClick={finishTest}
         >
-          Finish
+                         <span className='mr-2'>Finish</span> {finishedLoading && (<Circles wrapperClass='mr-2' height="15" width="15" color="#16425b" ariaLabel="circles-loading" />)} 
         </button>
            
           </div>
