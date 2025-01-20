@@ -366,7 +366,7 @@ function TestSession() {
                 <ul className="list-disc list-inside space-y-2 text-fore">
                   <li className="text-sm">Number of questions: <strong>{quiz.AssignedTests.Tests.Questions.length}</strong></li>
                   <li className="text-sm">Has a time limit of: <strong>{quiz.AssignedTests.timeLimit}:00 min </strong></li>
-                  <li className="text-sm">Number of attempts allowed: <strong>{quiz.AssignedTests.attemptsAllowed===0?"Unlimited":""}</strong> </li>
+                  <li className="text-sm">Number of attempts allowed: <strong>{quiz.AssignedTests.attemptsAllowed===0?"Unlimited":quiz.AssignedTests.attemptsAllowed}</strong> </li>
                   <li className="text-sm">Must be finished in one sitting. You cannot save and finish later.</li>
                   <li className="text-sm">Questions displayed per page: <strong>{quiz.AssignedTests.questionPerPage}</strong></li>
                   <li className="text-sm">Will allow you to go back and change your answers.</li>

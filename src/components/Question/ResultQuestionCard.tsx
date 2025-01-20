@@ -1,8 +1,9 @@
 import { CiCircleCheck } from "react-icons/ci";
 import { MdOutlineRadioButtonUnchecked, MdClose } from "react-icons/md";
 import { Toaster } from "react-hot-toast";
+import { baseImgUrl, baseUrl } from "@/env/Env";
 
-const ResultQuestionCard = ({ question, userAnswers ,correctQuestions}: any) => {
+const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any) => {
   if (!question) {
     return <p>Loading options...</p>;
   }
@@ -15,7 +16,7 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions}: any) => 
       {/* Question header */}
       <div className="mb-4 ml-2">
         <div className="flex flex-row border-b-2 border-gray-200">
-          <h2 className="text-lg font-semibold text-black">Question </h2>
+          <h2 className="text-lg font-semibold text-black">Question no {idx+1} <span className={` ${userAnswers?"text-color1":"text-red-600"}`}>({userAnswers?"Attempted":"Not Attempted"})</span></h2>
           <p className="mx-auto mr-8 text-color2 text-sm">
             {/* {question.Categories.ParentCategories.parentCategoryName} / {question.Categories.categoryName} */}
           </p>
@@ -29,14 +30,19 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions}: any) => 
           className="text-xl font-semibold mb-6 mt-6"
         ></h3>
       </div>
+         {question.questionMedia && (
+              <div className="flex justify-center mb-6">
+                <img src={`${question.questionMedia.startsWith("uploads\\") ? baseUrl:baseImgUrl}/${question.questionMedia}`} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
+              </div>
+            )}
       {/* Options */}
       <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
         {/* Handle Multiple Choice Questions */}
         {question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" &&
           question?.MultipleChoiceQuestions?.MultipleChoiceOptions?.map(
             (opt: any, optIdx: any) => {
-              const userAnswer = JSON.parse(userAnswers);
-              const isUserAnswer = userAnswer.includes(opt.id); // Check if user's answer includes this option
+              const userAnswer = userAnswers?JSON.parse(userAnswers):null;
+              const isUserAnswer =userAnswers? userAnswer.includes(opt.id):null; // Check if user's answer includes this option
               const isCorrect = opt.isAnswer;
               return (
                 <button
