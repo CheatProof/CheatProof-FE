@@ -1,3 +1,4 @@
+import { baseImgUrl, baseUrl } from "@/env/Env";
 import React, { useState } from "react";
 
 
@@ -18,6 +19,13 @@ const TrueFalseCard: React.FC<any> = ({ question ,saveAnswer,answers}) => {
         <div dangerouslySetInnerHTML={{ __html: questionText }} />
         <div className="flex flex-row border-b-2 border-gray-200"></div>
       </div>
+
+      {/* Image Section */}
+      {question.questionMedia && (
+        <div className="flex justify-center mb-6">
+          <img src={`${question.questionMedia.startsWith("uploads\\") ? baseUrl:baseImgUrl}/${question.questionMedia}`} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
+        </div>
+      )}
 
       {/* Options */}
       <div className="space-y-4 mb-6">

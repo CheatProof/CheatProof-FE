@@ -1,3 +1,4 @@
+import { baseImgUrl, baseUrl } from "@/env/Env";
 import { Input } from "@mui/material";
 import { useState } from "react";
 import React from "react";
@@ -28,6 +29,12 @@ const FreeTextCard: React.FC<any> = ({ question,answers,saveAnswer }) => {
         <div dangerouslySetInnerHTML={{ __html: question.questionText }} />
         <div className="flex flex-row border-b-2 border-gray-200"></div>
       </div>
+            {/* Image Section */}
+            {question.questionMedia && (
+        <div className="flex justify-center mb-6">
+          <img src={`${question.questionMedia.startsWith("uploads\\") ? baseUrl:baseImgUrl}/${question.questionMedia}`} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
+        </div>
+      )}
 
       {/* Acceptable Answers */}
       {/* <div className="space-y-4 mb-6">

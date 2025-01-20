@@ -6,6 +6,7 @@ import { removeQuestionFromTest } from "../../api/test";
 import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { Circles } from 'react-loader-spinner';
+import { baseImgUrl, baseUrl } from "@/env/Env";
 
 const QuestionEditorCard = ({ question, idx, testId }: any) => {
   const [check, setCheck] = useState(question?.assignedStatus);
@@ -78,7 +79,7 @@ const QuestionEditorCard = ({ question, idx, testId }: any) => {
       </div>
       {question.questionMedia && (
         <div className="flex justify-center mb-6">
-          <img src={question.questionMedia} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
+          <img src={`${question.questionMedia.startsWith("uploads\\") ? baseUrl:baseImgUrl}/${question.questionMedia}`} alt="Question image" className="max-w-lg max-h-[500px] rounded-lg shadow" />
         </div>
       )}
       {question.questionTypeId === "0d1010c6-5835-4f21-a610-435dddabf739" ? (
