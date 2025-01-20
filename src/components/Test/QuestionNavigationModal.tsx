@@ -24,7 +24,7 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
     }
 
     return (
-        <Modal className='flex justify-center items-center' open={open}  >
+        <Modal className='flex justify-center items-center z-50' open={open}  >
            
             <div className="p-4 w-full max-w-2xl mx-auto max-h-[500px]  bg-white rounded-md shadow-lg">
                 <div className="flex justify-between items-center">

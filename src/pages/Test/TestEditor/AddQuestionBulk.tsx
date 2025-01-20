@@ -126,18 +126,26 @@ const AddQuestionBulk = () => {
 
 
   const handleRandomSelection = () => {
-    const randomSelected = new Set();
+    const randomSelected = new Set<number>();
+  
     questionTypes.forEach((type: any) => {
-      const typeQuestions:any = questions.filter((q: any) => q.questionTypeId === type.id);
+      const typeQuestions: any[] = questions.filter((q: any) => q.questionTypeId === type.id);
       const count = randomCounts[type.id] || 0;
-      for (let i = 0; i < count && i < typeQuestions.length; i++) {
-        const randomIndex = Math.floor(Math.random() * typeQuestions.length);
-        randomSelected.add(typeQuestions[randomIndex].id);
+  
+      if (count > 0) {
+        // To ensure unique random indexes, shuffle and pick the required count
+        const shuffledIndexes = Array.from({ length: typeQuestions.length }, (_, i) => i)
+          .sort(() => Math.random() - 0.5)
+          .slice(0, count);
+  
+        shuffledIndexes.forEach((index) => randomSelected.add(typeQuestions[index].id));
       }
     });
+  
     setSelectedQuestions(randomSelected);
     setRandomModalVisible(false);
   };
+  
 
   const handleSelectTopN = (n:any) => {
     setSelectedQuestions(new Set(questions.slice(0, n).map((q:any) => q.id)));

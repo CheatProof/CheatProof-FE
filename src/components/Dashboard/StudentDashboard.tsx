@@ -8,9 +8,10 @@ import Tooltip from '@mui/material/Tooltip';
 import { MdOutlineArrowRightAlt, MdOutlineGroup } from "react-icons/md";
 import Badge from '@mui/material/Badge';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
-import { fetchIncompleteTestsByStudent, fetchStudentGroupsBySession } from "@/api/test-session";
+import { fetchIncompleteTestsByStudent, fetchStudentGroupsBySession, resumeTest } from "@/api/test-session";
 import { useNavigate } from "react-router-dom";
 import { Circles } from "react-loader-spinner";
+// import AssignTest from "@/pages/Test/AssignTest";
 
 function getRandomNumber(min: number, max: number) {
   return Math.round(Math.random() * (max - min) + min);
@@ -101,6 +102,12 @@ const StudentDashboard: React.FC = () => {
   }
 
   React.useEffect(() => {
+    localStorage.removeItem('selectedAnswers');
+    localStorage.removeItem('timer');
+    localStorage.removeItem('currentQuestion');
+    sessionStorage.removeItem('showInstructions');
+    localStorage.removeItem('testStarted');
+    localStorage.removeItem('tabSwitchCount');
     fetchGroups();
     getIncompleteTestsByStudent();
   }, [])
@@ -205,13 +212,34 @@ const StudentDashboard: React.FC = () => {
               </div>
               <div className="flex items-center">
              
-             <MdOutlineArrowRightAlt onClick={()=>navigate(`/test-session/${testSession.assignedTestId}?sessionId=${testSession.id}`,{
-              state:{
-
-                testSession: testSession,
-                quiz:testSession
-              }
-             })} className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800 hover:bg-slate-400 hover:text-white" />
+             <MdOutlineArrowRightAlt onClick={async()=>{
+                  // localStorage.removeItem('selectedAnswers');
+                  // localStorage.removeItem('timer');
+                  // localStorage.removeItem('currentQuestion');
+                  // sessionStorage.removeItem('showInstructions');
+                  // localStorage.removeItem('testStarted');
+                  // localStorage.removeItem('tabSwitchCount');
+                  const response =await resumeTest({testSessionId:testSession.id,assignedTestId:testSession.assignedTestId})
+                  if(response.code === 200){
+                    console.log('Test resumed successfully')
+                    sessionStorage.setItem('showInstructions',"false");
+                    localStorage.setItem('testStarted',"true");
+                    localStorage.setItem('tabSwitchCount',"0");
+                    localStorage.setItem('Questions', JSON.stringify(JSON.parse(testSession.test).Tests.Questions));
+                    localStorage.setItem('selectedAnswers', JSON.stringify(response.data.attemptedQuestions));
+                    navigate(`/test-session/${testSession.assignedTestId}?sessionId=${testSession.id}`,{
+                      state:{
+        
+                        testSession: testSession,
+                        quiz:{
+                          AssignedTests:JSON.parse(testSession.test)
+                        }
+                      }
+                     })
+                  }else{
+                    console.log('Failed to resume test')
+                  }
+}} className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800 hover:bg-slate-400 hover:text-white" />
            </div>
          </div>
 

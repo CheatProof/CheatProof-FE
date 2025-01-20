@@ -6,7 +6,7 @@ import TrueFalseCard from '../../components/SessionQuestionCards/TrueFalseCard';
 import FreeTextCard from '../../components/SessionQuestionCards/FreeTextCard';
 import { ListIcon, User } from 'lucide-react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { endTestSession, startTestSession } from '@/api/test-session';
+import { continueTest, endTestSession, startTestSession } from '@/api/test-session';
 import { AlertDialog,AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Circles } from 'react-loader-spinner';
 import toast, { Toaster } from 'react-hot-toast';
@@ -29,6 +29,7 @@ function TestSession() {
   const [warningMessage, setWarningMessage] = useState('');
   const [startedLoading, setStaredLoading] = useState(false);
   const [finishedLoading, setFinishedLoading] = useState(false);
+  const [nextQuestionLoading, setNextQuestionLoading] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const containerRef = useRef<any>(null);
   
@@ -204,9 +205,15 @@ function TestSession() {
  
 
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async() => {
+    
     if (currentQuestion < questions.length - 1) {
+      setNextQuestionLoading(true);
+      await continueTest({testSessionId:localStorage.getItem('sessionId'),attemptedQuestions:selectedAnswers})
+      setNextQuestionLoading(false);
       setCurrentQuestion(currentQuestion + 1);
+
+
     }
   };
 
@@ -432,9 +439,9 @@ function TestSession() {
         <button className="bg-color2 enabled:hover:bg-color1 text-white disabled:opacity-50 px-4 py-2 rounded-md" onClick={handlePreviousQuestion} disabled={currentQuestion === 0}
         >
          Previous       </button>
-         <button className="bg-color2 enabled:hover:bg-color1 text-white disabled:opacity-50 px-4 py-2 rounded-md" onClick={handleNextQuestion} disabled={currentQuestion === questions.length - 1}
+         <button className="bg-color2 flex items-center gap-1 enabled:hover:bg-color1 text-white disabled:opacity-50 px-4 py-2 rounded-md" onClick={handleNextQuestion} disabled={currentQuestion === questions.length - 1}
        >
-         Next
+          <span className='mr-2'>Next</span> {nextQuestionLoading && (<Circles wrapperClass='mr-2' height="15" width="15" color="#ffffff" ariaLabel="circles-loading" />)}
         </button>
        <button  className="bg-white flex items-center text-fore border enabled:hover:bg-fore  enabled:hover:text-white border-fore font-semibold disabled:opacity-40 px-4 py-2 rounded-md" disabled={!checkAllAnsweredOrEnd() || finishedLoading} onClick={finishTest}
         >
