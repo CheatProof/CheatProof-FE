@@ -22,7 +22,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getTestById, getTestWithGroups } from "../../api/test";
 import { Circles } from "react-loader-spinner";
 
@@ -207,11 +207,15 @@ const TestDashboard: React.FC = () => {
                           </Box>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="body2">Settings</Typography>
+                        <Link to={`/teacher-dashboard/grouptest/${group.AssignedTestGroups?.id}`} state={{
+                          group1:group.AssignedTestGroups?.Groups,
+                          groupTest1:group
+                        }}>  <Typography variant="body2">Settings</Typography></Link>
                         </TableCell>
                         <TableCell>
                           <button className="bg-white border border-color2 hover:border-fore text-fore px-4 md:py-2 rounded-lg text-sm flex items-center">
-                            AVAILABLE
+                          {group.availabilityStatus==="available"?"Available":"Unavailable"}
+
                           </button>
                         </TableCell>
                         <TableCell>

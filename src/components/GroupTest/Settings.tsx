@@ -82,7 +82,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
 
 
   const [randomizeQuestions, setRandomizeQuestions] = useState(groupTest?.randomize? groupTest?.randomize:false);
-  const [testDuration,setTestDuration] = useState(groupTest?.timeLimit? groupTest?.timeLimit:0);
+  const [testDuration,setTestDuration] = useState(groupTest?.timeLimit? groupTest?.timeLimit:30);
   const [resumeLaterDisplay,setResumeLaterDisplay] = useState(groupTest?.resumeLater? groupTest?.resumeLater:false);
 
 

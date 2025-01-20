@@ -38,10 +38,7 @@ const exportToCSV = (data: Result[], filename: string) => {
 const TestDetails: React.FC = () => {
   const {id}=useParams();
 
-  const [results, setResults] = useState<Result[]>([
-    { name: 'Average', percentage: 4, score: '2 / 50', duration: '00:04:44', date: '' },
-    { name: 'yabzar naqvi', percentage: 4, score: '2 / 50', duration: '00:04:44', date: "Sat 21 Sep '24 6:37pm" },
-  ]);
+  const [results, setResults] = useState<Result[]>([ ]);
 
 
   const location = useLocation();
@@ -49,8 +46,8 @@ const TestDetails: React.FC = () => {
   console.log(groupTest1)
 
   const [activeTab, setActiveTab] = useState(0);
-  const [testName,setTestName] = useState(groupTest1.AssignedTests.Tests.testName); // Default test name
-  const [groupName,setgroupName] = useState(group1.groupName); // Default group name
+  const [testName,setTestName] = useState(groupTest1?.AssignedTests?.Tests?.testName); // Default test name
+  const [groupName,setgroupName] = useState(group1?.groupName); // Default group name
   const [groupTest,setgroupTest] = useState(groupTest1); 
   const [group,setGroup]=useState(group1)
 
@@ -101,7 +98,7 @@ const TestDetails: React.FC = () => {
   const fetchResults = async () => {
     try {
       // Fetch the results for the current test and group
-      const results = await fetchGroupTestResultsByAssignedTestGroup(groupTest.id);
+      const results = await fetchGroupTestResultsByAssignedTestGroup(id);
 
       if (!results || results.code !== 200) {
         throw new Error("Failed to fetch results or invalid response structure.");
@@ -161,7 +158,7 @@ const TestDetails: React.FC = () => {
 
 
   function transformData(data: any): Result[] {
-    const groupMembers = data.data.Groups.GroupMembers;
+    const groupMembers = data?.data?.Groups?.GroupMembers;
 
     return groupMembers.flatMap((member: any) => {
       const name = `${member.firstName} ${member.lastName}`;
@@ -233,12 +230,12 @@ const TestDetails: React.FC = () => {
         </Box>
         <Box display="flex" gap={2}>
           <button className="bg-color1 hover:bg-fore text-white px-5 py-2 rounded-lg">
-            Available
+          {groupTest?.AssignedTests?.availabilityStatus==="available"?"Available":"Unavailable"}
           </button>
-          <button className="border border-blue-900 text-fore hover:text-white hover:bg-fore px-5 py-2 rounded-lg flex justify-center items-center">
+          {/* <button className="border border-blue-900 text-fore hover:text-white hover:bg-fore px-5 py-2 rounded-lg flex justify-center items-center">
             <FiFileText className="mx-1" />
             Preview
-          </button>
+          </button> */}
           <button onClick={() => exportToCSV(results, 'test_results.csv')} className="border border-blue-900 text-fore hover:text-white hover:bg-fore px-5 py-2 rounded-lg flex justify-center items-center">
             Export to CSV
           </button>
