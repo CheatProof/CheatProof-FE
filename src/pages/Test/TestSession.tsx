@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import QuestionNavigationModal from '../../components/Test/QuestionNavigationModal';
 import MCQTestCard from '../../components/SessionQuestionCards/MCQCard';
@@ -29,8 +29,56 @@ function TestSession() {
   const [warningMessage, setWarningMessage] = useState('');
   const [startedLoading, setStaredLoading] = useState(false);
   const [finishedLoading, setFinishedLoading] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const containerRef = useRef<any>(null);
   
 
+  const toggleFullScreen = () => {
+    if (!isFullScreen) {
+      if (containerRef.current?.requestFullscreen) {
+        containerRef.current.requestFullscreen();
+      } else if (containerRef.current?.webkitRequestFullscreen) {
+        containerRef.current?.webkitRequestFullscreen(); // For Safari
+      }
+      setIsFullScreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen(); // For Safari
+      }
+      setIsFullScreen(false);
+    }
+  };
+
+  // Disable specific keys
+  useEffect(() => {
+    const disableKeys = (e: KeyboardEvent) => {
+      if ((e.key === "Escape" || e.key === "F11") && isFullScreen) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    document.addEventListener("keydown", disableKeys);
+    return () => {
+      document.removeEventListener("keydown", disableKeys);
+    };
+  }, [isFullScreen]);
+
+  // Fullscreen change listener to update state
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      setIsFullScreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullScreenChange); // For Safari
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullScreenChange);
+    };
+  }, []);
 
   const [showInstructions, setShowInstructions] = useState<boolean>(
     () => JSON.parse(sessionStorage.getItem('showInstructions') || 'true')
@@ -94,6 +142,7 @@ function TestSession() {
     setStaredLoading(false);
 
     localStorage.setItem('sessionId', testSessionId);
+    toggleFullScreen()
 
 
     navigate(`?sessionId=${testSessionId}`,{
@@ -132,6 +181,8 @@ function TestSession() {
       )
     );
   };
+
+  
 
   const renderSessionCard = (question: any) => {
     if (!question) {
@@ -198,6 +249,7 @@ function TestSession() {
     localStorage.removeItem('testStarted');
     localStorage.removeItem('tabSwitchCount');
     setFinishedLoading(false);
+    toggleFullScreen()
 
     navigate(`/result-test/${sessionId}`,{
       state: {
@@ -302,7 +354,7 @@ function TestSession() {
   
 
   return (
-    <div className="p-4 flex min-h-screen justify-center items-center">
+    <div ref={containerRef} className="p-4 bg-white flex min-h-screen justify-center items-center">
       {showInstructions ? (
         <div className="flex max-w-3xl w-full items-center justify-center">
           {/* Instructions Section */}
@@ -390,11 +442,11 @@ function TestSession() {
         </button>
            
           </div>
-  <QuestionNavigationModal
+          <QuestionNavigationModal
     questions={questions}
     open={modalOpen}
     onClose={closeModal}
-    setClose={() => setModalOpen(false)}
+    setClose={setModalOpen}
     currentQuestion={currentQuestion}
   />
 </div>

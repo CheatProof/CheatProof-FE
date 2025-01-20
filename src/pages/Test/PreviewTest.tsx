@@ -333,10 +333,10 @@ function TestSession() {
     if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
-  // const closeModal = (index: number) => {
-  //   setCurrentQuestion(index);
-  //   setModalOpen(false);
-  // };
+  const closeModal = (index: number) => {
+    setCurrentQuestion(index);
+    setModalOpen(false);
+  };
   
   const openModal = () => setModalOpen(true);
 
@@ -513,11 +513,11 @@ function TestSession() {
         </button>
            
           </div>
-  <QuestionNavigationModal
+          <QuestionNavigationModal
     questions={questions}
     open={modalOpen}
-    // onClose={closeModal}
-    onClose={() => setModalOpen(false)}
+    onClose={closeModal}
+    setClose={setModalOpen}
     currentQuestion={currentQuestion}
   />
 </div>

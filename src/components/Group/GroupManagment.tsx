@@ -177,14 +177,64 @@ const GroupsManagement = () => {
               <UserPlus className="w-4 h-4" />
               Add Members
             </Button>
-            <Button variant="ghost" className="flex items-center gap-2">
-              <Mail className="w-4 h-4" />
-              Notify Members
-            </Button>
+
+            
+            <AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="ghost" className="flex items-center gap-2">
+      <Mail className="w-4 h-4" />
+      Notify Members
+    </Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Notify Members</AlertDialogTitle>
+      <AlertDialogDescription>
+        Enter message with its subject, which will be forwarded to all members in the group.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+
+    
+    <div className="mt-4">
+      <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+        Subject
+      </label>
+      <input
+        type="text"
+        id="subject"
+        placeholder="Enter Subject"
+        className="mt-1 py-2 block w-full rounded-sm border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    
+    <div className="mt-4">
+      <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+        Message
+      </label>
+      <textarea
+        id="message"
+        rows={4}
+        placeholder="Enter your message here"
+        className="mt-1 block w-full rounded-sm border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      ></textarea>
+    </div>
+
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <Button className='bg-color1 hover:bg-fore px-5'>Send</Button>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+
             <Button variant="ghost" className="flex items-center gap-2">
               <Settings className="w-4 h-4" />
               Member Settings
             </Button>
+
+           
+
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50">
