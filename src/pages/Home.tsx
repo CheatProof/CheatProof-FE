@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import { FcDocument } from "react-icons/fc";
 import Footer from "./Footer";
+import CheatProof from "../assets/CheatProof.svg"
 
 
 const HomePage = () => {
@@ -89,7 +90,7 @@ const HomePage = () => {
                 <div className=" w-full overflow-hidden">
                 <div className="absolute top-4 left-4 flex items-center px-2">
         <img
-          src="/public/transCheatProof.png" // Replace with the actual path of your logo
+          src={CheatProof} // Replace with the actual path of your logo
           alt="Logo"
           className="h-10 w-10 object-contain mr-2" // Adjust size of the logo
         />

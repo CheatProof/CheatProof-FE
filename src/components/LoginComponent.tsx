@@ -978,6 +978,8 @@ import {  SimpleInput } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
 import toast, { Toaster } from 'react-hot-toast';
+import CheatProof from "../assets/transCheatProof.png"
+
 
 const LoginComponent = () => {
   const navigate = useNavigate();
@@ -1104,7 +1106,7 @@ const LoginComponent = () => {
       <Toaster/>
       <div className="absolute top-14 left-2 md:top-4 md:left-4 flex items-center px-2">
         <img
-          src="/public/transCheatProof.png" // Replace with the actual path of your logo
+          src={CheatProof} // Replace with the actual path of your logo
           alt="Logo"
           className="h-8 w-8 object-contain mr-2" // Adjust size of the logo
         />

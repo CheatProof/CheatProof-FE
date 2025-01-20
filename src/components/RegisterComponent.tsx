@@ -509,6 +509,8 @@ import { useState } from "react";
 import { signUp } from "../api/auth";
 // import styled from "styled-components";
 import toast, { Toaster } from 'react-hot-toast';
+import CheatProof from "../assets/transCheatProof.png"
+
 
 // const StyledWhiteButton = styled(WhiteButton)<{ disabled: boolean }>`
 //   color: ${({ disabled }) => (disabled ? "palevioletred" : "black")};
@@ -533,6 +535,7 @@ const RegisterComponent = () => {
     confirmPassword: "",
   });
   const navigate = useNavigate();
+  
 
   const handleSubmit = async () => {
     const newErrors: typeof errors = {
@@ -577,7 +580,7 @@ const RegisterComponent = () => {
      <Toaster />
      <div className="absolute top-4 left-4 flex items-center px-2">
         <img
-          src="/public/transCheatProof.png" // Replace with the actual path of your logo
+          src={CheatProof} // Replace with the actual path of your logo
           alt="Logo"
           className="h-8 w-8 object-contain mr-2" // Adjust size of the logo
         />

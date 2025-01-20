@@ -10,13 +10,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import Logo from "../../assets/CheatProof.svg";
+import Logo from "../../assets/transCheatProof.png";
+
 import { Link } from "react-router-dom";
 // Menu items.
 
 
 export function AppSidebar() {
-    const user:any = localStorage.getItem("user");
+    // const user:any = localStorage.getItem("user");
 
     const items = [
         {
