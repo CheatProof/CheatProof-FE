@@ -6,9 +6,18 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 import { AppSidebar } from "@/components/Student/Sidebar";
 import { Footer } from "@/components";
+import { useLocation } from "react-router-dom";
+// import ResultQuestionCard from "@/components/Question/ResultQuestionCard";
+// import TestSession from "../Test/PreviewTest";
 
 
 const ResultDetails = () => { 
+  const user:any = localStorage.getItem('user')
+
+  const location = useLocation()
+  const {result}=location.state
+  console.log(result)
+
   return (
     <SidebarProvider>
          <AppSidebar />
@@ -16,7 +25,7 @@ const ResultDetails = () => {
     <HeaderStudent />
 
     <div className="w-full px-3 py-4  mt-20 flex text-center justify-center md:justify-start md:ml-40">
-        <span className="text-2xl font-semibold ">Results {'>'} CCN Group 2024 </span>
+        <span className="text-2xl font-semibold ">Results {'>'} {result?.test?.Tests?.testName} </span>
         </div>
      
      <div className="flex justify-center items-center mt-20 mb-36">
@@ -24,9 +33,9 @@ const ResultDetails = () => {
       {/* Header Section */}
       <div className="border-b pb-4 mb-4">
         <h1 className="text-xl font-semibold text-fore">
-          CT-21097 Muhammad Rohan Ahmed
+        {JSON.parse(user).firstName + " " + JSON.parse(user).lastName}
         </h1>
-        <p className="text-color2 text-sm">CCN-Spring-2024</p>
+        <p className="text-color2 text-sm">{result?.test?.Tests?.testName}</p>
       </div>
 
       {/* Details Section */}
@@ -34,20 +43,20 @@ const ResultDetails = () => {
         {/* Score Details */}
         <div className="space-y-3">
           <p className="text-sm font-medium text-color1">
-            <strong>Points:</strong> 55 / 60
+            <strong>Points:</strong> {result.TestResults.points} / {result.TestResults.totalPoints}
           </p>
           <p className="text-sm font-medium text-color1">
-            <strong>Duration:</strong> 00:39:59
+            <strong>Duration:</strong> {new Date(result?.TestResults?.duration).toISOString().substr(11, 8)}
           </p>
           <p className="text-sm font-medium text-color1">
-            <strong>Date started:</strong> Thu 6 Jun '24 14:52
+            <strong>Time started:</strong> {new Date(result?.TestResults?.dateStarted).toLocaleString()}
           </p>
           <p className="text-sm font-medium text-color1">
-            <strong>Date finished:</strong> Thu 6 Jun '24 15:32
+            <strong>Time finished:</strong> {new Date(result?.TestResults?.dateFinished).toLocaleString()}
           </p>
-          <button className="text-fore text-sm font-medium hover:underline">
+          {/* <button className="text-fore text-sm font-medium hover:underline">
             Show previous scores
-          </button>
+          </button> */}
         </div>
 
         {/* Percentage Circle */}
@@ -68,7 +77,7 @@ const ResultDetails = () => {
               <path
                 className="text-fore stroke-current"
                 strokeWidth="4"
-                strokeDasharray="91.7, 100"
+                strokeDasharray={`${((result.TestResults.points/result.TestResults.totalPoints)*100).toFixed(2)}, 100`}
                 fill="none"
                 d="M18 2.0845
                 a 15.9155 15.9155 0 0 1 0 31.831
@@ -76,7 +85,7 @@ const ResultDetails = () => {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-lg font-bold tcolor1">{((55 / 60) * 100).toFixed(2)}%</span>
+              <span className="text-lg font-bold tcolor1">{((result.TestResults.points/result.TestResults.totalPoints)*100).toFixed(2)}%</span>
             </div>
           </div>
         </div>
@@ -106,6 +115,17 @@ const ResultDetails = () => {
         </div>
       </div>
     </div>
+    
+    {/* <div className="max-w-4xl mx-auto">
+        {
+            result.attemptedQuestions.map((question:any,index:any)=>{
+                // const answers=JSON.parse(question.userAnswers)
+               return (
+            <div key={question.question.id}>
+                <ResultQuestionCard question={question.question}  userAnswers={question.userAnswer} idx={index} correctQuestions={result.correctQuestions}/>
+            </div>)})
+        }
+      </div> */}
     <Footer />
     </main>
     </SidebarProvider>

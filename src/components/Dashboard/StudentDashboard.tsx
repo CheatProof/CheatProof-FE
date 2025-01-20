@@ -144,10 +144,10 @@ const StudentDashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap min-h-[78vh]">
       <div className="w-full lg:w-[67%]">
         <div className="w-full flex justify-between">
-          <h2 className="font-bold text-3xl ml-10">Groups</h2>
+          <h2 className="font-bold text-3xl ">Groups</h2>
           <select className="bg-transparent mr-3 text-sm" name="time" id="">
             <option value={"1h"}>Last 1 hour</option>
             <option value={"3h"}>Last 3 hour</option>
@@ -191,7 +191,7 @@ const StudentDashboard: React.FC = () => {
 
         </div>
                   )}
-        <h2 className="font-bold text-3xl ml-10">Resume Test</h2>
+       {inCompleteTestSessions.length !== 0 && <h2 className="font-bold text-3xl my-4">Resume Test</h2>}
 
         {inCompleteTestSessions.map((testSession:any) =>(
             <div key={testSession.id} className="w-full  rounded shadow flex  items-center justify-between p-3  bg-white  text-blackPrimary/55">
