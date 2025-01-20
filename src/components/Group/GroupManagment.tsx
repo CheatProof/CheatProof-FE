@@ -31,7 +31,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteGroup, fetchGroupById, getGroupMembersByGroupId, updateGroup } from '../../api/group';
+import { deleteGroup, fetchGroupById, getGroupMembersByGroupId, notifyMembersByGroup, updateGroup } from '../../api/group';
 import { ContentState, convertFromHTML, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from "react-draft-wysiwyg";
@@ -51,10 +51,40 @@ const GroupsManagement = () => {
   const [newGroupName, setNewGroupName] = useState("")
   const [loading, setLoading] = useState(false)
   const [membersLoading, setMembersLoading] = useState(true);
+  const [notifyMessage, setNotifyMessage] = useState("")
+  const [notifySubject,setNotifySubject] =useState("")
+  const [notifyLoading, setNotifyLoading] = useState(false)
+  // const [isEditing, setIsEditing] = useState(false);
 
   const onEditorStateChange = (editorState: any) => {
     setEditorState(editorState);
   };
+
+  const handleNotifyMember=async()=>{
+    if(notifyMessage.trim()==='' || notifySubject.trim()===''){
+      toast.error('Please fill in all fields!')
+      return
+    }
+    setNotifyLoading(true)
+    
+
+
+    const body:any = {
+      subject: notifySubject,
+      body: notifyMessage,
+    }
+    const response = await notifyMembersByGroup(id,body)
+    if(response.code==200){
+      toast.success('Notification sent successfully!')
+      setNotifyMessage("")
+      setNotifySubject("")
+      setNotifyLoading(false)
+    }else{
+      toast.error('Failed to send notification!')
+      setNotifyLoading(false)
+    }
+
+  }
 
   const getHtmlFromEditorState = (editorState: any) => {
     const contentState = editorState.getCurrentContent();
@@ -202,6 +232,8 @@ const GroupsManagement = () => {
       <input
         type="text"
         id="subject"
+        value={notifySubject}
+        onChange={(e)=>setNotifySubject(e.target.value)}
         placeholder="Enter Subject"
         className="mt-1 py-2 block w-full rounded-sm border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       />
@@ -215,6 +247,8 @@ const GroupsManagement = () => {
       <textarea
         id="message"
         rows={4}
+        value={notifyMessage}
+        onChange={(e)=>setNotifyMessage(e.target.value)}
         placeholder="Enter your message here"
         className="mt-1 block w-full rounded-sm border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       ></textarea>
@@ -222,7 +256,7 @@ const GroupsManagement = () => {
 
     <AlertDialogFooter>
       <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <Button className='bg-color1 hover:bg-fore px-5'>Send</Button>
+      <Button onClick={()=>handleNotifyMember()} className='bg-color1 hover:bg-fore flex gap-1 px-5'><span>Send</span> {notifyLoading && <Circles height={15} width={15}  color='#2f6690'/>}   </Button>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>

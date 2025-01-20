@@ -137,3 +137,22 @@ export const getAssignedGroupTest = (assignedTestGroupId:any) => {
         // Handle errors
         .catch(error => console.error('Error:', error));
 }
+
+
+// POST : /notifyMembers/byGroup/:groupId
+
+export const notifyMembersByGroup = (groupId:any, message:any) => {
+    const url = `${baseUrl}/api/group/notifyMembers/byGroup/${groupId}`;
+    return fetch(url,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        },
+        body: JSON.stringify(message)
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}

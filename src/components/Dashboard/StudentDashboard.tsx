@@ -60,7 +60,7 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] 
       <Badge
         key={day.toString()}
         overlap="circular"
-        badgeContent={isHighlighted ? '🌚' : undefined}
+        badgeContent={isHighlighted ? '' : undefined}
       >
         <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
       </Badge>
@@ -244,7 +244,7 @@ Change Groups to check for available Tests under each Group.
         </p>
 
    
-        <h2 className="text-black/45 border-b-[0.05rem] border-black/45 py-3 font-bold text-xs">Today's Schedule</h2>
+        <h2 className="text-black/45 border-b-[0.05rem] border-black/45 py-3 font-bold text-xs">Today's Schedule (Under Development)</h2>
         {/* <p className="flex pt-1 text-sm">
           <MdToday className="text-xl mr-1" />
           {initialValue.format('dddd, MMMM Do YYYY')}
