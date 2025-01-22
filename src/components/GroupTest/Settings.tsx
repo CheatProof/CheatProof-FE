@@ -406,7 +406,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
                     <Select
                       value={questionsPerPage}
                       onChange={(e) => setQuestionsPerPage(e.target.value as number)}
-                      sx={{ width: 120 }}
+                      sx={{ width: 220 }}
                     >
                       {[1, 2, 3, 4, 5].map((num) => (
                         <MenuItem key={num} value={num}>
@@ -558,7 +558,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
                     type="number"
                     value={testDuration}
                     onChange={(e:any) => setTestDuration(e.target.value)}
-                    sx={{ width: 120 }}
+                    sx={{ width: 180 }}
                   />
                 </Collapse>
               </Paper>

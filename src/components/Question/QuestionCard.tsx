@@ -4,12 +4,14 @@ import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { archiveQuestion, deleteQuestion, usedInTests } from "../../api/question";
 import toast, { Toaster } from 'react-hot-toast';
+import { Circles } from "react-loader-spinner";
 
 const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
   const [isUsedInModalOpen, setIsUsedInModalOpen] = useState(false);
   const [usedInQuestions, setUsedInQuestions] = useState([]);
+  const [deleteLoading, setDeleteLoading] = useState(false)
 
   if (!question) {
     return <p>Loading options...</p>;
@@ -17,14 +19,21 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
 
   // Handle delete action
   const handleDelete = async () => {
+    setDeleteLoading(true);
     const response = await deleteQuestion(question.id);
     if (response.code === 200) {
       onDelete(idx);
+      toast.success("Question deleted successfully.", {
+        duration: 3000,
+        position: "top-center",
+        
+      });
     } else {
       toast.error("Failed to delete the question. Please try again.", {
         duration: 3000,
-        position: "top-center"
+        position: "top-center",
       });
+      setDeleteLoading(false); // Hide spinner in case of error
     }
     setIsModalOpen(false);
   };
@@ -162,9 +171,20 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-color2 text-white rounded hover:bg-color1"
+                className="px-4 py-2 bg-color2 text-white rounded hover:bg-color1 flex items-center justify-center"
+                disabled={deleteLoading} // Disable button while loading
               >
-                Delete
+                {deleteLoading ? (
+                  <Circles
+                    height="20"
+                    width="20"
+                    color="#fff"
+                    ariaLabel="loading-indicator"
+                    visible={true}
+                  />
+                ) : (
+                  "Delete"
+                )}
               </button>
             </div>
           </div>

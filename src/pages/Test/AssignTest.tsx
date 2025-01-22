@@ -199,12 +199,14 @@ import { Sidebar } from "../../components";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchGroups } from "@/api/group";
 import { useEffect, useState } from "react";
+import { Circles } from "react-loader-spinner";
 const AssignTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [groups, setGroups] = useState<any[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null); // State to track the selected group
   const [fullGroup, setFullGroup] = useState<any>(null)
+  const [groupLoading, setGroupLoading] = useState(false);
 
   const { test } = location.state;
 
@@ -217,6 +219,7 @@ const AssignTest = () => {
   }
 
   const fetchGroupByUser = async () => {
+    setGroupLoading(true);
     const data = await fetchGroups();
     if (data?.data) {
       setGroups(filterGroupsByTestId(data.data, test.id));
@@ -224,6 +227,7 @@ const AssignTest = () => {
     } else {
       console.error(data.error);
     }
+    setGroupLoading(false);
   };
 
   useEffect(() => {
@@ -271,9 +275,9 @@ const AssignTest = () => {
 
                {/* Test Name */}
                <div className="text-center text-gray-700 dark:text-gray-300">
-                 <span className="inline-flex items-center gap-2">
+                 <span className="inline-flex items-center gap-2 text-2xl font-semibold">
                    <svg
-                     className="w-4 h-4 text-gray-500"
+                     className="w-6 h-6 text-gray-800"
                      xmlns="http://www.w3.org/2000/svg"
                      fill="none"
                      viewBox="0 0 24 24"
@@ -340,10 +344,21 @@ const AssignTest = () => {
                     ))}
                     
                   </div> */}
-                  <div className="text-gray-800 dark:text-gray-200 text-sm w-full">
+                <div className="text-gray-800 dark:text-gray-200 text-sm w-full">
   <h4 className="font-medium mb-2 flex text-center justify-center">1. Select Groups</h4>
-  
-  {groups.length > 0 ? (
+
+  {groupLoading ? (
+    // Display loader while groups are being fetched
+    <div className="flex text-center justify-center items-center mx-auto mt-2">
+      <Circles
+        height="30"
+        width="30"
+        color="#152487"
+        ariaLabel="circles-loading"
+        visible={true}
+      />
+    </div>
+  ) : groups.length > 0 ? (
     // Display groups if available
     groups.map((group: any) => (
       <div className="flex items-center justify-center gap-2 mb-2" key={group.id}>
@@ -375,27 +390,29 @@ const AssignTest = () => {
   )}
 </div>
 
+
+
                   {/* <button
                     className="bg-blue-500 text-white px-6 py-2 mt-6 rounded-lg font-semibold self-center"
                     onClick={() => navigate('/teacher-dashboard/testsettings',{state:{selectedGroup:fullGroup,test:test}})}
                   >
                     Next
                   </button> */}
-                  <button
-                  className={`px-6 py-2 mt-6 rounded-lg font-semibold self-center ${
-                    groups.length === 0
-                      ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                      : "bg-blue-500 text-white hover:bg-blue-600"
-                  }`}
-                  onClick={() =>
-                    navigate('/teacher-dashboard/testsettings', {
-                      state: { selectedGroup: fullGroup, test: test },
-                    })
-                  }
-                  disabled={groups.length === 0 && !fullGroup} // Disable button if no groups available
-                >
-                  Next
-                </button>
+                 <button
+    className={`px-6 py-2 mt-6 rounded-lg font-semibold self-center ${
+      groupLoading || (!fullGroup && groups.length > 0)
+        ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+        : "bg-blue-500 text-white hover:bg-blue-600"
+    }`}
+    onClick={() =>
+      navigate('/teacher-dashboard/testsettings', {
+        state: { selectedGroup: fullGroup, test: test },
+      })
+    }
+    disabled={groupLoading || (!fullGroup && groups.length > 0)} // Disable button until group is selected
+  >
+    Next
+  </button>
                 </div>
 
                 <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg w-[400px] flex flex-col items-center shadow-md">

@@ -11,6 +11,7 @@ import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { fetchIncompleteTestsByStudent, fetchStudentGroupsBySession, resumeTest } from "@/api/test-session";
 import { useNavigate } from "react-router-dom";
 import { Circles } from "react-loader-spinner";
+import { CircularProgress } from "@mui/material";
 // import AssignTest from "@/pages/Test/AssignTest";
 
 function getRandomNumber(min: number, max: number) {
@@ -166,7 +167,7 @@ const StudentDashboard: React.FC = () => {
 
         {groupLoading ? (
                     <div className="flex justify-center items-center h-40">
-                      <Circles height="80" width="80" color="#152487" ariaLabel="loading" />
+                      <CircularProgress  />
                     </div>
                   ) : (
 

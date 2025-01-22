@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { fetchAssignedTestsByGroup } from "@/api/test-session";
 import { Footer } from "@/components";
 import { Circles } from "react-loader-spinner";
+import { CircularProgress } from "@mui/material";
 import NotFoundImage from "@/assets/undraw_online-test_20lm.svg"
 
 const StudentTest: React.FC = () => {
@@ -66,7 +67,7 @@ const StudentTest: React.FC = () => {
 
             {loading ? (
               <div className="flex justify-center items-center h-40">
-                <Circles height="80" width="80" color="#152487" ariaLabel="loading" />
+                <CircularProgress />
               </div>
             ) : (
               test?.newGroup?.map((quiz: any) => (
