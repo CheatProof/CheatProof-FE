@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { 
   Card,
   CardContent,
-  Typography,
-  Button,
+  
+  // Button,
   Table,
   TableBody,
   TableCell,
@@ -21,19 +21,21 @@ import {
   TextField
 } from '@mui/material';
 
-import { ChevronDown, Download, Upload, Check } from 'lucide-react';
+import { ChevronDown, Download} from 'lucide-react';
 import { importQuestions } from '../../api/question';
+import { Button, Typography } from '@material-tailwind/react';
 
 const QuestionBankImport = () => {
   const [activeStep, setActiveStep] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const steps = [
-    { number: 1, label: 'Download template', icon: <Download className="px-1 w-5 h-5" /> },
-    { number: 2, label: 'Upload questions', icon: <Upload className="px-1 w-5 h-5" /> },
-    { number: 4, label: 'Save questions', icon: <Check className="px-1 w-5 h-5" /> }
-  ];
+  // const steps = [
+  //   { number: 1, label: 'Download template', icon: <Download className="px-1 w-5 h-5" /> },
+  //   { number: 2, label: 'Upload questions', icon: <Upload className="px-1 w-5 h-5" /> },
+  //   { number: 4, label: 'Save questions', icon: <Check className="px-1 w-5 h-5" /> }
+  // ];
+  const props:any={}
 
   const questionTypes = [
     { type: 'Multiple Choice', blank: 'Blank', sample: 'Sample' },
@@ -69,70 +71,71 @@ const QuestionBankImport = () => {
     }
     handleModalClose();
     setActiveStep(3); // Move to the next step after upload
+    console.log(activeStep)
   };
 
   return (
     <div className="w-full mx-auto p-6">
       {/* Breadcrumb */}
-      <div className="text-sm text-gray-500 mb-6">
+      <div className="text-lg text-gray-800 mb-6">
         Tests &gt; Question Bank &gt; Import Questions
       </div>
 
       {/* Progress Steps */}
-      <div className="flex justify-between items-center mb-8">
+      {/* <div className="flex justify-between items-center mb-8">
         {steps.map((step, index) => (
           <div key={step.number} className="flex items-center">
             <div className={`flex items-center justify-center w-8 h-8 rounded-full 
               ${activeStep >= step.number ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
               {step.icon}
             </div>
-            <Typography className="ml-2">{step.label}</Typography>
+            <Typography {...props} className="font-[Poppins]" className="ml-2">{step.label}</Typography>
             {index < steps.length - 1 && (
               <div className="mx-4 h-px w-16 bg-gray-300" />
             )}
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Main Content */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="">
         {/* Left Column */}
         <Card>
           <CardContent>
-            <Typography variant="h6" className="mb-4">1: Download .CSV Question Template</Typography>
+            <Typography {...props} className="!font-[Poppins] mb-4" variant="h6" >1: Download .CSV Question Template</Typography>
             
-            <Typography variant="subtitle1" className="mb-4">Instructions</Typography>
+            <Typography {...props} className="!font-[Poppins] mb-4 text-color1" variant="h4" >Instructions</Typography>
             
             <div className="space-y-4">
               <Accordion>
                 <AccordionSummary expandIcon={<ChevronDown />}>
-                  <Typography>How to upload new Questions</Typography>
+                  <Typography {...props} className="font-[Poppins] font-semibold">How to upload new Questions</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>Instructions for uploading new questions...</Typography>
+                  <Typography {...props} className="font-[Poppins]">Instructions for uploading new questions...</Typography>
                 </AccordionDetails>
               </Accordion>
 
               <Accordion>
                 <AccordionSummary expandIcon={<ChevronDown />}>
-                  <Typography>How to override existing Questions</Typography>
+                  <Typography {...props} className="!font-[Poppins]">How to override existing Questions</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>Instructions for overriding questions...</Typography>
+                  <Typography {...props} className="!font-[Poppins]">Instructions for overriding questions...</Typography>
                 </AccordionDetails>
               </Accordion>
 
               <Accordion>
                 <AccordionSummary expandIcon={<ChevronDown />}>
-                  <Typography>'Upload new' VS 'Override existing' Questions</Typography>
+                  <Typography {...props} className="!font-[Poppins]">'Upload new' VS 'Override existing' Questions</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>Comparison of upload options...</Typography>
+                  <Typography {...props} className="!font-[Poppins]">Comparison of upload options...</Typography>
                 </AccordionDetails>
               </Accordion>
             </div>
 
-            <Typography variant="subtitle1" className="mt-6 mb-4">
+            <Typography {...props} className="!font-[Poppins] mt-6 mb-4" variant="subtitle1" >
               Download "Question Import" Templates:
             </Typography>
 
@@ -151,18 +154,18 @@ const QuestionBankImport = () => {
                       <TableCell>{row.type}</TableCell>
                       <TableCell>
                         <div className="space-x-2">
-                          <Button variant="text" className="text-red-500">
+                          <Button {...props} variant="text" className="text-color1">
                             {row.blank}
                           </Button>
                           <span>|</span>
-                          <Button variant="text" className="text-red-500">
+                          <Button {...props} variant="text" className="text-color1">
                             {row.sample}
                           </Button>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Button variant="text" className="text-red-500" startIcon={<Download />}>
-                          PDF Instructions
+                        <Button variant="text" className="text-color1 flex items-center justify-center gap-2" {...props}>
+                          <span>PDF Instructions </span> <Download  size={20}/>
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -176,11 +179,11 @@ const QuestionBankImport = () => {
         {/* Right Column */}
         <Card className='bg-transparent'>
           <CardContent>
-            <Typography variant="h6" className="mb-4">2: Upload Questions</Typography>
-            <Typography className="mb-4">When your Question template is ready:</Typography>
+            <Typography {...props} className="font-[Poppins]" variant="h6" >2: Upload Questions</Typography>
+            <Typography {...props} className="font-[Poppins]" >When your Question template is ready:</Typography>
             <Button 
-              variant="contained" 
-              className="bg-red-500 hover:bg-red-600 text-white"
+             {...props}
+              className="bg-color1 hover:bg-color2 text-white"
               onClick={handleModalOpen}
             >
               Go to Step 2
@@ -193,7 +196,7 @@ const QuestionBankImport = () => {
       <Dialog open={isModalOpen} onClose={handleModalClose}>
         <DialogTitle>Upload Question CSV File</DialogTitle>
         <DialogContent>
-          <Typography variant="body2" className="mb-4">
+          <Typography {...props} className="font-[Poppins]" variant="body2" >
             Please select a .csv file to upload your questions.
           </Typography>
           <TextField
@@ -204,13 +207,13 @@ const QuestionBankImport = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleModalClose} color="primary">
+          <Button {...props} onClick={handleModalClose} className='bg-color1'>
             Cancel
           </Button>
           <Button 
             onClick={handleFileSubmit} 
-            color="primary" 
-            variant="contained"
+            {...props}
+            className='bg-color1'
             disabled={!selectedFile}
           >
             Upload

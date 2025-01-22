@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import Settings from "@/components/GroupTest/Settings";
-import { Sidebar } from "../../components";
+import { Footer, Header, Sidebar } from "../../components";
 import { Box, Typography, Card } from "@mui/material";
 import { FiFileText } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
@@ -97,9 +97,10 @@ const TestSettings = () => {
       <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
         
         <Sidebar />
-        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-9 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
+        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full ">
+          <Header/>
         <Toaster />
-          <div className="w-10/12 pl-3">
+          <div className="w-11/12 mx-auto pl-3 min-h-screen flex flex-col mt-5 ">
             <div className="flex items-center justify-center">
               <div className="flex gap-6 items-center text-gray-700 dark:text-gray-300">
                 <div className="flex items-center gap-2">
@@ -133,6 +134,7 @@ const TestSettings = () => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                width: "100%"
               }}
             >
               <Box display="flex" alignItems="center">
@@ -157,6 +159,7 @@ const TestSettings = () => {
               Assign Test
             </button> */}
           </div>
+          <Footer/>
         </div>
       </div>
     </>

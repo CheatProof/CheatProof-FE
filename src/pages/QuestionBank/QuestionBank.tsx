@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Sidebar } from '../../components';
+import { Footer, Header, Sidebar } from '../../components';
 import QuestionCard from '../../components/Question/QuestionCard';
 import { getQuestionsByTeacherId, getQuestionTypes } from '../../api/question';
 import { Circles } from 'react-loader-spinner';
@@ -142,9 +142,13 @@ const QuestionBank = () => {
   return (
     <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
       <Sidebar />
-      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-3 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
+      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full ">
+        <Header />
+
         <div className="w-full pl-3">
-          <h2 className="text-3xl text-black font-bold mb-3 py-3">Question Bank</h2>
+        <div className="w-full px-3 py-4 flex text-center justify-center md:justify-start ">
+        <span className="text-2xl font-semibold ">Tests {'>'} Question Bank </span>
+        </div>
           {/* Question Filter Section */}
 
 
@@ -305,6 +309,7 @@ const QuestionBank = () => {
             </>
           )}
         </div>
+        <Footer/>
       </div>
       {/* Modal */}
       <Modal

@@ -1,4 +1,4 @@
-import { Sidebar } from '../../components';
+import { Footer, Header, Sidebar } from '../../components';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getAllTests, getTestByUser } from '@/api/test'; // Adjust API endpoint for fetching tests by category
@@ -71,7 +71,7 @@ const SelectTest = () => {
       setIsLoadingTests(true);
   
       if (categoryId === '0') {
-        const data = await getAllTests(); // Fetch all tests
+        const data = await getTestByUser(); // Fetch all tests
         if (data.code === 200 || data.code === 201) {
           setTests(data.data); // Display all tests
         } else {
@@ -197,8 +197,9 @@ const SelectTest = () => {
     <>
       <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
         <Sidebar />
-        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-9 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
-          <div className="w-full pl-3">
+        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full ">
+          <Header/>        
+            <div className="w-full pl-3 mt-2 min-h-screen">
             <div className="flex flex-col gap-4">
               {/* Header Steps */}
               <div className="flex items-center justify-center">
@@ -286,6 +287,7 @@ const SelectTest = () => {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     </>

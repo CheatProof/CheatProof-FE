@@ -73,7 +73,10 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] 
 
 const StudentDashboard: React.FC = () => {
 
+  
+
   const navigate = useNavigate()
+
 
   const [groups,setGroups]= useState([])
   const [inCompleteTestSessions,setInCompleteTestSessions]=useState<any>([]);
@@ -90,6 +93,29 @@ const StudentDashboard: React.FC = () => {
     
 
   }  
+
+  const handleResumeTest = async(testSession:any)=>{
+    const response =await resumeTest({testSessionId:testSession.id,assignedTestId:testSession.assignedTestId})
+                  if(response.code === 200){
+                    console.log('Test resumed successfully')
+                    sessionStorage.setItem('showInstructions',"false");
+                    localStorage.setItem('testStarted',"true");
+                    localStorage.setItem('tabSwitchCount',"0");
+                    localStorage.setItem('Questions', JSON.stringify(JSON.parse(testSession.test).Tests.Questions));
+                    localStorage.setItem('selectedAnswers', JSON.stringify(response.data.attemptedQuestions));
+                    navigate(`/test-session/${testSession.assignedTestId}?sessionId=${testSession.id}`,{
+                      state:{
+                        testSession: testSession,
+                        quiz:{
+                          AssignedTests:JSON.parse(testSession.test)
+                        }
+                      }
+                     })
+                  }else{
+                    console.log('Failed to resume test')
+                  }
+
+  }
 
   // fetchIncompleteTestsByStudent
   const getIncompleteTestsByStudent = async () => {
@@ -212,34 +238,7 @@ const StudentDashboard: React.FC = () => {
               </div>
               <div className="flex items-center">
              
-             <MdOutlineArrowRightAlt onClick={async()=>{
-                  // localStorage.removeItem('selectedAnswers');
-                  // localStorage.removeItem('timer');
-                  // localStorage.removeItem('currentQuestion');
-                  // sessionStorage.removeItem('showInstructions');
-                  // localStorage.removeItem('testStarted');
-                  // localStorage.removeItem('tabSwitchCount');
-                  const response =await resumeTest({testSessionId:testSession.id,assignedTestId:testSession.assignedTestId})
-                  if(response.code === 200){
-                    console.log('Test resumed successfully')
-                    sessionStorage.setItem('showInstructions',"false");
-                    localStorage.setItem('testStarted',"true");
-                    localStorage.setItem('tabSwitchCount',"0");
-                    localStorage.setItem('Questions', JSON.stringify(JSON.parse(testSession.test).Tests.Questions));
-                    localStorage.setItem('selectedAnswers', JSON.stringify(response.data.attemptedQuestions));
-                    navigate(`/test-session/${testSession.assignedTestId}?sessionId=${testSession.id}`,{
-                      state:{
-        
-                        testSession: testSession,
-                        quiz:{
-                          AssignedTests:JSON.parse(testSession.test)
-                        }
-                      }
-                     })
-                  }else{
-                    console.log('Failed to resume test')
-                  }
-}} className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800 hover:bg-slate-400 hover:text-white" />
+             <MdOutlineArrowRightAlt onClick={()=>handleResumeTest(testSession)} className="text-4xl mr-1 bg-slate-100 rounded-full p-1 text-purple-800 hover:bg-slate-400 hover:text-white" />
            </div>
          </div>
 

@@ -195,7 +195,7 @@
 
 // export default AssignTest;
 
-import { Sidebar } from "../../components";
+import { Footer, Header, Sidebar } from "../../components";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchGroups } from "@/api/group";
 import { useEffect, useState } from "react";
@@ -234,9 +234,12 @@ const AssignTest = () => {
     <>
       <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
         <Sidebar />
-        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-9 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
+        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full  ">
+          <Header/>
+          <div className="min-h-screen mt-5">
        
       <div className="w-full pl-3">
+
              {/* Add code here */}
              <div className="flex flex-col gap-6">
                {/* Header Steps */}
@@ -422,6 +425,8 @@ const AssignTest = () => {
               </div>
             </div>
           </div>
+          </div>
+          <Footer/>
         </div>
       </div>
     </>

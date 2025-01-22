@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Sidebar } from '../../components';
+import { Footer, Header, Sidebar } from '../../components';
 import ViewTest from '../../components/Test/ViewTestCard';
-import { Button, TextField, MenuItem, Select, InputLabel, FormControl, Box, Modal, Typography } from '@mui/material';
+import {  TextField, MenuItem, Select, InputLabel, FormControl, Box, Modal, Typography } from '@mui/material';
 import { TbSearch } from 'react-icons/tb';
 import { getAllParentCategories } from '../../api/parent-category';
 import { createTestByUser, getTestByUser } from '../../api/test';
 import { getAllChildCategories } from '../../api/child-category';
 import toast, { Toaster } from 'react-hot-toast';
 import { Circles } from 'react-loader-spinner';
+import { Button } from '@material-tailwind/react';
 
 const TestManage: React.FC = () => {
+  
   const [tests, setTests] = useState([]); // Tests data
   const [parentCategories, setParentCategories] = useState([]); // Parent categories data
   const [childCategories, setChildCategories] = useState([]); // Child categories data
@@ -136,31 +138,22 @@ const handleCreateTest = async () => {
     handleModalClose();
   }
 };
+const props:any={};
 
 
   return (
     <>
-           {loading ? (
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}>
-          <Circles
-            height="80"
-            width="80"
-            color="#152487"
-            ariaLabel="circles-loading"
-          />
-        </div>
-      ) : (
-        <div className="h-auto shadow dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
+           
+        <div className="h-auto shadow flex  dark:border-blackSecondary border-blackSecondary border-1  dark:bg-blackPrimary bg-whiteSecondary">
           <Toaster />
           <Sidebar />
-          <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-3 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-5 max-[400px]:pl-2">
-            <div className="w-full pl-3">
-              <h2 className="text-3xl text-black font-bold mb-3 py-3">All Tests</h2>
+          <div className="dark:bg-blackPrimary min-h-screen bg-whiteSecondary w-full ">
+            <Header/>
+            <div className="w-full pl-3 min-h-screen">
+
+            <div className="w-full px-3 py-4 flex text-center justify-center md:justify-start ">
+        <span className="text-2xl font-semibold ">Tests {'>'} All Tests </span>
+        </div>
 
               {/* Search and Filter Bar */}
               <Box display="flex" justifyContent="space-between" alignItems="center" mb={3} pr={4}>
@@ -181,7 +174,7 @@ const handleCreateTest = async () => {
                   <FormControl size="small" className="min-w-5" variant="outlined">
                     <InputLabel>Categories</InputLabel>
                     <Select value={category} onChange={handleCategoryChange} label="Categories">
-                      <MenuItem value="All">All Categories</MenuItem>
+                      <MenuItem className='font-[Poppins]' value="All">All Categories</MenuItem>
                       {parentCategories.map((parentCategory: any) => (
                         <MenuItem key={parentCategory.id} value={parentCategory.id}>
                           {parentCategory.parentCategoryName}
@@ -203,26 +196,43 @@ const handleCreateTest = async () => {
                   </FormControl>
 
                   {/* New Test Button */}
-                  <button
-                    className="bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-md font-medium"
+                  <Button
+                  {...props}
+                    className="bg-color2 hover:bg-color1 text-white "
                     onClick={handleModalOpen}
                   >
                     + Create Test
-                  </button>
+                  </Button>
                 </Box>
               </Box>
 
 
               {/* Render Filtered Tests */}
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                {filteredTests.map((test: any) => (
+                {loading ?  (<div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '',
+          width: '100%',
+          
+        }}>
+          <Circles
+            height="80"
+            width="80"
+            color="#152487"
+            ariaLabel="circles-loading"
+          />
+        </div>) :filteredTests.map((test: any) => (
                   <ViewTest key={test.id} test={test} />
                 ))}
               </div>
             </div>
+            <Footer/>
           </div>
+        
         </div>
-      )}
+      
 
       {/* Modal for Creating New Test */}
       {/* Modal for Creating New Test */}
@@ -297,9 +307,12 @@ const handleCreateTest = async () => {
 
     <Box textAlign="right" mt={2}>
       <Button
+      // variant="contained"
+        
+      className='bg-color1'
+        
+      {...props}
         onClick={handleCreateTest}
-        variant="contained"
-        color="primary"
         disabled={creatingTest} 
         style={{ display: 'flex', alignItems: 'center', gap: '10px'}}
       >

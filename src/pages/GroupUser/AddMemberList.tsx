@@ -1,13 +1,12 @@
 // import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Sidebar } from "../../components";
+import { Footer, Header, Sidebar } from "../../components";
+import { Card, Typography, Button } from "@material-tailwind/react";
 
-// Helper function to convert JSON user.data to CSV
-const exportToCSV = (user:any, fileName:any) => {
+const exportToCSV = (user: any, fileName: any) => {
   const csvHeader = "First Name,Last Name,Email,Username,Group ID\n";
-  const csvRows = user.map((member:any) => {
+  const csvRows = user.map((member: any) => {
     const { firstName, lastName, email, username } = member.user.newUser;
-    // const { groupId } = member.user.assignUser;
     return `${firstName},${lastName},${email},${username},${member.user.plainPassword}`;
   });
   const csvContent = `${csvHeader}${csvRows.join("\n")}`;
@@ -21,64 +20,131 @@ const exportToCSV = (user:any, fileName:any) => {
 };
 
 const AddMemberList = () => {
+  const props:any={}
   const location = useLocation();
-  const  navigate  = useNavigate(); // Assuming useNavigate hook is available
-  const { user } = location.state ; // Expecting user.data to come from location.state
-  const data =user.data
-  console.log(data)
+  const navigate = useNavigate();
+  const { user } = location.state;
+  const data = user.data;
 
   return (
-    <>
-      <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
-        <Sidebar />
-        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
-          <div className="w-full mx-2 pl-3">
-            <h2 className="text-3xl text-black font-bold py-6">Group Members</h2>
-            <div className="flex justify-between mx-2">
-            <button
+    <div className="h-auto flex border-t dark:border-blackSecondary border-blackSecondary dark:bg-blackPrimary bg-whiteSecondary">
+      <Sidebar />
+      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full">
+        <Header />
+        <div className="w-full mx-2 min-h-screen pl-3 max-w-[96%]">
+          <h2 className="text-3xl text-black font-bold py-6">Group Members</h2>
+          <div className="flex justify-between items-center mx-2 mb-6">
+            <Button
+            {...props}
               onClick={() => navigate(`/teacher-dashboard/group-management/${data[0].user.assignUser.groupId}`)}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4"
+              variant="gradient"
+              className="bg-gradient-to-r from-blue-500 to-blue-700 text-white"
             >
               Back
-            </button>
-            <button
+            </Button>
+            <Button
+            {...props}
               onClick={() => exportToCSV(user.data, "group_members.csv")}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4"
+              variant="gradient"
+              className="bg-gradient-to-r from-green-500 to-green-700 text-white"
             >
               Export to CSV
-            </button>
-
-            </div>
-            <table className="w-full text-left border-collapse border px-2 border-gray-300">
+            </Button>
+          </div>
+          <Card
+          {...props}
+           className="overflow-auto shadow-lg">
+            <table className="w-full table-auto ta text-left">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 px-4 py-2">First Name</th>
-                  <th className="border border-gray-300 px-4 py-2">Last Name</th>
-                  <th className="border border-gray-300 px-4 py-2">Email</th>
-                  <th className="border border-gray-300 px-4 py-2">Username</th>
-                  <th className="border border-gray-300 px-4 py-2">Password</th>
+                  <th className="border-b border-gray-300 bg-blue-gray-50 p-4">
+                    <Typography
+                    {...props}
+                     variant="small" className="font-bold text-blue-gray-600">
+                      First Name
+                    </Typography>
+                  </th>
+                  <th className="border-b border-gray-300 bg-blue-gray-50 p-4">
+                    <Typography
+                    {...props}
+                     variant="small" className="font-bold text-blue-gray-600">
+                      Last Name
+                    </Typography>
+                  </th>
+                  <th className="border-b border-gray-300 bg-blue-gray-50 p-4">
+                    <Typography
+                    
+                    {...props}
+                    variant="small" className="font-bold text-blue-gray-600">
+                      Email
+                    </Typography>
+                  </th>
+                  <th className="border-b border-gray-300 bg-blue-gray-50 p-4">
+                    <Typography 
+                    {...props}
+                    variant="small" className="font-bold text-blue-gray-600">
+                      Username
+                    </Typography>
+                  </th>
+                  <th className="border-b border-gray-300 bg-blue-gray-50 p-4">
+                    <Typography
+                    {...props}
+                     variant="small" className="font-bold text-blue-gray-600">
+                      Password
+                    </Typography>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {user.data?.map((member:any, index:any) => {
+                {user.data?.map((member: any, index: number) => {
                   const { firstName, lastName, email, username } = member.user.newUser;
-                  // const { groupId } = member.user.assignUser;
                   return (
-                    <tr key={index}>
-                      <td className="border border-gray-300 px-4 py-2">{firstName}</td>
-                      <td className="border border-gray-300 px-4 py-2">{lastName}</td>
-                      <td className="border border-gray-300 px-4 py-2">{email}</td>
-                      <td className="border border-gray-300 px-4 py-2">{username}</td>
-                      <td className="border border-gray-300 px-4 py-2">{member.user.plainPassword}</td>
+                    <tr key={index} className={index % 2 === 0 ? "bg-gray-100" : ""}>
+                      <td className="p-4">
+                        <Typography 
+                        {...props}
+                        variant="small" className="text-gray-700">
+                          {firstName}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                        {...props}
+                         variant="small" className="text-gray-700">
+                          {lastName}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                        {...props}
+                         variant="small" className="text-gray-700">
+                          {email}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                        {...props}
+                         variant="small" className="text-gray-700">
+                          {username}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                        {...props}
+                         variant="small" className="text-gray-700">
+                          {member.user.plainPassword}
+                        </Typography>
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-          </div>
+          </Card>
         </div>
+        <Footer />
       </div>
-    </>
+    </div>
   );
 };
 

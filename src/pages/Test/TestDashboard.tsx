@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Sidebar } from "../../components";
+import { Footer, Header, Sidebar } from "../../components";
 import testIcon from "../../assets/test.png";
 import { IoArrowRedoSharp } from "react-icons/io5";
 import { CgPlayButtonO } from "react-icons/cg";
@@ -10,7 +10,6 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import {
   Box,
   Grid,
-  Typography,
   IconButton,
   Card,
   CardContent,
@@ -25,6 +24,7 @@ import {
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getTestById, getTestWithGroups } from "../../api/test";
 import { Circles } from "react-loader-spinner";
+import { Button, Typography } from "@material-tailwind/react";
 
 const TestDashboard: React.FC = () => {
   const { id } = useParams();
@@ -63,6 +63,8 @@ const TestDashboard: React.FC = () => {
     fetchData();
   }, [id]);
 
+  const props:any={};
+
   return (
     <Box
       sx={{
@@ -74,18 +76,28 @@ const TestDashboard: React.FC = () => {
       }}
     >
       <Sidebar />
+      
       <Box
+      className="w-full"
         sx={{
-          flexGrow: 1,
-          p: { xs: 2, sm: 5 },
+
+          
           backgroundColor: "background.default",
         }}
       >
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
+        <Header/>
+       
+        <Grid  className="my-4 px-3 min-h-screen justify-start items-start relative" >
+          <Grid className="w-full" item xs={12}>
             {/* Main Test Card */}
-            <Card sx={{ boxShadow: 3, borderLeft: 4, borderColor: "primary.main" }}>
-              <CardContent>
+            <Card
+            className="mt-4 relative"
+            
+            sx={{ boxShadow: 1 }}>
+
+              <CardContent
+              className="mb-2">
+                
                 <Grid container spacing={2}>
                   <Grid
                     item
@@ -96,9 +108,10 @@ const TestDashboard: React.FC = () => {
                     justifyContent="space-between"
                   >
                     <Box>
-                      <Typography
-                        variant="h5"
-                        component="h1"
+                      <Typography 
+                      {...props}
+                        variant="h3"
+                      
                         fontFamily="poppins"
                         fontWeight="bold"
                       >
@@ -118,22 +131,24 @@ const TestDashboard: React.FC = () => {
                       mt={2}
                     >
                       <Box display="flex" gap={2}>
-                        <button
-                          className="bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
+                        <Button
+                        { ...props}
+                          className="bg-color2 hover:bg-color1 text-white px-4 md:py-2  flex items-center"
                           onClick={() =>
                             navigate(`/teacher-dashboard/test-dashboard/preview/${id}`)
                           }
                         >
                           <CgPlayButtonO className="mr-2" />
                           Preview
-                        </button>
-                        <button
-                          className=" bg-color2 hover:bg-color1 text-white px-4 md:py-2 rounded-lg text-sm flex items-center"
+                        </Button>
+                        <Button
+                        {...props}
+                          className=" bg-color2 hover:bg-color1 text-white px-4 md:py-2 flex items-center"
                           onClick={() => navigate("/teacher-dashboard/selecttest")}
                         >
                           <IoArrowRedoSharp className="mr-2" />
                           Assign Test
-                        </button>
+                        </Button>
                       </Box>
                       <Box display="flex" gap={1}>
                         <Tooltip title="Statistics">
@@ -176,10 +191,11 @@ const TestDashboard: React.FC = () => {
                   </Grid>
                 </Grid>
               </CardContent>
+              <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-color3 via-color2 to-color1"></span>
             </Card>
           </Grid>
           {loading ? (
-            <div className="flex text-center justify-center items-center mx-auto mt-40">
+            <div className="flex text-center justify-center items-center mx-auto">
               <Circles
                 height="80"
                 width="80"
@@ -190,47 +206,58 @@ const TestDashboard: React.FC = () => {
             </div>
           ) : (
             <Grid item xs={12}>
-              <Typography className="text-3xl" sx={{ mb: 2 }}>
+              <Typography {...props} className="text-2xl pb-2 mt-5 font-[Poppins]" >
                 Assigned {groups.length} times
               </Typography>
               <TableContainer component={Paper}>
-                <Table>
-                  <TableBody>
-                    {groups.map((group: any) => (
-                      <TableRow key={group.id}>
-                        <TableCell>
-                          <Box display="flex" alignItems="center">
-                            <FcStatistics style={{ marginRight: "8px" }} />
-                            <Typography variant="body1">
-                              {group.AssignedTestGroups?.Groups?.groupName}
-                            </Typography>
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                        <Link to={`/teacher-dashboard/grouptest/${group.AssignedTestGroups?.id}`} state={{
-                          group1:group.AssignedTestGroups?.Groups,
-                          groupTest1:group
-                        }}>  <Typography variant="body2">Settings</Typography></Link>
-                        </TableCell>
-                        <TableCell>
-                          <button className="bg-white border border-color2 hover:border-fore text-fore px-4 md:py-2 rounded-lg text-sm flex items-center">
-                          {group.availabilityStatus==="available"?"Available":"Unavailable"}
+  <Table>
+    <TableBody>
+      {groups.map((group: any) => (
+        <TableRow key={group.id} className="hover:bg-gray-100">
+          <TableCell className="w-9/12  ">
+            {/* <FcStatistics /> */}
+            <Typography {...props} variant="span"  className="truncate">
+              {group.AssignedTestGroups?.Groups?.groupName}
+            </Typography>
+          </TableCell>
+          <TableCell className="w-1/12 text-right">
+            <Link
+              to={`/teacher-dashboard/grouptest/${group.AssignedTestGroups?.id}`}
+              state={{
+                group1: group.AssignedTestGroups?.Groups,
+                groupTest1: group
+              }}
+              className="text-blue-500 hover:underline"
+            >
+              <Typography {...props} variant="p">Settings</Typography>
+            </Link>
+          </TableCell>
+          <TableCell className="w-1/12 text-right">
+            <div className="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-lg text-sm">
+              {group.availabilityStatus === "available" ? "Available" : "Unavailable"}
+            </div>
+          </TableCell>
+          <TableCell className="w-1/12 text-right">
+            <Button
+            {...props}
+             className="bg-color1 hover:bg-color2 text-white px-5 py-2  text-sm">
+              RESULTS
+            </Button>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+</TableContainer>
 
-                          </button>
-                        </TableCell>
-                        <TableCell>
-                          <button className="bg-color2 hover:bg-color1 text-white px-5 md:py-2 rounded-md text-sm flex items-center">
-                            RESULTS
-                          </button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+
             </Grid>
           )}
+          
         </Grid>
+      
+
+        <Footer />
       </Box>
     </Box>
   );
