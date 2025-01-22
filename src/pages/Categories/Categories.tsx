@@ -1,14 +1,27 @@
-import { CategoryTable,  Sidebar} from "../../components";
+import { CategoryTable,  Footer,  Header,  Sidebar} from "../../components";
 // import { HiOutlinePlus } from "react-icons/hi";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { AiOutlineExport } from "react-icons/ai";
 import CategoryManage from "../../components/Categories/CategoryManage";
+import { useState } from "react";
+import { getQuestionsCountByCategoryId } from "@/api/child-category";
 
 const Categories = () => {
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+   const fetchCategories = async () => {
+      const category = await getQuestionsCountByCategoryId();
+      setCategories(category.data);
+      setLoading(false);
+    };
+
   return (
-    <div className="h-auto border-t border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
+    <div className="h-auto border-t !font-[Poppins] border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
       <Sidebar />
+
       <div className="dark:bg-blackPrimary bg-whiteSecondary w-full ">
+      <Header />
         <div className="dark:bg-blackPrimary bg-whiteSecondary py-10">
           <div className="px-4 sm:px-6 lg:px-8 flex justify-between items-center max-sm:flex-col max-sm:gap-5">
             <div className="flex flex-col gap-3">
@@ -70,14 +83,15 @@ const Categories = () => {
           </div> */}
      
 
-          <CategoryManage/>
+          <CategoryManage fetchCategories={fetchCategories}/>
 
-                <CategoryTable />
+                <CategoryTable  categories={categories} setCategories={setCategories } fetchCategories={fetchCategories} loading={loading}/>
           <div className="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-6 max-sm:flex-col gap-4 max-sm:pt-6 max-sm:pb-0">
             {/* <RowsPerPage />
             <Pagination /> */}
           </div> 
         </div>
+        <Footer/>
       </div>
     </div>
   );

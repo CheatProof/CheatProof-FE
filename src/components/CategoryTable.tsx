@@ -1,24 +1,20 @@
 import { nanoid } from "nanoid";
 // import { Link } from "react-router-dom";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
-import { getQuestionsCountByCategoryId, deleteChildCategory, updateChildCategory } from "../api/child-category"; // Add your update function here
+import {  deleteChildCategory, updateChildCategory } from "../api/child-category"; // Add your update function here
 import { useEffect, useState } from "react";
 import { Circles } from "react-loader-spinner";
 
-const CategoryTable = () => {
-  const [categories, setCategories] = useState<any[]>([]);
+const CategoryTable = ({categories,setCategories,fetchCategories,loading}:any) => {
+  
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [categoryIdToDelete, setCategoryIdToDelete] = useState<string | null>(null);
   const [categoryIdToEdit, setCategoryIdToEdit] = useState<string | null>(null);
   const [newCategoryName, setNewCategoryName] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+  
 
-  const fetchCategories = async () => {
-    const category = await getQuestionsCountByCategoryId();
-    setCategories(category.data);
-    setLoading(false);
-  };
+
 
   const handleDeleteClick = (categoryId: string) => {
     setCategoryIdToDelete(categoryId);
@@ -28,7 +24,7 @@ const CategoryTable = () => {
   const confirmDelete = async () => {
     if (categoryIdToDelete) {
       await deleteChildCategory(categoryIdToDelete);
-      setCategories(categories.filter((category) => category.id !== categoryIdToDelete));
+      setCategories(categories.filter((category:any) => category.id !== categoryIdToDelete));
       setShowDeleteModal(false);
     }
   };
@@ -43,7 +39,7 @@ const CategoryTable = () => {
     if (categoryIdToEdit && newCategoryName.trim()) {
       await updateChildCategory(categoryIdToEdit, newCategoryName); // Call your update API
       setCategories(
-        categories.map((category) =>
+        categories.map((category:any) =>
           category.id === categoryIdToEdit ? { ...category, categoryName: newCategoryName } : category
         )
       );
@@ -56,7 +52,7 @@ const CategoryTable = () => {
   }, []);
 
   return (
-    <div>
+    <div className="!font-[Poppins]">
       <table className="mt-6 w-full whitespace-nowrap text-left max-lg:block max-lg:overflow-x-scroll">
         <colgroup>
           <col className="w-full sm:w-4/12" />

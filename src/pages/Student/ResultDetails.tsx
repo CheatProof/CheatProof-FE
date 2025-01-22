@@ -15,7 +15,8 @@ const ResultDetails = () => {
   const user:any = localStorage.getItem('user')
 
   const location = useLocation()
-  const {result}=location.state
+  const {result}=location?.state
+
   console.log(result)
 
   return (

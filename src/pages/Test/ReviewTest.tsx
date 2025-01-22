@@ -160,7 +160,7 @@
 // export default ReviewTest;
 
 
-import { Sidebar } from "../../components";
+import { Footer, Header, Sidebar } from "../../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { FiFileText } from "react-icons/fi";
@@ -177,8 +177,9 @@ const ReviewTest = () => {
     <>
       <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
         <Sidebar />
-        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-9 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
-          <div className="w-full pl-3">
+        <div className="dark:bg-blackPrimary bg-whiteSecondary w-full ">
+          <Header />
+          <div className="w-full pl-3 min-h-screen flex flex-col flex-wrap justify-center">
             {/* Stepper */}
             {/* <div className="flex items-center justify-center mb-8">
               <div className="flex gap-6 items-center text-gray-700 dark:text-gray-300">
@@ -209,7 +210,7 @@ const ReviewTest = () => {
                 )}
               </div>
             </div> */}
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center mb-5">
                 <div className="flex gap-6 items-center text-gray-700 dark:text-gray-300">
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 text-blackSecondary dark:text-white rounded-full flex items-center justify-center font-medium">1</div>
@@ -262,7 +263,7 @@ const ReviewTest = () => {
                 </button>
                 <button
                   className="bg-color1 text-white px-6 py-2 rounded-lg font-semibold"
-                  onClick={() => navigate("/teacher-dashboard/group-add-member/:id")}
+                  onClick={() => navigate(`/teacher-dashboard/group-add-member/${group.id}`)}
                 >
                   Add members to the group
                 </button>
@@ -276,12 +277,13 @@ const ReviewTest = () => {
               </p>
               <button
                 className="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold"
-                onClick={() => navigate("/teacher-dashboard/allgroups")}
+                onClick={() => navigate("/teacher-dashboard/group-management/"+group.id)}
               >
                 Notify Members
               </button>
             </div>
           </div>
+          <Footer/>
         </div>
       </div>
     </>

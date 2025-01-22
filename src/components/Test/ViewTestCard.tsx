@@ -1,12 +1,14 @@
 import testIcon from "../../assets/test.png";
 import { FcQuestions } from "react-icons/fc";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import { Card, CardContent, Typography, Box, Grid, Avatar } from "@mui/material";
+import { Card, CardContent, Box, Grid, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Typography } from "@material-tailwind/react";
 
 
 
 const ViewTestCard = ({ test }:any) => {
+  const props :any = {}
   const navigate = useNavigate();
   console.log(test);
 
@@ -16,8 +18,6 @@ const ViewTestCard = ({ test }:any) => {
     onClick={() => navigate(`/teacher-dashboard/test-dashboard/${test.id}`)}
       sx={{
         width: 300,
-        borderLeft: 4,
-        borderColor: "primary.main",
         boxShadow: 3,
         cursor: "pointer",
         transition: "transform 0.3s ease-in-out",
@@ -28,17 +28,12 @@ const ViewTestCard = ({ test }:any) => {
         },
       }}
     >
-      <CardContent>
+      <CardContent style={{position:"relative"}}>
         <Typography
           variant="h6"
-          component="h3"
-          fontWeight="bold"
-          sx={{
-            "&:hover": {
-              color: "primary.main",
-            },
-            transition: "color 0.3s",
-          }}
+          {...props}
+          className="font-[Poppins]"
+          
         >
           {test.testName}
         </Typography>
@@ -46,11 +41,11 @@ const ViewTestCard = ({ test }:any) => {
           <Box>
             <Box display="flex" alignItems="center" mb={1}>
               <FcQuestions style={{ marginRight: "8px" }} />
-              <Typography variant="body2">{test.assignedQuestionCount} Questions</Typography>
+              <Typography {...props} className="font-[Poppins]">{test.assignedQuestionCount} Questions</Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <IoCheckmarkSharp color="green" style={{ marginRight: "8px" }} />
-              <Typography variant="body2">Total pts: {test.totalAssignedPoints ? test.totalAssignedPoints : "0"}</Typography>
+              <Typography className="font-[Poppins]" {...props} >Total pts: {test.totalAssignedPoints ? test.totalAssignedPoints : "0"}</Typography>
             </Box>
           </Box>
           <Avatar
@@ -60,7 +55,10 @@ const ViewTestCard = ({ test }:any) => {
             variant="square"
           />
         </Grid>
+        <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-color3 via-color2 to-color1"></span>
+                 
       </CardContent>
+      
     </Card>
   );
 };

@@ -187,7 +187,7 @@ import { getAllParentCategories, createParentCategory } from "../../api/parent-c
 import { createChildCategory } from "../../api/child-category";
 import { Circles } from "react-loader-spinner";
 
-const CategoryManage: React.FC = () => {
+const CategoryManage: React.FC<any> = ({fetchCategories}:any) => {
   const [categoryName, setCategoryName] = useState("");
   const [parentCategory, setParentCategory] = useState("");
   const [parentCategories, setParentCategories] = useState<any[]>([]);
@@ -203,7 +203,10 @@ const CategoryManage: React.FC = () => {
       const data = await createChildCategory(newCategory);
 
       if (data.message === "Category created successfully") {
+
         toast.success("New category added successfully!"); // Show success toaster
+        fetchCategories(); // Fetch updated categories after adding new one
+
         setCategoryName("");
         setParentCategory("");
       } else {

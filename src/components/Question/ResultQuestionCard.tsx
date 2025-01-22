@@ -42,7 +42,7 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
           question?.MultipleChoiceQuestions?.MultipleChoiceOptions?.map(
             (opt: any, optIdx: any) => {
               const userAnswer = userAnswers?JSON.parse(userAnswers):null;
-              const isUserAnswer =userAnswers? userAnswer.includes(opt.id):null; // Check if user's answer includes this option
+              const isUserAnswer =userAnswers? userAnswer?.includes(opt.id):null; // Check if user's answer includes this option
               const isCorrect = opt.isAnswer;
               return (
                 <button

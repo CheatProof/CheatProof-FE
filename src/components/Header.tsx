@@ -86,7 +86,7 @@ import { setSidebar } from "../features/dashboard/dashboardSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Profile from '../assets/user.png';
 // import { toggleDarkMode } from "../features/darkMode/darkModeSlice";
-import Logo from "../assets/CheatProof.svg";
+// import Logo from "../assets/CheatProof.svg";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -102,8 +102,8 @@ const Header = () => {
 
   return (
 
-<header className="sticky top-0 z-50 dark:bg-blackPrimary bg-white shadow-md">
-  <div className="flex justify-between items-center px-4 sm:px-6 lg:px-9">
+<header className=" sticky top-0 z-50 dark:bg-blackPrimary bg-white shadow-md">
+  <div className="flex justify-end py-1 items-center px-4 sm:px-6 lg:px-9">
     {/* Sidebar Toggle Icon (Visible on smaller screens) */}
     <HiOutlineMenu
       className="text-2xl dark:text-whiteSecondary text-blackPrimary xl:hidden cursor-pointer"
@@ -111,12 +111,7 @@ const Header = () => {
     />
 
     {/* Logo */}
-    <Link className="flex items-center" to="/">
-      <img className="w-[3.5rem] p-2" src={Logo} alt="Logo" />
-      <span className="dark:text-whiteSecondary text-blackPrimary text-xl font-bold hidden sm:block">
-        CheatProof
-      </span>
-    </Link>
+   
 
     {/* Middle Section (Hidden on smaller screens, becomes a dropdown or collapses) */}
     {/* <div className="hidden xl:flex gap-4 items-center">

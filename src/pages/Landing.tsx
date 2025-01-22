@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Tabs, Tab, Box, CircularProgress } from "@mui/material";
-import { Sidebar } from "../components";
+import  Sidebar  from "../components/Sidebar";
 import Dashboard from "../components/Dashboard/Dashboard";
 import { getTeacherAnalytics } from "@/api/auth";
+import { Footer, Header } from "@/components";
 
 // TabPanel component for displaying content based on the active tab
 const TabPanel = ({ children, value, index }: any) => {
@@ -51,10 +52,12 @@ const Landing: React.FC = () => {
   }, []);
 
   return (
-    <div className="h-auto border-t dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
+    <div className="h-auto border-t max-w-[100vw]  dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
       <Sidebar />
-      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full pt-6 pl-3 max-sm:pt-6 max-sm:pl-5 flex max-[1700px]:flex-wrap gap-x-10 max-[400px]:pl-2">
-        <div className="w-full text-black">
+      
+      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full  ">
+      <Header />
+        <div className="w-full text-black min-h-screen py-2 px-2">
           <Tabs value={tabValue} onChange={handleChange}>
             <Tab label="Overview" />
             <Tab label="Latest Result" />
@@ -76,6 +79,8 @@ const Landing: React.FC = () => {
             <div>Tab 2 Content</div>
           </TabPanel>
         </div>
+    <Footer />
+
       </div>
     </div>
   );
