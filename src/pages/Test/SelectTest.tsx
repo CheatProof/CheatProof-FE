@@ -1,7 +1,7 @@
 import { Footer, Header, Sidebar } from '../../components';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getAllTests, getTestByUser } from '@/api/test'; // Adjust API endpoint for fetching tests by category
+import {  getTestByUser } from '@/api/test'; // Adjust API endpoint for fetching tests by category
 import { getAllParentCategories } from '../../api/parent-category';
 import { getAllChildCategories } from '../../api/child-category';
 import {
