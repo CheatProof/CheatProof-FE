@@ -1,10 +1,11 @@
 import {  HiOutlineUpload, HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
-import { InputWithLabel, Sidebar, SimpleInput } from "../components";
+import { Footer, Header, InputWithLabel, Sidebar, SimpleInput } from "../components";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import profile from "../assets/user.png";
 import { Button } from "@/components/ui/button";
 import { updatePassword, updateUsername } from "@/api/auth";
+// import Footer from "./Footer";
 
 const Profile = () => {
   const data: any = localStorage.getItem("user");
@@ -113,6 +114,7 @@ const Profile = () => {
     <div className="h-auto border-t border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
       <Sidebar />
       <div className="dark:bg-blackPrimary bg-whiteSecondary w-full">
+        <Header/>
         <div className="dark:bg-blackPrimary bg-whiteSecondary py-10">
           <div className="px-4 sm:px-6 lg:px-8 pb-8 border-b border-gray-800 flex justify-between items-center max-sm:flex-col max-sm:gap-5">
             <div className="flex flex-col gap-3">
@@ -314,6 +316,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
       {/* Include Toast Container */}
       {/* <div>{toast.success && <toast />}</div> */}

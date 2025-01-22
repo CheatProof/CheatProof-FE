@@ -24,7 +24,7 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
     }
 
     return (
-        <Modal className='flex justify-center items-center z-50' open={open}  >
+        <Modal className='flex justify-center items-center' open={open}  >
            
             <div className="p-4 w-full max-w-2xl mx-auto max-h-[500px]  bg-white rounded-md shadow-lg">
                 <div className="flex justify-between items-center">
@@ -51,7 +51,7 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
                                     <div className="flex items-center justify-between w-full">
                                         <div className="flex items-center">
                                             {/* <BookmarkBorderIcon    className="mr-2" /> */}
-                                            {question.bookmarked ? <FaBookmark onClick={()=>handleBookmark(index)} className="mr-2 text-2xl"/> : <FaRegBookmark onClick={()=>handleBookmark(index)} className='mr-2 text-2xl'/>}
+                                           <span className='w-[7%] mr-2'> {question.bookmarked ? <FaBookmark size={20} onClick={()=>handleBookmark(index)} className="  "/> : <FaRegBookmark size={20} onClick={()=>handleBookmark(index)} className=' '/>}</span>
                                             <ListItemText
                                                 primary={<div
                                                     dangerouslySetInnerHTML={{ __html: question.questionText }}

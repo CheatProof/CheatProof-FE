@@ -428,7 +428,7 @@ function App() {
   return (
     <>
       <div className="flex sticky top-0">
-        <Sidebar>
+        <Sidebar to="/teacher-dashboard">
           <SidebarItem icon={<LayoutDashboard size={20} />} to="/teacher-dashboard" text="Dashboard" active={location.pathname === '/teacher-dashboard'} />
           <MultilevelSidebarItem icon={<StickyNote size={20} />} text="Tests" active={location.pathname.startsWith('/teacher-dashboard/alltests') || location.pathname.startsWith('/teacher-dashboard/questionbank') || location.pathname.startsWith('/teacher-dashboard/categories')}>
             {[

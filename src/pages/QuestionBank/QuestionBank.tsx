@@ -145,7 +145,7 @@ const QuestionBank = () => {
       <div className="dark:bg-blackPrimary bg-whiteSecondary w-full ">
         <Header />
 
-        <div className="w-full pl-3">
+        <div className="w-full pl-3 min-h-screen">
         <div className="w-full px-3 py-4 flex text-center justify-center md:justify-start ">
         <span className="text-2xl font-semibold ">Tests {'>'} Question Bank </span>
         </div>
@@ -305,7 +305,7 @@ const QuestionBank = () => {
                   <QuestionCard key={idx} question={question} idx={currentPage} hide={hideAnswer} onDelete={getQuestions} />
                 ))}
               </div>
-              <div className="flex justify-center mt-8 mb-4">{renderPagination()}</div>
+              <div className="flex justify-center mt-8 mb-4">{questions.length===0?"": renderPagination()}</div>
             </>
           )}
         </div>

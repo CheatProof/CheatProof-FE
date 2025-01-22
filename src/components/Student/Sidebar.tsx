@@ -42,7 +42,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="my-3">  
-            <Link className="flex items-center py-4" to="/">
+            <Link className="flex items-center py-4" to="/student-dashboard">
           {/* <FaReact className="text-4xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer" /> */}
           <img className="w-[4rem] p-3" src={Logo}/>
           <span className="dark:text-whiteSecondary text-fore text-xl font-bold">CheatProof</span>
@@ -50,11 +50,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="mt-8">
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                <SidebarMenuItem className="flex  items-center" key={item.title}>
+                  <SidebarMenuButton className="" asChild>
                     <Link to={item.url}>
-                      <item.icon className="text-fore mt-4"/>
-                      <span className="text-fore text-lg mt-4 font-semibold">{item.title}</span>
+                      <item.icon className="text-fore py-4"/>
+                      <span className="text-fore text-lg  font-semibold">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

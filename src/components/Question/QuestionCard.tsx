@@ -220,7 +220,7 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
         <div className="bg-white rounded-lg shadow-lg p-6 w-96">
           <h2 className="text-xl font-semibold mb-4">Used In</h2>
           {/* TODO: Implement used in modal */}
-      {usedInQuestions.length===0 ?(  <ul>
+      {usedInQuestions.length!==0 ?(  <ul>
           {usedInQuestions.map((test:any, index:any) => (
             <li className=" list-none" key={index}>
               <span className="text-color2 text-sm mr-2">{index + 1}. </span>
