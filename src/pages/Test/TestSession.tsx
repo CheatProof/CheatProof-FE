@@ -460,7 +460,7 @@ function TestSession() {
 
       )}
 
-<AlertDialog open={showTabWarning} onOpenChange={() => setShowTabWarning(false)}>
+<AlertDialog    open={showTabWarning} onOpenChange={() => setShowTabWarning(false)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Tab Switch Detected</AlertDialogTitle>

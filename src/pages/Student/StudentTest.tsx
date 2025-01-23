@@ -5,7 +5,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAssignedTestsByGroup } from "@/api/test-session";
 import { Footer } from "@/components";
-import { Circles } from "react-loader-spinner";
+// import { Circles } from "react-loader-spinner";
 import { CircularProgress } from "@mui/material";
 import NotFoundImage from "@/assets/undraw_online-test_20lm.svg"
 

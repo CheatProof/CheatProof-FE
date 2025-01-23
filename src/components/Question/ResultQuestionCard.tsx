@@ -16,7 +16,7 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
       {/* Question header */}
       <div className="mb-4 ml-2">
         <div className="flex flex-row border-b-2 border-gray-200">
-          <h2 className="text-lg font-semibold text-black">Question no {idx+1} <span className={` ${userAnswers?"text-color1":"text-red-600"}`}>({userAnswers?"Attempted":"Not Attempted"})</span></h2>
+          <h2 className="text-lg font-semibold text-black">Question {"#"} {idx+1} <span className={` ${userAnswers?"text-color1":"text-red-600"}`}>({userAnswers?"Attempted":"Not Attempted"})</span></h2>
           <p className="mx-auto mr-8 text-color2 text-sm">
             {/* {question.Categories.ParentCategories.parentCategoryName} / {question.Categories.categoryName} */}
           </p>
@@ -45,16 +45,18 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
               const isUserAnswer =userAnswers? userAnswer?.includes(opt.id):null; // Check if user's answer includes this option
               const isCorrect = opt.isAnswer;
               return (
+                <>
                 <button
                   key={optIdx}
-                  className={`w-full px-4 py-2 text-left rounded-lg ${
+                  className={`w-full flex  items-center px-4 py-2 text-left rounded-lg ${
                     isCorrect
-                      ? "bg-green-100 border border-green-500" // Highlight correct answers
+                      ? "!bg-green-100 border border-green-500" // Highlight correct answers
                       : isUserAnswer  
-                      ? "bg-red-100 border border-red-500" // Highlight wrong answers
+                      ? "!bg-red-100 border border-red-500" // Highlight wrong answers
                       : "hover:bg-gray-100 text-gray-700"
                   }`}
                 >
+                  <div className="flex items-center">
                   <span className="inline-block mr-2">
                     {isCorrect ? (
                       <CiCircleCheck className="text-green-600" />
@@ -68,7 +70,13 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
                     className="inline-block"
                     dangerouslySetInnerHTML={{ __html: opt.optionText }}
                   />
+                  </div>
+                  
+                {isUserAnswer && <span className="text-xs w-2/12 pl-4">(Your Answer)</span>}
+
+                  
                 </button>
+                </>
               );
             }
           )}
@@ -82,9 +90,9 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
                 key={optIdx}
                 className={`w-full px-4 py-2 text-left rounded-lg ${
                   isCorrect
-                    ? "bg-green-100 border border-green-500"
+                    ? "!bg-green-100 border border-green-500"
                     : isUserAnswer
-                    ? "bg-red-100 border border-red-500"
+                    ? "!bg-red-100 border border-red-500"
                     : "hover:bg-gray-100 text-gray-700"
                 }`}
               >
@@ -101,6 +109,7 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
                   className="inline-block"
                   dangerouslySetInnerHTML={{ __html: opt.optionText }}
                 />
+                 {isUserAnswer && <span className="text-xs w-2/12 pl-4">(Your Answer)</span>}
               </button>
             );
           })}

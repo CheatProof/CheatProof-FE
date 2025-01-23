@@ -9,6 +9,7 @@ import { getAllChildCategories } from '../../api/child-category';
 import toast, { Toaster } from 'react-hot-toast';
 import { Circles } from 'react-loader-spinner';
 import { Button } from '@material-tailwind/react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const TestManage: React.FC = () => {
   
@@ -115,8 +116,29 @@ const TestManage: React.FC = () => {
   const [creatingTest, setCreatingTest] = useState(false); // Track creation process
 
 const handleCreateTest = async () => {
+
   setCreatingTest(true); // Start spinner
+
+
   try {
+    // validation error toast
+    if (!newTestName ||!newChildCategory) {
+      toast.error("Please fill out all required fields", {
+        position: "top-center",
+        duration: 5000,
+      });
+      return;
+    }
+    // Create a new test
+    // TODO: validate inputs
+    const testNameRegex = /^[a-zA-Z0-9 ]+$/;
+    if (!testNameRegex.test(newTestName)) {
+      toast.error("Test name can only contain alphanumeric characters and spaces", {
+        position: "top-center",
+        duration: 5000,
+      });
+      return;
+    }
     const body = { testName: newTestName, categoryId: newChildCategory };
     const data = await createTestByUser(body);
     if (data.code === 201) {
@@ -248,14 +270,15 @@ const props:any={};
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: 400,
+      width: 600,
       bgcolor: 'background.paper',
       border: '2px solid #000',
       boxShadow: 24,
+      borderRadius: 4,
       p: 4,
     }}
   >
-    <Typography id="modal-title" variant="h6" component="h2" mb={2}>
+    <Typography className='!font-[Poppins]' id="modal-title" variant="h6" component="h2" mb={2}>
       Create New Test
     </Typography>
 
@@ -266,14 +289,16 @@ const props:any={};
       value={newTestName}
       onChange={(e) => setNewTestName(e.target.value)}
       sx={{ mb: 2 }}
+      className='!font-[Poppins]'
     />
 
     <FormControl sx={{ mb: 2 }} fullWidth>
-      <InputLabel>Category</InputLabel>
+      <InputLabel className='!font-[Poppins]'>Category</InputLabel>
       <Select
         value={newTestCategory}
         onChange={(e) => setNewTestCategory(e.target.value)}
         label="Category"
+        className='!font-[Poppins]'
       >
         {parentCategories.map((parentCategory: any) => (
           <MenuItem key={parentCategory.id} value={parentCategory.id}>
@@ -285,11 +310,12 @@ const props:any={};
 
     {newTestCategory && (
       <FormControl fullWidth>
-        <InputLabel>Subcategory</InputLabel>
+        <InputLabel className='!font-[Poppins]'>Subcategory</InputLabel>
         <Select
           value={newChildCategory}
           onChange={(e) => setNewChildCatgory(e.target.value)}
           label="Subcategory"
+          className='!font-[Poppins]'
         >
           {childCategories
             .filter(
@@ -304,8 +330,18 @@ const props:any={};
         </Select>
       </FormControl>
     )}
+        <Alert className="mt-4">
+                <AlertDescription>
+                  Instructions for creating a group:
+                  <ul className="list-disc ml-4 mt-2">
+                    <li>Group name should be unique</li>
+                    <li>Avoid special characters in group name</li>
+                    <li>Maximum length is 50 characters</li>
+                  </ul>
+                </AlertDescription>
+              </Alert>
 
-    <Box textAlign="right" mt={2}>
+    <Box textAlign="right" className="flex justify-start gap-2" mt={2}>
       <Button
       // variant="contained"
         
@@ -326,7 +362,22 @@ const props:any={};
         )}
         Create
       </Button>
+
+      <Button
+      // variant="contained"
+        
+     
+        
+      {...props}
+        onClick={()=>handleModalClose()}
+        disabled={creatingTest} 
+        style={{ display: 'flex', alignItems: 'center', gap: '10px'}}
+      >
+     
+        Cancel
+      </Button>
     </Box>
+
   </Box>
 </Modal>
 

@@ -7,14 +7,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SidebarContext = createContext<any>(null);
 
-export default function Sidebar({ children,name,page}:any) {
+export default function Sidebar({ children,name,page,to}:any) {
     const [expanded, setExpanded] = useState(true)
     return (
         <>
             <aside className=" sticky top-0 h-[100vh]">
                 <nav className="h-full  flex flex-col bg-white border-r shadow-sm">
                     <div className="p-4 pb-2 flex justify-between items-center">
-                 {expanded &&   <Link className="flex items-center" to="/">
+                 {expanded &&   <Link className="flex items-center" to={to}>
       <img className="w-[3.5rem] p-2" src={logo} alt="Logo" />
       <span className="dark:text-whiteSecondary text-blackPrimary text-xl font-bold hidden sm:block">
         {name?"Test Editor":"CheatProof"}
