@@ -202,11 +202,45 @@ const GroupsManagement = () => {
             <h2 className="text-xl font-semibold">{group?.groupName}</h2>
           </div>
           
+          {/* onClick={()=>navigate(`/teacher-dashboard/group-add-member/${id}`)} */}
           <div className="flex items-center gap-2">
-            <Button onClick={()=>navigate(`/teacher-dashboard/group-add-member/${id}`)} variant="ghost" className="flex items-center gap-2">
+          <AlertDialog>
+            
+          <AlertDialogTrigger asChild>
+            <Button variant="ghost" className="flex items-center gap-2">
               <UserPlus className="w-4 h-4" />
               Add Members
             </Button>
+
+            </AlertDialogTrigger>
+  <AlertDialogContent>
+    <div className='flex justify-end text-xs'>
+  <AlertDialogCancel className='w-4 h-6'>x</AlertDialogCancel>
+    </div>
+    <AlertDialogHeader>
+      <AlertDialogTitle>How do you want to add members in the group?</AlertDialogTitle>
+      <AlertDialogDescription>
+        Members can be added manually or by self-registration, by using registeration codes.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+
+    
+  
+
+    <AlertDialogFooter>
+      {/* <AlertDialogCancel>Cancel</AlertDialogCancel> */}
+      <div className='flex gap-x-28 justify-between'>
+      <Button onClick={()=>navigate(`/teacher-dashboard/group-add-member/${id}`)} className='bg-color1 hover:bg-fore'><span>Add Members Manually</span></Button>
+      <Button onClick={()=>navigate(`/teacher-dashboard/group-code-user`)} className='bg-color1 hover:bg-fore'><span>Self Registration</span></Button>
+      </div>
+      
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+
+
+
 
             
             <AlertDialog>

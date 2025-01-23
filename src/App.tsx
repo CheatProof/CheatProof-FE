@@ -44,6 +44,9 @@ import StudentResults from "./pages/Student/Results";
 import ResultDetails from "./pages/Student/ResultDetails";
 import AddQuestionBulk from "./pages/Test/TestEditor/AddQuestionBulk";
 import ProfileStudent from "./pages/ProfileStudent";
+import AddMemberByCode from "./pages/GroupUser/AddMemberByCode";
+import RegistrationCodes from "./pages/GroupUser/RegistrationCode";
+import TestRegistration from "./pages/Test/TestRegistration";
 
 
 const router = createBrowserRouter([
@@ -58,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path:'test-registration',
+    element: <TestRegistration />
   },
   {
     path: "/teacher-dashboard",
@@ -144,7 +151,12 @@ const router = createBrowserRouter([
         element:<AddGroupUser/>
       },
       {
-        
+        path:"group-code-user",
+        element:<AddMemberByCode/> 
+      },
+      {
+        path:"group-registration-codes",
+        element:<RegistrationCodes /> 
       },
       {
         path:"group-add-member/new-members",
