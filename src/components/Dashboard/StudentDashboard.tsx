@@ -104,6 +104,7 @@ const StudentDashboard: React.FC = () => {
                     localStorage.setItem('tabSwitchCount',"0");
                     localStorage.setItem('Questions', JSON.stringify(JSON.parse(testSession.test).Tests.Questions));
                     localStorage.setItem('selectedAnswers', JSON.stringify(response.data.attemptedQuestions));
+                    localStorage.setItem('timer',response.data.attemptedQuestions.length === 0 ? JSON.parse(testSession.test).timeLimit :response.data.attemptedQuestions[response.data.attemptedQuestions.length - 1].timeTaken );
                     navigate(`/test-session/${testSession.assignedTestId}?sessionId=${testSession.id}`,{
                       state:{
                         testSession: testSession,

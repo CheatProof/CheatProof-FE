@@ -165,7 +165,7 @@ function TestSession() {
 
   const handleSelectAnswer = (questionId: string, answer: any | any[]) => {
     const newSelectedAnswers = selectedAnswers.map((ans: any) =>
-      ans.questionId === questionId ? { questionId, userAnswer:answer,timeTaken:240 } : ans
+      ans.questionId === questionId ? { questionId, userAnswer:answer,timeTaken:timer } : ans
     );
     if (!selectedAnswers.find((ans: any) => ans.questionId === questionId)) {
       newSelectedAnswers.push({ questionId, userAnswer:answer,timeTaken:240 });
@@ -450,6 +450,7 @@ function TestSession() {
            
           </div>
           <QuestionNavigationModal
+    selectedAnswers={selectedAnswers}
     questions={questions}
     open={modalOpen}
     onClose={closeModal}

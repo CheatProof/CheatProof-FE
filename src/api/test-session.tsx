@@ -199,6 +199,30 @@ export const resumeTest = async (testSession: any) => {
     throw error;
   }
 };
+
+// /get/testResults/:testSessionId
+
+export const getTestResultsTestSessionId = async (testSessionId:any) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/testSession//get/testResults/${testSessionId}`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}` // replace YOUR_ACCESS_TOKEN with your actual access token
+        }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching incomplete tests by student:", error);
+    throw error;
+  }
+}; 
+
+
+
   
 
 

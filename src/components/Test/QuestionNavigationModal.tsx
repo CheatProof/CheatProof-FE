@@ -7,10 +7,21 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 
-function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setClose}:any) {
+function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setClose,selectedAnswers}:any) {
     const [selectedTab, setSelectedTab] = useState(0);
     // const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     // const [modalOpen, setModalOpen] = useState<boolean>(false);
+// selectedAnswer 
+// [
+//     {
+//         questionId,
+//         userAnswer,
+
+//     }
+// ]
+    const isAnswered = (questionId:any)=> {
+        return selectedAnswers.some((answer:any)=>{return answer.questionId===questionId});
+    }
 
     const handleTabChange = (event:any, newValue:any) => {
         console.log(event);
@@ -57,8 +68,8 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
                                                     dangerouslySetInnerHTML={{ __html: question.questionText }}
                                                   />
                                               }
-                                                secondary={question.answered ? "Answered" : "Unanswered"}
-                                                className={`text-sm ${question.answered ? 'text-green-500' : 'text-red-500'}`}
+                                                secondary={isAnswered(question.id) ? "Answered" : "Unanswered"}
+                                                className={`text-sm ${isAnswered(question.id) ? 'text-green-500' : 'text-red-500'}`}
                                             />
                                         </div>
                                         <IconButton edge="end" onClick={() => {onClose(index)}}>
