@@ -1,27 +1,14 @@
-import {  HiOutlineUpload, HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
+import { HiOutlineUpload, HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
 import { Footer, Header, InputWithLabel, Sidebar, SimpleInput } from "../components";
 import { useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import profile from "../assets/user.png";
 import { Button } from "@/components/ui/button";
 import { updatePassword, updateUsername } from "@/api/auth";
-// import Footer from "./Footer";
 
 const Profile = () => {
   const data: any = localStorage.getItem("user");
   const user = JSON.parse(data);
-
-  // const [inputObject, setInputObject] = useState({
-  //   username: user.username,
-  //   email: user.email,
-  //   password: "",
-  //   confirmPassword: "",
-  // });
-
-  const inputObject:any = {
-    username: user.username,
-    email: user.email,
-  }
 
   const [passwordSection, setPasswordSection] = useState(false);
   const [usernameSection, setUsernameSection] = useState(false);
@@ -40,287 +27,199 @@ const Profile = () => {
   });
 
   const handlePasswordUpdate = async () => {
-
-    if (passwordInput.currentPassword === "" || passwordInput.newPassword === "" || passwordInput.confirmNewPassword === "") {
+    if (!passwordInput.currentPassword || !passwordInput.newPassword || !passwordInput.confirmNewPassword) {
       toast.error("All fields are required!");
       return;
     }
-    if (passwordInput.newPassword!== passwordInput.confirmNewPassword) {
+    if (passwordInput.newPassword !== passwordInput.confirmNewPassword) {
       toast.error("Passwords do not match!");
       return;
     }
+
     setLoadingPassword(true);
-    const body:any ={
+    const body: any = {
       password: passwordInput.currentPassword,
       newPassword: passwordInput.newPassword,
-    }
+    };
 
-    const response = await updatePassword(body)
-    if(response.code === 200){
-
-
+    const response = await updatePassword(body);
+    if (response.code === 200) {
       toast.success("Password updated successfully!");
-      setPasswordInput({
-        currentPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
-      });
+      setPasswordInput({ currentPassword: "", newPassword: "", confirmNewPassword: "" });
       setPasswordSection(false);
-      setLoadingPassword(false);
     } else {
-      const error = response?.errors.map((error:any) => error.msg)
-      error.join("\n");
-      toast.error(`${response.message} \n
-        ${error?error:""}`);
-      setLoadingPassword(false);
+      toast.error(response.message);
     }
-   
+    setLoadingPassword(false);
   };
 
   const handleUsernameUpdate = async () => {
-    if (usernameInput.newUsername === "" || usernameInput.confirmUsername === "") {
+    if (!usernameInput.newUsername || !usernameInput.confirmUsername) {
       toast.error("All fields are required!");
       return;
     }
-    if (usernameInput.newUsername!== usernameInput.confirmUsername) {
+    if (usernameInput.newUsername !== usernameInput.confirmUsername) {
       toast.error("Usernames do not match!");
       return;
     }
-    setLoadingUsername(true);
-    const body:any ={
-      username: usernameInput.newUsername,
-    }
-    const response = await updateUsername(body)
-    if(response.code === 200){
-     localStorage.setItem("user", JSON.stringify({...user,username:usernameInput.newUsername}))
 
+    setLoadingUsername(true);
+    const body: any = { username: usernameInput.newUsername };
+
+    const response = await updateUsername(body);
+    if (response.code === 200) {
+      localStorage.setItem("user", JSON.stringify({ ...user, username: usernameInput.newUsername }));
       toast.success("Username updated successfully!");
-      setUsernameInput({
-        newUsername: "",
-        confirmUsername: "",
-      });
+      setUsernameInput({ newUsername: "", confirmUsername: "" });
       setUsernameSection(false);
-      setLoadingUsername(false);
     } else {
-      const error = response?.errors.map((error:any) => error.msg)
-      error.join("\n");
-      toast.error(`${response.message} \n
-        ${error?error:""}`);
-      setLoadingUsername(false);
+      toast.error(response.message);
     }
-  }
+    setLoadingUsername(false);
+  };
 
   return (
-    <div className="h-auto border-t border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
+    <div className="h-auto flex bg-gray-100 dark:bg-gray-900">
       <Sidebar />
-      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full">
-        <Header/>
-        <div className="dark:bg-blackPrimary bg-whiteSecondary py-10">
-          <div className="px-4 sm:px-6 lg:px-8 pb-8 border-b border-gray-800 flex justify-between items-center max-sm:flex-col max-sm:gap-5">
-            <div className="flex flex-col gap-3">
-              <h2 className="text-3xl font-bold leading-7 dark:text-whiteSecondary text-blackPrimary">
-                Your Profile
-              </h2>
+      <div className="w-full">
+        <Header />
+        <div className="py-10">
+          <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">Your Profile</h2>
+              <Button className="bg-color1 hover:bg-color2 text-white px-4 py-2 rounded-lg">
+                Update Profile
+              </Button>
             </div>
-            {/* <WhiteButton
-              disabled={false}
-              textSize="lg"
-              width="48"
-              py="2"
-              text="Update profile"
-              // onClick={() => toast.info("Profile update coming soon!")}
-              // className="hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <HiOutlineSave className="dark:text-blackPrimary text-whiteSecondary text-xl" />
-            </WhiteButton> */}
-            <Button className="hover:bg-white border-fore border-2 hover:text-fore bg-fore text-white text-base font-medium py-5 px-5">
-              Update Profile
-            </Button>
-          </div>
-          <div className="px-4 sm:px-6 lg:px-8 pb-8 pt-8">
-            <div className="flex flex-col gap-4">
-              <div className="flex justify-between items-center max-sm:flex-col max-sm:gap-10">
-                <div className="flex items-center gap-4">
-                  <img
-                    src={profile}
-                    alt="Profile"
-                    className="rounded-full w-20 h-20"
-                  />
-                  <div>
-                    <p className="dark:text-whiteSecondary text-blackPrimary text-xl">
-                      {user.firstName + " " + user.lastName}
-                    </p>
-                    <p className="dark:text-whiteSecondary text-blackPrimary">
-                      {user.Roles[0].roleName}
-                    </p>
-                  </div>
-                </div>
 
-                <button
-                  onClick={() => toast("Change profile picture functionality coming soon!")}
-                  className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-base font-semibold py-3 px-5 duration-200 flex items-center justify-center gap-x-2 hover:shadow-md"
-                >
-                  <HiOutlineUpload className="" />
-                  <span className="">
-                    Change profile picture
-                  </span>
-                </button>
+            {/* Profile Header */}
+            <div className="flex items-center gap-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow">
+              <img src={profile} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
+              <div>
+                <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                  {user.firstName + " " + user.lastName}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{user.Roles[0].roleName}</p>
               </div>
+              <button
+                onClick={() => toast("Change profile picture functionality coming soon!")}
+                className="ml-auto bg-color1 hover:bg-color2 text-white text-sm font-semibold py-2 px-4 rounded-lg flex items-center gap-2"
+              >
+                <HiOutlineUpload />
+                Change Picture
+              </button>
+            </div>
 
-              <div className="flex flex-col gap-3 mt-5">
-                <InputWithLabel label="Your username">
-                  <p className="dark:text-whiteSecondary text-blackPrimary flex items-center gap-2">
-                    {inputObject.username}{" "}
-                    {/* <HiOutlineSave className="text-xl cursor-pointer hover:text-blue-500" /> */}
-                  </p>
+            {/* Information Section */}
+            <div className="mt-6">
+              <div className="flex flex-col gap-4">
+                <InputWithLabel label="Your Username">
+                  <p className="text-gray-800 dark:text-gray-200">{user.username}</p>
                 </InputWithLabel>
-                <InputWithLabel label="Your email">
-                  <p className="dark:text-whiteSecondary text-blackPrimary flex items-center gap-2">
-                    {inputObject.email}{" "}
-                    {/* <HiOutlineSave className="text-xl cursor-pointer hover:text-blue-500" /> */}
-                  </p>
+                <InputWithLabel label="Your Email">
+                  <p className="text-gray-800 dark:text-gray-200">{user.email}</p>
                 </InputWithLabel>
               </div>
+            </div>
 
-              {/* Collapsible Sections */}
-              <div className="mt-8">
-                {/* Change Password Section */}
-                <div className="border-b border-gray-600 pb-4 mb-4">
+            {/* Change Password Section */}
+            <div className="mt-8">
+              <button
+                onClick={() => setPasswordSection(!passwordSection)}
+                className="w-full text-left text-lg font-medium text-gray-800 dark:text-gray-200 flex justify-between items-center"
+              >
+                Change Password
+                {passwordSection ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+              </button>
+              {passwordSection && (
+                <div className="mt-4 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                  <InputWithLabel label="Current Password">
+                    <SimpleInput
+                      type="password"
+                      placeholder="Enter current password"
+                      value={passwordInput.currentPassword}
+                      onChange={(e) =>
+                        setPasswordInput({ ...passwordInput, currentPassword: e.target.value })
+                      }
+                    />
+                  </InputWithLabel>
+                  <InputWithLabel label="New Password">
+                    <SimpleInput
+                      type="password"
+                      placeholder="Enter new password"
+                      value={passwordInput.newPassword}
+                      onChange={(e) =>
+                        setPasswordInput({ ...passwordInput, newPassword: e.target.value })
+                      }
+                    />
+                  </InputWithLabel>
+                  <InputWithLabel label="Confirm New Password">
+                    <SimpleInput
+                      type="password"
+                      placeholder="Confirm new password"
+                      value={passwordInput.confirmNewPassword}
+                      onChange={(e) =>
+                        setPasswordInput({ ...passwordInput, confirmNewPassword: e.target.value })
+                      }
+                    />
+                  </InputWithLabel>
                   <button
-                    onClick={() => setPasswordSection(!passwordSection)}
-                    className="w-full text-left text-lg font-medium dark:text-whiteSecondary text-blackPrimary flex justify-between items-center hover:underline"
+                    onClick={handlePasswordUpdate}
+                    disabled={loadingPassword}
+                    className="mt-4 w-full bg-color1 hover:bg-color2 text-white py-2 rounded-lg"
                   >
-                    Change Password
-                    {passwordSection ? (
-                      <HiOutlineChevronUp className="text-xl" />
-                    ) : (
-                      <HiOutlineChevronDown className="text-xl" />
-                    )}
+                    {loadingPassword ? "Changing..." : "Update Password"}
                   </button>
-                  {passwordSection && (
-                    <div className="mt-4">
-                      <InputWithLabel label="Current Password">
-                        <SimpleInput
-                          type="password"
-                          placeholder="Current Password"
-                          value={passwordInput.currentPassword}
-                          onChange={(e) =>
-                            setPasswordInput({
-                              ...passwordInput,
-                              currentPassword: e.target.value,
-                            })
-                          }
-                        />
-                      </InputWithLabel>
-                      <InputWithLabel label="New Password">
-                        <SimpleInput
-                          type="password"
-                          placeholder="New Password"
-                          value={passwordInput.newPassword}
-                          onChange={(e) =>
-                            setPasswordInput({
-                              ...passwordInput,
-                              newPassword: e.target.value,
-                            })
-                          }
-                        />
-                      </InputWithLabel>
-                      <InputWithLabel label="Confirm New Password">
-                        <SimpleInput
-                          type="password"
-                          placeholder="Confirm New Password"
-                          value={passwordInput.confirmNewPassword}
-                          onChange={(e) =>
-                            setPasswordInput({
-                              ...passwordInput,
-                              confirmNewPassword: e.target.value,
-                            })
-                          }
-                        />
-                      </InputWithLabel>
-                      {/* <WhiteButton
-                        disabled={false}
-                        textSize="lg"
-                        width="48"
-                        py="2"
-                        text="Update Password"
-                        onClick={handlePasswordUpdate}
-                        // className="hover:bg-gray-200 dark:hover:bg-gray-700"
-                      /> */}
-                          <button onClick={handlePasswordUpdate}
-                      disabled={loadingPassword}
-                       className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-sm font-medium mt-4 py-2 px-3 duration-200 flex items-center justify-center hover:shadow-md"
-                > {loadingPassword?"Changing":"Update Password"}</button>
-                    </div>
-                  )}
                 </div>
+              )}
+            </div>
 
-                {/* Change Username Section */}
-                <div>
+            {/* Change Username Section */}
+            <div className="mt-8">
+              <button
+                onClick={() => setUsernameSection(!usernameSection)}
+                className="w-full text-left text-lg font-medium text-gray-800 dark:text-gray-200 flex justify-between items-center"
+              >
+                Change Username
+                {usernameSection ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+              </button>
+              {usernameSection && (
+                <div className="mt-4 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                  <InputWithLabel label="New Username">
+                    <SimpleInput
+                      type="text"
+                      placeholder="Enter new username"
+                      value={usernameInput.newUsername}
+                      onChange={(e) =>
+                        setUsernameInput({ ...usernameInput, newUsername: e.target.value })
+                      }
+                    />
+                  </InputWithLabel>
+                  <InputWithLabel label="Confirm New Username">
+                    <SimpleInput
+                      type="text"
+                      placeholder="Confirm new username"
+                      value={usernameInput.confirmUsername}
+                      onChange={(e) =>
+                        setUsernameInput({ ...usernameInput, confirmUsername: e.target.value })
+                      }
+                    />
+                  </InputWithLabel>
                   <button
-                    onClick={() => setUsernameSection(!usernameSection)}
-                    className="w-full text-left text-lg font-medium dark:text-whiteSecondary text-blackPrimary flex justify-between items-center hover:underline"
+                    onClick={handleUsernameUpdate}
+                    disabled={loadingUsername}
+                    className="mt-4 w-full bg-color1 hover:bg-color2 text-white py-2 rounded-lg"
                   >
-                    Change Username
-                    {usernameSection ? (
-                      <HiOutlineChevronUp className="text-xl" />
-                    ) : (
-                      <HiOutlineChevronDown className="text-xl" />
-                    )}
+                    {loadingUsername ? "Changing..." : "Update Username"}
                   </button>
-                  {usernameSection && (
-                    <div className="mt-4">
-                      <InputWithLabel label="New Username">
-                        <SimpleInput
-                          type="text"
-                          placeholder="New Username"
-                          value={usernameInput.newUsername}
-                          onChange={(e) =>
-                            setUsernameInput({
-                              ...usernameInput,
-                              newUsername: e.target.value,
-                            })
-                          }
-                        />
-                      </InputWithLabel>
-                      <InputWithLabel label="Confirm Username">
-                        <SimpleInput
-                          type="text"
-                          placeholder="Confirm Username"
-                          value={usernameInput.confirmUsername}
-                          onChange={(e) =>
-                            setUsernameInput({
-                              ...usernameInput,
-                              confirmUsername: e.target.value,
-                            })
-                          }
-                        />
-                      </InputWithLabel>
-                      {/* <WhiteButton
-                        disabled={false}
-                        textSize="lg"
-                        width="48"
-                        py="2"
-                        text="Update Username"
-                        onClick={handleUsernameUpdate}
-                        // className="hover:bg-gray-200 dark:hover:bg-gray-700"
-                      /> */}
-                       <button onClick={handleUsernameUpdate}
-                      disabled={loadingUsername}
-                       className="hover:bg-white border-fore rounded-md border-2 hover:text-fore bg-fore text-white text-sm font-medium mt-4 py-2 px-3 duration-200 flex items-center justify-center hover:shadow-md"
-                      >{loadingUsername?"Changing...":'Update Username'}</button>
-                    </div>
-                  )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
-        <Footer/>
+        <Footer />
+        <Toaster />
       </div>
-      {/* Include Toast Container */}
-      {/* <div>{toast.success && <toast />}</div> */}
-      <Toaster/>
     </div>
   );
 };
