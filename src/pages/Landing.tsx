@@ -55,15 +55,15 @@ const Landing: React.FC = () => {
     <div className="h-auto border-t max-w-[100vw]  dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
       <Sidebar />
       
-      <div className="dark:bg-blackPrimary bg-whiteSecondary w-full  ">
+      <div className="dark:bg-blackPrimary bg-gray-50 w-full  ">
       <Header />
-        <div className="w-full text-black min-h-screen py-2 px-2">
-          <Tabs value={tabValue} onChange={handleChange}>
+        <div className="w-full text-black min-h-screen p-2">
+          <Tabs className="m-0" value={tabValue} onChange={handleChange}>
             <Tab label="Overview" />
             <Tab label="Latest Result" />
           </Tabs>
 
-          <TabPanel value={tabValue} index={0}>
+          <TabPanel className="m-0" value={tabValue} index={0}>
             {loading ? (
               // Show spinner while loading
               <Box display="flex" justifyContent="center" alignItems="center" height="200px">
@@ -71,11 +71,11 @@ const Landing: React.FC = () => {
               </Box>
             ) : (
               // Show Dashboard when data is loaded
-              <Dashboard analytics={userData} />
+              <Dashboard analyticsData={userData} />
             )}
           </TabPanel>
 
-          <TabPanel value={tabValue} index={1}>
+          <TabPanel className="m-0" value={tabValue} index={1}>
             <div>Tab 2 Content</div>
           </TabPanel>
         </div>
