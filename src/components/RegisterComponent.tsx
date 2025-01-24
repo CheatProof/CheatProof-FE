@@ -202,7 +202,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import {  signUp } from "@/api/auth";
 import CheatProof from "../assets/transCheatProof.png";
-import ilustration from '../assets/undraw_access-account_aydp.svg'
+import ilustration from '../assets/undraw_professor_d7zn.svg'
 
 
 function App() {

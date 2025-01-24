@@ -534,10 +534,11 @@ function App() {
                       } rounded-md shadow-sm focus:ring-color1 focus:border-color1/75 sm:text-sm`}
                       placeholder="Enter your username"
                     />
-                    {errors.email && (
+              
+                  </div>
+                  {errors.email && (
                       <p className="mt-1 text-sm text-red-500">{errors.email}</p>
                     )}
-                  </div>
                 </div>
 
                 <div>
@@ -559,10 +560,11 @@ function App() {
                       } rounded-md shadow-sm focus:ring-color1 focus:border-color1/75 sm:text-sm`}
                       placeholder="••••••••"
                     />
-                    {errors.password && (
+                  
+                  </div>
+                  {errors.password && (
                       <p className="mt-1 text-sm text-red-500">{errors.password}</p>
                     )}
-                  </div>
                 </div>
               </div>
 
