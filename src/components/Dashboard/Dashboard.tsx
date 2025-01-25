@@ -235,7 +235,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Users, GraduationCap, Clock, CheckCircle, Download, Mail, Plus   } from 'lucide-react';
+import { Users, GraduationCap, Clock, CheckCircle, Download, Mail, Plus ,Calendar as Cal  } from 'lucide-react';
 import dayjs, { Dayjs } from 'dayjs';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { Badge, Tooltip } from '@mui/material';
@@ -471,7 +471,7 @@ const tooltipMessages: { [key: number]: string } = {
                       </span>
                     </div>
                     <div className="mt-2 flex items-center text-sm text-gray-500">
-                      <Calendar className="w-4 h-4 mr-2" />
+                      <Cal className="w-4 h-4 mr-2" />
                       {test.date}
                       <span className="mx-2">•</span>
                       <Users className="w-4 h-4 mr-2" />
