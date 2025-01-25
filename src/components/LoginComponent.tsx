@@ -343,7 +343,7 @@
 
 
 import { useState, KeyboardEvent } from "react";
-import { Mail, Lock, Loader2, X } from "lucide-react";
+import { User, Lock, Loader2, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { resetOTP, resetPassword, signIn } from "@/api/auth";
@@ -517,11 +517,11 @@ function App() {
               <div className="space-y-4">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-color2-700">
-                    Email address
+                    Username
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 " />
+                      <User className="h-5 w-5 " />
                     </div>
                     <input
                       id="email"
@@ -605,6 +605,7 @@ function App() {
                 </button>
 
                 <button
+                onClick={()=>navigate("/register")}
                   type="button"
                   className="w-full flex items-center justify-center py-2 px-4 border border-color2-300 rounded-md shadow-sm text-sm font-medium text-color2-700 bg-white hover:bg-color2/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color2"
                 >
