@@ -17,7 +17,7 @@ import {
 
 
 const Landing: React.FC = () => {
-  const [tabValue, setTabValue] = useState(0);
+  
   // const [analytics, setAnalytics] = useState(null);
   const [userData, setUserData] = useState(null); // Add state for user analytics
   const [loading, setLoading] = useState(false); // Add loading state
@@ -39,10 +39,7 @@ const Landing: React.FC = () => {
     }
   };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log("Tab changed:", event); // Log tab change event for debugging purposes
-    setTabValue(newValue);
-  };
+
 
   useEffect(() => {
     fetchAnalytics();

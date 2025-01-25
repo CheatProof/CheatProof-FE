@@ -235,10 +235,12 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Calendar, Users, GraduationCap, Clock, CheckCircle, Download, Mail, Plus, Bell,  } from 'lucide-react';
+import { Users, GraduationCap, Clock, CheckCircle, Download, Mail, Plus   } from 'lucide-react';
 import dayjs, { Dayjs } from 'dayjs';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { Badge, Tooltip } from '@mui/material';
+import { Calendar } from "../ui/calendar";
+
 
 // Fake analytics data
 // const analyticsData = {
@@ -257,7 +259,9 @@ const recentTests = [
 
 function App({analyticsData}:any) {
   const [activeTab, setActiveTab] = useState('recent');
-  const [currentDate, setCurrentDate] = useState(dayjs());
+  // const [currentDate, setCurrentDate] = useState(dayjs());
+    const [date, setDate] = React.useState<Date | undefined>(new Date())
+  
 
   function getRandomNumber(min: number, max: number) {
   return Math.round(Math.random() * (max - min) + min);
@@ -288,7 +292,7 @@ const tooltipMessages: { [key: number]: string } = {
   15: 'Deadline on Day 15',
 };
 
-function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
+ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
   const isHighlighted = highlightedDays.includes(day.date());
@@ -486,9 +490,12 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] 
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Calendar</h2>
               <div className="border rounded-lg p-4">
                 {/* Calendar component would go here */}
-                <div className="text-center text-gray-500">
-                  Calendar integration preserved from original code
-                </div>
+                   <Calendar
+                           mode="single"
+                           selected={date}
+                           onSelect={setDate}
+                           className="rounded-md w-fit mx-auto"
+                       />
               </div>
             </div>
 
