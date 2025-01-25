@@ -300,7 +300,7 @@ const AssignTest = () => {
             <div className="flex flex-col gap-6">
             
               <div className="flex justify-center gap-6 mt-6">
-                <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg w-[400px] flex flex-col items-start shadow-md">
+                <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg w-[400px] flex flex-col items-start shadow-md">
                   <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center mb-4 self-center">
                     <svg
                       className="w-6 h-6 text-white"
@@ -418,7 +418,7 @@ const AssignTest = () => {
   </button>
                 </div>
 
-                <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg w-[400px] flex flex-col items-center shadow-md">
+                <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg w-[400px] flex flex-col items-center shadow-md">
                   <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center mb-4">
                      <svg
                       className="w-6 h-6 text-white"

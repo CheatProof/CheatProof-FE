@@ -15,7 +15,7 @@ const TestSettings = () => {
   
 
   // Extract data from the location state
-  const { test, selectedGroup } = location.state ;
+  const { test, selectedGroup } = location?.state ;
 
 
   console.log(selectedGroup)
@@ -127,30 +127,34 @@ const TestSettings = () => {
 
             {/* Test Card Section */}
             <Card
+            className="!rounded-lg  !shadow"
               sx={{
                 p: 3,
                 mb: 3,
-                mt: 6,
+                mt: 3,
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 width: "100%"
               }}
             >
+              
               <Box display="flex" alignItems="center">
-                <FiFileText size={30} />
+                <FiFileText className="bg-color1/20 p-3 border-color1 border-[1px] rounded" size={60} />
                 <Box ml={2}>
-                  <Typography variant="h5">{test.testName}</Typography>
+                  <Typography className="!font-[Poppins]" variant="h5">{test.testName}</Typography>
                   <Box display="flex" alignItems="center" mt={1}>
                     <FaUsers />
-                    <Typography ml={1}>{selectedGroup.groupName}</Typography>
+                    <Typography className="!font-[Poppins]" ml={1}>{selectedGroup.groupName}</Typography>
                   </Box>
                 </Box>
               </Box>
             </Card>
 
             {/* Settings Component */}
+            <div className="bg-white rounded-lg overflow-hidden pr-3 pb-3 shadow">
             <Settings handleSave={handleSave}/>
+            </div>
 
             {/* <button
               className="bg-sky-600 hover:bg-sky-700 ml-48 text-white px-4 md:py-2 rounded-lg text-sm"

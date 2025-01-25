@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import QuestionNavigationModal from '../../components/Test/QuestionNavigationModal';
 import MCQTestCard from '../../components/SessionQuestionCards/MCQCard';
@@ -31,26 +31,9 @@ function TestSession() {
   const [finishedLoading, setFinishedLoading] = useState(false);
   const [nextQuestionLoading, setNextQuestionLoading] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const containerRef = useRef<any>(null);
+  // const containerRef = useRef<any>(null);
   
 
-  const toggleFullScreen = () => {
-    if (!isFullScreen) {
-      if (containerRef.current?.requestFullscreen) {
-        containerRef.current.requestFullscreen();
-      } else if (containerRef.current?.webkitRequestFullscreen) {
-        containerRef.current?.webkitRequestFullscreen(); // For Safari
-      }
-      setIsFullScreen(true);
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if ((document as any).webkitExitFullscreen) {
-        (document as any).webkitExitFullscreen(); // For Safari
-      }
-      setIsFullScreen(false);
-    }
-  };
 
   // Disable specific keys
   useEffect(() => {
@@ -143,7 +126,7 @@ function TestSession() {
     setStaredLoading(false);
 
     localStorage.setItem('sessionId', testSessionId);
-    toggleFullScreen()
+    // toggleFullScreen()
 
 
     navigate(`?sessionId=${testSessionId}`,{
@@ -256,7 +239,7 @@ function TestSession() {
     localStorage.removeItem('testStarted');
     localStorage.removeItem('tabSwitchCount');
     setFinishedLoading(false);
-    toggleFullScreen()
+    // toggleFullScreen()
 
     navigate(`/result-test/${sessionId}`,{
       state: {
@@ -361,7 +344,7 @@ function TestSession() {
   
 
   return (
-    <div ref={containerRef} className="p-4 bg-white flex min-h-screen justify-center mt-5">
+    <div className="p-4 bg-white flex min-h-screen justify-center mt-5">
       {showInstructions ? (
         <div className="flex max-w-3xl w-full items-center justify-center">
           {/* Instructions Section */}

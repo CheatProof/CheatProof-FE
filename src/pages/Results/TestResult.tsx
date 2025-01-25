@@ -1,5 +1,5 @@
 import HeaderStudent from "@/components/HeaderStudent";
-import ResultQuestionCard from "@/components/Question/ResultQuestionCard";
+// import ResultQuestionCard from "@/components/Question/ResultQuestionCard";
 import { AppSidebar } from "@/components/Student/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { useEffect } from "react";
@@ -126,11 +126,11 @@ const ResultSummaryCard = () => {
           </p>
 
           <p className="text-sm font-medium text-color1">
-            <strong>Status:</strong> {formatDate(results.status)}
+            <strong>Status:</strong> {results.obtainedPoints/results.totalPoints>=60 ? "Passed":"Failed"}
           </p>
-          <button className="text-fore text-sm font-medium hover:underline">
+          {/* <button className="text-fore text-sm font-medium hover:underline">
             Show previous scores
-          </button>
+          </button> */}
         </div>
 
         {/* Percentage Circle */}
@@ -190,7 +190,7 @@ const ResultSummaryCard = () => {
       </div>
     </div>
 
-    <div className="max-w-4xl mx-auto">
+    {/* <div className="max-w-4xl mx-auto">
         {
             results.allQuestions.map((question:any,index:any)=>{
                 // const answers=JSON.parse(question.userAnswers)
@@ -199,7 +199,7 @@ const ResultSummaryCard = () => {
                 <ResultQuestionCard question={question.question}  userAnswers={question.userAnswer} idx={index} correctQuestions={results.correctQuestions}/>
             </div>)})
         }
-      </div>
+      </div> */}
      </main>
      </SidebarProvider>
     </>

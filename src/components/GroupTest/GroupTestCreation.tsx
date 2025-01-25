@@ -5,7 +5,7 @@ import { FaUsers } from 'react-icons/fa';
 import { BiHelpCircle } from 'react-icons/bi';
 // import { fetchTestDetails } from '@/api/grouptest'; // Import the API function
 import Settings from './Settings';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UpdateAssignedGroupTest } from '@/api/grouptest';
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchGroupTestResultsByAssignedTestGroup } from '@/api/test-session';
@@ -37,6 +37,8 @@ interface Result {
   score: string;
   duration: string;
   date: string;
+  member:any
+  id: string;
 }
 
 
@@ -203,11 +205,15 @@ const TestDetails: React.FC = () => {
           score: `${points}/${totalPoints}`,
           duration: formattedDuration,
           date: formattedDate,
+          member:member,
+          id:session.id
+
         };
       });
     });
   }
 
+  const navigate=useNavigate();
 
 const props:any={}
 
@@ -318,7 +324,13 @@ const props:any={}
               <TableCell>{safeValue(result.date)}</TableCell>
               <TableCell>
                 {index !== 0 && (
-                  <Button variant="outline" className="rounded-lg bg-color1 text-white">
+                  <Button onClick={()=>navigate(`/teacher-dashboard/group-member/test-result/${result.id}`,{
+                    state:{
+                      user:result.member,
+                      testName:testName,
+                      groupName:groupName
+                    }
+                  })} variant="outline" className="rounded-lg bg-color1 text-white">
                     Answers
                   </Button>
                 )}

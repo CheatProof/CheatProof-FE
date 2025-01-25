@@ -1,13 +1,14 @@
-import testIcon from "../../assets/test.png";
+// import testIcon from "../../assets/test.png";
 import { FcQuestions } from "react-icons/fc";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import { Card, CardContent, Box, Grid, Avatar } from "@mui/material";
+import { Card, CardContent, Box, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
+import { PiExam } from "react-icons/pi";
 
 
 
-const ViewTestCard = ({ test }:any) => {
+const ViewTestCard = ({ test }:any) => { 
   const props :any = {}
   const navigate = useNavigate();
   console.log(test);
@@ -48,11 +49,16 @@ const ViewTestCard = ({ test }:any) => {
               <Typography className="font-[Poppins]" {...props} >Total pts: {test.totalAssignedPoints ? test.totalAssignedPoints : "0"}</Typography>
             </Box>
           </Box>
-          <Avatar
+          {/* <Avatar
             src={testIcon}
             alt="test icon"
             sx={{ width: 56, height: 56 }}
             variant="square"
+          /> */}
+          <PiExam
+          size={55}
+          className="p-2 bg-color1/20 rounded-lg border-color1 border-[1px]"
+          
           />
         </Grid>
         <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-color3 via-color2 to-color1"></span>

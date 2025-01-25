@@ -25,12 +25,12 @@ const ResultDetails = () => {
     <main className="w-full">
     <HeaderStudent />
 
-    <div className="w-full px-3 py-4  mt-20 flex text-center justify-center md:justify-start md:ml-40">
+    <div className="w-full px-3 py-4  mt-5 flex text-center justify-center md:justify-start ">
         <span className="text-2xl font-semibold ">Results {'>'} {result?.test?.Tests?.testName} </span>
         </div>
      
-     <div className="flex justify-center items-center mt-20 mb-36">
-    <div className="bg-white shadow-lg rounded-lg p-6 w-9/12 h-4/5 mx-auto">
+     <div className="flex justify-center items-center mt-5 mb-5">
+    <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl h-4/5 mx-auto">
       {/* Header Section */}
       <div className="border-b pb-4 mb-4">
         <h1 className="text-xl font-semibold text-fore">

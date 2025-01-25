@@ -47,6 +47,7 @@ import ProfileStudent from "./pages/ProfileStudent";
 import AddMemberByCode from "./pages/GroupUser/AddMemberByCode";
 import RegistrationCodes from "./pages/GroupUser/RegistrationCode";
 import TestRegistration from "./pages/Test/TestRegistration";
+import TeacherResultView from "./pages/Results/TeacherResultReview";
 
 
 const router = createBrowserRouter([
@@ -181,6 +182,10 @@ const router = createBrowserRouter([
         path: "profile",
         element: <Profile />,
       },
+      {
+        path:"group-member/test-result/:sessionId",
+        element: <TeacherResultView />,
+      }
     ], 
   },
   {

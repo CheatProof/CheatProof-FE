@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Footer, Header, Sidebar } from "../../components";
-import testIcon from "../../assets/test.png";
+// import testIcon from "../../assets/test.png";
 import { IoArrowRedoSharp } from "react-icons/io5";
 import { CgPlayButtonO } from "react-icons/cg";
 import { CiEdit } from "react-icons/ci";
@@ -25,6 +25,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getTestById, getTestWithGroups } from "../../api/test";
 import { Circles } from "react-loader-spinner";
 import { Button, Typography } from "@material-tailwind/react";
+import { PiExam } from "react-icons/pi";
 
 const TestDashboard: React.FC = () => {
   const { id } = useParams();
@@ -87,7 +88,7 @@ const TestDashboard: React.FC = () => {
       >
         <Header/>
        
-        <Grid  className="my-4 px-3 min-h-screen justify-start items-start relative" >
+        <Grid  className="my-4 px-5 min-h-screen justify-start items-start relative" >
           <Grid className="w-full" item xs={12}>
             {/* Main Test Card */}
             <Card
@@ -111,7 +112,7 @@ const TestDashboard: React.FC = () => {
                       <Typography 
                       {...props}
                         variant="h3"
-                      
+                      className="!font-[Poppins]"
                         fontFamily="poppins"
                         fontWeight="bold"
                       >
@@ -187,7 +188,12 @@ const TestDashboard: React.FC = () => {
                       <CiEdit className="mr-2" />
                       Edit Test
                     </button>
-                    <Box component="img" src={testIcon} alt="test" sx={{ width: 128 }} />
+                    {/* <Box component="img" src={testIcon} alt="test" sx={{ width: 128 }} /> */}
+                     <PiExam
+                              size={100}
+                              className="p-2 bg-color1/20 rounded-lg border-color1 border-[1px]"
+                              
+                              />
                   </Grid>
                 </Grid>
               </CardContent>
@@ -239,6 +245,15 @@ const TestDashboard: React.FC = () => {
           </TableCell>
           <TableCell className="w-1/12 text-right">
             <Button
+            onClick={() =>
+              navigate(`/teacher-dashboard/grouptest/${group.AssignedTestGroups?.id}`,{
+                state: {
+                  group1: group.AssignedTestGroups?.Groups,
+                  groupTest1: group,
+                }
+              }
+              )
+            }
             {...props}
              className="bg-color1 hover:bg-color2 text-white px-5 py-2  text-sm">
               RESULTS
