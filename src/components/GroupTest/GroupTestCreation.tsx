@@ -261,7 +261,7 @@ const props:any={}
 
       {/* Tabs */}
       <Tabs value={"Results"}  indicatorColor="primary" textColor="primary">
-        <TabsHeader {...props}>
+        <TabsHeader className='bg-blue-gray-100' {...props}>
         <Tab {...props} key={0} value="Results" >Results</Tab>
         <Tab {...props} key={1} value="Settings" >Settings</Tab>
         <Tab {...props} key={2} value="Statistics" >Statistics</Tab>

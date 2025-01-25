@@ -4,6 +4,7 @@ import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { Circles } from 'react-loader-spinner';
 // import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import { Calendar, Clipboard, ClipboardList, FileQuestion, Network, Percent, Play, ScrollText, Settings2, Shuffle, SquarePlay, Timer } from 'lucide-react';
 
 
 const Settings = ({ handleSave ,groupTest }: any) => {
@@ -211,9 +212,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
               <Typography className="!font-[Poppins] !font-semibold py-3" variant="h6" mb={2}>Setup</Typography>
 
               {/* Availability */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting('availability')}>
-                  <Typography variant="body1"><strong>Availability</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box  display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting('availability')}>
+                  <div className='flex items-center'>
+                  <Calendar className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins]' variant="body1"><strong>Availability</strong></Typography>
+                  </div>
                   {openSettings.availability ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings.availability}>
@@ -260,7 +264,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
                     />
                   </Box>
 
-                  <Box display="flex" justifyContent="flex-end" mt={3}>
+                  <Box  display="flex" justifyContent="flex-end" mt={3}>
                     {/* <Button variant="contained" color="primary">
                     Save Changes
                   </Button> */}
@@ -276,9 +280,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
 
               {/* Other settings like Attempts, Print/Copy, etc. */}
               {/* Attempts */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting('attempts')}>
-                  <Typography variant="body1"><strong>Attempts</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting('attempts')}>
+                  <div className='flex items-center'>
+                <SquarePlay className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Attempts</strong></Typography>
+                  </div>
                   {openSettings.attempts ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings.attempts}>
@@ -309,9 +316,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
                 </Collapse>
               </Paper>
 
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting('printCopy')}>
-                  <Typography variant="body1"><strong>Print / Copy / Paste / Translate</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting('printCopy')}>
+                  <div className='flex items-center'>
+                <Clipboard className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Print / Copy / Paste / Translate</strong></Typography>
+                  </div>
                   {openSettings.printCopy ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings.printCopy}>
@@ -359,9 +369,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
               </Paper>
 
               {/* Record IP Address */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting('recordIP')}>
-                  <Typography variant="body1"><strong>Record IP Address</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting('recordIP')}>
+                  <div className='flex items-center'>
+                <Network className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Record IP Address</strong></Typography>
+                  </div>
                   {openSettings.recordIP ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings.recordIP}>
@@ -377,12 +390,16 @@ const Settings = ({ handleSave ,groupTest }: any) => {
           {/* Additional tabs can have similar logic */}
           {activeTab === 1 && (
             <Box flex={1}>
-              <Typography variant="h6" mb={2}>Taking the Test</Typography>
+                           <Typography className="!font-[Poppins] !font-semibold py-3" variant="h6" mb={2}>Taking the Test</Typography>
+
 
               {/* Instructions */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting1('instructions')}>
-                  <Typography variant="body1"><strong>Instructions</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting1('instructions')}>
+                  <div className='flex items-center'>
+                <ScrollText className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Instructions</strong></Typography>
+                  </div>
                   {openSettings1.instructions ? <MdExpandLess /> : <MdExpandMore />}
 
                 </Box>
@@ -398,9 +415,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
               </Paper>
 
               {/* Question Settings */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting1('questionSettings')}>
-                  <Typography variant="body1"><strong>Question Settings</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting1('questionSettings')}>
+                  <div className='flex items-center'>
+                <FileQuestion className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Question Settings</strong></Typography>
+                  </div>
                   {openSettings1.questionSettings ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings1.questionSettings}>
@@ -436,9 +456,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
               </Paper>
 
               {/* Answers Settings */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting1('answerSettings')}>
-                  <Typography variant="body1"><strong>Answer Settings</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting1('answerSettings')}>
+                  <div className='flex items-center'>
+                <Settings2 className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Answers Settings</strong></Typography>
+                  </div>
                   {openSettings1.answerSettings ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings1.answerSettings}>
@@ -533,9 +556,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
 
 
               {/* Randomize Questions */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting1('randomize')}>
-                  <Typography variant="body1"><strong>Randomize Questions</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting1('randomize')}>
+                  <div className='flex items-center'>
+                <Shuffle className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Randomize Questions</strong></Typography>
+                  </div>
                   {openSettings1.randomize ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings1.randomize}>
@@ -550,9 +576,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
               </Paper>
 
               {/* Test Duration */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting1('timeLimit')}>
-                  <Typography variant="body1"><strong>Test Duration</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting1('timeLimit')}>
+                  <div className='flex items-center'>
+                <Timer className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Time Duration</strong></Typography>
+                  </div>
                   {openSettings1.timeLimit ? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings1.timeLimit}>
@@ -568,12 +597,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
               </Paper>
 
               {/* {resume Later check} */}
-              <Paper
-              sx={{ mb: 2, p: 2 }}
-
-              >
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting1('resumeLater')}>
-                  <Typography variant="body1"><strong>Resume Later</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting1('resumeLater')}>
+                  <div className='flex items-center'>
+                <Play className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Resume Later</strong></Typography>
+                  </div>
                   {openSettings1.resumeLater? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings1.resumeLater}>
@@ -605,11 +634,16 @@ const Settings = ({ handleSave ,groupTest }: any) => {
 
           {activeTab === 2 && (
             <>
-              <Typography variant="h6" mb={2}>Test Completion</Typography>
+   
+              <Typography className="!font-[Poppins] !font-semibold py-3" variant="h6" mb={2}>Test Completion</Typography>
+
               {/* Test Completion Settings */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting2('resultPage')}>
-                  <Typography variant="body1"><strong>Result Page Settings</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting2('resultPage')}>
+                  <div className='flex items-center'>
+                <ClipboardList className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Result Page Settings</strong></Typography>
+                  </div>
                   {openSettings2.resultPage? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings2.resultPage}>
@@ -715,9 +749,12 @@ const Settings = ({ handleSave ,groupTest }: any) => {
               </Paper>
 
               {/* Pass Marks Percent Settings */}
-              <Paper sx={{ mb: 2, p: 2 }}>
-                <Box display="flex" justifyContent="space-between" onClick={() => toggleSetting2('passMarks')}>
-                  <Typography variant="body1"><strong>Pass Marks Percent Settings</strong></Typography>
+              <Paper className='!shadow'  sx={{ mb: 2, p: 2,boxShadow:"none"  }}>
+                <Box display="flex" justifyContent="space-between" alignItems={"center"} onClick={() => toggleSetting2('passMarks')}>
+                  <div className='flex items-center'>
+                <Percent className='p-1 mr-2 bg-color1/20 border-color1 border-[1px] rounded-lg' size={40}/>
+                  <Typography className='!font-[Poppins] ' variant="body1"><strong>Passing Marks & Percentage Settings</strong></Typography>
+                  </div>
                   {openSettings2.passMarks? <MdExpandLess /> : <MdExpandMore />}
                 </Box>
                 <Collapse in={openSettings2.passMarks}>

@@ -403,7 +403,9 @@ function App() {
                   position: "top-center",
                   duration: 3000,
                 });
-              }
+        }else{
+          toast.error(data.message || "Login failed");
+        }
 
       // toast.success("Login successful!");
       // Add your login logic here
