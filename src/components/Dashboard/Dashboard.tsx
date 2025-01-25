@@ -236,9 +236,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Users, GraduationCap, Clock, CheckCircle, Download, Mail, Plus ,Calendar as Cal  } from 'lucide-react';
-import dayjs, { Dayjs } from 'dayjs';
-import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import { Badge, Tooltip } from '@mui/material';
 import { Calendar } from "../ui/calendar";
 
 
@@ -251,11 +248,16 @@ import { Calendar } from "../ui/calendar";
 // };
 
 // Fake recent tests data
+
+
 const recentTests = [
   { id: 1, name: 'Final Mathematics Exam', class: 'Grade 12A', date: '2024-03-15', status: 'completed', submissions: 28 },
   { id: 2, name: 'Physics Mid-term', class: 'Grade 11B', date: '2024-03-14', status: 'in-progress', submissions: 15 },
   { id: 3, name: 'Chemistry Quiz', class: 'Grade 10C', date: '2024-03-13', status: 'upcoming', submissions: 0 }
 ];
+
+
+
 
 function App({analyticsData}:any) {
   const [activeTab, setActiveTab] = useState('recent');
@@ -263,98 +265,22 @@ function App({analyticsData}:any) {
     const [date, setDate] = React.useState<Date | undefined>(new Date())
   
 
-  function getRandomNumber(min: number, max: number) {
-  return Math.round(Math.random() * (max - min) + min);
-}
 
-function fakeFetch(date: Dayjs, { signal }: { signal: AbortSignal }) {
-  return new Promise<{ daysToHighlight: number[] }>((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      const daysInMonth = date.daysInMonth();
-      const daysToHighlight = [1, 2, 3].map(() => getRandomNumber(1, daysInMonth));
 
-      resolve({ daysToHighlight });
-    }, 500);
 
-    signal.onabort = () => {
-      clearTimeout(timeout);
-      reject(new DOMException('aborted', 'AbortError'));
-    };
-  });
-}
 
-const initialValue = dayjs('2022-04-17');
+
 
 // Messages for specific days
-const tooltipMessages: { [key: number]: string } = {
-  1: 'Special Event on Day 1',
-  2: 'Meeting on Day 2',
-  15: 'Deadline on Day 15',
-};
-
- function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-
-  const isHighlighted = highlightedDays.includes(day.date());
-  const message = tooltipMessages[day.date()] || '';
-
-  return (
-    <Tooltip
-      title={isHighlighted && message ? message : 'Hello'}
-      arrow
-      disableHoverListener={!isHighlighted}
-    >
-      <Badge
-        key={day.toString()}
-        overlap="circular"
-        badgeContent={isHighlighted ? '🌚' : undefined}
-      >
-        <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
-      </Badge>
-    </Tooltip>
-  );
-}
 
 
 
 
-  
-  const requestAbortController = React.useRef<AbortController | null>(null);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [highlightedDays, setHighlightedDays] = React.useState([1, 2, 15]);
 
-  const fetchHighlightedDays = (date: Dayjs) => {
-    const controller = new AbortController();
-    fakeFetch(date, {
-      signal: controller.signal,
-    })
-      .then(({ daysToHighlight }) => {
-        setHighlightedDays(daysToHighlight);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        if (error.name !== 'AbortError') {
-          throw error;
-        }
-      });
 
-    requestAbortController.current = controller;
-  };
 
-  React.useEffect(() => {
-    fetchHighlightedDays(initialValue);
-    return () => requestAbortController.current?.abort();
-  }, []);
+ 
 
-  const handleMonthChange = (date: Dayjs) => {
-    if (requestAbortController.current) {
-      requestAbortController.current.abort();
-    }
-
-    setIsLoading(true);
-    setHighlightedDays([]);
-    fetchHighlightedDays(date);
-  };
 
   // Simulate loading calendar events
   useEffect(() => {

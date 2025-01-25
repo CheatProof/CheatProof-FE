@@ -185,7 +185,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
   return (
     <>
     <Toaster/>
-      <Box display="flex">
+      <Box  display="flex">
         {/* Left Sidebar Tabs */}
         <Box minWidth={180} mr={2}>
           <Tabs
@@ -194,9 +194,13 @@ const Settings = ({ handleSave ,groupTest }: any) => {
             onChange={handleTabChange}
             sx={{ borderRight: 1, borderColor: 'divider' }}
           >
-            <Tab label="Setup" />
-            <Tab label="Taking the Test" />
-            <Tab label="Test Completion" />
+            <Tab
+            
+             className={`!font-[Poppins] ${activeTab===0?"!bg-color1/20":""}`} label="Setup" />
+            <Tab
+             className={`!font-[Poppins] ${activeTab===1?"!bg-color1/20":""}`} label="Taking the Test" />
+            <Tab
+             className={`!font-[Poppins] ${activeTab===2?"!bg-color1/20":""}`} label="Test Completion" />
           </Tabs>
         </Box>
 
@@ -204,7 +208,7 @@ const Settings = ({ handleSave ,groupTest }: any) => {
         <Box flex={1}>
           {activeTab === 0 && (
             <>
-              <Typography variant="h6" mb={2}>Setup</Typography>
+              <Typography className="!font-[Poppins] !font-semibold py-3" variant="h6" mb={2}>Setup</Typography>
 
               {/* Availability */}
               <Paper sx={{ mb: 2, p: 2 }}>

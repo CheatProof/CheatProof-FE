@@ -10,7 +10,7 @@ const GroupTestMange = ()=>{
         <Sidebar />
          <div className="dark:bg-blackPrimary bg-whiteSecondary w-full ">
          <Header />
-         <div className="w-full pl-3">
+         <div className="w-full mt-5 pl-3">
          
               {/* <h2 className="text-3xl text-black font-bold mb-6 py-6">Question Bank</h2> */}
               

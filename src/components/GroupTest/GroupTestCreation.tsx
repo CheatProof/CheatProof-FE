@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, Card, Tabs, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Avatar } from '@mui/material';
+import { Box, Typography, Card } from '@mui/material';
 import { FiFileText } from 'react-icons/fi';
 import { FaUsers } from 'react-icons/fa';
 import { BiHelpCircle } from 'react-icons/bi';
@@ -11,7 +11,26 @@ import toast, { Toaster } from 'react-hot-toast';
 import { fetchGroupTestResultsByAssignedTestGroup } from '@/api/test-session';
 import { getAssignedGroupTest } from '@/api/group';
 // import { console } from 'inspector';
-
+import { 
+  Table, 
+  TableBody, 
+  TableCaption, 
+  TableCell, 
+  TableFooter, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table";
+import { Avatar,AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
+ 
 interface Result {
   name: string;
   percentage: number;
@@ -40,12 +59,13 @@ const TestDetails: React.FC = () => {
 
   const [results, setResults] = useState<Result[]>([ ]);
 
+  const safeValue = (value:any, fallback:any = "N/A") => (value !== null && value !== undefined ? value : fallback);
 
   const location = useLocation();
-  const { groupTest1, group1 } = location.state;
+  const { groupTest1, group1 } = location?.state;
   console.log(groupTest1)
 
-  const [activeTab, setActiveTab] = useState(0);
+
   const [testName,setTestName] = useState(groupTest1?.AssignedTests?.Tests?.testName); // Default test name
   const [groupName,setgroupName] = useState(group1?.groupName); // Default group name
   const [groupTest,setgroupTest] = useState(groupTest1); 
@@ -189,10 +209,7 @@ const TestDetails: React.FC = () => {
   }
 
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(event)
-    setActiveTab(newValue);
-  };
+const props:any={}
 
   useEffect(() => {
 
@@ -215,16 +232,16 @@ const TestDetails: React.FC = () => {
 
 
   return (
-    <Box sx={{ px: 2 }}>
+    <Box className="min-h-[90vh]" sx={{ px: 2,pb:2 }}>
       {/* Header Card */}
-      <Card sx={{ p: 3, mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Card className="!rounded-lg" sx={{ p: 3, mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box display="flex" alignItems="center">
-          <FiFileText size={30} />
+          <FiFileText className="bg-color1/20 p-3 border-color1 border-[1px] rounded" size={60} />
           <Box ml={2}>
-            <Typography variant="h5">{testName}</Typography>
+            <Typography className="!font-[Poppins]" variant="h5">{testName}</Typography>
             <Box display="flex" alignItems="center" mt={1}>
               <FaUsers />
-              <Typography ml={1}>{groupName}</Typography>
+              <Typography className="!font-[Poppins]" ml={1}>{groupName}</Typography>
             </Box>
           </Box>
         </Box>
@@ -243,88 +260,109 @@ const TestDetails: React.FC = () => {
       </Card>
 
       {/* Tabs */}
-      <Tabs value={activeTab} onChange={handleTabChange} indicatorColor="primary" textColor="primary">
-        <Tab label="Results" />
-        <Tab label="Settings" />
-        <Tab label="Statistics" />
-      </Tabs>
+      <Tabs value={"Results"}  indicatorColor="primary" textColor="primary">
+        <TabsHeader {...props}>
+        <Tab {...props} key={0} value="Results" >Results</Tab>
+        <Tab {...props} key={1} value="Settings" >Settings</Tab>
+        <Tab {...props} key={2} value="Statistics" >Statistics</Tab>
+        </TabsHeader>
 
-      {/* Tab Content */}
-      {activeTab === 0 && (
-        <Box sx={{ mt: 3 }}>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Name</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Percentage</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Score</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Duration</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Date</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Actions</Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {results.map((result, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Box display="flex" alignItems="center">
-                        <Avatar sx={{ mr: 2 }}>
-                          {index === 0 ? <FaUsers /> : result.name.charAt(0).toUpperCase()}
-                        </Avatar>
-                        <Typography>{result.name}</Typography>
-                        {index === 0 && (
-                          <IconButton>
-                            <BiHelpCircle />
-                          </IconButton>
-                        )}
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-                        <Box
-                          sx={{
-                            width: `${result.percentage}%`,
-                            bgcolor: getPercentageColor(result.percentage),
-                            height: '8px',
-                            borderRadius: '4px',
-                          }}
-                        />
-                        <Typography sx={{ ml: 1 }}>{result.percentage}%</Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{result.score}</TableCell>
-                    <TableCell>{result.duration}</TableCell>
-                    <TableCell>{result.date}</TableCell>
-                    <TableCell>
-                      {index !== 0 && <Button variant="outlined">Answers</Button>}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+        <TabsBody {...props}>
+          <TabPanel value="Results" key={0}>
 
-            </Table>
-          </TableContainer>
+          <Box sx={{ mt: 3 }}>
+          <Table className="bg-gray-50">
+      <TableCaption>Summary of Results</TableCaption>
+      <TableHeader className="bg-color1/20">
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Percentage</TableHead>
+          <TableHead>Score</TableHead>
+          <TableHead>Duration</TableHead>
+          <TableHead>Date</TableHead>
+          <TableHead>Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {results.length > 0 ? (
+          results.map((result, index) => (
+            <TableRow key={index}>
+              <TableCell>
+                <Box className="flex items-center">
+                  <Avatar  className="mr-2 bg-color1/20">
+                   
+                    <AvatarFallback className="bg-color1/20"> {index === 0 ? <FaUsers /> : safeValue(result.name, "N/A").charAt(0).toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                  <span>{safeValue(result.name)}</span>
+                  {index === 0 && (
+                    <Button variant="ghost" className="ml-2 p-1">
+                      <BiHelpCircle />
+                    </Button>
+                  )}
+                </Box>
+              </TableCell>
+              <TableCell>
+                <Box className="flex items-center">
+                  <Box
+                    className="h-2 rounded-full"
+                    style={{
+                      width: `${safeValue(result.percentage, 0)}%`,
+                      backgroundColor: getPercentageColor(safeValue(result.percentage, 0)),
+                    }}
+                  />
+                  <span className="ml-2">{safeValue(result.percentage, 0)}%</span>
+                </Box>
+              </TableCell>
+              <TableCell>{safeValue(result.score)}</TableCell>
+              <TableCell>{safeValue(result.duration)}</TableCell>
+              <TableCell>{safeValue(result.date)}</TableCell>
+              <TableCell>
+                {index !== 0 && (
+                  <Button variant="outline" className="rounded-lg bg-color1 text-white">
+                    Answers
+                  </Button>
+                )}
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={6} className="text-center">
+              No results available.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={6} className="text-center">
+            End of Results
+          </TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
         </Box>
-      )}
-      {activeTab === 1 &&
-        <div className='mt-2'>
+
+          </TabPanel>
+
+          <TabPanel value="Settings" key={0}>
+          <div className='mt-2 pb-2 overflow-hidden pr-3 transition-all min-h-[70vh] bg-white rounded-lg'>
          {groupTest && <Settings groupTest={groupTest?.AssignedTests} handleSave={handleSave} />}
 
         </div>
-      }
+          </TabPanel>
+
+
+      <TabPanel value="Statistics" key={0}>
+<div>Under Develpoement</div>
+      </TabPanel>
+
+        </TabsBody>
+      </Tabs>
+
+      {/* Tab Content */}
+    
+     
       <Toaster />
     </Box>
   );
