@@ -156,3 +156,51 @@ export const notifyMembersByGroup = (groupId:any, message:any) => {
         // Handle errors
         .catch(error => console.error('Error:', error));
 }
+
+export const generateSelfRegistrationCode = (groupId:any, quantity:any) => {
+    const url = `${baseUrl}/api/group/selfRegistration/generateCodes/${groupId}`;
+    return fetch(url,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        },
+        body: JSON.stringify({quantity})
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
+
+export const registrationCodesByGroupId = (groupId:any) => {
+    const url = `${baseUrl}/api/group/getById/registrationCodesByGroupId/${groupId}`;
+    return fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        }
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
+
+
+export const addGroupMembersByCode = (registrationCode:any, memberData:any) => {
+    const url = `${baseUrl}/api/group/add/groupMembersByCode`;
+    return fetch(url,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        },
+        body: JSON.stringify({ registrationCode, ...memberData }),
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
