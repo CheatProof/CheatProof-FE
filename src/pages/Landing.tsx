@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import { Tabs, Tab, Box, CircularProgress } from "@mui/material";
+import {  Box, CircularProgress } from "@mui/material";
 import  Sidebar  from "../components/Sidebar";
 import Dashboard from "../components/Dashboard/Dashboard";
 import { getTeacherAnalytics } from "@/api/auth";
 import { Footer, Header } from "@/components";
+import {
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
+ 
 
 // TabPanel component for displaying content based on the active tab
-const TabPanel = ({ children, value, index }: any) => {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-};
+
 
 const Landing: React.FC = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -51,6 +48,8 @@ const Landing: React.FC = () => {
     fetchAnalytics();
   }, []);
 
+  const props:any={}
+
   return (
     <div className="h-auto border-t max-w-[100vw]  dark:border-blackSecondary border-blackSecondary border-1 flex dark:bg-blackPrimary bg-whiteSecondary">
       <Sidebar />
@@ -58,12 +57,15 @@ const Landing: React.FC = () => {
       <div className="dark:bg-blackPrimary bg-gray-50 w-full  ">
       <Header />
         <div className="w-full text-black min-h-screen p-2">
-          <Tabs className="m-0" value={tabValue} onChange={handleChange}>
-            <Tab label="Overview" />
-            <Tab label="Latest Result" />
-          </Tabs>
 
-          <TabPanel className="m-0" value={tabValue} index={0}>
+          <Tabs className="m-0" value={"Overview"} >
+            <TabsHeader {...props}>
+            <Tab {...props} index={0} value={"Overview"} >Overview</Tab>
+            <Tab {...props} index={1} value={"Latest Result"} >Latest Result</Tab>
+            </TabsHeader>
+        
+<TabsBody {...props}>
+          <TabPanel value={"Overview"} >
             {loading ? (
               // Show spinner while loading
               <Box display="flex" justifyContent="center" alignItems="center" height="200px">
@@ -75,9 +77,11 @@ const Landing: React.FC = () => {
             )}
           </TabPanel>
 
-          <TabPanel className="m-0" value={tabValue} index={1}>
+          <TabPanel className="m-0"  value={"Latest Result"} >
             <div>Tab 2 Content</div>
           </TabPanel>
+          </TabsBody>
+          </Tabs>
         </div>
     <Footer />
 

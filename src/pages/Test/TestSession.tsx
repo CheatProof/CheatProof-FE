@@ -168,7 +168,7 @@ function TestSession() {
       ans.questionId === questionId ? { questionId, userAnswer:answer,timeTaken:timer } : ans
     );
     if (!selectedAnswers.find((ans: any) => ans.questionId === questionId)) {
-      newSelectedAnswers.push({ questionId, userAnswer:answer,timeTaken:240 });
+      newSelectedAnswers.push({ questionId, userAnswer:answer,timeTaken:timer });
     }
     setSelectedAnswers(newSelectedAnswers);
     localStorage.setItem('selectedAnswers', JSON.stringify(newSelectedAnswers));
@@ -361,7 +361,7 @@ function TestSession() {
   
 
   return (
-    <div ref={containerRef} className="p-4 bg-white flex min-h-screen justify-center items-center">
+    <div ref={containerRef} className="p-4 bg-white flex min-h-screen justify-center mt-5">
       {showInstructions ? (
         <div className="flex max-w-3xl w-full items-center justify-center">
           {/* Instructions Section */}

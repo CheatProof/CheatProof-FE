@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import  { Dayjs } from "dayjs";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
-import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
+// import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
 import { fetchIncompleteTestsByStudent, fetchStudentGroupsBySession, resumeTest } from "@/api/test-session";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { MdOutlineArrowRightAlt, MdOutlineGroup } from "react-icons/md";
+import { Calendar } from "../ui/calendar";
 
 const tooltipMessages: { [key: number]: string } = {
   1: "Special Event on Day 1",
@@ -18,7 +19,7 @@ const tooltipMessages: { [key: number]: string } = {
   15: "Deadline on Day 15",
 };
 
-function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
+export function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
   const isHighlighted = highlightedDays.includes(day.date());
@@ -47,8 +48,14 @@ const StudentDashboard: React.FC = () => {
   const [groups, setGroups] = useState<any[]>([]);
   const [incompleteTestSessions, setIncompleteTestSessions] = useState<any[]>([]);
   const [groupLoading, setGroupLoading] = useState(false);
-  const [highlightedDays, setHighlightedDays] = useState<number[]>([1, 2, 15]);
-  const [isLoadingCalendar, setIsLoadingCalendar] = useState(false);
+  // const [highlightedDays, setHighlightedDays] = useState<number[]>([1, 2, 15]);
+  // const [isLoadingCalendar, setIsLoadingCalendar] = useState(false);
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
+
+
+  
+
+  // const [value, onChange] = useState<Value>(new Date());
 
   const fetchGroups = async () => {
     setGroupLoading(true);
@@ -177,17 +184,28 @@ const StudentDashboard: React.FC = () => {
       {/* Right Section */}
       <div className="w-full lg:w-1/3">
         <div className="bg-white rounded-lg shadow-md p-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm  text-gray-600">
             When you are registered in multiple Groups, each Group may contain separate Tests for
             you to take. <br />
             <br />
             Change Groups to check for available Tests under each Group.
           </p>
         </div>
-
-        <h2 className="text-gray-700 font-bold text-lg mt-6 mb-4">Today's Schedule</h2>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+<div className="rounded-lg bg-white mt-6 p-4  shadow">
+        <h2 className="text-gray-700 font-bold text-lg mb-3  pl-4 rounded-lg ">Today's Schedule</h2>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateCalendar
+
+            sx={{
+              p: 2,
+              color: "text.primary",
+              borderRadius: 4,
+              width: 400,
+              "&:hover": {
+                backgroundColor: "gray.50",
+              },
+            }}
+
             defaultValue={dayjs()}
             loading={isLoadingCalendar}
             renderLoading={() => <DayCalendarSkeleton />}
@@ -200,7 +218,14 @@ const StudentDashboard: React.FC = () => {
               } as any,
             }}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
+        <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-md w-fit mx-auto"
+        />
+        </div>
       </div>
     </div>
   );

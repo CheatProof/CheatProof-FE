@@ -393,25 +393,25 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard 
             icon={<Users/>} 
-            value={analyticsData.GroupsCount} 
+            value={analyticsData?.GroupsCount} 
             label="Total Groups"
             color="bg-color1/20"
           />
           <StatCard 
             icon={<GraduationCap/>} 
-            value={analyticsData.TestsCount} 
+            value={analyticsData?.TestsCount} 
             label="Total Tests"
             color="bg-color1/20"
           />
           <StatCard 
             icon={<Clock/>} 
-            value={analyticsData.InProgressTestsCount} 
+            value={analyticsData?.InProgressTestsCount} 
             label="In Progress"
             color="bg-color1/20"
           />
           <StatCard 
             icon={<CheckCircle/>} 
-            value={analyticsData.FinishedTestsCount} 
+            value={analyticsData?.FinishedTestsCount} 
             label="Completed"
             color="bg-color1/20"
           />
