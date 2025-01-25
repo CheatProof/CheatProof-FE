@@ -81,7 +81,7 @@ export function MultilevelSidebarItem({ icon, text, active, alert, to,children }
                 }`}
             >
                 {icon}
-                <span className={`overflow-hidden transition-all ${expanded ? "w-48 ml-3" : "w-0"}`}>{text}</span>
+                <span className={`overflow-hidden transition-all ${expanded ? "w-48 ml-3" : "w-0"}`}>{expanded ?text:""}</span>
                 {children && (
                     <span className="ml-auto">
                         {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
@@ -93,9 +93,9 @@ export function MultilevelSidebarItem({ icon, text, active, alert, to,children }
             </div>
 
             {open && children && (
-                <ul className={`pl-2 transition-all ${expanded ? "block" : "hidden"}`}>
+                <ul className={` transition-all ${expanded ? "block pl-2" : "block"}`}>
                     {children.map((child: any, index: number) => (
-                        <MultilevelSidebarItem key={index} {...child} />
+                        <MultilevelSidebarItem  key={index} {...child} />
                     ))}
                 </ul>
             )}

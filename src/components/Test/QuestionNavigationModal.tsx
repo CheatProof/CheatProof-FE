@@ -7,10 +7,21 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 
-function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setClose}:any) {
+function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setClose,selectedAnswers}:any) {
     const [selectedTab, setSelectedTab] = useState(0);
     // const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     // const [modalOpen, setModalOpen] = useState<boolean>(false);
+// selectedAnswer 
+// [
+//     {
+//         questionId,
+//         userAnswer,
+
+//     }
+// ]
+    const isAnswered = (questionId:any)=> {
+        return selectedAnswers.some((answer:any)=>{return answer.questionId===questionId});
+    }
 
     const handleTabChange = (event:any, newValue:any) => {
         console.log(event);
@@ -24,7 +35,7 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
     }
 
     return (
-        <Modal className='flex justify-center items-center' open={open}  >
+        <Modal className='flex justify-center !z-[49] items-center' open={open}  >
            
             <div className="p-4 w-full max-w-2xl mx-auto max-h-[500px]  bg-white rounded-md shadow-lg">
                 <div className="flex justify-between items-center">
@@ -53,12 +64,13 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
                                             {/* <BookmarkBorderIcon    className="mr-2" /> */}
                                            <span className='w-[7%] mr-2'> {question.bookmarked ? <FaBookmark size={20} onClick={()=>handleBookmark(index)} className="  "/> : <FaRegBookmark size={20} onClick={()=>handleBookmark(index)} className=' '/>}</span>
                                             <ListItemText
-                                                primary={<div
-                                                    dangerouslySetInnerHTML={{ __html: question.questionText }}
-                                                  />
+                                                
+                                                primary={<div 
+                                                    
+                                                  >Question {index+1}</div>
                                               }
-                                                secondary={question.answered ? "Answered" : "Unanswered"}
-                                                className={`text-sm ${question.answered ? 'text-green-500' : 'text-red-500'}`}
+                                                secondary={isAnswered(question.id) ? "Answered" : "Unanswered"}
+                                                className={`text-sm px-3 ${isAnswered(question.id) ? 'text-green-500' : 'text-red-500'}`}
                                             />
                                         </div>
                                         <IconButton edge="end" onClick={() => {onClose(index)}}>

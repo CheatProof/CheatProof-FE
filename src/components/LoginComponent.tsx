@@ -1,1525 +1,336 @@
-
-
-
-// import { useState } from "react";
-// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
-// import { FaReact } from "react-icons/fa6"; 
-// import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
-// import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
-// import { Link, useNavigate } from "react-router-dom";
-// import { signIn } from "../api/auth";
-// // import { baseUrl } from "../env/Env";
-
-// const LoginComponent = () => {
-//   const navigate = useNavigate();
-//   const [email, setEmail] = useState("john@email.com");
-//   const [password, setPassword] = useState("pass1234567890");
-//   const [loading, setLoading] = useState(false);
-//   const [openForgotPassword, setOpenForgotPassword] = useState(false);
-//   const [openOTPDialog, setOpenOTPDialog] = useState(false);
-//   const [otp, setOtp] = useState("");
-//   const [newPassword, setNewPassword] = useState("");
-//   const [resetEmail, setResetEmail] = useState("");  // To store the email entered during forgot password
-
-//   // Handle login
-//   const handleSubmit = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email, password };
-//       const data = await signIn(body);
-//       if(data.code == 200){
-//         localStorage.setItem('token',data.data.token);
-//         localStorage.setItem('user',JSON.stringify(data.data.user));
-//         navigate("/");
-//       } else {
-//         alert("Invalid credentials");
-//       }
-//     } catch (error) {
-//       console.error("Login failed", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-
-//   const handleSendOTP = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email};
-//       const data = await signIn(body);
-//       if(data.code == 200){
-//         localStorage.setItem('token',data.data.token);
-//         localStorage.setItem('user',JSON.stringify(data.data.user));
-//         navigate("/");
-//       } else {
-//         alert("Invalid Email");
-//       }
-//     } catch (error) {
-//       console.error("Reset Password failed", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-
-//   const handleResetPassword = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email, otp, newPassword };
-//       const data = await signIn(body);
-//       if(data.code == 200){
-//         localStorage.setItem('token',data.data.token);
-//         localStorage.setItem('user',JSON.stringify(data.data.user));
-//         navigate("/");
-//       } else {
-//         alert("Invalid credentials");
-//       }
-//     } catch (error) {
-//       console.error("Reset Password failed", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-
-
-//   // Open Forgot Password Popup
-//   const handleForgotPassword = () => {
-//     setOpenForgotPassword(true);
-//   };
-
-//   // Handle sending OTP
-//   // const handleSendOTP = () => {
-//   //   // Simulate sending OTP
-//   //   console.log(`OTP sent to ${resetEmail}`);
-//   //   setOpenForgotPassword(false);
-//   //   setOpenOTPDialog(true);
-//   // };
-
-//   // Handle OTP Verification and Password Reset
-//   // const handleResetPassword = () => {
-//   //   console.log(`Resetting password for ${resetEmail}, OTP: ${otp}, New Password: ${newPassword}`);
-//   //   setOpenOTPDialog(false);
-//   // };
-
-//   return (
-//     <div className="w-[500px] h-[750px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
-//       <div className="flex flex-col items-center gap-10">
-//         <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
-//         <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">
-//           Welcome to the dashboard!
-//         </h2>
-//         <div className="flex gap-5">
-//           <ThirdPartyAuthButton>
-//             <FaGoogle className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//           <ThirdPartyAuthButton>
-//             <FaGithub className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//         </div>
-
-//         <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p>
-
-//         <div className="w-full flex flex-col gap-5">
-//           <InputWithLabel label="Email">
-//             <SimpleInput
-//               type="email"
-//               placeholder="Enter an email..."
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//           </InputWithLabel>
-
-//           <InputWithLabel label="Password">
-//             <SimpleInput
-//               type="password"
-//               placeholder="Enter a password..."
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </InputWithLabel>
-//         </div>
-        
-//         {/* Forgot Password Link */}
-//         <p 
-//           className="dark:text-gray-400 text-gray-700 text-base dark:hover:text-gray-300 hover:text-gray-600 cursor-pointer transition-colors max-sm:text-sm"
-//           onClick={handleForgotPassword}
-//         >
-//           Forgot password?
-//         </p>
-
-//         <WhiteButton
-//           onClick={handleSubmit}
-//           disabled={loading}
-//           textSize="lg"
-//           width="full"
-//           py="2"
-//           text={loading ? "Logging in..." : "Login now"} 
-//         />
-
-//         {loading && (
-//           <p className="dark:text-gray-400 text-gray-700 text-base mt-2">Processing your login...</p>
-//         )}
-
-//         <p className="dark:text-gray-400 text-gray-700 text-base cursor-pointer transition-colors flex gap-1 items-center max-sm:text-sm">
-//           Not registered yet?{" "}
-//           <Link
-//             to="/register"
-//             className="dark:text-whiteSecondary text-blackPrimary hover:text-black flex gap-1 items-center dark:hover:text-white max-sm:text-sm hover:underline"
-//           >
-//             Register <FaArrowRight className="mt-[2px]" />
-//           </Link>
-//         </p>
-//       </div>
-
-//       {/* Forgot Password Dialog */}
-//       {/* <Dialog open={openForgotPassword} onClose={() => setOpenForgotPassword(false)}
-//          sx={{
-         
-          
-          
-//         }}>
-//         <DialogTitle>Forgot Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Enter your email"
-//             value={resetEmail}
-//             onChange={(e) => setResetEmail(e.target.value)}
-//             margin="normal"
-//           />
-//         </DialogContent> */}
-//         <Dialog 
-//   open={openForgotPassword} 
-//   onClose={() => setOpenForgotPassword(false)}
-//   fullWidth={true}  // Makes the dialog use the full width of its container
-//   maxWidth="md"     // Sets the maximum width of the dialog to 'md' (medium) - can be 'xs', 'sm', 'md', 'lg', 'xl'
-//   sx={{ 
-//     '& .MuiDialog-paper': {
-//       minHeight: '100px',  // Sets minimum height
-//       maxHeight: '400px',  // Sets maximum height
-//       minWidth: '300px',   // Sets minimum width
-//       maxWidth: '500px',   // Sets maximum width
-//     }
-//   }}
-// >
-//   <DialogTitle>Forgot Password</DialogTitle>
-//   <DialogContent>
-//     <TextField
-//       fullWidth
-//       label="Enter your email"
-//       value={resetEmail}
-//       onChange={(e) => setResetEmail(e.target.value)}
-//       margin="normal"
-//     />
-//   </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleSendOTP} variant="contained"  sx={{
-//             alignItems: "center",
-//             justifyContent: "center",
-//             margin: "auto",
-          
-//         }}>Send OTP</Button>
-//         </DialogActions>
-//       </Dialog>
-
-//       {/* OTP Verification and Password Reset Dialog */}
-//       <Dialog open={openOTPDialog} onClose={() => setOpenOTPDialog(false)}>
-//         <DialogTitle>Reset Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Email"
-//             value={resetEmail}
-//             margin="normal"
-//             disabled
-//           />
-//           <TextField
-//             fullWidth
-//             label="OTP"
-//             value={otp}
-//             onChange={(e) => setOtp(e.target.value)}
-//             margin="normal"
-//           />
-//           <TextField
-//             fullWidth
-//             label="New Password"
-//             type="password"
-//             value={newPassword}
-//             onChange={(e) => setNewPassword(e.target.value)}
-//             margin="normal"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleResetPassword} variant="contained" sx={{margin: "auto",}}>Confirm</Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// };
-
-// export default LoginComponent;
-
-
-
-
-
-
-
-// import { useState } from "react";
-// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
-// import { FaReact } from "react-icons/fa6"; 
-// import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
-// import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
-// import { Link, useNavigate } from "react-router-dom";
-// import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
-
-// const LoginComponent = () => {
-//   const navigate = useNavigate();
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [openForgotPassword, setOpenForgotPassword] = useState(false);
-//   const [openOTPDialog, setOpenOTPDialog] = useState(false);
-//   const [otp, setOtp] = useState("");
-//   const [newPassword, setNewPassword] = useState("");
-//   const [resetEmail, setResetEmail] = useState("");  // To store the email entered during forgot password
-
-//   // Handle login
-//   const handleSubmit = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email, password };
-//       const data = await signIn(body);
-//       if(data.code == 200){
-//         localStorage.setItem('token',data.data.token);
-//         localStorage.setItem('user',JSON.stringify(data.data.user));
-//         navigate("/");
-//       } else {
-//         alert("Invalid credentials");
-//       }
-//     } catch (error) {
-//       console.error("Login failed", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Handle sending OTP for password reset
-//   const handleSendOTP = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email: resetEmail };
-//       const data = await resetOTP(body);  // Use the correct send OTP API function
-//       if (data.code == 200) {
-//         alert("OTP sent to your email.");
-//         setOpenForgotPassword(false); // Close the dialog
-//         setOpenOTPDialog(true); // Open OTP verification dialog
-//       } else {
-//         alert("Failed to send OTP. Please check the email address.");
-//       }
-//     } catch (error) {
-//       console.error("Error sending OTP", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Handle password reset with OTP
-//   const handleResetPassword = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email: resetEmail, otp, newPassword };
-//       const data = await resetPassword(body);  // Use the correct reset password API function
-//       if (data.code == 200) {
-//         alert("Password reset successfully.");
-//         setOpenOTPDialog(false); // Close OTP dialog
-//         navigate("/login"); // Redirect to login page
-//       } else {
-//         alert("Invalid OTP or failed to reset password.");
-//       }
-//     } catch (error) {
-//       console.error("Error resetting password", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
- 
-
-//   // Open Forgot Password Popup
-// const handleForgotPassword = (e: React.MouseEvent<HTMLParagraphElement>) => {
-//   e.preventDefault(); // Prevents the login button from triggering at the same time
-//   setOpenForgotPassword(true);
-// };
-
-
-
-
-//   return (
-//     <div className="w-[500px] h-[750px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
-//       <div className="flex flex-col items-center gap-10">
-//         <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
-//         <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">
-//           Welcome to the dashboard!
-//         </h2>
-//         <div className="flex gap-5">
-//           <ThirdPartyAuthButton>
-//             <FaGoogle className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//           <ThirdPartyAuthButton>
-//             <FaGithub className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//         </div>
-
-//         <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p>
-
-//         <div className="w-full flex flex-col gap-5">
-//           <InputWithLabel label="Email">
-//             <SimpleInput
-//               type="email"
-//               placeholder="Enter an email..."
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//           </InputWithLabel>
-
-//           <InputWithLabel label="Password">
-//             <SimpleInput
-//               type="password"
-//               placeholder="Enter a password..."
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </InputWithLabel>
-//         </div>
-        
-//         {/* Forgot Password Link */}
-//         <p 
-//           className="dark:text-gray-400 text-gray-700 text-base dark:hover:text-gray-300 hover:text-gray-600 cursor-pointer transition-colors max-sm:text-sm"
-//           onClick={handleForgotPassword}
-//         >
-//           Forgot password?
-//         </p>
-
-//         <WhiteButton
-//           onClick={handleSubmit}
-//           disabled={loading}
-//           textSize="lg"
-//           width="full"
-//           py="2"
-//           text={loading ? "Logging in..." : "Login now"} 
-//         />
-
-//         {loading && (
-//           <p className="dark:text-gray-400 text-gray-700 text-base mt-2">Processing your login...</p>
-//         )}
-
-//         <p className="dark:text-gray-400 text-gray-700 text-base cursor-pointer transition-colors flex gap-1 items-center max-sm:text-sm">
-//           Not registered yet?{" "}
-//           <Link
-//             to="/register"
-//             className="dark:text-whiteSecondary text-blackPrimary hover:text-black flex gap-1 items-center dark:hover:text-white max-sm:text-sm hover:underline"
-//           >
-//             Register <FaArrowRight className="mt-[2px]" />
-//           </Link>
-//         </p>
-//       </div>
-
-//       <Dialog open={openForgotPassword} onClose={() => setOpenForgotPassword(false)}
-//         fullWidth={true} maxWidth="md" sx={{ '& .MuiDialog-paper': { minHeight: '100px', maxHeight: '400px', minWidth: '300px', maxWidth: '500px' } }}>
-//         <DialogTitle>Forgot Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Enter your email"
-//             value={resetEmail}
-//             onChange={(e) => setResetEmail(e.target.value)}
-//             margin="normal"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleSendOTP} variant="contained">Send OTP</Button>
-//         </DialogActions>
-//       </Dialog>
-
-//       {/* OTP Verification and Password Reset Dialog */}
-//       <Dialog open={openOTPDialog} onClose={() => setOpenOTPDialog(false)}>
-//         <DialogTitle>Reset Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Email"
-//             value={resetEmail}
-//             margin="normal"
-//             disabled
-//           />
-//           <TextField
-//             fullWidth
-//             label="OTP"
-//             value={otp}
-//             onChange={(e) => setOtp(e.target.value)}
-//             margin="normal"
-//           />
-//           <TextField
-//             fullWidth
-//             label="New Password"
-//             type="password"
-//             value={newPassword}
-//             onChange={(e) => setNewPassword(e.target.value)}
-//             margin="normal"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleResetPassword} variant="contained">Confirm</Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-
-
-// );
-// };
-      
-    
-// export default LoginComponent;
-
-
-
-
-
-
-
-
-
-
-// import { useState } from "react";
-// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
-// import { FaReact } from "react-icons/fa6"; 
-// import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
-// import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
-// import { Link, useNavigate } from "react-router-dom";
-// import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
-
-// const LoginComponent = () => {
-//   const navigate = useNavigate();
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [openForgotPassword, setOpenForgotPassword] = useState(false);
-//   const [openOTPDialog, setOpenOTPDialog] = useState(false);
-//   const [otp, setOtp] = useState("");
-//   const [newPassword, setNewPassword] = useState("");
-//   const [resetEmail, setResetEmail] = useState("");  // To store the email entered during forgot password
-
-//   // Handle login
-//   const handleSubmit = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email, password };
-//       const data = await signIn(body);
-//       if(data.code == 200){
-//         localStorage.setItem('token',data.data.token);
-//         localStorage.setItem('user',JSON.stringify(data.data.user));
-//         navigate("/");
-//       } else {
-//         alert("Invalid credentials");
-//       }
-//     } catch (error) {
-//       console.error("Login failed", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Handle sending OTP for password reset
-//   const handleSendOTP = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email: resetEmail };
-//       const data = await resetOTP(body);  // Use the correct send OTP API function
-//       if (data.code == 200) {
-//         alert("OTP sent to your email.");
-//         setOpenForgotPassword(false); // Close the dialog
-//         setOpenOTPDialog(true); // Open OTP verification dialog
-//       } else {
-//         alert("Failed to send OTP. Please check the email address.");
-//       }
-//     } catch (error) {
-//       console.error("Error sending OTP", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Handle password reset with OTP
-//   const handleResetPassword = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email: resetEmail, otp, newPassword };
-//       const data = await resetPassword(body);  // Use the correct reset password API function
-//       if (data.code == 200) {
-//         alert("Password reset successfully.");
-//         setOpenOTPDialog(false); // Close OTP dialog
-//         navigate("/login"); // Redirect to login page
-//       } else {
-//         alert("Invalid OTP or failed to reset password.");
-//       }
-//     } catch (error) {
-//       console.error("Error resetting password", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
- 
-
-//   // Open Forgot Password Popup
-// const handleForgotPassword = (e: React.MouseEvent<HTMLParagraphElement>) => {
-//   e.preventDefault(); // Prevents the login button from triggering at the same time
-//   setOpenForgotPassword(true);
-// };
-
-
-// const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
-
-//   return (
-//     <div className="w-[500px] h-[750px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
-//       <div className="flex flex-col items-center gap-10">
-//         <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
-//         <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">
-//           Welcome to the dashboard!
-//         </h2>
-//         <div className="flex gap-5">
-//           <ThirdPartyAuthButton>
-//             <FaGoogle className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//           <ThirdPartyAuthButton>
-//             <FaGithub className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//         </div>
-
-//         <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p>
-
-//         <div className="w-full flex flex-col gap-5">
-//           <InputWithLabel label="Email">
-//             <SimpleInput
-//               type="email"
-//               placeholder="Enter an email..."
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//           </InputWithLabel>
-
-//           <InputWithLabel label="Password">
-//             <SimpleInput
-//               type="password"
-//               placeholder="Enter a password..."
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </InputWithLabel>
-//         </div>
-        
-//         {/* Forgot Password Link */}
-//         <p 
-//           className="dark:text-gray-400 text-gray-700 text-base dark:hover:text-gray-300 hover:text-gray-600 cursor-pointer transition-colors max-sm:text-sm"
-//           onClick={handleForgotPassword}
-//         >
-//           Forgot password?
-//         </p>
-
-//         <WhiteButton
-//           onClick={handleSubmit}
-//           disabled={!isLoginEnabled || loading}
-//           textSize="lg"
-//           width="full"
-//           py="2"
-//           text={loading ? "Logging in..." : "Login now"} 
-//         />
-
-
-//         {loading && (
-//           <p className="dark:text-gray-400 text-gray-700 text-base mt-2">Processing your login...</p>
-//         )}
-
-//         <p className="dark:text-gray-400 text-gray-700 text-base cursor-pointer transition-colors flex gap-1 items-center max-sm:text-sm">
-//           Not registered yet?{" "}
-//           <Link
-//             to="/register"
-//             className="dark:text-whiteSecondary text-blackPrimary hover:text-black flex gap-1 items-center dark:hover:text-white max-sm:text-sm hover:underline"
-//           >
-//             Register <FaArrowRight className="mt-[2px]" />
-//           </Link>
-//         </p>
-//       </div>
-
-//       <Dialog open={openForgotPassword} onClose={() => setOpenForgotPassword(false)}
-//         fullWidth={true} maxWidth="md" sx={{ '& .MuiDialog-paper': { minHeight: '100px', maxHeight: '400px', minWidth: '300px', maxWidth: '500px' } }}>
-//         <DialogTitle>Forgot Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Enter your email"
-//             value={resetEmail}
-//             onChange={(e) => setResetEmail(e.target.value)}
-//             margin="normal"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleSendOTP} variant="contained">Send OTP</Button>
-//         </DialogActions>
-//       </Dialog>
-
-//       {/* OTP Verification and Password Reset Dialog */}
-//       <Dialog open={openOTPDialog} onClose={() => setOpenOTPDialog(false)}>
-//         <DialogTitle>Reset Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Email"
-//             value={resetEmail}
-//             margin="normal"
-//             disabled
-//           />
-//           <TextField
-//             fullWidth
-//             label="OTP"
-//             value={otp}
-//             onChange={(e) => setOtp(e.target.value)}
-//             margin="normal"
-//           />
-//           <TextField
-//             fullWidth
-//             label="New Password"
-//             type="password"
-//             value={newPassword}
-//             onChange={(e) => setNewPassword(e.target.value)}
-//             margin="normal"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleResetPassword} variant="contained">Confirm</Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// };
-
-// export default LoginComponent;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useState } from "react";
-// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
-// import { FaReact } from "react-icons/fa6"; 
-// import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
-// import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
-// import { Link, useNavigate } from "react-router-dom";
-// import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
-
-// const LoginComponent = () => {
-//   const navigate = useNavigate();
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [otpLoading, setOtpLoading] = useState(false);
-//   const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
-//   const [openForgotPassword, setOpenForgotPassword] = useState(false);
-//   const [openOTPDialog, setOpenOTPDialog] = useState(false);
-//   const [otp, setOtp] = useState("");
-//   const [newPassword, setNewPassword] = useState("");
-//   const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirm password
-//   const [resetEmail, setResetEmail] = useState("");
-//   const [errorMessage, setErrorMessage] = useState("");
-
-//   // Handle login
-//   const handleSubmit = async () => {
-//     setLoading(true); 
-//     try {
-//       const body = { email, password };
-//       const data = await signIn(body);
-//       if (data.code == 200) {
-//         localStorage.setItem('token', data.data.token);
-//         localStorage.setItem('user', JSON.stringify(data.data.user));
-//         navigate("/");
-//       } else {
-//         alert("Invalid credentials");
-//       }
-//     } catch (error) {
-//       console.error("Login failed", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Handle sending OTP for password reset
-//   const handleSendOTP = async () => {
-//     setOtpLoading(true); 
-//     try {
-//       const body = { email: resetEmail };
-//       const data = await resetOTP(body);
-//       if (data.code == 200) {
-//         alert("OTP sent to your email.");
-//         setOpenForgotPassword(false);
-//         setOpenOTPDialog(true);
-//       } else {
-//         alert("Failed to send OTP. Please check the email address.");
-//       }
-//     } catch (error) {
-//       console.error("Error sending OTP", error);
-//     } finally {
-//       setOtpLoading(false);
-//     }
-//   };
-
-//   // Handle password reset with OTP
-//   const handleResetPassword = async () => {
-//     if (newPassword !== confirmPassword) {
-//       setErrorMessage("Passwords do not match. Please try again.");
-//       return;
-//     }
-    
-//     setResetPasswordLoading(true); 
-//     try {
-//       const body = { email: resetEmail, otp, newPassword };
-//       const data = await resetPassword(body);
-//       if (data.code == 200) {
-//         alert("Password reset successfully.");
-//         setOpenOTPDialog(false);
-//         navigate("/login");
-//       } else {
-//         alert("Invalid OTP or failed to reset password.");
-//       }
-//     } catch (error) {
-//       console.error("Error resetting password", error);
-//     } finally {
-//       setResetPasswordLoading(false);
-//     }
-//   };
-
-//   // Open Forgot Password Popup
-//   // const handleForgotPassword = (e) => {
-//   //   e.preventDefault();
-//   //   setOpenForgotPassword(true);
-//   // };
-
-//   const handleForgotPassword = (e: React.MouseEvent<HTMLParagraphElement>) => {
-//       e.preventDefault(); // Prevents the login button from triggering at the same time
-//       setOpenForgotPassword(true);
-//     };
-
-//   const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
-
-//   return (
-//     <div className="w-[500px] h-[750px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
-//       <div className="flex flex-col items-center gap-10">
-//         <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
-//         <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">
-//           Welcome to the dashboard!
-//         </h2>
-//         <div className="flex gap-5">
-//           <ThirdPartyAuthButton>
-//             <FaGoogle className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//           <ThirdPartyAuthButton>
-//             <FaGithub className="text-2xl max-sm:text-xl" />
-//           </ThirdPartyAuthButton>
-//         </div>
-
-//         <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p>
-
-//         <div className="w-full flex flex-col gap-5">
-//           <InputWithLabel label="Email">
-//             <SimpleInput
-//               type="email"
-//               placeholder="Enter an email..."
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//           </InputWithLabel>
-
-//           <InputWithLabel label="Password">
-//             <SimpleInput
-//               type="password"
-//               placeholder="Enter a password..."
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </InputWithLabel>
-//         </div>
-        
-//         <p 
-//           className="dark:text-gray-400 text-gray-700 text-base dark:hover:text-gray-300 hover:text-gray-600 cursor-pointer transition-colors max-sm:text-sm"
-//           onClick={handleForgotPassword}
-//         >
-//           Forgot password?
-//         </p>
-
-//         <WhiteButton
-//           onClick={handleSubmit}
-//           disabled={!isLoginEnabled || loading}
-//           textSize="lg"
-//           width="full"
-//           py="2"
-//           text={loading ? "Logging in..." : "Login now"} 
-//         />
-
-//         {loading && (
-//           <p className="dark:text-gray-400 text-gray-700 text-base mt-2">Processing your login...</p>
-//         )}
-
-//         <p className="dark:text-gray-400 text-gray-700 text-base cursor-pointer transition-colors flex gap-1 items-center max-sm:text-sm">
-//           Not registered yet?{" "}
-//           <Link
-//             to="/register"
-//             className="dark:text-whiteSecondary text-blackPrimary hover:text-black flex gap-1 items-center dark:hover:text-white max-sm:text-sm hover:underline"
-//           >
-//             Register <FaArrowRight className="mt-[2px]" />
-//           </Link>
-//         </p>
-//       </div>
-
-//       <Dialog open={openForgotPassword} onClose={() => setOpenForgotPassword(false)}
-//         fullWidth={true} maxWidth="md" sx={{ '& .MuiDialog-paper': { minHeight: '100px', maxHeight: '400px', minWidth: '300px', maxWidth: '500px' } }}>
-//         <DialogTitle>Forgot Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Enter your email"
-//             value={resetEmail}
-//             onChange={(e) => setResetEmail(e.target.value)}
-//             margin="normal"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleSendOTP} variant="contained">Send OTP</Button>
-//         </DialogActions>
-//       </Dialog>
-
-//       <Dialog open={openOTPDialog} onClose={() => setOpenOTPDialog(false)}>
-//         <DialogTitle>Reset Password</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Email"
-//             value={resetEmail}
-//             margin="normal"
-//             disabled
-//           />
-//           <TextField
-//             fullWidth
-//             label="OTP"
-//             value={otp}
-//             onChange={(e) => setOtp(e.target.value)}
-//             margin="normal"
-//           />
-//           <TextField
-//             fullWidth
-//             label="New Password"
-//             type="password"
-//             value={newPassword}
-//             onChange={(e) => setNewPassword(e.target.value)}
-//             margin="normal"
-//           />
-//           <TextField
-//             fullWidth
-//             label="Confirm Password"
-//             type="password"
-//             value={confirmPassword}
-//             onChange={(e) => setConfirmPassword(e.target.value)}
-//             margin="normal"
-//           />
-//           {errorMessage && (
-//             <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>
-//           )}
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleResetPassword} variant="contained">Confirm</Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// };
-
-// export default LoginComponent;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
-import { FaArrowRight } from "react-icons/fa6";
-import {  SimpleInput } from "../components";
-import { Link, useNavigate } from "react-router-dom";
-import { signIn, resetOTP, resetPassword } from "../api/auth";  // Import the necessary API functions
-import toast, { Toaster } from 'react-hot-toast';
-import CheatProof from "../assets/transCheatProof.png"
-
-
-const LoginComponent = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  // const [otpLoading, setOtpLoading] = useState(false);
-  // const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
-  const [openForgotPassword, setOpenForgotPassword] = useState(false);
-  const [openOTPDialog, setOpenOTPDialog] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [resetEmail, setResetEmail] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // Error message state
-
-  // Handle login
-  const handleSubmit = async () => {
-    // Reset error message
-    setErrorMessage("");
-
-    // Validate email and password fields
-    if (!email.trim() || !password.trim()) {
-      setErrorMessage("Both email and password are required.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const body = { username:email, password };
-      const data = await signIn(body);
-      if (data.code === 200) {
-        localStorage.setItem('token', data.data.token);
-        localStorage.setItem('user', JSON.stringify(data.data.user));
-        if(data.data.user.Roles[0].roleName === "Teacher"){
-        navigate(`/teacher-dashboard`);
-        } else if(data.data.user.Roles[0].roleName === "Student"){
-        navigate(`/student-dashboard`);
-        }
-      } else {
-        toast.error("Invalid credentials.",{
-          position:"top-center",
-          duration: 5000,
-        });
-      }
-    } catch (error) {
-      console.error("Login failed", error);
-      toast.error("Login failed. Please try again.", {
-        position:"top-center",
-        duration: 5000,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Handle sending OTP for password reset
-  const handleSendOTP = async () => {
-    // setOtpLoading(true); 
-    try {
-      const body = { email: resetEmail };
-      const data = await resetOTP(body);
-      if (data.code === 200) {
-        toast.success("OTP sent to your email.", {
-          position:"top-center",
-          duration: 5000,
-        });
-        setOpenForgotPassword(false);
-        setOpenOTPDialog(true);
-      } else {
-        toast.error("Failed to send OTP. Please check the email address.",{
-          position:"top-center",
-          duration: 5000,
-        });
-      }
-    } catch (error) {
-      console.error("Error sending OTP", error);
-    } finally {
-      // setOtpLoading(false);
-    }
-  };
-
-  // Handle password reset with OTP
-  const handleResetPassword = async () => {
-    if (newPassword !== confirmPassword) {
-      setErrorMessage("Passwords do not match. Please try again.");
-      return;
-    }
-
-    // setResetPasswordLoading(true); 
-    try {
-      const body = { email: resetEmail, otp, newPassword };
-      const data = await resetPassword(body);
-      if (data.code === 200) {
-        toast.success("Password reset successfully.", {
-          position:"top-center",
-          duration: 5000,
-        });
-        setOpenOTPDialog(false);
-        navigate("/login");
-      } else {
-        toast.error("Invalid OTP. Failed to reset password.", {
-          position:"top-center",
-          duration: 5000,
-        });
-      }
-    } catch (error) {
-      console.error("Error resetting password", error);
-    } finally {
-      // setResetPasswordLoading(false);
-    }
-  };
-
-  // Open Forgot Password Popup
-  const handleForgotPassword = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    e.preventDefault();
-    setOpenForgotPassword(true);
-  };
-
-  const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
-
-  return (
-    <div className="w-full max-w-[500px] lg:max-w-[700px] mx-auto mt-10 flex flex-col items-center justify-center bg-gray-50 p-6 sm:p-10 shadow-md border-4 rounded-xl border-fore">
-      <Toaster/>
-      <div className="absolute top-14 left-2 md:top-4 md:left-4 flex items-center px-2">
-        <img
-          src={CheatProof} // Replace with the actual path of your logo
-          alt="Logo"
-          className="h-8 w-8 object-contain mr-2" // Adjust size of the logo
-        />
-        <h2 className="text-lg sm:text-2xl font-bold text-fore">CheatProof</h2>
-      </div>
-      <div className="flex flex-col md:items-center gap-10">
-      
-
-        <h5 className="text-5xl dark:text-whiteSecondary font-bold text-black max-sm:text-xl mt-0 xl:mt-10">
-           <span className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move text-3xl md:text-5xl font-extrabold">Welcome Back!</span>
-        </h5>
-        
-        {/* <div className="text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move text-6xl font-extrabold">
-        CheatProof
-      </div> */}
-        <h5 className="md:text-xl text-base dark:text-whiteSecondary font-semibold text-transparent bg-clip-text bg-gradient-to-r from-color2 via-color1 to-fore animate-gradient-move max-sm:text-xl">
-          Please enter your credentials
-        </h5>
-        {/* <div className="flex gap-x-8">
-          
-          <button className="text-fore px-6 py-2 rounded-lg flex items-center bg-white border border-fore hover:bg-fore hover:text-white">
-            <span className="font-medium text-lg mr-3">Google</span>
-            <FaGoogle className="text-2xl max-sm:text-xl" />
-          </button>
-          
-       
-          <button className="text-fore px-6 py-2 rounded-lg flex items-center bg-white border border-fore hover:bg-fore hover:text-white">
-          <span className="font-medium text-lg mr-3">Github</span>
-            <FaGithub className="text-2xl max-sm:text-xl" />
-            </button>
-          
-        </div> */}
-
-        {/* <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p> */}
-
-        <div className="w-full flex flex-col gap-8">
-          {/* <InputWithLabel label="Email"> */}
-          <label className="text-black font-semibold mt-4">
-            Username
-            <SimpleInput
-              type="email"
-              placeholder="Enter an email..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            </label>
-          {/* </InputWithLabel> */}
-
-          <label className="text-black font-semibold">
-            Password
-            <SimpleInput
-              type="password"
-              placeholder="Enter a password..."
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-        </div>
-
-        {errorMessage && (
-          <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>
-        )}
-
-        <p 
-          className="dark:text-gray-400 text-gray-700 text-base dark:hover:text-gray-300 hover:text-gray-600 cursor-pointer transition-colors max-sm:text-sm"
-          onClick={handleForgotPassword}
-        >
-          Forgot password?
-        </p>
-
-        {/* <WhiteButton
-          onClick={handleSubmit}
-          disabled={!isLoginEnabled || loading}
-          textSize="lg"
-          width="full"
-          py="2"
-          text={loading ? "Logging in..." : "Login now"} 
-        /> */}
-        <button
-  onClick={handleSubmit}
-  disabled={!isLoginEnabled || loading}
-  className={`text-lg px-10 rounded-md py-2 ${
-    !isLoginEnabled || loading ? "bg-white text-gray-400 cursor-not-allowed" : "text-fore font-semibold bg-white border border-fore hover:text-white hover:bg-fore"
-  }`}
->
-  {loading ? "Logging in..." : "Login"}
-</button>
-
-
-        {loading && (
-          <p className="dark:text-gray-400 text-gray-700 text-base mt-2">Processing your login...</p>
-        )}
-
-        <p className="dark:text-gray-400 text-gray-700 text-base cursor-pointer transition-colors flex gap-1 items-center max-sm:text-sm">
-          Not registered yet?{" "}
-          <Link
-            to="/register"
-            className="dark:text-whiteSecondary text-blackPrimary hover:text-black flex gap-1 items-center dark:hover:text-white max-sm:text-sm hover:underline"
-          >
-            Register <FaArrowRight className="mt-[2px]" />
-          </Link>
-        </p>
-      </div>
-
-      <Dialog open={openForgotPassword} onClose={() => setOpenForgotPassword(false)}
-        fullWidth={true} maxWidth="md" sx={{ '& .MuiDialog-paper': { minHeight: '100px', maxHeight: '400px', minWidth: '300px', maxWidth: '500px' } }}>
-        <DialogTitle>Forgot Password</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            label="Enter your email"
-            value={resetEmail}
-            onChange={(e) => setResetEmail(e.target.value)}
-            margin="normal"
-          />
-        </DialogContent>
-        <DialogActions>
-          {/* <Button onClick={handleSendOTP} variant="contained">Send OTP</Button> */}
-          <button onClick={handleSendOTP} className="text-white bg-fore px-4 ml-2 py-2 rounded-lg flex items-center">Send OTP</button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={openOTPDialog} onClose={() => setOpenOTPDialog(false)}>
-        <DialogTitle>Reset Password</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            label="Email"
-            value={resetEmail}
-            margin="normal"
-            disabled
-          />
-          <TextField
-            fullWidth
-            label="OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            margin="normal"
-          />
-          <TextField
-            fullWidth
-            label="New Password"
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            margin="normal"
-          />
-          <TextField
-            fullWidth
-            label="Confirm Password"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            margin="normal"
-          />
-          {errorMessage && (
-            <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>
-          )}
-        </DialogContent>
-        <DialogActions>
-          {/* <Button onClick={handleResetPassword} variant="contained">Confirm</Button> */}
-          <button onClick={handleResetPassword} className="text-white bg-fore px-4 ml-2 py-2 rounded-lg flex items-center">Confirm</button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-};
-
-export default LoginComponent;
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useState } from "react";
-// import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
-// import { FaReact } from "react-icons/fa6"; 
-// import { FaGoogle, FaGithub, FaArrowRight } from "react-icons/fa6";
-// import { InputWithLabel, SimpleInput, ThirdPartyAuthButton, WhiteButton } from "../components";
+// import { useState, KeyboardEvent } from "react";
+// import { Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
+// import { KeyRound, User, ArrowRight, Loader2 } from "lucide-react";
 // import { Link, useNavigate } from "react-router-dom";
 // import { signIn, resetOTP, resetPassword } from "../api/auth";
-// import { toast, ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+// import toast, { Toaster } from 'react-hot-toast';
 
 // const LoginComponent = () => {
 //   const navigate = useNavigate();
-//   const [email, setEmail] = useState("");
+//   const [username, setUsername] = useState("");
 //   const [password, setPassword] = useState("");
 //   const [loading, setLoading] = useState(false);
-//   const [otpLoading, setOtpLoading] = useState(false);
-//   const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
 //   const [openForgotPassword, setOpenForgotPassword] = useState(false);
 //   const [openOTPDialog, setOpenOTPDialog] = useState(false);
 //   const [otp, setOtp] = useState("");
 //   const [newPassword, setNewPassword] = useState("");
 //   const [confirmPassword, setConfirmPassword] = useState("");
 //   const [resetEmail, setResetEmail] = useState("");
-//   const [errorMessage, setErrorMessage] = useState("");
+//   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+//   const validateForm = () => {
+//     const newErrors: { [key: string]: string } = {};
+
+//     if (!username.trim()) {
+//       newErrors.username = "Username is required";
+//     } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+//       newErrors.username = "Username must be alphanumeric";
+//     }
+
+//     if (!password.trim()) {
+//       newErrors.password = "Password is required";
+//     } else if (password.length < 6) {
+//       newErrors.password = "Password must be at least 6 characters";
+//     }
+
+//     setErrors(newErrors);
+//     return Object.keys(newErrors).length === 0;
+//   };
 
 //   const handleSubmit = async () => {
-//     setErrorMessage("");
-//     if (!email.trim() || !password.trim()) {
-//       toast.error("Both email and password are required.");
-//       return;
-//     }
+//     if (!validateForm()) return;
 
 //     setLoading(true);
 //     try {
-//       const body = { email, password };
+//       const body = { username, password };
 //       const data = await signIn(body);
+      
 //       if (data.code === 200) {
 //         localStorage.setItem('token', data.data.token);
 //         localStorage.setItem('user', JSON.stringify(data.data.user));
-//         navigate("/");
+        
+//         const role = data.data.user.Roles[0].roleName;
+//         navigate(role === "Teacher" ? "/teacher-dashboard" : "/student-dashboard");
+        
+//         toast.success("Login successful!", {
+//           position: "top-center",
+//           duration: 3000,
+//         });
 //       } else {
-//         toast.error("Invalid credentials.");
+//         handleApiError(data);
 //       }
-//     } catch (error) {
-//       console.error("Login failed", error);
-//       toast.error("Login failed. Please try again.");
+//     } catch (error: any) {
+//       handleApiError(error);
 //     } finally {
 //       setLoading(false);
 //     }
 //   };
 
-//   const handleSendOTP = async () => {
-//     setOtpLoading(true); 
+//   const handleApiError = (error: any) => {
+//     if (error.errors) {
+//       const newErrors: { [key: string]: string } = {};
+//       error.errors.forEach((err: any) => {
+//         newErrors[err.field] = err.message;
+//       });
+//       setErrors(newErrors);
+//     } else {
+//       toast.error(error.message || "Invalid credentials", {
+//         position: "top-center",
+//         duration: 5000,
+//       });
+//     }
+//   };
+
+//   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+//     if (e.key === 'Enter' && !loading && username && password) {
+//       handleSubmit();
+//     }
+//   };
+
+//   const handleForgotPassword = async () => {
+//     if (!resetEmail.trim()) {
+//       setErrors({ resetEmail: "Email is required" });
+//       return;
+//     }
+
+//     setLoading(true);
 //     try {
-//       const body = { email: resetEmail };
-//       const data = await resetOTP(body);
+//       const data = await resetOTP({ email: resetEmail });
 //       if (data.code === 200) {
-//         toast.success("OTP sent to your email.");
 //         setOpenForgotPassword(false);
 //         setOpenOTPDialog(true);
+//         toast.success("OTP sent to your email!", {
+//           position: "top-center",
+//           duration: 3000,
+//         });
 //       } else {
-//         toast.error("Failed to send OTP. Please check the email address.");
+//         handleApiError(data);
 //       }
-//     } catch (error) {
-//       console.error("Error sending OTP", error);
-//       toast.error("Error sending OTP. Please try again.");
+//     } catch (error: any) {
+//       handleApiError(error);
 //     } finally {
-//       setOtpLoading(false);
+//       setLoading(false);
 //     }
 //   };
 
 //   const handleResetPassword = async () => {
-//     if (newPassword !== confirmPassword) {
-//       toast.error("Passwords do not match. Please try again.");
+//     if (!otp.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+//       setErrors({
+//         otp: !otp.trim() ? "OTP is required" : "",
+//         newPassword: !newPassword.trim() ? "New password is required" : "",
+//         confirmPassword: !confirmPassword.trim() ? "Confirm password is required" : "",
+//       });
 //       return;
 //     }
 
-//     setResetPasswordLoading(true); 
+//     if (newPassword !== confirmPassword) {
+//       setErrors({ confirmPassword: "Passwords do not match" });
+//       return;
+//     }
+
+//     setLoading(true);
 //     try {
-//       const body = { email: resetEmail, otp, newPassword };
-//       const data = await resetPassword(body);
+//       const data = await resetPassword({
+//         email: resetEmail,
+//         otp,
+//         newPassword,
+//       });
+
 //       if (data.code === 200) {
-//         toast.success("Password reset successfully.");
 //         setOpenOTPDialog(false);
-//         navigate("/login");
+//         setOtp("");
+//         setNewPassword("");
+//         setConfirmPassword("");
+//         setResetEmail("");
+//         toast.success("Password reset successful! Please login with your new password.", {
+//           position: "top-center",
+//           duration: 5000,
+//         });
 //       } else {
-//         toast.error("Invalid OTP or failed to reset password.");
+//         handleApiError(data);
 //       }
-//     } catch (error) {
-//       console.error("Error resetting password", error);
-//       toast.error("Error resetting password. Please try again.");
+//     } catch (error: any) {
+//       handleApiError(error);
 //     } finally {
-//       setResetPasswordLoading(false);
+//       setLoading(false);
 //     }
 //   };
 
-//   const handleForgotPassword = (e) => {
-//     e.preventDefault();
-//     setOpenForgotPassword(true);
-//   };
-
-//   const isLoginEnabled = email.trim() !== "" && password.trim() !== "";
-
 //   return (
-//     <div className="w-[500px] h-[750px] dark:bg-gray-900 bg-white flex flex-col justify-between items-center py-10 max-sm:w-[400px] max-[420px]:w-[320px] max-sm:h-[750px]">
-//       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
-//       <div className="flex flex-col items-center gap-10">
-// //         <FaReact className="text-5xl dark:text-whiteSecondary text-blackPrimary hover:rotate-180 hover:duration-1000 hover:ease-in-out cursor-pointer max-sm:text-4xl" />
-// //         <h2 className="text-2xl dark:text-whiteSecondary text-blackPrimary font-medium max-sm:text-xl">
-// //           Welcome to the dashboard!
-// //         </h2>
-// //         <div className="flex gap-5">
-// //           <ThirdPartyAuthButton>
-// //             <FaGoogle className="text-2xl max-sm:text-xl" />
-// //           </ThirdPartyAuthButton>
-// //           <ThirdPartyAuthButton>
-// //             <FaGithub className="text-2xl max-sm:text-xl" />
-// //           </ThirdPartyAuthButton>
-// //         </div>
-
-// //         <p className="dark:text-gray-400 text-gray-700 text-xl max-sm:text-base">OR</p>
-
-// //         <div className="w-full flex flex-col gap-5">
-//            <InputWithLabel label="Email">
-//              <SimpleInput
-//               type="email"
-//               placeholder="Enter an email..."
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//           </InputWithLabel>
-
-//           <InputWithLabel label="Password">
-//             <SimpleInput
-//               type="password"
-//               placeholder="Enter a password..."
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </InputWithLabel>
+//     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
+//       <Toaster />
+      
+//       <div className="w-full max-w-xl bg-white rounded-2xl shadow-xl p-12 space-y-10">
+//         <div className="flex items-center justify-center space-x-3">
+//           <img src={CheatProof} alt="CheatProof Logo" className="h-12 w-12" />
+//           <h1 className="text-3xl font-bold text-gray-900">
+//             CheatProof
+//           </h1>
 //         </div>
 
-//         {errorMessage && (
-//           <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>
-//         )}
+//         <div className="space-y-8">
+//           <div className="space-y-2">
+//             <h2 className="text-4xl font-bold text-center text-gray-900">Welcome back</h2>
+//             <p className="text-center text-gray-600 text-lg">Enter your credentials to continue</p>
+//           </div>
 
-//         <p 
-//           className="dark:text-gray-400 text-gray-700 text-base dark:hover:text-gray-300 hover:text-gray-600 cursor-pointer transition-colors max-sm:text-sm"
-//           onClick={handleForgotPassword}
-//         >
-//           Forgot password?
-//         </p>
+//           <div className="space-y-6">
+//             <div className="relative">
+//               <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+//               <input
+//                 type="text"
+//                 placeholder="Username"
+//                 value={username}
+//                 onChange={(e) => setUsername(e.target.value)}
+//                 onKeyPress={handleKeyPress}
+//                 className={`w-full pl-12 pr-4 py-4 text-lg border ${
+//                   errors.username ? 'border-red-500' : 'border-gray-300'
+//                 } rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition`}
+//               />
+//               {errors.username && (
+//                 <p className="mt-2 text-sm text-red-500">{errors.username}</p>
+//               )}
+//             </div>
 
-//         <WhiteButton
-//           onClick={handleSubmit}
-//           disabled={!isLoginEnabled || loading}
-//           textSize="lg"
-//           width="full"
-//           py="2"
-//           text={loading ? "Logging in..." : "Login now"} 
-//         />
+//             <div className="relative">
+//               <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+//               <input
+//                 type="password"
+//                 placeholder="Password"
+//                 value={password}
+//                 onChange={(e) => setPassword(e.target.value)}
+//                 onKeyPress={handleKeyPress}
+//                 className={`w-full pl-12 pr-4 py-4 text-lg border ${
+//                   errors.password ? 'border-red-500' : 'border-gray-300'
+//                 } rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition`}
+//               />
+//               {errors.password && (
+//                 <p className="mt-2 text-sm text-red-500">{errors.password}</p>
+//               )}
+//             </div>
+//           </div>
 
-//         {loading && (
-//           <p className="dark:text-gray-400 text-gray-700 text-base mt-2">Processing your login...</p>
-//         )}
-
-//         <p className="dark:text-gray-400 text-gray-700 text-base cursor-pointer transition-colors flex gap-1 items-center max-sm:text-sm">
-//           Not registered yet?{" "}
-//           <Link
-//             to="/register"
-//             className="dark:text-whiteSecondary text-blackPrimary hover:text-black flex gap-1 items-center dark:hover:text-white max-sm:text-sm hover:underline"
+//           <button
+//             onClick={handleSubmit}
+//             disabled={loading}
+//             className="w-full bg-blue-600 text-white py-4 rounded-xl text-lg font-semibold
+//                      hover:bg-blue-700 focus:ring-4 focus:ring-blue-200
+//                      transition-all duration-200 ease-in-out flex items-center justify-center space-x-2"
 //           >
-//             Register <FaArrowRight className="mt-[2px]" />
-//           </Link>
-//         </p>
-//       </div>
-      
-//       {/* Other components and content */}
+//             {loading ? (
+//               <Loader2 className="animate-spin h-6 w-6" />
+//             ) : (
+//               <>
+//                 <span>Sign in</span>
+//                 <ArrowRight className="h-5 w-5" />
+//               </>
+//             )}
+//           </button>
 
-//       <Dialog open={openForgotPassword} onClose={() => setOpenForgotPassword(false)}
-//         fullWidth={true} maxWidth="md" sx={{ '& .MuiDialog-paper': { minHeight: '100px', maxHeight: '400px', minWidth: '300px', maxWidth: '500px' } }}>
-//         <DialogTitle>Forgot Password</DialogTitle>
+//           <div className="flex flex-col space-y-4 text-center">
+//             <button
+//               onClick={() => setOpenForgotPassword(true)}
+//               className="text-base text-gray-600 hover:text-blue-600 transition"
+//             >
+//               Forgot your password?
+//             </button>
+
+//             <div className="text-base">
+//               <span className="text-gray-600">Don't have an account? </span>
+//               <Link
+//                 to="/register"
+//                 className="font-semibold text-blue-600 hover:text-blue-700 transition"
+//               >
+//                 Sign up
+//               </Link>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       <Dialog open={openForgotPassword} onClose={() => setOpenForgotPassword(false)}>
+//         <DialogTitle>Reset Password</DialogTitle>
 //         <DialogContent>
 //           <TextField
+//             autoFocus
+//             margin="dense"
+//             label="Email Address"
+//             type="email"
 //             fullWidth
-//             label="Enter your email"
 //             value={resetEmail}
 //             onChange={(e) => setResetEmail(e.target.value)}
-//             margin="normal"
+//             error={!!errors.resetEmail}
+//             helperText={errors.resetEmail}
 //           />
 //         </DialogContent>
 //         <DialogActions>
-//           <Button onClick={handleSendOTP} variant="contained">Send OTP</Button>
+//           <button
+//             onClick={() => setOpenForgotPassword(false)}
+//             className="px-4 py-2 text-gray-600 hover:text-gray-800 transition"
+//           >
+//             Cancel
+//           </button>
+//           <button
+//             onClick={handleForgotPassword}
+//             disabled={loading}
+//             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition flex items-center space-x-2"
+//           >
+//             {loading ? <Loader2 className="animate-spin h-4 w-4" /> : "Send OTP"}
+//           </button>
 //         </DialogActions>
 //       </Dialog>
 
 //       <Dialog open={openOTPDialog} onClose={() => setOpenOTPDialog(false)}>
-//         <DialogTitle>Reset Password</DialogTitle>
+//         <DialogTitle>Enter OTP</DialogTitle>
 //         <DialogContent>
-//           <TextField
-//             fullWidth
-//             label="Email"
-//             value={resetEmail}
-//             margin="normal"
-//             disabled
-//           />
-//           <TextField
-//             fullWidth
-//             label="OTP"
-//             value={otp}
-//             onChange={(e) => setOtp(e.target.value)}
-//             margin="normal"
-//           />
-//           <TextField
-//             fullWidth
-//             label="New Password"
-//             type="password"
-//             value={newPassword}
-//             onChange={(e) => setNewPassword(e.target.value)}
-//             margin="normal"
-//           />
-//           <TextField
-//             fullWidth
-//             label="Confirm Password"
-//             type="password"
-//             value={confirmPassword}
-//             onChange={(e) => setConfirmPassword(e.target.value)}
-//             margin="normal"
-//           />
+//           <div className="space-y-4">
+//             <TextField
+//               autoFocus
+//               margin="dense"
+//               label="OTP"
+//               type="text"
+//               fullWidth
+//               value={otp}
+//               onChange={(e) => setOtp(e.target.value)}
+//               error={!!errors.otp}
+//               helperText={errors.otp}
+//             />
+//             <TextField
+//               margin="dense"
+//               label="New Password"
+//               type="password"
+//               fullWidth
+//               value={newPassword}
+//               onChange={(e) => setNewPassword(e.target.value)}
+//               error={!!errors.newPassword}
+//               helperText={errors.newPassword}
+//             />
+//             <TextField
+//               margin="dense"
+//               label="Confirm Password"
+//               type="password"
+//               fullWidth
+//               value={confirmPassword}
+//               onChange={(e) => setConfirmPassword(e.target.value)}
+//               error={!!errors.confirmPassword}
+//               helperText={errors.confirmPassword}
+//             />
+//           </div>
 //         </DialogContent>
 //         <DialogActions>
-//           <Button onClick={handleResetPassword} variant="contained">Confirm</Button>
+//           <button
+//             onClick={() => setOpenOTPDialog(false)}
+//             className="px-4 py-2 text-gray-600 hover:text-gray-800 transition"
+//           >
+//             Cancel
+//           </button>
+//           <button
+//             onClick={handleResetPassword}
+//             disabled={loading}
+//             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition flex items-center space-x-2"
+//           >
+//             {loading ? <Loader2 className="animate-spin h-4 w-4" /> : "Reset Password"}
+//           </button>
 //         </DialogActions>
 //       </Dialog>
 //     </div>
@@ -1527,3 +338,441 @@ export default LoginComponent;
 // };
 
 // export default LoginComponent;
+
+
+
+
+import { useState, KeyboardEvent } from "react";
+import { User, Lock, Loader2, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+import { resetOTP, resetPassword, signIn } from "@/api/auth";
+import CheatProof from "../assets/transCheatProof.png";
+import ilustration from '../assets/undraw_access-account_aydp.svg'
+
+
+function App() {
+  const navigate = useNavigate()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showOTPDialog, setShowOTPDialog] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!username.trim()) {
+      newErrors.email = "Username is required";
+    } 
+
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      // Simulate API call
+      const body = { username, password };
+      const data = await signIn(body);
+      // Add your login logic here
+
+      if (data.code === 200) {
+                localStorage.setItem('token', data.data.token);
+                localStorage.setItem('user', JSON.stringify(data.data.user));
+                
+                const role = data.data.user.Roles[0].roleName;
+                navigate(role === "Teacher" ? "/teacher-dashboard" : "/student-dashboard");
+                
+                toast.success("Login successful!", {
+                  position: "top-center",
+                  duration: 3000,
+                });
+              }
+
+      // toast.success("Login successful!");
+      // Add your login logic here
+    } catch (error: any) {
+      toast.error(error.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!username.trim()) {
+      setErrors({ email: "Email is required" });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Simulate API call
+      const data = await resetOTP({ username: username });
+            if (data.code === 200) {
+              setShowForgotPassword(false);
+              setShowOTPDialog(true);
+              toast.success("OTP sent to your email!", {
+                position: "top-center",
+                duration: 3000,
+              });
+            }
+
+    
+    } catch (error: any) {
+      toast.error(error.message || "Failed to send OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!otp.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+      setErrors({
+        otp: !otp.trim() ? "OTP is required" : "",
+        newPassword: !newPassword.trim() ? "New password is required" : "",
+        confirmPassword: !confirmPassword.trim() ? "Confirm password is required" : "",
+      });
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setErrors({ confirmPassword: "Passwords do not match" });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Simulate API call
+      const data = await resetPassword({
+                
+                otp,
+                newPassword,
+              });
+        
+              if (data.code === 200) {
+                setShowOTPDialog(false);
+                setOtp("");
+                setNewPassword("");
+                setConfirmPassword("");
+                toast.success("Password reset successful! Please login with your new password.", {
+                  position: "top-center",
+                  duration: 5000,
+                });
+              }
+
+      // toast.success("Password reset successful! Please login with your new password.");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to reset password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !loading) {
+      handleSubmit(e as any);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex">
+      <Toaster position="top-center" />
+      
+      {/* Left Section */}
+      <div className="w-1/2 bg-white p-8 flex flex-col justify-center">
+        <div className="max-w-md mx-auto w-full space-y-8">
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-color1-600 rounded">
+              {/* <img src={} alt="" /> */}
+              <img src={CheatProof} alt="CheatProof Logo" />
+            </div>
+            <span className="text-xl font-semibold text-color2-900">CheatProof</span>
+          </div>
+
+          {/* Main Content */}
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-3xl font-bold text-color2-900">Welcome back</h2>
+              <p className="mt-2 text-color2-600">Please enter your details</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-color2-700">
+                    Username
+                  </label>
+                  <div className="mt-1 relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <User className="h-5 w-5 " />
+                    </div>
+                    <input
+                      id="email"
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      className={`block w-full pl-10 pr-3 py-2 border ${
+                        errors.email ? 'border-red-500' : 'border-color1'
+                      } rounded-md shadow-sm focus:ring-color1 focus:border-color1/75 sm:text-sm`}
+                      placeholder="Enter your username"
+                    />
+              
+                  </div>
+                  {errors.email && (
+                      <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                    )}
+                </div>
+
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-color1">
+                    Password
+                  </label>
+                  <div className="mt-1 relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Lock className="h-5 w-5 " />
+                    </div>
+                    <input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      className={`block w-full pl-10 pr-3 py-2 border ${
+                        errors.password ? 'border-red-500' : 'border-color1'
+                      } rounded-md shadow-sm focus:ring-color1 focus:border-color1/75 sm:text-sm`}
+                      placeholder="••••••••"
+                    />
+                  
+                  </div>
+                  {errors.password && (
+                      <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+                    )}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end">
+                {/* <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="h-4 w-4 text-color1 focus:ring-color1 border-color2/75 rounded"
+                  />
+                  <label htmlFor="remember-me" className="ml-2 block text-sm text-color2">
+                    Remember for 30 days
+                  </label>
+                </div> */}
+
+                <button
+                  type="button"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="text-sm font-medium text-color1 hover:text-color2"
+                >
+                  Forgot password?
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-color1 hover:bg-color2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color2"
+                >
+                  {loading ? (
+                    <Loader2 className="animate-spin h-5 w-5" />
+                  ) : (
+                    "Sign in"
+                  )}
+                </button>
+
+                <button
+                onClick={()=>navigate("/register")}
+                  type="button"
+                  className="w-full flex items-center justify-center py-2 px-4 border border-color2-300 rounded-md shadow-sm text-sm font-medium text-color2-700 bg-white hover:bg-color2/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color2"
+                >
+                  {/* <img src="https://www.google.com/favicon.ico" alt="Google" className="h-5 w-5 mr-2" /> */}
+                  Register
+                </button>
+              </div>
+            </form>
+
+            <p className="text-center text-sm text-color2-600">
+              Don't have an account?{' '}
+              <Link to="/register" className="font-medium text-color1 hover:text-color2">
+                Sign up
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Section - Illustration */}
+      <div className="w-1/2 bg-color1 flex items-center justify-center p-8">
+        <div className="relative w-full max-w-lg">
+          <img
+            src={ilustration}
+            alt="Decorative"
+            className="w-full h-auto rounded-lg shadow-xl"
+          />
+        </div>
+      </div>
+
+      {/* Forgot Password Dialog */}
+      {showForgotPassword && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-color2-900">Reset Password</h3>
+              <button
+                onClick={() => setShowForgotPassword(false)}
+                className="text-color2-400 hover:text-color2-500"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="reset-email" className="block text-sm font-medium text-color2-700">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="reset-email"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className={`mt-1 block w-full border ${
+                    errors.email ? 'border-red-500' : 'border-color2-300'
+                  } rounded-md shadow-sm py-2 px-3 focus:ring-color1-500 focus:border-color1-500 sm:text-sm`}
+                />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                )}
+              </div>
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowForgotPassword(false)}
+                  className="px-4 py-2 text-color2/70 hover:text-color2/80"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleForgotPassword}
+                  disabled={loading}
+                  className="px-4 py-2 bg-color1/90 text-white rounded hover:bg-color1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color1/50 flex items-center space-x-2"
+                >
+                  {loading ? <Loader2 className="animate-spin h-4 w-4" /> : "Send OTP"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* OTP Dialog */}
+      {showOTPDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold ">Enter OTP</h3>
+              <button
+                onClick={() => setShowOTPDialog(false)}
+                className="text-color2 hover:text-color2/50"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="otp" className="block text-sm font-medium text-color2/70">
+                  OTP
+                </label>
+                <input
+                  type="text"
+                  id="otp"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className={`mt-1 block w-full border ${
+                    errors.otp ? 'border-red-500' : 'border-color2/30'
+                  } rounded-md shadow-sm py-2 px-3 focus:ring-color1-500 focus:border-color1/50 sm:text-sm`}
+                />
+                {errors.otp && (
+                  <p className="mt-1 text-sm text-red-500">{errors.otp}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="new-password" className="block text-sm font-medium text-color2-700">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  id="new-password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className={`mt-1 block w-full border ${
+                    errors.newPassword ? 'border-red-500' : 'border-color2-300'
+                  } rounded-md shadow-sm py-2 px-3 focus:ring-color1-500 focus:border-color1-500 sm:text-sm`}
+                />
+                {errors.newPassword && (
+                  <p className="mt-1 text-sm text-red-500">{errors.newPassword}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="confirm-password" className="block text-sm font-medium text-color2-700">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={`mt-1 block w-full border ${
+                    errors.confirmPassword ? 'border-red-500' : 'border-color2-300'
+                  } rounded-md shadow-sm py-2 px-3 focus:ring-color1-500 focus:border-color1-500 sm:text-sm`}
+                />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>
+                )}
+              </div>
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowOTPDialog(false)}
+                  className="px-4 py-2 text-color2/70 hover:text-color2/80"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleResetPassword}
+                  disabled={loading}
+                  className="px-4 py-2 bg-color1 text-white rounded hover:bg-color2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color2 flex items-center space-x-2"
+                >
+                  {loading ? <Loader2 className="animate-spin h-4 w-4" /> : "Reset Password"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
