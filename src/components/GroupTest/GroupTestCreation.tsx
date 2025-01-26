@@ -75,7 +75,8 @@ const TestDetails: React.FC = () => {
 
   
 
-  const handleSave = async (body: any) => {
+  const handleSave = async (body: any,setLoading:any) => {
+    setLoading(true);
     try {
       // Save the group setting
       const assignBody = {
@@ -86,17 +87,29 @@ const TestDetails: React.FC = () => {
       }
 
       const response = await UpdateAssignedGroupTest(groupTest.assignedTestId, assignBody);
+      console.log(response);
+      await fetchGroupTest()
+
+      // setgroupTest({
+      //   ...groupTest,
+      //   AssignedTests:{
+      //     ...response.data
+      //   }
+      // });
+
 
       // Log the response for debugging purposes
       toast.success("Changes saved Successfully")
-      console.log(response);
-
+      setLoading(false);
+      
+   
       // Update the state with the response or perform other necessary actions
       // For example: setState(response.data);
     } catch (error) {
       // Log the error for debugging purposes
       console.error("Error updating assigned group test:", error);
       toast.error("Error updating assigned group test");
+      setLoading(false);
 
       // Handle the error, such as showing an error message to the user
       // Example: toast.error("Failed to update the group test settings.");

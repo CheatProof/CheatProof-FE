@@ -409,14 +409,14 @@
 // export default AddQuestionBulk;
 
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../components/Header/Header";
 import { useParams } from "react-router-dom";
 import { getTestById, getTestForAssignment } from "../../../api/test";
 import { Circles } from "react-loader-spinner";
 import { assignTestAQuestionInBulk, getQuestionTypes } from "@/api/question";
 import { toast, Toaster } from "react-hot-toast";
-import { Checkbox } from "@mui/material";
+import { Box, Checkbox, Slider } from "@mui/material";
 
 const AddQuestionBulk = () => {
   const { id } = useParams();
@@ -499,6 +499,7 @@ const AddQuestionBulk = () => {
       const data = await getTestForAssignment(id);
       if (data.success) {
         setQuestions(data.data);
+        setValue([0,data.data.length])
 
         const preSelected = new Set(
           data.data.filter((q: any) => q.assignedStatus).map((q: any) => q.id)
@@ -586,6 +587,8 @@ const AddQuestionBulk = () => {
     const newSelectedQuestions = new Set();
     const summary: any = [];
 
+
+
     Object.keys(filteredQuestions).forEach((type) => {
       console.log(filteredQuestions);
       const count = randomCounts[type] || 0;
@@ -614,6 +617,48 @@ const AddQuestionBulk = () => {
     setRandomSummary(summary);
     setSummaryModalVisible(true);
   };
+
+  
+    const [value, setValue] = React.useState([20, 37]);
+  
+    const handleChange = (event:any, newValue:any) => {
+
+      const data = {
+        data:questions.slice(newValue[0],newValue[1])
+      }
+      const filtered:any = {
+        multipleChoice: data.data.filter(
+          (q: any) => q.questionTypeId === questionTypes.find((t: any) => t.questionTypeName === "Multiple Choice")?.id
+          && q.MultipleChoiceQuestions?.answerSelection === "checkbox"
+        ),
+        singleChoice: data.data.filter(
+          (q: any) =>
+            q.questionTypeId === questionTypes.find((t: any) => t.questionTypeName === "Multiple Choice")?.id &&
+            q.MultipleChoiceQuestions?.answerSelection === "radio"
+        ),
+        trueFalse: data.data.filter(
+          (q: any) => q.questionTypeId === questionTypes.find((t: any) => t.questionTypeName === "True False")?.id
+        ),
+        essay: data.data.filter(
+          (q: any) => q.questionTypeId === questionTypes.find((t: any) => t.questionTypeName === "Essay")?.id
+        ),
+        freeText: data.data.filter(
+          (q: any) => q.questionTypeId === questionTypes.find((t: any) => t.questionTypeName === "Free Text")?.id
+        ),
+        matching: data.data.filter(
+          (q: any) => q.questionTypeId === questionTypes.find((t: any) => t.questionTypeName === "Matching")?.id
+        ),
+        grammar: data.data.filter(
+          (q: any) => q.questionTypeId === questionTypes.find((t: any) => t.questionTypeName === "Grammar")?.id
+        ),
+      };
+
+      setFilteredQuestions(filtered);
+
+      console.log(event)
+      setValue(newValue);
+    };
+  
 
   return (
     <main className="flex">
@@ -760,6 +805,20 @@ const AddQuestionBulk = () => {
         Select the number of questions for each question category.
         The system will randomly choose that number of questions from the question bank for each category.
       </p>
+      <p className="block mb-1 font-medium text-gray-700">Index Range of Question</p>
+
+      <Box >
+      <Slider
+        getAriaLabel={() => 'Temperature range'}
+        value={value}
+        onChange={handleChange}
+        valueLabelDisplay="auto"
+        min={0}
+        max={questions.length}
+        // getAriaValueText={valuetext}
+      />
+    </Box>
+
       <div className="grid grid-cols-2 gap-6 my-2">
         {Object.keys(filteredQuestions).map((type) => (
         filteredQuestions[type].length ?  <div key={type} className="flex flex-col">

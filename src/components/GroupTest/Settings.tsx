@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Paper, Collapse, Divider, Radio, RadioGroup, FormControlLabel, Tabs, Tab, TextField, MenuItem, Select, Switch, Checkbox, Tooltip, Alert } from '@mui/material';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { Circles } from 'react-loader-spinner';
@@ -52,15 +52,17 @@ const Settings = ({ handleSave ,groupTest }: any) => {
   const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState(0);
-  const [availabilityStatus, setAvailabilityStatus] = useState(groupTest?.availabilityStatus? groupTest?.availabilityStatus: 'available');
-  const [availabilityFrom, setAvailabilityFrom] = useState(groupTest?.availableFrom? formatToDateTimeLocal(groupTest?.availableFrom):'');
-  const [availabilityUntil, setAvailabilityUntil] = useState(groupTest?.availableUntil? formatToDateTimeLocal(groupTest?.availableUntil):'');
-  const [attemptCount, setAttemptCount] = useState(groupTest?.attemptsAllowed? groupTest?.attemptsAllowed:1);
-  const [ipRecord, setIpRecord] = useState(groupTest?.recordPublicIP? groupTest?.recordPublicIP:false);
-  const [allowPrinting, setAllowPrinting] = useState(groupTest?.allowPrinting? groupTest?.allowPrinting:false);
-  const [allowHighlightCopy, setAllowHighlightCopy] = useState(groupTest?.allowCopyText? groupTest?.allowCopyText:false);
-  const [allowPasting, setAllowPasting] = useState(groupTest?.allowPastingText? groupTest?.allowPastingText:false);
-  const [allowTranslation, setAllowTranslation] = useState(groupTest?.allowTextTransition? groupTest?.allowTextTransition:false);
+  const [availabilityStatus, setAvailabilityStatus] = useState(groupTest?.availabilityStatus || "available");
+  const [availabilityFrom, setAvailabilityFrom] = useState(formatToDateTimeLocal(groupTest?.availableFrom) || '');
+  const [availabilityUntil, setAvailabilityUntil] = useState(formatToDateTimeLocal(groupTest?.availableUntil) ||'');
+  const [attemptCount, setAttemptCount] = useState(Number(groupTest?.attemptsAllowed) || 1);
+
+  const [ipRecord, setIpRecord] = useState(groupTest?.recordPublicIP ?? false);
+  const [allowPrinting, setAllowPrinting] = useState(groupTest?.allowPrinting ?? false);
+  const [allowHighlightCopy, setAllowHighlightCopy] = useState(groupTest?.allowCopyText ?? false);
+  const [allowPasting, setAllowPasting] = useState(groupTest?.allowPastingText ?? false);
+  const [allowTranslation, setAllowTranslation] = useState(groupTest?.allowTextTransition ?? false);
+ 
 
 
 
@@ -98,6 +100,41 @@ const Settings = ({ handleSave ,groupTest }: any) => {
   const [resultsByCategory, setResultsByCategory] = useState(groupTest?.resultByCategory? groupTest?.resultByCategory:false);
   const [downloadCertificate, setDownloadCertificate] = useState(groupTest?.showCertificate? groupTest?.showCertificate:false);
 
+  useEffect(() => {
+    if (groupTest) {
+      setIpRecord(groupTest.recordPublicIP ?? false);
+      setAllowPrinting(groupTest.allowPrinting ?? false);
+      setAllowHighlightCopy(groupTest.allowCopyText ?? false);
+      setAllowPasting(groupTest.allowPastingText ?? false);
+      setAllowTranslation(groupTest.allowTextTransition ?? false);
+
+      setDisplayGuidelines(groupTest.displayInstructions??true);
+      setQuestionsPerPage(groupTest.questionPerPage??1);
+      setDisplayPoints(groupTest.displayPoints??true);
+      setDisplayCategories(groupTest.displayCategories??true);
+
+      setMandatory(groupTest.mandatoryAnswer??true);
+      setAutoFinish(groupTest.autoFinishTest??false);
+      setInstantReview(groupTest.instantReview??true);
+      setRevealAnswers(groupTest.revealCorrectAnswer??false);
+      setChangeAnswers(groupTest.allowChangeAnswer??true);
+      setBookmarkQuestions(groupTest.allowQuestionBookmark??false);
+      setSpellCheck(groupTest.spellCheck??false);
+
+      setRandomizeQuestions(groupTest.randomize??false);
+      setTestDuration(groupTest.timeLimit??30);
+      setResumeLaterDisplay(groupTest.resumeLater??false);
+
+      setPoints(groupTest.resultScorePoints? groupTest.resultScorePoints:true);
+      setPercentage(groupTest.resultScorePoercentage? groupTest.resultScorePoercentage:true);
+      setCustomFeedback(groupTest.customFeedback? groupTest.customFeedback:true);
+      setGradedQuestions(groupTest.gradedQuestions? groupTest.gradedQuestions:true);
+      setRevealAnswers1(groupTest.revealCorrectResults? groupTest.revealCorrectResults:true);
+      setIncorrectQuestionsOnly(groupTest.revealIncorrectResults? groupTest.revealIncorrectResults:false);
+      setResultsByCategory(groupTest.resultByCategory? groupTest.resultByCategory:false);
+      setDownloadCertificate(groupTest.showCertificate? groupTest.showCertificate:false);
+    }
+  }, [groupTest]);
 
       /* {
 {
@@ -903,11 +940,11 @@ const Settings = ({ handleSave ,groupTest }: any) => {
     // Print/Copy/paste/IP
     allowPrinting: allowPrinting,
     allowCopyText: allowHighlightCopy,
-    allowPasting: allowPasting,
+    allowPastingText: allowPasting,
     allowTextTransition: allowTranslation,
     // IP recording
-    recordPublic: ipRecord,
-    recordPrivate: true,
+    recordPublicIP: ipRecord,
+    recordPrivateIP: true,
     // Question Settings
     displayCategories: displayCategories,
     displayInstructions: displayGuidelines,
