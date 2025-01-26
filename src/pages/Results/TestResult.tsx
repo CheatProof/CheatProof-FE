@@ -126,7 +126,7 @@ const ResultSummaryCard = () => {
           </p>
 
           <p className="text-sm font-medium text-color1">
-            <strong>Status:</strong> {results.obtainedPoints/results.totalPoints>=60 ? "Passed":"Failed"}
+            <strong>Status:</strong> {(results.percentage) >=60 ? "Passed":"Failed"}
           </p>
           {/* <button className="text-fore text-sm font-medium hover:underline">
             Show previous scores

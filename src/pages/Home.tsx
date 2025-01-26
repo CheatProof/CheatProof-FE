@@ -162,7 +162,7 @@ const HomePage = () => {
               <img
                 src={picture}
                 alt="Test Creation Interface"
-                className="max-w-xl"
+                className="lg:max-w-xl w-full sm:max-w-screen-sm"
                 
               />
             </div>

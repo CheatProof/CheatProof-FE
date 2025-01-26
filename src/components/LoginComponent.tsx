@@ -493,11 +493,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex lg:flex-nowrap flex-wrap ">
       <Toaster position="top-center" />
       
       {/* Left Section */}
-      <div className="w-1/2 bg-white p-8 flex flex-col justify-center">
+      <div className="lg:w-1/2 w-full bg-white p-8 flex flex-col justify-center">
         <div className="max-w-md mx-auto w-full space-y-8">
           {/* Logo */}
           <div className="flex items-center space-x-2">
@@ -628,7 +628,7 @@ function App() {
       </div>
 
       {/* Right Section - Illustration */}
-      <div className="w-1/2 bg-color1 flex items-center justify-center p-8">
+      <div className="lg:w-1/2 w-full bg-color1 lg:flex  hidden items-center justify-center p-8">
         <div className="relative w-full max-w-lg">
           <img
             src={ilustration}

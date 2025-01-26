@@ -22,10 +22,11 @@ import {
   Paper,
 } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getTestById, getTestWithGroups } from "../../api/test";
+import { deleteTestById, getTestById, getTestWithGroups } from "../../api/test";
 import { Circles } from "react-loader-spinner";
 import { Button, Typography } from "@material-tailwind/react";
 import { PiExam } from "react-icons/pi";
+import toast from "react-hot-toast";
 
 const TestDashboard: React.FC = () => {
   const { id } = useParams();
@@ -34,6 +35,28 @@ const TestDashboard: React.FC = () => {
   const [test, setTest] = useState<any>();
   const [groups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [confirmDeleteModalShow, setConfirmDeleteModalShow] = useState(false)
+  const [deleteLoading, setDeleteLoading]= useState(false)
+
+  const handleTestDelete = async( )=>{
+    setDeleteLoading(true)
+    try{
+      const response = await deleteTestById(id);
+      if (response.code === 200) {
+        toast.success("Test deleted successfully");
+        setDeleteLoading(false)
+        navigate("/teacher-dashboard/alltests");
+       
+      } else {
+        toast.error("Failed to delete test");
+        setDeleteLoading(false)
+      }
+    }catch(e) {
+      toast.error("Failed to delete test");
+      setDeleteLoading(false)
+    }
+
+  }
 
   const fetchTest = async () => {
     const testData = await getTestById(id);
@@ -163,7 +186,10 @@ const TestDashboard: React.FC = () => {
                           </IconButton>
                         </Tooltip>
                         <Tooltip title="Delete">
-                          <IconButton color="error">
+                          <IconButton
+                          onClick={() => setConfirmDeleteModalShow(true)}
+                           color="error">
+
                             <FaRegTrashAlt fontSize="large" />
                           </IconButton>
                         </Tooltip>
@@ -271,9 +297,42 @@ const TestDashboard: React.FC = () => {
           
         </Grid>
       
+     
 
         <Footer />
+
+
       </Box>
+      {confirmDeleteModalShow && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex  justify-center z-[50] items-center">
+                <div className="bg-white p-8 max-w-xl rounded-lg shadow-lg">
+                  <h2 className="text-lg font-bold mb-4">Confirm Delete Test</h2>
+                  <p className="bg-gray-100 mb-5 rounded text-black/55 text-xs p-3">
+                  Are you confirm that you want to delete the Test?. <br /><br />
+                  This action cannot be undone and all the data related to this Test will be deleted (Answer,Result,Assignment)
+                  
+        </p>
+                 
+               
+                    <div className="flex justify-end gap-1 mt-5">
+                    <button
+                      className="mt-2 px-5 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                      onClick={() => setConfirmDeleteModalShow(false)}
+                    >
+                      Cancel
+                    </button>
+                  
+                  <button
+                    className="mt-2 px-5 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800"
+                    onClick={() => handleTestDelete()}
+                    disabled={deleteLoading}
+                  >
+                    { deleteLoading ? "Deleting the Test ...":"Delete" }
+                  </button>
+                 </div>
+                </div>
+              </div>
+            )}
     </Box>
   );
 };

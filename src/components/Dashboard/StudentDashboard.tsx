@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { MdOutlineArrowRightAlt, MdOutlineGroup } from "react-icons/md";
 import { Calendar } from "../ui/calendar";
+import toast, { Toaster } from "react-hot-toast";
 
 const tooltipMessages: { [key: number]: string } = {
   1: "Special Event on Day 1",
@@ -70,12 +71,15 @@ const StudentDashboard: React.FC = () => {
   };
 
   const handleResumeTest = async (testSession: any) => {
+    toast("Preparing to resume test")
     const response = await resumeTest({
       testSessionId: testSession.id,
       assignedTestId: testSession.assignedTestId,
     });
 
     if (response.code === 200) {
+      toast.success("Test resumed successfully");
+
       console.log("Test resumed successfully");
       sessionStorage.setItem("showInstructions", "false");
       localStorage.setItem("testStarted", "true");
@@ -100,6 +104,7 @@ const StudentDashboard: React.FC = () => {
       });
     } else {
       console.log("Failed to resume test");
+      toast.error("Failed to resume test");
     }
   };
 
@@ -117,6 +122,7 @@ const StudentDashboard: React.FC = () => {
 
   return (
     <div className="flex lg:flex-nowrap flex-wrap  min-h-[78vh] gap-6   ">
+      <Toaster/>
       {/* Left Section */}
       <div className="w-full lg:w-2/3 rounded-lg p-4 shadow bg-white">
         <div className="flex justify-between items-center mb-4">
@@ -135,7 +141,7 @@ const StudentDashboard: React.FC = () => {
             {groups.map((group) => (
               <div
                 key={group.id}
-                className="bg-white rounded-lg border border-[1] border-color1 p-4 flex justify-between items-center  transition"
+                className="bg-white rounded-lg border  border-color1 p-4 flex justify-between items-center  transition"
               >
                 <div className="flex items-center gap-4">
                   <MdOutlineGroup className="text-4xl text-color1 bg-color1/20 rounded-full p-2" />
@@ -162,17 +168,17 @@ const StudentDashboard: React.FC = () => {
               {incompleteTestSessions.map((testSession) => (
                 <div
                   key={testSession.id}
-                  className="bg-white rounded-lg shadow-md p-4 flex justify-between items-center hover:shadow-lg transition"
+                  className="bg-white rounded-lg border  border-color1  p-4 flex justify-between items-center hover:shadow-lg transition"
                 >
                   <div className="flex items-center gap-4">
-                    <MdOutlineGroup className="text-4xl text-purple-600 bg-purple-100 rounded-full p-2" />
+                    <MdOutlineGroup className="text-4xl text-color1 bg-color1/20 rounded-full p-2" />
                     <span className="font-medium text-gray-700">
                       {testSession.AssignedTests.Tests.testName}
                     </span>
                   </div>
                   <MdOutlineArrowRightAlt
                     onClick={() => handleResumeTest(testSession)}
-                    className="text-4xl text-gray-600 hover:text-white hover:bg-purple-600 rounded-full p-2 transition cursor-pointer"
+                    className="text-4xl text-gray-600 hover:text-white hover:bg-color1 bg-color1/10 rounded-full p-2 transition cursor-pointer"
                   />
                 </div>
               ))}

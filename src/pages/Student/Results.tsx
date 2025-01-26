@@ -7,6 +7,7 @@ import { fetchStudentResultsBySession } from "@/api/test-session";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Button } from "@material-tailwind/react";
 
 const StudentResults = () => {
   const [studentsResults, setStudentResults] = useState([]);
@@ -28,6 +29,7 @@ const StudentResults = () => {
       setLoading(false);
     }
   };
+  const props:any={}
 
   useEffect(() => {
     fetchStudentResults();
@@ -92,9 +94,13 @@ const StudentResults = () => {
                               to={`/student-dashboard/result-details`}
                               state={{
                                 result:result}}
-                              className="text-white bg-color1 hover:bg-fore rounded px-4 py-2"
+                            
                             >
-                              View Full Result
+                             <Button
+                             {...props}
+                             
+                               className="text-white bg-color1 hover:bg-fore rounded px-4 py-2"
+                             >View Full Result</Button> 
                             </Link>
                           </TableCell>
                         </TableRow>

@@ -320,7 +320,7 @@
 
 
 
-import React from "react";
+// import React from "react";
 import CheatProof from "../../assets/transCheatProof.png";
 import { Footer } from "@/components";
 

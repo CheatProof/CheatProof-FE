@@ -5,11 +5,12 @@ import QuestionCard from '../../components/Question/QuestionCard';
 import { getQuestionsByTeacherId, getQuestionTypes } from '../../api/question';
 import { Circles } from 'react-loader-spinner';
 import { LuEye } from "react-icons/lu";
-
+import { IconButton, Typography } from "@material-tailwind/react";
+import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Popper from '@mui/material/Popper';
 import Paper from '@mui/material/Paper';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import { Modal, Typography, Box, Tooltip, IconButton } from '@mui/material';
+import { Modal, Box, Tooltip } from '@mui/material';
 import { IoMdClose } from 'react-icons/io';
 import { FaCaretDown } from 'react-icons/fa';
 import { BiHide } from 'react-icons/bi';
@@ -103,6 +104,7 @@ const QuestionBank = () => {
     }
     setLoading(false);
   };
+  const props:any={}
 
   useEffect(() => {
     fetchCategories();
@@ -115,20 +117,47 @@ const QuestionBank = () => {
     navigate(`?page=${page}`);
   };
 
-  const renderPagination = () => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => handlePageChange(i)}
-          className={`px-4 py-2 mx-1 rounded ${i === currentPage ? 'bg-color2 text-white' : 'bg-gray-200 text-black'} hover:bg-color1 transition-colors`}
+  const Pagination = ({ totalPages, currentPage, onPageChange }:any) => {
+    const next = () => {
+      if (currentPage < totalPages) {
+        onPageChange(currentPage + 1);
+      }
+    };
+  
+    const prev = () => {
+      if (currentPage > 1) {
+        onPageChange(currentPage - 1);
+      }
+    };
+  
+    return (
+      <div className="flex items-center gap-8">
+        <IconButton
+        {...props}
+          size="sm"
+          variant="outlined"
+          onClick={prev}
+          disabled={currentPage === 1}
         >
-          {i}
-        </button>
-      );
-    }
-    return pages;
+          <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
+        </IconButton>
+        <Typography
+         {...props}
+        color="gray" className="font-normal">
+          Page <strong className="text-gray-900">{currentPage}</strong> of{" "}
+          <strong className="text-gray-900">{totalPages}</strong>
+        </Typography>
+        <IconButton
+         {...props}
+          size="sm"
+          variant="outlined"
+          onClick={next}
+          disabled={currentPage === totalPages}
+        >
+          <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+        </IconButton>
+      </div>
+    );
   };
 
   const handleFilterChange = (e:any) => {
@@ -217,8 +246,11 @@ const QuestionBank = () => {
                     <div className='flex space-x-4'>
                       <button onClick={()=>setHideAnswer(!hideAnswer)} className="border-gray-300 rounded-lg border-2  mb-4 md:mb-0">
                         <Tooltip title={hideAnswer?"Unhide Answer":'Hide Answers'}>
-                          <IconButton>
-                        {hideAnswer?(<LuEye className='w-6 h-4 text-color1'/>): (<BiHide className='w-6 h-4 text-color1'/>)}
+                          <IconButton
+                          className='bg-white'
+                           {...props}
+                          >
+                        {hideAnswer?(<LuEye className='w-6 h-4 bg-white text-color1'/>): (<BiHide className='w-6 h-4 bg-white text-color1'/>)}
                         </IconButton>
                         </Tooltip>
                       </button>
@@ -305,7 +337,7 @@ const QuestionBank = () => {
                   <QuestionCard key={idx} question={question} idx={currentPage} hide={hideAnswer} onDelete={getQuestions} />
                 ))}
               </div>
-              <div className="flex justify-center mt-8 mb-4">{questions.length===0?"": renderPagination()}</div>
+              <div className="flex justify-center mt-8 mb-4">{questions.length===0?"": Pagination({totalPages,currentPage,onPageChange:handlePageChange})}</div>
             </>
           )}
         </div>
@@ -348,6 +380,7 @@ const QuestionBank = () => {
           />
         
           <Typography
+           {...props}
             id="modal-modal-title"
             variant="h6"
             component="h2"
@@ -361,7 +394,9 @@ const QuestionBank = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" component="p" sx={{ mb: 2, fontWeight: 'bold' }}>
+              <Typography
+               {...props}
+               variant="h6"  sx={{ mb: 2, fontWeight: 'bold' }}>
                 Into a Test
               </Typography>
               <button
@@ -374,7 +409,9 @@ const QuestionBank = () => {
       
            
             <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" component="p" sx={{ mb: 2, fontWeight: 'bold' }}>
+              <Typography
+               {...props}
+               variant="h6"  sx={{ mb: 2, fontWeight: 'bold' }}>
                 Into your Question Bank
               </Typography>
               <button
@@ -387,7 +424,9 @@ const QuestionBank = () => {
           </Box>
       
         
-          <Typography variant="body2" sx={{ mt: 4, color: 'gray' }}>
+          <Typography
+           {...props}
+           variant="p" sx={{ mt: 4, color: 'gray' }}> 
             <ul>
               <li>Tips:</li>
               <li>Your Question Bank is where all your Questions are stored.</li>
