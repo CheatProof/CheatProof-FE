@@ -35,6 +35,7 @@ export default function CollapsibleEditor() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [test, setTest] = useState<any>();
+  const [testName, setTestName]=useState("")
   const [loading, setLoading] = useState(true);
   const [accordionLoading, setAccordionLoading] = useState(false);
 
@@ -49,6 +50,9 @@ export default function CollapsibleEditor() {
       if (testData.data.testIntroduction) {
         setEditorState(htmlToEditorState(testData.data.testIntroduction));
       }
+      if(testData.data.testName){
+        setTestName(testData.data.testName)
+      }
       setLoading(false);
     }
   };
@@ -56,12 +60,13 @@ export default function CollapsibleEditor() {
   const updateDescription = async () => {
     setAccordionLoading(true);
     const body = {
+      testName:testName,
       testIntroduction: getHtmlFromEditorState(editorState),
     };
     const response = await updateTestById(id, body);
     if (response.code === 200) {
       toast.success("Test introduction updated successfully!");
-      setTest({ ...test, testIntroduction: body.testIntroduction });
+      setTest({ ...test, testIntroduction: body.testIntroduction,testName:body.testName });
     } else {
       toast.error("Failed to update test introduction!");
     }
@@ -133,10 +138,22 @@ export default function CollapsibleEditor() {
                 <Typography className="font-semibold">Test Introduction</Typography>
               </AccordionSummary>
               <AccordionDetails>
+              <div className=" my-2 ">
+                <label className="my-1">Test Name : </label>
+                  <input
+                    type="text"
+                    value={testName}
+                    onChange={(e) => setTestName(e.target.value)}
+                    className="border-b border-color1 focus:border-none focus:ring-transparent  px-1 "
+                  />
+                
+                </div>
                 <Typography className="text-sm text-gray-500 mb-4">
                   Introduction text will be displayed before Users start this
                   Test. Introduction text is optional.
                 </Typography>
+
+             
 
                 <div className="border p-4 rounded-md bg-white">
                   <Editor
