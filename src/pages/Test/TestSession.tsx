@@ -67,7 +67,9 @@ function TestSession() {
   const [showInstructions, setShowInstructions] = useState<boolean>(
     () => JSON.parse(sessionStorage.getItem('showInstructions') || 'true')
   );
-  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const [currentQuestion, setCurrentQuestion] = useState<number>(
+    parseInt(sessionStorage.getItem('currentQuestion') || '0')
+  );
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedAnswers, setSelectedAnswers] = useState<any[]>(
     () => JSON.parse(localStorage.getItem('selectedAnswers') || '[]')
@@ -192,7 +194,7 @@ function TestSession() {
     
     if (currentQuestion < questions.length - 1) {
       setNextQuestionLoading(true);
-      await continueTest({testSessionId:localStorage.getItem('sessionId'),attemptedQuestions:selectedAnswers})
+      await continueTest({testSessionId:localStorage.getItem('sessionId'),attemptedQuestions:selectedAnswers,currentQuestionIndex:currentQuestion+1})
       setNextQuestionLoading(false);
       setCurrentQuestion(currentQuestion + 1);
 

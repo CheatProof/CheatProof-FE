@@ -98,7 +98,7 @@ function QuestionNavigationModal({ open, onClose, questions,setQuestions  ,setCl
                                                 className={`text-sm ${question.answered ? 'text-green-500' : 'text-red-500'}`}
                                                 />
                                             </div>
-                                            <IconButton edge="end" onClick={() => {/* navigate to question */}}>
+                                            <IconButton edge="end" onClick={() => {onClose(index)}}>
                                                 <ArrowForwardIosIcon fontSize="small" />
                                             </IconButton>
                                         </div>

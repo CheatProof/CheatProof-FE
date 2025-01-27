@@ -103,8 +103,8 @@ const TestManage: React.FC = () => {
         return;
       }
 
-      const testNameRegex = /^[a-zA-Z0-9 ]+$/;
-      if (!testNameRegex.test(newTestName)) {
+      // const testNameRegex = /^[a-zA-Z0-9-_]+$/;
+      if (!newTestName) {
         toast.error('Test name can only contain alphanumeric characters and spaces');
         return;
       }

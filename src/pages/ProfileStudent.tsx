@@ -101,10 +101,15 @@ const ProfileStudent = () => {
       setUsernameSection(false);
       setLoadingUsername(false);
     } else {
-      const error = response?.errors.map((error:any) => error.msg)
+      const error:any = response?.errors.map((error:any) => error.msg)
+      if(error){
       error.join("\n");
       toast.error(`${response.message} \n
         ${error?error:""}`);
+      }
+      if(response.code === 401){
+        toast.error(response.message);
+      }
       setLoadingUsername(false);
     }
   }

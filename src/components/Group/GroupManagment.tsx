@@ -11,7 +11,8 @@ import {
   Plus, 
   ChevronRight,
   Edit,
-  Key
+  Key,
+  User
 } from "lucide-react";
 import {
   Collapsible,
@@ -32,6 +33,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useNavigate, useParams } from 'react-router-dom';
 import { deleteGroup, fetchGroupById, getGroupMembersByGroupId, notifyMembersByGroup, updateGroup } from '../../api/group';
+import { updateUser } from '../../api/auth';
+
+
 import { ContentState, convertFromHTML, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from "react-draft-wysiwyg";
@@ -145,7 +149,213 @@ const GroupsManagement = () => {
 
     // set group members data to state
   }
-
+  const EditGroupMember: React.FC<any> = ({ member, members,setGroupMember }) => {
+    const [openModal, setOpenModal] = useState(false);
+    const [user, setUser] = useState({
+      username: member.username,
+      email: member.email,
+      firstName: member.firstName,
+      lastName: member.lastName,
+    });
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+  
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  
+    const validateFields = () => {
+      const errors: { [key: string]: string } = {};
+      if (!user.username.trim()) errors.username = "Username is required";
+      if (!user.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email))
+        errors.email = "Valid email is required";
+      if (!user.firstName.trim()) errors.firstName = "First Name is required";
+      if (!user.lastName.trim()) errors.lastName = "Last Name is required";
+    
+      // Password validations
+      if (password && password.length < 6)
+        errors.password = "Password must be at least 6 characters long";
+      if (password && password !== confirmPassword)
+        errors.confirmPassword = "Passwords do not match";
+    
+      setErrors(errors);
+      return Object.keys(errors).length === 0;
+    };
+    
+    const handleUpdateMember = async () => {
+      if (!validateFields()) {
+        toast.error("Please fix the errors in the form!");
+        return;
+      }
+    
+      // Prepare body
+      const body: any = {
+        ...user,
+      };
+    
+      // Conditionally add password field if it's not empty
+      if (password) {
+        body.password = password;
+      }
+    
+      try {
+        const data = await updateUser(member.id, body);
+        if(data.code===200){
+          setGroupMember(members.map((m:any)=>m.User.id === member.id ? {...m,User:data.data}:m))
+        toast.success("Member updated successfully!");
+        setOpenModal(false);
+        }
+      } catch (error) {
+        toast.error("Failed to update member. Please try again.");
+        setOpenModal(false);
+      }
+    };
+  
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      setUser({ ...user, [name]: value });
+      setErrors({ ...errors, [name]: "" });
+    };
+  
+    const handleOpenModal = () => {
+      setOpenModal(!openModal);
+    };
+  
+    return (
+      <AlertDialog open={openModal}>
+        <AlertDialogTrigger asChild>
+          <Button onClick={handleOpenModal}    variant="outline"
+                  size="sm" className="flex items-center gap-2">
+            <User className="w-4 h-4" />
+            Edit Member
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="max-w-lg w-full">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Edit Member</AlertDialogTitle>
+            <AlertDialogDescription>
+              Update the member's details below. Fields marked with * are required.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+  
+          {/* Grid Form */}
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            {/* Username */}
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                Username *
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={user.username}
+                onChange={handleChange}
+                placeholder="Enter Username"
+                className="mt-1 block w-full py-2 px-1 border border-color1 rounded  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              />
+              {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
+            </div>
+  
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
+                placeholder="Enter Email"
+                className="mt-1 block py-2 px-1 border border-color1 w-full rounded  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            </div>
+  
+            {/* First Name */}
+            <div>
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                First Name *
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={user.firstName}
+                onChange={handleChange}
+                placeholder="Enter First Name"
+                className="mt-1 block w-full py-2 px-1 border border-color1 rounded  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              />
+              {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
+            </div>
+  
+            {/* Last Name */}
+            <div>
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                Last Name *
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={user.lastName}
+                onChange={handleChange}
+                placeholder="Enter Last Name"
+                className="mt-1 block w-full py-2 px-1 border border-color1 rounded  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              />
+              {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
+            </div>
+  
+            {/* Password */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter Password"
+                className="mt-1 block w-full py-2 px-1 border border-color1 rounded  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              />
+            </div>
+  
+            {/* Confirm Password */}
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm Password"
+                className="mt-1 block w-full py-2 px-1 border border-color1 rounded  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>
+              )}
+            </div>
+          </div>
+  
+          <AlertDialogFooter className="mt-6">
+            <AlertDialogCancel onClick={()=>{handleOpenModal()}}>Cancel</AlertDialogCancel>
+            <Button
+              onClick={handleUpdateMember}
+              className="bg-indigo-600 text-white hover:bg-indigo-700 px-5 py-2 rounded"
+            >
+              Save
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  };
+  
   const editGroup = async ()=>{
     setLoading(true);
     const editGroup = {
@@ -284,7 +494,7 @@ const GroupsManagement = () => {
         value={notifyMessage}
         onChange={(e)=>setNotifyMessage(e.target.value)}
         placeholder="Enter your message here"
-        className="mt-1 block w-full rounded-sm border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="mt-1 block w-full py-2 px-1 border border-color1 rounded-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       ></textarea>
     </div>
 
@@ -491,9 +701,7 @@ const GroupsManagement = () => {
                 <span>Email: {member.User.email}</span>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  Edit Details
-                </Button>
+               <EditGroupMember member={member.User} members={groupMembers} setGroupMember={setGroupMembers}/>
                 <Button
                   variant="outline"
                   size="sm"

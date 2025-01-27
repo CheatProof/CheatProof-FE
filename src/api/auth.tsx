@@ -157,3 +157,40 @@ export const updateUsername = (body:any) => {
     });
 };
 
+
+// '/getById/:id'
+
+export const getUserById = (id: string) => {
+    return fetch(`${baseUrl}/api/user/getById/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};
+
+// '/update/:id'
+
+export const updateUser = (id: string, body:any) => {
+    return fetch(`${baseUrl}/api/user/update/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(data => data)
+    .catch(error => {
+        console.error('Error:', error);
+        throw error;
+    });
+};

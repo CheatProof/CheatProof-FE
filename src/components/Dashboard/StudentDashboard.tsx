@@ -85,6 +85,8 @@ const StudentDashboard: React.FC = () => {
       localStorage.setItem("testStarted", "true");
       localStorage.setItem("tabSwitchCount", "0");
       localStorage.setItem("Questions", JSON.stringify(JSON.parse(testSession.test).Tests.Questions));
+      sessionStorage.setItem("currentQuestion",(response.data.currentQuestionIndex-1).toString());
+      console.log(response.data.currentQuestionIndex-1);
       localStorage.setItem(
         "selectedAnswers",
         JSON.stringify(response.data.attemptedQuestions)
