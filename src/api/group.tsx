@@ -158,14 +158,14 @@ export const notifyMembersByGroup = (groupId:any, message:any) => {
 }
 
 export const generateSelfRegistrationCode = (groupId:any, quantity:any) => {
-    const url = `${baseUrl}/api/group/selfRegistration/generateCodes/${groupId}`;
+    const url = `${baseUrl}/api/group/selfRegistration/generateCodes`;
     return fetch(url,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+localStorage.getItem('token')
         },
-        body: JSON.stringify({quantity})
+        body: JSON.stringify({quantity,groupId})
     })
        .then(response => response.json())
        .then(data => data)
@@ -173,8 +173,50 @@ export const generateSelfRegistrationCode = (groupId:any, quantity:any) => {
         .catch(error => console.error('Error:', error));
 }
 
+export const removeSelfRegistrationCode = (groupId:any, quantity:any) => {
+    const url = `${baseUrl}/api/group/selfRegistration/removeCodes`;
+    return fetch(url,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        },
+        body: JSON.stringify({quantity,groupId})
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
+
+
+// export const removeSelfRegistrationCode = (groupId: any, quantity: any) => {
+//     const url = `${baseUrl}/api/group/selfRegistration/removeCodes`;
+//     console.log("Making DELETE request to:", url);
+//     console.log("Payload:", { quantity, groupId });
+
+//     return fetch(url, {
+//         method: 'DELETE',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Bearer ' + localStorage.getItem('token')
+//         },
+//         body: JSON.stringify({ quantity, groupId })
+//     })
+//     .then(response => {
+//         console.log("Response Status:", response.status);
+//         return response.json();
+//     })
+//     .then(data => {
+//         console.log("Response Data:", data);
+//         return data;
+//     })
+//     .catch(error => console.error('Error:', error));
+// };
+
+
 export const registrationCodesByGroupId = (groupId:any) => {
-    const url = `${baseUrl}/api/group/getById/registrationCodesByGroupId/${groupId}`;
+    const url = `${baseUrl}/api/group/get/registrationCodesByGroupId/${groupId}`;
     return fetch(url,{
         method: 'GET',
         headers: {

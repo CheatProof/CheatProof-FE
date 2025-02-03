@@ -152,11 +152,11 @@ const router = createBrowserRouter([
         element:<AddGroupUser/>
       },
       {
-        path:"group-code-user",
+        path:"group-code-user/:id",
         element:<AddMemberByCode/> 
       },
       {
-        path:"group-registration-codes",
+        path:"group-registration-codes/:id",
         element:<RegistrationCodes /> 
       },
       {
