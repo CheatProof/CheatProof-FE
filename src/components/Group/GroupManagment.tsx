@@ -441,7 +441,7 @@ const GroupsManagement = () => {
       {/* <AlertDialogCancel>Cancel</AlertDialogCancel> */}
       <div className='flex gap-x-28 justify-between'>
       <Button onClick={()=>navigate(`/teacher-dashboard/group-add-member/${id}`)} className='bg-color1 hover:bg-fore'><span>Add Members Manually</span></Button>
-      <Button onClick={()=>navigate(`/teacher-dashboard/group-code-user`)} className='bg-color1 hover:bg-fore'><span>Self Registration</span></Button>
+      <Button onClick={()=>navigate(`/teacher-dashboard/group-code-user/${id}`)} className='bg-color1 hover:bg-fore'><span>Self Registration</span></Button>
       </div>
       
     </AlertDialogFooter>
