@@ -48,6 +48,7 @@ import AddMemberByCode from "./pages/GroupUser/AddMemberByCode";
 import RegistrationCodes from "./pages/GroupUser/RegistrationCode";
 import TestRegistration from "./pages/Test/TestRegistration";
 import TeacherResultView from "./pages/Results/TeacherResultReview";
+import GroupMembers from "./pages/Group/GroupMembers";
 
 
 const router = createBrowserRouter([
@@ -142,6 +143,10 @@ const router = createBrowserRouter([
       {
         path:"allgroups",
         element:<Groups/>
+      },
+      {
+        path:"allmembers",
+        element:<GroupMembers/>
       },
       {
         path:"group-management/:id",

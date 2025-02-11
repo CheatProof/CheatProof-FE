@@ -246,3 +246,46 @@ export const addGroupMembersByCode = (registrationCode:any, memberData:any) => {
         // Handle errors
         .catch(error => console.error('Error:', error));
 }
+
+export const getAllGroupMembers = () => {
+    const url = `${baseUrl}/api/group/get/groupMembers`;
+    return fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        }
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
+
+
+// export const getAllGroupMembers = async (groupId: any) => {
+//     if (!groupId) {
+//         console.error("Group ID is missing!");
+//         return null;
+//     }
+
+//     const url = `${baseUrl}/api/group/get/groupMembers/${groupId}`;
+//     try {
+//         const response = await fetch(url, {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': 'Bearer ' + localStorage.getItem('token')
+//             }
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`API error: ${response.status} - ${response.statusText}`);
+//         }
+
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Fetch error:', error);
+//         return null;
+//     }
+// };
