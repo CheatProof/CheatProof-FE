@@ -158,14 +158,14 @@ export const notifyMembersByGroup = (groupId:any, message:any) => {
 }
 
 export const generateSelfRegistrationCode = (groupId:any, quantity:any) => {
-    const url = `${baseUrl}/api/group/selfRegistration/generateCodes/${groupId}`;
+    const url = `${baseUrl}/api/group/selfRegistration/generateCodes`;
     return fetch(url,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+localStorage.getItem('token')
         },
-        body: JSON.stringify({quantity})
+        body: JSON.stringify({quantity,groupId})
     })
        .then(response => response.json())
        .then(data => data)
@@ -173,8 +173,50 @@ export const generateSelfRegistrationCode = (groupId:any, quantity:any) => {
         .catch(error => console.error('Error:', error));
 }
 
+export const removeSelfRegistrationCode = (groupId:any, quantity:any) => {
+    const url = `${baseUrl}/api/group/selfRegistration/removeCodes`;
+    return fetch(url,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        },
+        body: JSON.stringify({quantity,groupId})
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
+
+
+// export const removeSelfRegistrationCode = (groupId: any, quantity: any) => {
+//     const url = `${baseUrl}/api/group/selfRegistration/removeCodes`;
+//     console.log("Making DELETE request to:", url);
+//     console.log("Payload:", { quantity, groupId });
+
+//     return fetch(url, {
+//         method: 'DELETE',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Bearer ' + localStorage.getItem('token')
+//         },
+//         body: JSON.stringify({ quantity, groupId })
+//     })
+//     .then(response => {
+//         console.log("Response Status:", response.status);
+//         return response.json();
+//     })
+//     .then(data => {
+//         console.log("Response Data:", data);
+//         return data;
+//     })
+//     .catch(error => console.error('Error:', error));
+// };
+
+
 export const registrationCodesByGroupId = (groupId:any) => {
-    const url = `${baseUrl}/api/group/getById/registrationCodesByGroupId/${groupId}`;
+    const url = `${baseUrl}/api/group/get/registrationCodesByGroupId/${groupId}`;
     return fetch(url,{
         method: 'GET',
         headers: {
@@ -204,3 +246,46 @@ export const addGroupMembersByCode = (registrationCode:any, memberData:any) => {
         // Handle errors
         .catch(error => console.error('Error:', error));
 }
+
+export const getAllGroupMembers = () => {
+    const url = `${baseUrl}/api/group/get/groupMembers`;
+    return fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem('token')
+        }
+    })
+       .then(response => response.json())
+       .then(data => data)
+        // Handle errors
+        .catch(error => console.error('Error:', error));
+}
+
+
+// export const getAllGroupMembers = async (groupId: any) => {
+//     if (!groupId) {
+//         console.error("Group ID is missing!");
+//         return null;
+//     }
+
+//     const url = `${baseUrl}/api/group/get/groupMembers/${groupId}`;
+//     try {
+//         const response = await fetch(url, {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': 'Bearer ' + localStorage.getItem('token')
+//             }
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`API error: ${response.status} - ${response.statusText}`);
+//         }
+
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Fetch error:', error);
+//         return null;
+//     }
+// };

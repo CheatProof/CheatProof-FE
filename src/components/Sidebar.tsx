@@ -440,6 +440,7 @@ function App() {
           <MultilevelSidebarItem icon={<Users size={20} />} text="Groups" active={location.pathname.startsWith('/teacher-dashboard/allgroups')}>
             {[
               { icon: <Users size={20} />, text: "All Groups", to: '/teacher-dashboard/allgroups', active: location.pathname === '/teacher-dashboard/allgroups' },
+              { icon: <Users size={20} />, text: "All Members", to: '/teacher-dashboard/allmembers', active: location.pathname === '/teacher-dashboard/allmembers' },
               { icon: <SquareArrowOutDownRight size={20} />, text: "Export" },
               { icon: <Library size={20} />, text: "Statistics" },
             ]}
