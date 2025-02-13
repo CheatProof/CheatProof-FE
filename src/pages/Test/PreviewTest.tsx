@@ -519,6 +519,7 @@ function TestSession() {
     onClose={closeModal}
     setClose={setModalOpen}
     currentQuestion={currentQuestion}
+    selectedAnswers={selectedAnswers}
   />
 </div>
 

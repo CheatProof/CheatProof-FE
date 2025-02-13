@@ -10,6 +10,7 @@ import { continueTest, endTestSession, startTestSession } from '@/api/test-sessi
 import { AlertDialog,AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Circles } from 'react-loader-spinner';
 import toast, { Toaster } from 'react-hot-toast';
+import MatchingCard from '@/components/SessionQuestionCards/MatchingCard';
 
 function TestSession() {
   const { id } = useParams();
@@ -182,6 +183,8 @@ function TestSession() {
         return <TrueFalseCard question={question} saveAnswer={handleSelectAnswer} answers={selectedAnswers} />;
       case 'cfa02311-dde4-4b4f-ae96-6d416a5c0396':
         return <FreeTextCard question={question} saveAnswer={handleSelectAnswer} answers={selectedAnswers} />;
+      case '53ef2fab-ff7e-4ee0-8a60-3f4d7b20adfb':
+        return <MatchingCard key={question.id} question={question} saveAnswers={handleSelectAnswer} answers={selectedAnswers} />
       default:
         return <Typography variant="body1">Unsupported question type</Typography>;
     }
@@ -236,7 +239,7 @@ function TestSession() {
 
     localStorage.removeItem('selectedAnswers');
     localStorage.removeItem('timer');
-    localStorage.removeItem('currentQuestion');
+    sessionStorage.removeItem('currentQuestion');
     sessionStorage.removeItem('showInstructions');
     localStorage.removeItem('testStarted');
     localStorage.removeItem('tabSwitchCount');

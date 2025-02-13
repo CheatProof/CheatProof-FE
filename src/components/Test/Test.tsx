@@ -81,7 +81,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
 
   // Matching
 
-  const [incorrectPairs, setIncorrectPairs] = useState([{ text: "" }])
+  const [incorrectPairs, setIncorrectPairs] = useState<any[]>([])
   const [correctPairs, setCorrectPairs] = useState([{ clue: EditorState.createEmpty(), match: "" }])
 
   // fetching categories data
@@ -386,9 +386,12 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
           formData.append(`matchingOptions[${index}][matchText]`, value.match);
           formData.append(`matchingOptions[${index}][matchPoints]`, "1");
         });
-        incorrectPairs.forEach((value, index) => {
+        incorrectPairs.forEach((value:any, index) => {
           formData.append(`incorrectOptions[${index}][incorrectMatchText]`, value.text);
         });
+        formData.append(`gradingScale`,"off");
+        formData.append(`pointsOption`,"0");
+        formData.append(`suffleMode`,"0");
       }
   
       const data = await createQuestion(formData);
@@ -673,7 +676,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
 
 
   const handleIncorrectPairChange = (index: number, newText: any) => {
-    const newOptions = [...incorrectPairs];
+    const newOptions:any = [...incorrectPairs];
     newOptions[index].text = newText;
     setIncorrectPairs(newOptions);
   };
@@ -1290,7 +1293,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
                         />
 
 
-                        {index < 2 ? (
+                        {index < 0 ? (
                           <span className="mt-2">Mandatory</span>
                         ) : (
                           <FaTrashAlt
@@ -1303,7 +1306,7 @@ const [isSavingAndAddingMore, setIsSavingAndAddingMore] = useState(false); // Lo
 
                     <button
                       onClick={addIncorrectPairs}
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                      className="bg-blue-500 text-white block my-2 px-4 py-2 rounded hover:bg-blue-600"
                     >
                       + Add another Incorrect pair
                     </button>

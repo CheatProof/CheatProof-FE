@@ -102,19 +102,23 @@ console.log(cate.filter((c:any) => { return c.id === data.data.categoryId})[0]?.
       setfreeTextAnswers(data.data.FreeTextQuestions.map((option:any)=>({text:option.correctAnswer})));
       console.log(data.data?.MultipleChoiceQuestions?.MultipleChoiceOptions);
       setOptions(data.data?.MultipleChoiceQuestions?.MultipleChoiceOptions.map((option:any) => ({ text:htmlToEditorState(option.optionText), isCorrect: option.isAnswer })));
-      setRandomizeAnswers(data.data.MultipleChoiceQuestions?.randomizeAnswers);
-      setAnswerSelection(data.data.MultipleChoiceQuestions?.answerSelection);
+      setRandomizeAnswers(data.data?.MultipleChoiceQuestions?.randomizeAnswers);
+      setAnswerSelection(data.data?.MultipleChoiceQuestions?.answerSelection);
+
+      // Matching 
+      setCorrectPairs(data.data?.MatchingQuestions?.MatchingOptions.map((pair:any) => ({ clue: htmlToEditorState(pair.clueText), match: pair.matchText })));
+      setIncorrectPairs(data.data?.MatchingQuestions?.IncorrectMatchOptions.map((pair:any) => ({ text: pair?.incorrectMatchText })));
 
 
        
     }
-    console.log(questionTypes)
+    console.log(types)
 
     setSelectedQuestionType(types.findIndex(type=>type.id === data.data.questionTypeId) === 0 ? "multipleChoice" : 
                             types.findIndex(type=>type.id === data.data.questionTypeId) === 1? "trueFalse" :  
                             types.findIndex(type=>type.id === data.data.questionTypeId) === 2? "essay" :
                             types.findIndex(type=>type.id === data.data.questionTypeId) === 3? "grammar" :
-                            types.findIndex(type=>type.id === data.data.questionTypeId) === 4? "Matching" :
+                            types.findIndex(type=>type.id === data.data.questionTypeId) === 4? "matching" :
                             types.findIndex(type=>type.id === data.data.questionTypeId) === 5? "freeText" : "ii")
 
   
@@ -451,6 +455,9 @@ const handleSubmitWithSaveAndAddMore = async () => {
       incorrectPairs.forEach((value, index) => {
         formData.append(`incorrectOptions[${index}][incorrectMatchText]`, value.text);
       });
+      formData.append(`gradingScale`,"off");
+      formData.append(`pointsOption`,"0");
+      formData.append(`suffleMode`,"0");
     }
 
     try {

@@ -28,7 +28,7 @@ const StudentTest: React.FC = () => {
   useEffect(() => {
     localStorage.removeItem('selectedAnswers');
     localStorage.removeItem('timer');
-    localStorage.removeItem('currentQuestion');
+    sessionStorage.removeItem('currentQuestion');
     sessionStorage.removeItem('showInstructions');
     localStorage.removeItem('testStarted');
     localStorage.removeItem('tabSwitchCount');

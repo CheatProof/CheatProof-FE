@@ -146,6 +146,32 @@ const QuestionCard = ({ question, idx, onDelete ,hide}: any) => {
             </button>
           ))}
         </div>
+      )  : question.questionTypeId === "53ef2fab-ff7e-4ee0-8a60-3f4d7b20adfb" ?(
+        <div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
+          <div className="flex justify-start w-9/12 " >
+          
+            <p className="w-1/2 font-semibold">Clue</p> 
+            <p className="w-1/2 font-semibold">Match</p>
+          </div>
+          {question?.MatchingQuestions?.MatchingOptions.map((opt: any, idx: any) => (
+             <div key={idx} className="flex border-dashed w-9/12 border-color1/25 !mt-5 border-b">
+                <div className="w-1/2 " dangerouslySetInnerHTML={{__html:opt.clueText}}/>
+                <div className="w-1/2 " dangerouslySetInnerHTML={{__html:opt.matchText}}/>
+              
+             </div>
+
+          ))}
+          {question?.MatchingQuestions.IncorrectMatchOptions.map((opt:any,idx:any)=>(
+             <div key={idx} className="flex border-dashed w-9/12 border-color1/25 !mt-5 border-b">
+                <div className="w-1/2 " dangerouslySetInnerHTML={{__html:"<p>Incorrect Matching Option</p>"}}/>
+                <div className="w-1/2 " dangerouslySetInnerHTML={{__html:`<p>${opt.incorrectMatchText}</p>`}}/>
+             </div>
+          ))
+
+          }
+        
+           
+          </div>
       ) : null)}
 
       {/* Actions */}

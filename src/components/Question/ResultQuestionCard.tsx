@@ -10,6 +10,17 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
 
   const isCorrect=correctQuestions.some((ques:any)=>ques.question.id=== question.id)
 
+
+  const matchingChecking=(userAnswers:any[],correctPair:any)=>{
+
+    if(userAnswers){
+
+      const selectedAnswer=userAnswers.find((ans:any)=>ans.clueText===correctPair.clueText)
+      return {isCorrect:selectedAnswer?.matchText===correctPair.matchText ,matchText:selectedAnswer?.matchText }
+    }
+    return {isCorrect:false,matchText:""}
+  }
+
   return (
     <div className="bg-white mr-10 shadow-md rounded-lg p-6 my-4 border border-gray-200">
       <Toaster />
@@ -140,6 +151,46 @@ const ResultQuestionCard = ({ question, userAnswers ,correctQuestions,idx}: any)
       </div>
     );
   })}
+
+  {
+    question.questionTypeId === '53ef2fab-ff7e-4ee0-8a60-3f4d7b20adfb' && (
+<div className="space-y-2 mb-6 pb-4 border-b-2 border-gray-200">
+          <div className="flex justify-start w-9/12 " >
+          
+            <p className="w-1/2 font-semibold">Clue</p> 
+            <p className="w-1/2 font-semibold">Match</p>
+          </div>
+          {question?.MatchingQuestions?.MatchingOptions.map((opt: any, idx: any) => {
+            const userAnswer = userAnswers?JSON.parse(userAnswers):null;
+            const {isCorrect,matchText}=matchingChecking(userAnswer,opt)
+             // Check if user's answer includes this option
+
+            return(
+             <div key={idx} className={"flex border-dashed w-9/12 border-color1/25 !mt-5 border-b p-3 "+`${isCorrect?"bg-green-100 border border-green-500":"bg-red-100  border border-red-500"}`}>
+                <div className="w-1/2 " dangerouslySetInnerHTML={{__html:opt.clueText}}/>
+                <div className="w-1/2">
+                  <span className="text-xs  pr-4">(Your Answer : {matchText})</span>
+                
+                <span className=" " dangerouslySetInnerHTML={{__html:opt.matchText}}/>
+                </div>
+              
+             </div>
+
+          )})}
+
+          {/* {question?.MatchingQuestions.IncorrectMatchOptions.map((opt:any,idx:any)=>(
+             <div key={idx} className="flex border-dashed w-9/12 border-color1/25 !mt-5 border-b">
+                <div className="w-1/2 " dangerouslySetInnerHTML={{__html:"<p>Incorrect Matching Option</p>"}}/>
+                <div className="w-1/2 " dangerouslySetInnerHTML={{__html:`<p>${opt.incorrectMatchText}</p>`}}/>
+             </div>
+          ))
+
+          } */}
+        
+           
+          </div>
+    )
+  }
 
 {/* Show user's answer */}
 {question.questionTypeId === "cfa02311-dde4-4b4f-ae96-6d416a5c0396" && (
